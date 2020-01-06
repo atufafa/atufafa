@@ -1,0 +1,38 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家</a> > <a href="">积分商城管理</a> </li>
+    </ul>
+</div>
+<style>
+    .xia{padding: 5px;width: 800px;font-size:14px;}
+    .ops{font-size: 14px;}
+</style>
+<div class="tuan_content">
+    <include  file='integralmall:nav'/>
+    <form action="<{:U('integralmall/settled')}>" method="post" target="x-frame">
+        <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">购买时间：</p></td>
+                <td>
+                    <select name="id_id" class="xia">
+                        <option class="ops" value="0">==请选择==</option>
+                        <foreach name="hongbao" item="hongbaos">
+                            <option class="ops" value="<{$hongbaos.id}>">购买时间：<{$hongbaos.buy_time}>，购买价格：<{$hongbaos.buy_money}>，每家可上传一个商品位，再多上一个商品位多加:<{$hongbaos.num_money}>元,最多限制数量：<{$hongbaos.goods_num}>件</option>
+                        </foreach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><div style="margin-top: 100px;"></div></td>
+            </tr>
+            <tr>
+                <td width="120"></td>
+                <td><input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认购买" /></td>
+            </tr>
+        </table>
+    </form>
+    <div class="paging"> </div>
+</div>
+<include  file='public:footer'/>

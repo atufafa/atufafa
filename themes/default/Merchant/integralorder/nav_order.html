@@ -1,0 +1,9 @@
+<div class="tuanfabu_tab">
+    <ul>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'integralorder') AND ($act eq 'whole_order')">on</if>"><a href="<{:U('integralorder/whole_order')}>">全部订单</a></li>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'integralorder') AND ($act eq 'confirm_order')">on</if>"><a href="<{:U('integralorder/confirm_order')}>">已付款</a></li>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'integralorder') AND ($act eq 'deliver_order')">on</if>"><a href="<{:U('integralorder/deliver_order')}>">待确认</a></li>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'integralorder') AND ($act eq 'complete_order')">on</if>"><a href="<{:U('integralorder/complete_order')}>">已完成</a></li>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'integralorder') AND ($act eq 'aftersale_order')">on</if>"><a href="<{:U('integralorder/aftersale_order')}>">售后订单</a></li>
+    </ul>
+</div>

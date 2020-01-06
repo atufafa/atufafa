@@ -1,0 +1,72 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">拼单设置</li>
+    </ul>
+</div>
+<style>
+    .lfTdBt {width:150px;}
+    .attention {height: inherit;}
+</style>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是外卖、便利店、菜市场、商城的拼单相关的信息</p>
+</div>
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/pin')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">外卖拼单</td>
+                    <td class="rgTdBt">
+                        <label><input type="text" name="data[ele_money]" value="<{$CONFIG.pin.ele_money}>" class="manageInput w80">元<code>用户拼单总金额(两位)</code>
+                        <input type="text" name="data[ele_kou]" value="<{$CONFIG.pin.ele_kou}>" class="manageInput w80">元<code>平台扣除费用</code><br/><br/>
+                        <input type="text" name="data[ele_num1]" value="<{$CONFIG.pin.ele_num1}>" class="manageInput w80" >%- <input type="text" name="data[ele_num2]" value="<{$CONFIG.pin.ele_num2}>" class="manageInput w80">%
+                        <code>拼单分成比例，前为购买者，后为发起者。分成规则为40-60,50-50,30-70.。。。总和为100&nbsp;&nbsp;<span style="color: red">注意：这里是平台扣除后的分成比例</span></code>
+                            <input type="text" name="data[ele_time]" value="<{$CONFIG.pin.ele_time}>" class="manageInput w80">小时<code>自动到账时间</code>
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">便利店拼单</td>
+                    <td class="rgTdBt">
+                        <label><input type="text" name="data[store_money]" value="<{$CONFIG.pin.store_money}>" class="manageInput w80">元<code>用户拼单总金额(两位)</code>
+                            <input type="text" name="data[store_kou]" value="<{$CONFIG.pin.store_kou}>" class="manageInput w80">元<code>平台扣除费用</code><br/><br/>
+                            <input type="text" name="data[store_num1]" value="<{$CONFIG.pin.store_num1}>" class="manageInput w80" >%- <input type="text" name="data[store_num2]" value="<{$CONFIG.pin.store_num2}>" class="manageInput w80">%
+                            <code>拼单分成比例，前为购买者，后为发起者。分成规则为40-60,50-50,30-70.。。。总和为100&nbsp;&nbsp;<span style="color: red">注意：这里是平台扣除后的分成比例</span></code>
+                            <input type="text" name="data[store_time]" value="<{$CONFIG.pin.store_time}>" class="manageInput w80">小时<code>自动到账时间</code>
+                            </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">菜市场拼单</td>
+                    <td class="rgTdBt">
+                        <label><input type="text" name="data[market_money]" value="<{$CONFIG.pin.market_money}>" class="manageInput w80">元<code>用户拼单总金额(两位)</code>
+                            <input type="text" name="data[market_kou]" value="<{$CONFIG.pin.market_kou}>" class="manageInput w80">元<code>平台扣除费用</code><br/><br/>
+                            <input type="text" name="data[market_num1]" value="<{$CONFIG.pin.market_num1}>" class="manageInput w80" >%- <input type="text" name="data[market_num2]" value="<{$CONFIG.pin.market_num2}>" class="manageInput w80">%
+                            <code>拼单分成比例，前为购买者，后为发起者。分成规则为40-60,50-50,30-70.。。。总和为100&nbsp;&nbsp;<span style="color: red">注意：这里是平台扣除后的分成比例</span></code>
+                            <input type="text" name="data[market_time]" value="<{$CONFIG.pin.market_time}>" class="manageInput w80">小时<code>自动到账时间</code>
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">商城拼单</td>
+                    <td class="rgTdBt">
+                        <label><input type="text" name="data[mall_money]" value="<{$CONFIG.pin.mall_money}>" class="manageInput w80">元<code>用户拼单总金额(两位)</code>
+                            <input type="text" name="data[mall_kou]" value="<{$CONFIG.pin.mall_kou}>" class="manageInput w80">元<code>平台扣除费用</code><br/><br/>
+                            <input type="text" name="data[mall_num1]" value="<{$CONFIG.pin.mall_num1}>" class="manageInput w80" >%- <input type="text" name="data[mall_num2]" value="<{$CONFIG.pin.mall_num2}>" class="manageInput w80">%
+                            <code>拼单分成比例，前为购买者，后为发起者。分成规则为40-60,50-50,30-70.。。。总和为100&nbsp;&nbsp;<span style="color: red">注意：这里是平台扣除后的分成比例</span></code>
+                            <input type="text" name="data[mall_time]" value="<{$CONFIG.pin.mall_time}>" class="manageInput w80">小时<code>自动到账时间</code>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

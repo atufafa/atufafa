@@ -1,0 +1,131 @@
+<script id="template_integral_goods" type="text/html">
+    <div class="goods-box">
+        <div class="goods_jifen">
+            <div id="J_ItemList">
+                {{each data.goods as item}}
+                    <ul class="product single_item info">
+                        <li>
+                            <a href="/wap/jifen/detail2/goods_id/{{item.goods_id}}" title="<{$item.title}>">
+                            </a><div class="index_pro"><a href="/wap/jifen/detail2/goods_id/{{item.goods_id}}" title="<{$item.title}>">
+                            <div class="products_kuang">
+                                <img src="{{item.photo}}">
+                            </div>
+                            <div class="you">
+                                <span class="qian">抵:￥{{item.use_integral/100}}</span><br/>
+                                <a class="jif"><span>积分:{{item.use_integral}}</span></a>
+                            </div>
+                            <div class="goods_name">
+                                <span>{{item.title.substring(0,7)}}</span><br/>
+                                <span style="font-size: 18px;color: red;">&yen;{{item.mall_price}}</span><del>
+                                &yen;{{item.price}}</del>
+                            </div>
+                        </a><div class="price"><a href="/wap/jifen/detail2/goods_id/{{item.goods_id}}" title="<{$item.title}>">
+                        </a>
+                            <p class="info ps">
+                                <em>售:
+                                    {{ if item.exchange_sum.length==5}}
+                                    {{item.exchange_sum/10000}}万件
+                                    {{else if item.exchange_sum.length==6}}
+                                    {{item.exchange_sum/10000}}+万件
+                                    {{else}}
+                                    {{item.exchange_sum}}件
+                                    {{/if}}
+                                </em>
+                            </p>
+                            <a href="/wap/jifen/detail2/goods_id/{{item.goods_id}}">
+                            <p class="ps"><span style="font-size: 18px;background: red;color: #fff;border-radius: 50%;padding: 0 5px;">抢</span></p>
+                            </a>
+                        </div>
+                        </div>
+                        </li>
+                    </ul>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <div class="boxs_guangao">
+        {{if data.ad1.shop_id }}
+            <div class="biaoti">
+                <div class="im">
+                    <img class="shop_logo" src="{{data.ad1.logo}}" />
+                </div>
+                <div class="tite">
+                    <span class="spa1">{{data.ad1.shop_name.substr(0,11)}}</span><br/>
+                    <span class="spa2">{{data.ad1.introduce.substr(0,11)}}</span>
+                </div>
+                <div class="genduo">
+                    <a href="../../wap/ad/click/ad_id/{{data.ad1.ad_id}}"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+                </div>
+            </div>
+        {{/if}}
+
+        <ul class="category">
+            {{each data.ad2 as item}}
+                <li class="lis">
+                    <a href="../../wap/ad/click/ad_id/{{item.ad_id}}">
+                        <img class="imgss" src="{{item.photo}}" />
+                        <div class="mone">
+                            <div style="width: 100%;height: 20px;line-height: 20px;">
+                                <del>&yen;{{item.mall_price}}</del>
+                            </div>
+                            <div style="width: 100%;height: 21px;line-height: 21px;font-size: 14px;color: red">
+                                &yen;{{item.price}}
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div class="blank-10 bg" style="height: 3px;"></div>
+
+</script>
+
+
+<script id="template_category_integral_goods" type="text/html">
+    <div class="goods-box">
+        <div class="goods_jifen">
+            <div>
+                {{each data as item}}
+                <ul class="product single_item info">
+                    <li>
+                        <a href="/wap/jifen/detail2/goods_id/{{item.goods_id}}" title="<{$item.title}>">
+                        </a><div class="index_pro"><a href="/wap/jifen/detail2/goods_id/{{item.goods_id}}" title="<{$item.title}>">
+                        <div class="products_kuang">
+                            <img src="{{item.photo}}">
+                        </div>
+                        <div class="you">
+                            <span class="qian">￥{{item.use_integral}}</span><br/>
+                            <a class="jif">积分:{{item.use_integral}}</a>
+                        </div>
+                        <div class="goods_name">
+                            <span>{{item.title.substring(0,7)}}</span><br/>
+                            <span style="font-size: 18px;color: red;">&yen;{{item.mall_price}}</span><del>
+                            &yen;{{item.price}}</del>
+                        </div>
+                    </a><div class="price"><a href="/wap/jifen/detail2/goods_id/{{item.goods_id}}" title="<{$item.title}>">
+                    </a>
+                        <p class="info ps">
+                            <em>售:
+                                {{ if item.exchange_sum.length==5}}
+                                {{item.exchange_sum/10000}}万件
+                                {{else if item.exchange_sum.length==6}}
+                                {{item.exchange_sum/10000}}+万件
+                                {{else}}
+                                {{item.exchange_sum}}件
+                                {{/if}}
+                            </em>
+                        </p>
+                        <a href="/wap/jifen/detail2/goods_id/{{item.goods_id}}">
+                        <p class="ps"><span style="font-size: 18px;background: red;color: #fff;border-radius: 50%;padding: 0 5px;">抢</span></p>
+                        </a>
+                    </div>
+                    </div>
+                    </li>
+                </ul>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</script>

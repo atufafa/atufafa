@@ -1,0 +1,653 @@
+<include file="public:header"/>
+<script type="text/javascript" src="<{$CONFIG['config']['baidu_map_api']}>"></script>
+<script type="text/javascript" src="/static/default/wap/js/lbnews.js"></script>
+<php>
+
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    foreach ($areas  as $val) {
+       $area_ids[$val['area_id']] = $val['area_id'];
+    }
+    $bizs = D('Business')->where(array('area_id'=>array('IN',$area_ids)))->select();
+    $Area = D('Area')->find($area);
+    $business = D('Business')->find($business);
+</php>
+
+
+
+<style>
+.top-fixed .top-back a{width: 60px;}
+.top-fixed .top-title{width:80%;}
+.top-fixed .top-back i {font-size: 18px;}
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+.cate-wrap li{box-sizing:border-box;width:25%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+.man_money{padding:1px 5px;height:20px;text-align:center;line-height:20px;color:#fff;font-size:12px !important;cursor:pointer;}
+.full_money{background:#00a0e9;}
+.logistics_full{background:#eb6100}
+.order_price_full{background: #ff2121;}
+
+.bargain-activity{background-color:#fff;padding:.5rem .5rem}
+.bargain-activity .activity-header{font-weight:700;position:relative}
+.bargain-activity .activity-header .more{position:absolute;right:0;color:#999;font-weight:400;vertical-align:middle}
+i.icon{position:relative;display:inline-block;font-style:normal;vertical-align:middle;background-repeat:no-repeat;background-position:center;background-size:100% auto}
+.bargain-activity .goods-list{margin-top:.5rem}
+.row{margin-left:-4%;overflow:hidden}
+.row .col-25{width:21%;margin-left:4%;float:left}
+.bargain-activity .goods-list .goods-item .goods-image{position:relative}
+.bargain-activity .goods-list .goods-item .label{position:absolute;left:7px;z-index:1;width:2.4rem;height:1.8rem;color:#fff;line-height:1.5rem;font-weight:600;text-align:center;background-repeat:no-repeat;background-size:cover;background-position:center;background-image:url(/static/default/wap/image/market/robot.png)}
+.bargain-activity .goods-list .goods-item img{width:100%;height:4rem}
+.bargain-activity .goods-list .goods-item .goods-title{color:#333;height:.8rem;line-height:.8rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bargain-activity .goods-list .goods-item .price{color:#f6383a}
+.bargain-activity .goods-list .goods-item .price i{font-style:normal}
+.bargain-activity .goods-list .goods-item .price .original-price{color:#999;text-decoration:line-through;font-weight:700}
+</style>
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+        <input id="data_addr" type="hidden" name="data[addr]"/>
+        <input id="data_lng" type="hidden" name="data[lng]"/>
+        <input id="data_lat" type="hidden" name="data[lat]"/>
+    <div class="top-back"><i class="iconfont icon-dizhi1 map" rel="<{:U('wap/api/maketadd',array('lat'=>$detail['lat'],'lng'=>$detail['lng'],'address'=>$detail['addr']))}>"></i></div>
+		<if condition="empty($keyword) && empty($adds)">
+        	<div class="top-title get-map-marker map" rel="<{:U('wap/api/maketadd',array('lat'=>$detail['lat'],'lng'=>$detail['lng'],'address'=>$detail['addr']))}>">菜市场首页</div>
+            <else/>
+            <div class="top-title map" rel="<{:U('wap/api/maketadd',array('lat'=>$detail['lat'],'lng'=>$detail['lng'],'address'=>$detail['addr']))}>"><{$adds}></div>
+        </if>
+		<div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+			<form method="post" action="<{:U('market/index')}>">
+				<input name="keyword" placeholder="<{$keyword|default='输入菜市场的关键字'}>"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+		</div>
+        <div id="allmap" style="display:none;"></div>
+	</header>
+
+  	<script type="text/javascript">
+
+        <if condition="empty($cate) && empty($business_id) && empty($order) && empty($keyword)">
+            //变色龙调用函数
+            function gpscallback(result){
+                if(typeof result == 'string'){
+                    result = JSON.parse(result)
+                }
+
+                $('#lbs_lat').val(result.Latitude);
+                $('#lbs_lng').val(result.Longitude);
+                $("#get-map-marker").html(result.Longitude+','+result.Latitude);
+                var point = new BMap.Point(result.Longitude,result.Latitude);
+                var geoc = new BMap.Geocoder();
+                geoc.getLocation(point, function(rs){
+                    var addComp = rs.addressComponents;
+                    $(".get-map-marker").html(addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                });
+            }
+
+        //识别变色龙还是微信
+            $(document).ready(function () {
+                if(is_kingkr_obj()){
+                    getLocation("gpscallback")
+                }else{
+                    reset();
+                }
+            });
+
+
+        //百度定位
+        function reset() {
+            var addr = $(".get-map-marker").html();
+            $(".get-map-marker").html("定位中…");
+            var map = new BMap.Map("allmap");
+            var point = new BMap.Point(116.331398,39.897445);
+            map.centerAndZoom(point,10);
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function(r){
+                if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                    var mk = new BMap.Marker(r.point);
+                    map.addOverlay(mk);
+                    map.panTo(r.point);
+                    lat=r.point.lat;
+                    lng=r.point.lng;
+                    getlat(lng,lat);
+                    $('#lbs_lat').val(lat);
+                    $('#lbs_lng').val(lng);
+                    $("#get-map-marker").html(lng+','+lat);
+                }
+                else {
+                }
+            },{enableHighAccuracy: true})
+        }
+        function getlat(lng,lat){
+            if(is_kingkr_obj()){
+                getLocation("gpscallback")//如果是变色龙
+            }else{
+                var map = new BMap.Map("allmap");
+                var point = new BMap.Point(lng,lat);
+                map.centerAndZoom(point,10);
+                var geoc = new BMap.Geocoder();
+                var pt = point;
+                geoc.getLocation(pt, function(rs){
+                    var addComp = rs.addressComponents;
+                    $(".get-map-marker").html(addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                });
+            }
+        }
+        </if>
+
+
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+
+        $(document).ready(function () {
+            $(document).on('click', ".map", function (e) {
+                var url = $(this).attr('rel');
+                layer.open({
+                    type: 2,
+                    area: ['90%', '80%'],
+                    fixed: false,
+                    maxmin: true,
+                    content: url,
+
+                    success:function(layero,index){
+
+                    },
+                    end:function(){
+                        //layer.msg('你点击了关闭按钮');
+                    }
+                });
+            });
+        });
+	</script>	
+    
+     <if condition="empty($cate) && empty($business_id) && empty($order) && empty($keyword)">
+     </if>
+        <ul class="cate-wrap bbOnepx" style="margin-top: 50px">
+            <volist name="marketcate" id="item" key="index">
+                    <php>$i = $index + 1;</php> 
+                        <li>
+                            <a class="icon2" href="<{:LinkTo('market/index',array('cate'=>$index))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="<{:config_img($item['cate_pic'])}>" /></span>
+                                <span class="cate-desc"><{$item.cate_name}></span>
+                            </a>
+                        </li>
+            </volist>
+        </ul>
+
+
+
+<style>
+    .box-z{width: 100%;height: 70px;}
+    .lf{width: 45%;border: 1px solid #fff;height: 100%;float: left;margin-left: 2%;background-image:url("<?php  echo $config['market']['market_zuo_photo'];?>");background-size:100% 70px;border-radius: 5px;}
+    .huiyua{width: 60%;margin-left: 20%;background-color: #fff8ee;border-radius: 5px;font-size: 12px;}
+    .dui{margin-top: 1px;width:110px;float: right;color:#fff8ee}
+    .duihuan{float: right;background-color: #ed00b9;color: #fff;border-radius: 5px;margin-right: 3px;}
+    .ri{width: 45%;border: 1px solid #fff;height: 100%;float: right;margin-right: 2%;background-image:url("<?php  echo $config['market']['market_you_photo'];?>");background-size:100% 70px;border-radius: 5px;}
+    /*轮播*/
+    .scrollDiv{width: 33.3%;height:180px; overflow:hidden; display: block;}
+    .scrollDiv ul{ width: 33%;text-align: center;min-width: 114px;height: 180px;}
+    .scrollDiv li{ width: 100%;padding-bottom: 2px;background-image:url("<?php  echo $config['market']['market_goods_photo'];?>");background-size:100% 155px;margin-left:3px;text-align: center;min-height:155px;float:left;transition: 0.5s all; -webkit-transition: 0.5s all; -moz-transition: 0.5s all; -o-transition: 0.5s all}
+    .scrollDiv li img{margin-top: 10px;border-radius:10px;margin-left: 15%;width:80px;height:80px;margin-right:10px;float:left;}
+    /*轮播结束*/
+    .tuan{color: #fff}
+    .te{color: #fff}
+    .xain{color: #fff}
+    .qian{background-color: red;color: #fff;border-radius: 50%;padding: 0px 5px;float: right;margin-right: 15%}
+    .p{line-height: 20px}
+
+
+    /*按钮样式*/
+    .div1{width: 33.3%;float: left;height: 100%;text-align: center}
+    .div2{width: 33.3%;float: left;height: 100%}
+    .div3{width: 33.3%;float: right;height: 100%}
+    .div1_div1{width: 80%;height: 80%;margin: 5px 10px;border-bottom-left-radius: 20px;border-top-left-radius: 20px;border-bottom-right-radius: 20px;border-top-right-radius: 20px;
+        background-image:url("<?php  echo $config['market']['market_zreo_photo'];?>");background-size:100% 80%; }
+    .div2_div2{width: 80%;height: 80%;margin: 5px 10px;border-bottom-left-radius: 20px;border-top-left-radius: 20px;border-bottom-right-radius: 20px;border-top-right-radius: 20px;
+        background-image:url("<?php  echo $config['market']['market_heat_photo'];?>");background-size:100% 80%;}
+    .div3_div3{width: 80%;height: 80%;margin: 5px 10px;border-bottom-left-radius: 20px;border-top-left-radius: 20px;border-bottom-right-radius: 20px;border-top-right-radius: 20px;
+        background-image:url("<?php  echo $config['market']['market_reduce_photo'];?>");background-size:100% 80%; }
+    .div_span{line-height: 36px;color: #fff;font-size: 16px}
+
+    /*平台广告位开始*/
+    .eleDiv{width:100%;height:80px; overflow:hidden; display: block;}
+    .eleDiv ul{ width:100%;height: 80px;}
+    .eleDiv li{ width: 100%;height:100%;float:left;transition: 0.5s all; -webkit-transition: 0.5s all; -moz-transition: 0.5s all; -o-transition: 0.5s all}
+    /*平台广告位结束*/
+    .title_div{width: 100%;height: 50%;line-height: 40px;border-bottom: 1px solid #efeaea}
+    .code_div{width: 100%;height: 50%;overflow: hidden}
+    .lfspan{font-size: 18px;margin-left: 2%;}
+    .rispan{float: right;font-size: 16px;}
+
+    /*领取优惠卷*/
+
+    .collar_box{width: 100%;background-color: #ef0006;padding: 2%;}
+    .collar_div1{width: 96%;margin-left: 2%;height: 100px;}
+    .collar_lf{width: 45%;border: 1px solid #fff;border-radius: 5px;height: 100%;float: left;margin-left: 2%;background-image: url("<?php echo $config['market']['market_youhui_photo']?>");background-size: 100% 100%}
+    .collar_ri{width: 45%;border: 1px solid #fff;border-radius: 5px;height: 100%;float: right;margin-right: 2%;background-image: url("<?php echo $config['market']['market_shopping_photo']?>");background-size: 100% 100%}
+    .collar_lf_div1{width: 60%;margin-left: 20%;background-color: #fff8ee;text-align: center;font-size: 12px;border-radius: 5px;}
+    .collar_lf_div2{width: 90%;float: right;text-align: center;color:  #fff8ee;margin-top: 40px}
+    .collar_lf_div3{width: 40%;float: right;margin-right: 2%;color: #fff;background-color: #ed00b9;border-radius: 5px;margin-top: 1%}
+</style>
+<if condition="$config['market']['is_open'] eq 1">
+    <div class="blank-10 bg"></div>
+<div class="bargain-activity" style="background-color: #ef0006;">
+        <div class="activity-header text-center box-z" >
+            <div class="lf">
+                <div class="huiyua">
+                    会员专享
+                </div>
+                <div class="dui">
+                    <span style="float: right;margin-right: 15px;"> 会员兑积分</span>
+                </div>
+                <a href="<{:U('user/information/buy')}>">
+                    <div class="duihuan">
+                        立即兑换
+                    </div>
+                </a>
+            </div>
+            <div class="ri">
+                <div class="huiyua">
+                    会员专享
+                </div>
+                <div class="dui">
+                    <span style="float: right;margin-right: 15px;"> 分享抢红包</span>
+                </div>
+                <a href="<{:U('market/share')}>">
+                    <div class="duihuan">
+                        立即分享
+                    </div>
+                </a>
+            </div>
+        </div>
+    <?php if(!empty($eletaun) || !empty($elespecial) || !empty($elespike)){?>
+    <div class="goods-list " style="text-align: center;width: 100%">
+        <!--团购 -->
+            <div class="scrollDiv" id="scrollDiv1" style="float: left">
+                <span class="tuan">限量团购</span>
+                <ul style="margin-top: 0px;">
+            <!-- 判断是否存在限量团购商品-->
+                    <if condition="!empty($eletaun)">
+                    <foreach name="eletaun" item="item">
+                        <li img_count="1">
+                            <a href="<{:U('marketactivity/groupbuy')}>">
+                                <div class="goodimg">
+                                    <img src="<{:config_img($goodstuan[$item['product_id']]['photo'])}>"/>
+                                    <p class="p"><{:tu_msubstr($goodstuan[$item['product_id']]['product_name'],0,7)}></p>
+                                    <p class="p">
+                                        <span style="color: red;font-size: 16px;">&yen;<{$goodstuan[$item['product_id']]['price']}></span>
+                                        <del style="color: #9c9c9c">&yen;<{$goodstuan[$item['product_id']]['cost_price']}></del>
+                                    </p>
+                                    <p class="p">
+                                        <span style="color: red;float: left;margin-left: 13%;">折:<?php $discount = round(10 / ($goodstuan[$var['product_id']]['cost_price']/$goodstuan[$var['product_id']]['price']), 1); echo $discount;?></span>
+                                        <span class="qian">抢</span>
+                                    </p>
+                                </div></a>
+
+                        </li>
+                    </foreach>
+                <!--不存在就显示默认图片-->
+                        <else/>
+                        <li img_count="0">
+                            <div class="goodimg">
+                                <img src="<{:config_img($goodstuan[$item['product_id']]['photo'])}>"/>
+                            </div>
+                        </li>
+                    </if>
+                </ul>
+            </div>
+
+        <!--天天特价 -->
+
+            <div class="scrollDiv" id="scrollDiv2" style="float: left">
+                <span class="te">天天特价</span>
+                <ul style="margin-top: 0px;">
+            <!--判断是否存在天天特价商品-->
+                    <if condition="!empty($elespecial)">
+                     <foreach name="elespecial" item="item">
+                        <li img_count="1">
+                            <if condition="empty($item['link_url'])">
+                            <a href="<{:U('marketactivity/special')}>">
+                                <else/>
+                                <a href="<{$item.link_url}>">
+                            </if>
+                                <div class="goodimg">
+                                    <img src="<{:config_img($goods[$item['product_id']]['photo'])}>">
+                                    <p class="p"><{:tu_msubstr($goods[$item['product_id']]['product_name'],0,7)}></p>
+                                    <p class="p">
+                                        <span style="color: red;font-size: 16px;">&yen;<{$goods[$item['product_id']]['price']}></span>
+                                        <del style="color: #9c9c9c">&yen;<{$goods[$item['product_id']]['cost_price']}></del>
+                                    </p>
+                                    <p class="p">
+                                        <span style="color: red;float: left;margin-left: 13%;">折:<?php $discount = round(10 / ($goods[$var['product_id']]['cost_price']/$goods[$var['product_id']]['price']), 1); echo $discount;?></span>
+                                        <span class="qian">抢</span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    </foreach>
+                <!--不存在就显示默认图片-->
+                        <else/>
+                        <li img_count="0">
+                            <div class="goodimg">
+                                <img src="<{:config_img($goods[$item['product_id']]['photo'])}>">
+                            </div>
+                        </li>
+                    </if>
+                </ul>
+            </div>
+
+        <!--限时抢购 -->
+
+            <div class="scrollDiv" id="scrollDiv3" >
+                <span class="xain">限时抢购</span>
+                <ul style="margin-top: 0px;">
+        <!--判断是否存在限时抢购商品-->
+                    <if condition="!empty($elespike)">
+                    <foreach name="elespike" item="item">
+                        <li img_count="1">
+                            <a href="<{:U('marketactivity/limited')}>">
+                                <div class="goodimg">
+                                    <img src="<{:config_img($goodssha[$item['product_id']]['photo'])}>">
+                                    <p class="p"><{:tu_msubstr($goodssha[$item['product_id']]['product_name'],0,7)}></p>
+                                    <p class="p">
+                                        <span style="color: red;font-size: 16px;">&yen;<{$goodssha[$item['product_id']]['price']}></span>
+                                        <del style="color: #9c9c9c">&yen;<{$goodssha[$item['product_id']]['cost_price']}></del>
+                                    </p>
+                                    <p class="p">
+                                        <span style="color: red;float: left;margin-left: 13%;">折:<?php $discount = round(10 / ($goodssha[$var['product_id']]['cost_price']/$goodssha[$var['product_id']]['price']), 1); echo $discount;?></span>
+                                        <span class="qian">抢</span>
+                                    </p>
+                                </div></a>
+                        </li>
+                    </foreach>
+                <!--不存在就显示默认图片-->
+                        <else/>
+                        <li img_count="0">
+                            <div class="goodimg">
+                                <img src="<{:config_img($goodssha[$item['product_id']]['photo'])}>">
+                            </div>
+                        </li>
+                    </if>
+                </ul>
+            </div>
+
+    </div>
+    <?php }?>
+    <div class="goods-list " style="text-align: center;width: 100%;height:50px;">
+        <div class="div1">
+            <a href="<{:U('market/zero')}>">
+                <div class="div1_div1">
+                    <span class="div_span">0元起送</span>
+                </div>
+            </a>
+        </div>
+        <div class="div2">
+            <a href="<{:U('market/heat')}>">
+                <div class="div2_div2">
+                    <span class="div_span">热卖美食</span>
+                </div>
+            </a>
+        </div>
+        <div class="div3">
+            <a href="<{:U('market/reduction')}>">
+                <div class="div3_div3">
+                    <span class="div_span">大牌满减</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>  </if>
+<div class="blank-10 bg"></div>
+<div class="collar_box">
+    <div class="collar_div1">
+        <div class="collar_lf">
+            <div class="collar_lf_div1">
+                <span><b>会员专享</b></span>
+            </div>
+            <div class="collar_lf_div2">
+                <span><b>会员领取优惠卷</b></span>
+            </div>
+            <a href="<{:U('coupon/index')}>">
+                <div class="collar_lf_div3">
+                    <span><b>立即领取</b></span>
+                </div></a>
+        </div>
+        <div class="collar_ri">
+            <div class="collar_lf_div1">
+                <span><b>会员专享</b></span>
+            </div>
+            <div class="collar_lf_div2">
+                <span><b>会员领取免赞购物卷</b></span>
+            </div>
+            <a href="<{:U('marketactivity/shopping')}>">
+                <div class="collar_lf_div3">
+                    <span><b>立即领取</b></span>
+                </div></a>
+        </div>
+    </div>
+</div>
+<if condition="!empty($elenotice)">
+    <div class="blank-10 bg"></div>
+    <div style="height: 80px;width: 100%">
+        <div class="eleDiv" id="eleguanggao">
+            <ul style="margin-top: 0px;">
+                <foreach name="elenotice" item="item">
+                    <li style='background-image:url("<?php  echo $item["photo"];?>");background-size:100% 80px;'>
+                        <div class="title_div">
+                            <span class="lfspan"><{$item['title']}></span><span class="rispan"><a href="<{:U('market/notice')}>">查看更多</a></span>
+                        </div>
+                        <div class="code_div">
+                            <{:tu_msubstr($item['code'],0,73)}>
+                        </div>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+    </div>
+</if>
+
+
+<div class="blank-10 bg"></div>
+   
+    
+    
+    <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+       <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($cate)">
+              <!-- <volist name="marketcates" id="item" key="index">
+                  <if condition="$cate eq $index">
+                    <span id="str_b_node" style="color:#f60"> <{$cate}> <{$index}> <{$item.cate_name}></span>
+                    </if>
+                    <span><{$cate}> <{$index}></span>
+                </volist> -->
+                <span id="str_b_node" style="color:#f60"><{$elecatess[$cate]['cate_name']}></span>
+            <else/>
+                <span id="str_b_node">选择分类</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+      <div class="inner" style=" display:none">
+            <ul>
+                <li class="item">
+                    <a class="rights" href="<{:LinkTo('market/index',$linkArr,array('cate'=>0))}>">全部分类</a>
+                </li>
+                <foreach name="marketcate" item="var">
+                  <li id="cat_30"><a class="rights hasUlLink" title="1" href="javascript:void(0);>"><{$var.cate_name}><span class="num"></span></a>
+                      <ul id="items0">
+                        <foreach name="elecates" item="item">
+                          <if condition="$item.parent_id eq $var['cate_id']">
+                            <li><a title="2" href="<{:LinkTo('market/index',$linkArr,array('cate'=>$item['cate_id']))}>"><{$item.cate_name}></a>
+                          </if>
+                        </foreach>    
+                      </ul>
+                  </li>
+                </foreach>
+            </ul>
+        </div>
+       <li class="item">
+        <a href="javascript:void(0);"> 
+        <if condition="!empty($business)">
+            <span id="str_b_node" style="color:#f60;"><{$business['business_name']}></span>
+            <else/>
+                <if condition="!empty($area)">
+               <span id="str_b_node" style="color:#f60;"><{$areass[$area]['area_name']}></span>
+                <else/>
+                <span id="str_d_node">选择地区</span>
+                </if>
+            </if><em></em>
+        </a>
+      </li>
+       <li class="item">
+            <a href="javascript:void(0);">
+            <if condition="empty($order)">
+                <span id="str_e_node">选择排序</span>
+            <elseif condition="$order eq a"/>
+                <span id="str_b_node" style="color:#f60;">智能排序</span>
+            <elseif condition="$order eq q"/>
+                <span id="str_b_node" style="color:#f60;">起送价最低</span>
+            <elseif condition="$order eq v"/>
+            	<span id="str_b_node" style="color:#f60;">送餐速度最快</span>
+            <elseif condition="$order eq d"/>
+                <span id="str_b_node" style="color:#f60;">距离最近</span>
+            <elseif condition="$order eq s"/>
+                <span id="str_b_node" style="color:#f60;">销量最高</span>
+            </if>
+            <em></em>
+            </a>
+      </li>
+    </ul>
+    
+    <div class="inner" style=" display:none">
+      <ul>
+       <li ><a  <if condition="empty($cate)">style="color:red;"</if> href="<{:LinkTo('market/index',$linkArr,array('cate'=>0))}>">全部</a></li>
+       <volist name="marketcate" id="item" key="index">
+       <li><a <if condition="$cate eq $index">style="color:red;"</if> href="<{:LinkTo('market/index',$linkArr,array('cate'=>$index))}>"><{$item}></a></li>
+       </volist>
+       </ul>
+    </div>
+    
+    <div class="inner" style=" display:none">
+      <ul id="inner2">
+        <li class="item">
+        <a class="rights" href="<{:LinkTo('market/index',array('cat'=>$cat))}>">全部地区</a>
+        </li>
+       <foreach name="areas" item="var">
+           <php>if($var['city_id'] == $city_id){</php>         
+            <li id="cat_<{$var['cate_id']}>"><a class="rights hasUlLink" title="<{$var.cate_name}>" href="javascript:void(0);>"><{$var.area_name}></a>
+               <ul id="items0">  
+               <li><a href="<{:LinkTo('market/index',array('cat'=>$cat,'area'=>$area_id))}>" class="<if condition='empty($business_id)'>on</if>">全部商圈</a></li>
+                <foreach name="bizs" item="product">
+                   <if condition="$product.area_id eq $var['area_id']"> 
+                       <li><a title="<{$product.business_name}>" href="<{:LinkTo('market/index',array('cate'=>$cate,'area'=>$var['area_id'],'business'=>$product['business_id'],'order'=>$order))}>"> <{$product.business_name}></a>
+                            
+                   </if>
+                </foreach>
+               </ul>
+             </li>
+          <php>}</php>      
+        </foreach>
+       
+      </ul><!--1级end-->
+    
+    </div>
+    
+    <div class="inner" style="display:none;">
+        <ul>
+          <li><a <eq name="order" value="a"> style="color:red;"</eq> href="<{:LinkTo('market/index',$linkArr,array('order'=>a))}>">智能排序</a></li>
+          <li><a <eq name="order" value="q"> style="color:red;"</eq> href="<{:LinkTo('market/index',$linkArr,array('order'=>q))}>">起送价最低</a></li>
+          <li><a <eq name="order" value="v"> style="color:red;"</eq> href="<{:LinkTo('market/index',$linkArr,array('order'=>v))}>">送餐速度最快</a></li>
+          <li><a <eq name="order" value="d"> style="color:red;"</eq> href="<{:LinkTo('market/index',$linkArr,array('order'=>d))}>">距离最近</a></li>
+          <li><a <eq name="order" value="s"> style="color:red;"</eq> href="<{:LinkTo('market/index',$linkArr,array('order'=>s))}>">销量最高</a></li>
+         </ul>
+      </div>
+      
+      <div id="parent_container" class="inner_parent" style="display:none;">
+        <div class="innercontent"></div>
+      </div>
+      <div id="inner_container" class="inner_child" style="display:none;">
+        <div class="innercontent"></div>
+      </div>
+    
+</div>
+<!--end-->    
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;">
+<i class="pull2"></i>
+</div>
+
+
+
+	<ul id="shop-list" class="shop-list"></ul>
+
+	<script>
+	
+		showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+        //轮播
+        timer=3000;
+        index=1;
+        //滚动函数
+        function scroll() {
+            var speed=600;
+            var _this=$('#scrollDiv'+index).eq(0).find("ul:first");
+            var line=$('#scrollDiv'+index).eq(0).find("ul li").size();
+            var lineH=_this.find("li:first").height() + 20;//获取行高
+            var img_count=_this.find("li:first").attr('img_count');
+                line=line?parseInt(line,10):parseInt(this.height(),lineH,10), //每次滚动的行数，默认为一屏，即父容器高度
+                speed=speed?parseInt(speed,10):500; //卷动速度，数值越大，速度越慢（毫秒）
+            if(line==0) line=1;
+            var upHeight=0-line*lineH/3;
+
+            if(img_count>0){
+                _this.animate({
+                    marginTop:-150
+                },speed,function(){
+                    _this.find("li:first").appendTo(_this);
+                    _this.css({marginTop:0});
+                });
+            }
+
+            index++;
+            if(index>=4){
+                index=1;
+            }
+        }
+
+        //Shawphy:自动播放
+        var autoPlay = function(){
+            if(timer)timerID = window.setInterval(scroll,timer);
+        };
+
+        var autoStop = function(){
+            if(timer)window.clearInterval(timerID);
+        };
+
+        autoPlay();
+        //平台广告轮播
+        $(document).ready(function(){
+            $("#eleguanggao").Scroll({line:5,speed:600,timer:5000});
+        });
+	</script>
+
+<include file="public:footer"/>

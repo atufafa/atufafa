@@ -1,0 +1,102 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">商品竞价</li>
+        <li class="li2 li3">竞价商品列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>商家必须入住了商城才能发布产品，前台添加，后台审核！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('goods/rush')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="inptText w200" />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <span>分类</span>
+                            <select id="cate_id" name="cate_id" class="selecttop w120">
+                                <option value="0">请选择...</option>
+                                <foreach name="cates" item="var">
+                                    <eq name="var.parent_id" value="0">
+                                        <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$cate_id">selected="selected"</eq> ><{$var.cate_name}></option>
+                                        <foreach name="cates" item="var2">
+                                            <eq name="var2.parent_id" value="$var.cate_id">
+                                                <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$cate_id">selected="selected"</eq> > &nbsp;&nbsp;<{$var2.cate_name}></option>
+                                            </eq>
+                                        </foreach>
+                                    </eq>
+                                </foreach>
+                            </select>
+                            <span>  关键字：</span>
+                            <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" /><input type="submit" class="inptButton" value="  搜索" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="goods_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>产品名称</td>
+                        <td>商家</td>
+                        <td>缩略图</td>
+                        <td>市场价格</td>
+                        <td>商城价格</td>
+                        <td>竞价消费</td>
+                        <td>点击量</td>
+                        <td>当前竞价</td>
+                        <td>创建时间</td>
+                        <td>过期时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_goods_id" type="checkbox" name="goods_id[]" value="<{$var.tuan_id}>" /> </td>
+                            <td><{$var.tuan_id}></td>
+                            <td><{:tu_msubstr($var['title'],0,20,false)}></td>
+                            <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                            <td><img src="<{:config_img($var['photo'])}>" class="w80" /></td>
+                            <td><{$var.price}></td>
+                            <td><{$var.tuan_price}></td>
+                            <td><{$var.check_money}></td>
+                            <td><{$var.check_num}></td>
+                            <td>&yen;<{:round($var['check_price'],2)}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.end_date}></td>
+                            <td>
+                                <{:BA('tuan/delete',array("tuan_id"=>$var["tuan_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function (e) {
+            $(".tips").click(function () {
+                var tipnr = $(this).attr('rel');
+                layer.tips(tipnr, $(this), {
+                    tips: [4, '#1ca290'],
+                    time: 4000
+                });
+            })
+        });
+    </script>
+
+    <include  file='public:footer'/>

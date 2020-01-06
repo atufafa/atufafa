@@ -1,0 +1,79 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">红包</li>
+        <li class="li2 li3">新增红包</li>
+    </ul>
+</div>
+<form  target="x-frame" action="<{:U('envelope/create')}>" method="post">
+    <div class="mainScAdd ">
+
+        <div class="tableBox">
+
+
+         <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+         
+    
+           <tr>
+                <td  class="lfTdBt">红包名称：</td>
+                <td class="rgTdBt">
+                <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput"/>
+                <code>红包名称</code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td  class="lfTdBt">红包简介：</td>
+                <td class="rgTdBt">
+                     <input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="manageInput"  />
+                     <code>简单些红包界面，用于领取页面说明，不超过30字</code>
+                </td>
+            </tr>
+            <tr>
+                <td class="lfTdBt">红包个数：</td>
+                <td class="rgTdBt">
+                <input type="text" name="data[prestore]" value="<{:round($detail['prestore'],2)}>" class="manageInput" />
+                <code>每个会员领取红包个人不得大于这个数，填写这个红包个人在前台随机产生！</code>
+                </td>
+            </tr>
+            <tr>
+                <td class="lfTdBt">单个红包金额：</td>
+                <td class="rgTdBt">
+                <input type="text" name="data[single]" value="<{:round($detail['single'],2)}>" class="manageInput" />
+                <code>最高单个红包不能大于这个金额，金额数量在前台产生</code>
+                </td>
+            </tr>
+            <tr>
+                <td  class="lfTdBt">开始时间：</td>
+                <td class="rgTdBt">
+                     <input type="text" name="data[bg_date]" value="<{$detail.bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="manageInput" />
+                     <code>红包领取开始时间，不到这个时间用户不能领取</code>
+                </td>
+           </tr>
+            <tr>
+                <td class="lfTdBt">红包作废时间：</td>
+                <td><div class="rgTdBt">
+                     <input type="text" name="data[use_time]" value="<{$detail.use_time|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});" class="manageInput" />
+                     <code>用户领取红包后，多长时间作废</code>
+                 </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="lfTdBt">结束时间：</td>
+                <td><div class="rgTdBt">
+                     <input type="text" name="data[end_time]" value="<{$detail.end_time|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});" class="manageInput" />
+                     <code>红包领取结束时间，到这个时间用户不能领取</code>
+                 </div>
+                </td>
+           </tr>
+           
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

@@ -1,0 +1,19 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="x-frame" action="<{:U('storeactivity/addtype')}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                        <tr>
+                            <td class="lfTdBt">类型：</td>
+                            <td  class="rgTdBt"><input type="text" name="data[cate_name]" value="<{$detail.cate_name|default=''}>" class="manageInput" />
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>  

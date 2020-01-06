@@ -1,0 +1,77 @@
+ <foreach name="list" item="item">
+	<div class="line padding border-bottom">
+		<div class="x12">
+        	<p class="text-gray text-small">跑腿订单ID：<{$item.running_id}></p>
+			<p class="text-gray text-small">跑腿需求：<{$item.title}></a></p>
+            <p class="text-gray text-small">搬家拉货地址：<{$item.addr}></a></p>
+             <p class="text-gray text-small">送达地址：<{$item.addrs}></a></p>
+            <p class="text-gray text-small">跑腿电话：<{$item.mobile}></a></p>
+            <p class="text-gray text-small" style="color: red">车辆要求：<if condition="$item['vehicle_type'] eq 1">面包车
+                <elseif condition="$item['vehicle_type'] eq 2"/>小货车<elseif condition="$item['vehicle_type'] eq 3"/>中货车</if></p>
+            <p class="text-gray text-small" style="color: red">用车情况：<if condition="$item['is_ues'] eq 1">预约用车&nbsp;&nbsp;&nbsp;&nbsp;预约时间：<{$item.times|date='Y-m-d H:i:s',###}>
+            <else/>立即用车</if></p>
+            <p class="text-gray text-small">是否需要人工：
+              <eq name="item.artificial" value="1"><span style="color: red">需要</span></eq>
+              <eq name="item.artificial" value="0">不需要</eq></a></p>
+              <eq name="item.artificial" value="1">
+               <p class="text-gray text-small">需要人数：<span style="color: red"><{$item.artificialnumber}></span>&nbsp;位搬货工人</a></p>
+              </eq>
+            <p class="text-dot text-small">支付价格：<eq name="item.artificial" value="1">人工费用&yen;<{:round($item['price'],2)}>元  + </eq> 跑腿费：&yen;<{:round($item['freight'],2)}>元+打赏金额：&yen;<{:round($item['dashan'],2)}>元  = 实际支付：&yen;<{:round($item['need_pay'],2)}>元</p>
+            <p class="text-gray text-small">发布时间：<{$item.create_time|date='Y-m-d H:i:s',###}> </p>
+		</div>
+	</div>
+	<div class="line padding text-right">
+		<span class="x12"> 
+        	<a class="button button-small bg-blue" href="<{:U('vehicleorder/detail',array('running_id'=>$item['running_id']))}>">详情</a>
+         <if condition="$item.status eq 1">   
+            <a class="button button-small bg-dot" href="<{:U('vehicleorder/dsmoney',array('running_id'=>$item['running_id']))}>">提高打赏金额</a>
+         </if>
+          <if condition="$item.status eq 8">   
+            <a class="button button-small bg-dot" href="<{:U('vehicleorder/dianping',array('running_id'=>$item['running_id']))}>">评价跑腿司机</a>
+            <a class="button button-small bg-dot" href="<{:U('vehicleorder/tslist',array('running_id'=>$item['running_id']))}>">投诉跑腿司机</a>
+         </if>
+
+        
+        <if condition="$item.status eq 0">
+            <a class="button button-small bg-gray" href="<{:U('vehicleorder/delete',array('running_id'=>$item['running_id']))}>">删除</a>
+        	<a class="button button-small bg-dot" href="<{:U('vehicleorder/pay',array('running_id'=>$item['running_id']))}>">付款</a>
+        </if>
+       
+        <php>
+        	$delivery = D('Delivery')->where(array('user_id'=>$item['cid']))->find();
+        </php>
+        
+        <if condition="!empty($delivery)">	
+              <a id="is_running<{$item.running_id}>" class="button button-small bg-yellow">配送员资料</a>
+              <script type="text/javascript">
+                 $('#is_running<{$item.running_id}>').mouseover(function(){
+                    var n = '<{$delivery.name}>';
+                    var m = '<{$delivery.mobile}>';
+                    layer.tips('跑腿员姓名：'+n+'<br>电话：'+m+'',$(this),{
+                         tips: [2, '#7a7a7a']
+                    });
+                  })
+              </script>
+        </if>
+
+        <if condition="$item.status eq 0">
+       		<a class="button button-small border-gray">待付款</a>
+        <elseif condition="$item.status eq 1"/>
+        	<a class="button button-small border-blue">待接单</a>
+        <elseif condition="$item.status eq 2"/>
+        	<a class="button button-small border-dot">已接单</a>
+        <elseif condition="$item.status eq 3"/>
+        	<a class="button button-small border-yellow">已配送</a>
+        <elseif condition="$item.status eq 8"/>
+        	<a class="button button-small border-gray">已完成</a>
+        </if>
+     <if condition="$item.status eq 3">
+             <if condition="$item.statu eq 0">  
+            <a class="button button-small bg-dot" href="<{:U('vehicleorder/yes',array('running_id'=>$item['running_id']))}>">确认收货</a>
+            </if>
+         </if>
+        </span>
+
+	</div>
+	<div class="blank-10 bg"></div>
+</foreach>

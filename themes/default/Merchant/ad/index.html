@@ -1,0 +1,110 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">广告</a> > <a>购买广告位</a></li>
+    </ul>
+</div>
+<style>
+    .xia{padding: 5px;width: 200px;font-size:14px;}
+    .ops{font-size: 14px;}
+</style>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">发放广告需要购买广告位</div>
+        </div>
+    </div>
+
+    <include file='ad:nav'/><!--引入导航-->
+
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('ad/index')}>"  target="x-frame">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <input type="hidden" value="<{$type}>" name="types">
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">购买时间：</p></td>
+                    <td>
+                        <select name="active_time" class="xia">
+                            <option class="ops" value="0">==请选择==</option>
+                            <foreach name="guangao" item="guangao">
+                                <option class="ops" value="<{$guangao.id}>">购买时间：<{$guangao.buy_time}>,价格:<{$guangao.buy_money}></option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><div style="margin-top: 50px;"></div></td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">广告位置：</p></td>
+                    <td>
+                        <select name="site_id" class="xia">
+                            <option class="ops" value="0">==请选择==</option>
+                            <foreach name="weizhi" item="weizhi">
+                                <option class="ops" value="<{$weizhi.site_id}>"><{$weizhi.site_name}></option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">广告位购买说明：</p></td>
+                    <td>当前点击扣除积分为：<{$CONFIG['ad']['ad_consume']}>积分</td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">标题：</p></td>
+                    <td><input  style="width: 200px;padding: 5px;" type="text" name="title"></td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">预存积分：</p></td>
+                    <td><input style="width: 200px;padding: 5px;" type="text" name="prestore_integral"></td>
+                </tr>
+
+                <tr>
+                    <td width="120">所属城市：</td>
+                    <td>
+                        <select name="city_id" class="manageSelect" style="padding: 5px;width: 200px">
+                            <option value="0">请选择</option>
+                            <foreach name="citys" item="var">
+                                <option value="<{$var.city_id}>" ><{$var.name}></option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">商品编号：</p></td>
+                    <td><input  style="width: 200px;padding: 5px;" type="text" name="goods_id">
+                    <code style="color: red">必须与链接上的一致，否则后果自负</code></td>
+                </tr>
+                <tr style="margin-top: 20px">
+                    <td width="120"><p class="tuanfabu_t">地址连接：</p></td>
+                    <td><input type="text" name="intro" placeholder ="请输入地址连接" style="width: 500px;padding: 10px;"> <br/><br/>
+                        <if condition="$type eq 1">
+                            例如：https://<?php echo $_SERVER['HTTP_HOST'];?>/wap/ele/details/product_id/商品编号
+                        <elseif condition="$type eq 2"/>
+                            例如：https://<?php echo $_SERVER['HTTP_HOST'];?>/wap/market/details/product_id/商品编号
+                        <elseif condition="$type eq 3"/>
+                            例如：https://<?php echo $_SERVER['HTTP_HOST'];?>/wap/store/details/product_id/商品编号
+                        <elseif condition="$type eq 4"/>
+                            例如：https://<?php echo $_SERVER['HTTP_HOST'];?>/wap/mall/detail/goods_id/商品编号
+                        </if>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><div style="margin-top: 100px;"></div></td>
+                </tr>
+                <tr>
+                    <td width="120"></td>
+                    <td><input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认购买" /></td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

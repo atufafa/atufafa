@@ -1,0 +1,77 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">信息</li>
+        <li class="li2">返利管理</li>
+        <li class="li2 li3">商家返利列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right"></div>
+            <div class="clear"></div>
+             <div class="right">
+                <form method="post" action="<{:U('usersrebate/shopindex')}>">
+                    <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  /><input type="submit" value="   搜索"  class="inptButton" />
+                </form>
+            </div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>卖房/卖车商家ID</td>
+                        <td>返利类型</td>
+                        <td>返利金额</td>
+                        <td>提交返利时间</td>
+                        <td>状态</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.log_id}></td>
+                             <td>
+                                ID:(<{$var.user_id}>)<br/>
+                                昵称：<{$user[$var[user_id]][nickname]}><br/>联系电话：<{$user[$var[user_id]][mobile]}>
+                             </td>
+                           
+                            <td>
+                           <if condition="$var['type'] eq room">
+                            卖房
+                           </if>
+                           <if condition="$var['type'] eq vehicle">
+                                卖车
+                           </if>
+                            </td>
+                            <td>&yen;<{$var.need_pay}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td>
+                                <eq name="var.is_paid" value="1">
+                                    支付成功
+                                </eq>
+                                <eq name="var.is_paid" value="0">
+                                    支付失败
+                                </eq>
+                            </td>
+                            <td>
+                                <{:BA('usersrebate/del',array("log_id"=>$var["log_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+

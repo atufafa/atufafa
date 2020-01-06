@@ -1,0 +1,46 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家</a> > <a href="">积分商城管理</a> > <a href="">添加积分商品</a> </li>
+    </ul>
+</div>
+<style>
+    .manageInput{padding: 3px;width: 180px;font-size:14px;}
+</style>
+<div class="tuan_content">
+    <include  file='integralmall:nav'/>
+    <form action="<{:U('integralmall/addreward')}>" method="post" target="x-frame">
+        <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+
+            <tr>
+                <td width="120"><p class="tuanfabu_t">销售额：</p></td>
+                <td ><input type="number" name="data[money]" value="<{$detail.money|default=''}>" class="manageInput" />&nbsp;元，&nbsp;&nbsp;<code>填写在积分商城成交的销售额</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="120"><p class="tuanfabu_t">销售订单：</p></td>
+                <td ><input type="text" name="data[order_num]" value="<{$detail.order_num|default=''}>" class="manageInput" />&nbsp;单，&nbsp;&nbsp;<code>填写在积分商城成交的销售订单数量</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="120"><p class="tuanfabu_t">申请说明：</p></td>
+                <td><textarea style="width: 250px;height: 80px;" placeholder="请简单阐述申请说明..." name="data[title]"></textarea></td>
+            </tr>
+
+            <tr>
+                <td colspan="2"><div style="margin-top: 100px;"></div></td>
+            </tr>
+            <tr>
+                <td width="120"></td>
+                <td><input type="submit"  class="radius3 sjgl_an tuan_topbt" value="提交申请" /></td>
+            </tr>
+        </table>
+    </form>
+    <div class="paging"> </div>
+</div>
+<include  file='public:footer'/>
+
+

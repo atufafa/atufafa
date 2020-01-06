@@ -1,0 +1,73 @@
+<div class="listBox clfx" style="width: 800px;">
+    <div class="menuManage">
+        <form  target="x-frame" action="<{:U('shopcate/create',array('parent_id'=>$parent_id))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                        <tr>
+                            <td class="lfTdBt">分类：</td>
+                            <td class="rgTdBt"><input type="text" name="data[cate_name]" value="<{$detail.cate_name|default=''}>" class="scAddTextName w150" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">排序：</td>
+                            <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default=''}>" class="scAddTextName w150" />
+                                <code>数字越小越高</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">入驻费用：</td>
+                            <td class="rgTdBt"><input type="text" name="data[price]" value="<{$detail.price|default='-1'}>" class="scAddTextName w150" />
+                                <code>负数则取[设置-商家设置]配置里的参数（小类以大类为准）</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">点评项1：</td>
+                            <td class="rgTdBt"><input type="text" name="data[d1]" value="<{$detail.d1|default=''}>" class="scAddTextName w150" />
+                                <code>主要用着商家点评，默认预设了3个点评项</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">点评项2：</td>
+                            <td class="rgTdBt"><input type="text" name="data[d2]" value="<{$detail.d2|default=''}>" class="scAddTextName w150" />
+                                <code>主要用着商家点评，默认预设了3个点评项</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">点评项3：</td>
+                            <td class="rgTdBt"><input type="text" name="data[d3]" value="<{$detail.d3|default=''}>" class="scAddTextName w150" />
+                                <code>主要用着商家点评，默认预设了3个点评项</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">分类描述：</td>
+                            <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="scAddTextName w150" />
+                                <code>可以简单的说一下分类</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">分类押金：</td>
+                            <td class="rgTdBt"><input type="text" name="data[handle]" value="<{$detail.handle|default=''}>" class="scAddTextName w150" />
+                                <code>入驻该分类需要交的押金</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">是否上传卫生证：</td>
+                            <td class="rgTdBt">
+                                <input type="radio" name="data[is_weisheng]" value="1" <eq name="detail.is_weisheng" value="1">checked="checked"</eq>  /> 是
+                                <input type="radio" name="data[is_weisheng]" value="0" <eq name="detail.is_weisheng" value="0">checked="checked"</eq>  /> 否
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

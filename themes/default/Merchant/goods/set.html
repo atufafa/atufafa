@@ -1,0 +1,35 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城</a> > <a>商城商品</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include file='order:nav'/><!--引入导航-->
+    <div class="tabnr_change show">
+        <style type="text/css">
+            tr{float: left;width: 100%}
+        </style>
+    <form  method="post" target="x-frame"  action="<{:U('goods/open')}>">
+        <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+            <td><p class="tuanfabu_t">是否支持预约购买</td>
+            <td>
+                <div class="tuanfabu_nr">
+                    <label><input type="radio" <eq name="mall.is_yuyue" value="0"> checked="checked" </eq>  name="is_yuyue"  value="0"/>不支持</label>
+                    <label><input type="radio" <eq name="mall.is_yuyue" value="1"> checked="checked" </eq> name="is_yuyue"  value="1"/>支持</label>
+                </div>
+            </td>
+        </tr>
+
+
+
+            <tr>
+                <td></td>
+                <td><input type="submit" class="radius3 sjgl_an tuan_topbt" value="立刻更新"/></td>
+            </tr>
+        </table>
+    </form>
+    </div>
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,33 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			领取红包
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+<body>   
+
+<div class="blank-30"></div>
+
+<div class="list-media-x" id="list-media" style="margin-top: 21px">
+<div class="blank-10 bg"></div>
+	<ul>
+
+    </ul>
+</div>
+<div class="list-media-x" id="list-medias">
+	<ul>
+
+    </ul>
+</div>
+<script>
+	$(document).ready(function(){        
+		loaddata('<{:U("index/hongbao_data",array("p"=>"0000"))}>',  $("#list-media ul"),true);
+	});
+</script>
+<include file="public:footer"/>

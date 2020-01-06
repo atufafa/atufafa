@@ -1,0 +1,79 @@
+<include  file='public:header'/>
+<style>
+    .lfTdBt{ width:170px;}
+    .profit {text-align: center;color: #333;font-weight: bold; background: #F5F5FB;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">菜市场</li>
+        <li class="li2">活动管理</li>
+        <li class="li2 li3">活动列表</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form target="x-frame" action="<{:U('marketactivitys/edit',array('id'=>$detail['id']))}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <?php $shp=D('Shop')->where(['shop_id'=>$detail['shop_id']])->find();?>
+                <tr>
+                    <td class="lfTdBt">外卖商家名称：</td>
+                    <td  class="rgTdBt"><input type="text" readonly="readonly" value="<{$shp['shop_name']}>" class="manageInput" />
+                    </td>
+                </tr>
+
+        <tr>
+            <td class="lfTdBt">活动类型：</td>
+            <td  class="rgTdBt">
+                <select name="data[type_id]">
+                    <foreach name="type" item="var">
+                    <option value="<{$var.type_id}>" <eq name="var.type_id" value="$detail.type_id">selected="selected"</eq>><{$var.cate_name}></option>
+                    </foreach>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="lfTdBt">活动价格：</td>
+            <td  class="rgTdBt">
+                <input type="text" name="data[price]" value="<{$detail['price']}>" class="manageInput" />
+                <code>元</code>
+            </td>
+        </tr>
+        <tr>
+            <td class="lfTdBt">销售限量：</td>
+            <td  class="rgTdBt"><input type="text" name="data[num]" value="<{:round($detail['num'],2)}>" class="manageInput" />
+                <code>份</code>
+            </td>
+        </tr>
+        <tr>
+            <td class="lfTdBt">是否强制到店自取：</td>
+            <td><input type="radio"  name="data[is_shop]" value="1" <eq name="detail.is_shop" value="1" >checked="checked"</eq>>强制&nbsp;&nbsp;
+                <input type="radio" name="$data[is_shop]" value="0" <eq name="detail.is_shop" value="0" >checked="checked"</eq>>不强制
+            </td>
+        </tr>
+
+        <tr>
+            <td class="lfTdBt">参与点赞：</td>
+            <td><input type="radio"  name="data[is_receive]" value="1" <eq name="detail.is_receive" value="1" >checked="checked"</eq>>是&nbsp;&nbsp;
+                <input type="radio" name="$data[is_receive]" value="0" <eq name="detail.is_receive" value="0" >checked="checked"</eq>>否
+                <code>参与点赞的消费者，是否可以到店领取礼品<span style="color: red">仅天天特价</span></code>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="lfTdBt">开售时间：</td>
+            <td  class="rgTdBt">
+                <select name="$data[time_id]">
+                    <foreach name="start" item="var">
+                        <option value="<{$var.time_id}>" <eq name="var.time_id" value="$detail.time_id">selected="selected"</eq>><{$var.time_name}></option>
+                    </foreach>
+                </select>
+                <code>仅天天特价！</code>
+            </td>
+        </tr>
+
+        </table>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+        </form>
+    </div>
+    </div>
+    <include  file='public:footer'/>

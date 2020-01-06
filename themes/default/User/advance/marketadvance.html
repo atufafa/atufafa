@@ -1,0 +1,64 @@
+
+<foreach  name="list" item="order">
+    <li class="line" id="refresh_<{$order.order_id}>">
+        <dt><a class="x3">ID：<{$order.order_id}></a><a class="x9 text-right">下单日期：<{$order.create_time|date='Y-m-d,H:i:s',###}></a></dt>
+        <foreach name="products" item="product">
+            <if condition="$product['order_id'] eq $order['order_id']">
+                <dd class="zhong">
+                    <div class="x2">
+                        <a>
+                            <img src="<{:config_img($marketproducts[$product['product_id']]['photo'])}>" style="width:90%;"></a>
+                    </div>
+                    <div class="x10">
+                        <p><{$marketproducts[$product['product_id']]['product_name']}>
+                        </p>
+                        <p class="text-small">
+
+                            <span class="text-dot1 margin-right">小计：<span class="text-dot">￥<{$marketproducts[$product['product_id']]['price']}> x <{$product.num}>斤 = <{$product['total_price']}> 元</span></span>
+                            <br/><span class="text-dot1 margin-right">预定时间：<span class="text-dot">￥<{$order.yuyuetime|date='Y-m-d,H:i:s',###}></span></span>
+                            <if condition="$order['type'] eq 4">
+                        <p style="color: red">到店自取</p>
+                        <elseif condition="$order['type'] eq 3"/>
+                        <p style="color: red">物流快递</p>
+            </if>
+
+            </p>
+            </div>
+            </dd>
+            </if>
+        </foreach>
+
+        <dt>
+            <div class="x12 text-small">
+             <span class="margin-right">
+             	<if condition="!empty($order['total_price'])">
+                    应付总费用：&yen;<span id="pay"><{$order['need_pay']}></span>元 <if condition="$order['type'] neq 4">(含配送费)</if>
+                 </if>
+             	 <if condition="!empty($order['new_money'])">
+                    - 新单立减：&yen;<span id="new"><{$order['new_money']}></span>元
+                 </if>
+                 <if condition="!empty($order['logistics_full_money'])">
+                    - 免配送费：&yen;<span id="full"><{$order['logistics_full_money']}></span>元
+                 </if>
+                 <if condition="!empty($order['reduce_coupun_money'])">
+                   - 优惠劵抵扣费用：&yen;<span id="coupun"><{$order['reduce_coupun_money']}></span>元
+                 </if>
+                  <if condition="!empty($order['full_reduce_price'])">
+                      - 满减优惠：&yen;<span id="reduce"><{$order['full_reduce_price']}></span>元
+                 </if>
+                 <if condition="!empty($order['tableware_price'])">
+                     + 包装费：&yen;<span id="tableware"><{$order['tableware_price']}></span>元
+                 </if>
+             </span>
+                <span>= 实际支付：<a  class="text-dot">&yen;<span id="need_pay"><{$order['need_pay']}></span>元</a></span>
+            </div>
+            <br/><br/>
+            <a style="float: right" class="order_detail button button-small border-yellow" href="<{:U('market/detail',array('order_id'=>$order['order_id']))}>">详情</a>
+        </dt>
+
+    </li>
+
+    <div class="blank-10 bg"></div>
+</foreach>
+<script src="/static/default/wap/js/jquery.timers-1.2.js"></script>
+

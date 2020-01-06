@@ -1,0 +1,66 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">活动</a> > <a>商城活动列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="right tuan_topfb_r" style="margin-bottom: 20px;margin-right: 20%;"><a  class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('mallactivity/create')}>">参与活动+</a></div>
+    <div style="color: red;font-size: 16px;">注意：以下活动是天天特价的，按结束时间结束或限购数量，限时秒杀的，按倒计时结束或限购数量结束，限量团购的，按限购数量结束</div>
+    <include file="mallactivity:nav"/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td width="5%">活动ID</td>
+            <td width="5%">活动类型</td>
+            <td width="10%">商品名称</td>
+            <td width="5%">商品图片</td>
+            <td width="5%">市场价格</td>
+            <td width="5%">商城价格</td>
+            <td width="6%">活动结束类型</td>
+            <td width="5%">限购数量</td>
+            <td width="5%">是否免邮</td>
+            <td width="7%">开始时间</td>
+            <td width="7%">结束时间</td>
+            <td width="5%">出售时间段</td>
+            <td width="5%">是否审核</td>
+            <td width="6%">操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.goods_id}></td>
+                <td><{$type[$var['type_id']]['type_name']}></td>
+                <td><{$var['title']}></td>
+                <td style="height: 80px;"><img src="<{:config_img($var['photo'])}>"  style="width: 80px;  margin: 0px auto;" /></td>
+                <td>￥<{$var.price}></td>
+                <td>￥<{$var.mall_price}></td>
+                <td><if condition="$var['type_id'] eq 3">以数量售完结束<elseif condition="$var['type_id'] eq 2"/>以时间倒计时结束<else/>时间下架结束或数量下架</if></td>
+                <td><{$var.num}>份</td>
+                <td>
+                    <eq name="var.is_reight" value="0">免运费<else/>
+                        <{$var.kuaidi.name|default='未设置运费模板'}>
+                    </eq>
+                </td>
+                <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                <td><{$var.end_date}></td>
+                <td><{$time[$var['time_id']]['time_name']}></td>
+                <td><eq name="var.audit" value="0">待审核
+                    <else/>
+                    已审核
+                </eq>
+                </td>
+                <td>
+                    <a href="<{:U('mallactivity/edit',array('goods_id'=>$var['goods_id']))}>">查看详情</a>
+                    <eq name="var.closed" value="0">
+                        <a mini='confirm' href="<{:U('mallactivity/xai',array('goods_id'=>$var['goods_id']))}>">下架</a>
+                        <else/>
+                        <a mini='confirm' href="<{:U('mallactivity/shang',array('goods_id'=>$var['goods_id']))}>">上架</a>
+                    </eq>
+                    <a mini='confirm' href="<{:U('mallactivity/delete',array('goods_id'=>$var['goods_id']))}>">删除</a>
+
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging"> <{$page}> </div>
+</div>
+<include  file='public:footer'/>

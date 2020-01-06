@@ -1,0 +1,438 @@
+<php>$mobile_title = $detail['title'];</php>
+<include file='public:header'/>
+<script src="/static/default/wap/js/global.js"></script>
+<script src="/static/default/wap/js/3deye.min.js"></script>
+<script src="/static/default/wap/js/clipboard.js"></script>
+<style>
+    .top-fixed .top-title span{padding:0 10px}
+    .top-fixed .top-title span.on{border-bottom:2px solid #FFF}
+    .cartadd_num{font-size:12px}
+    .navContent{display:block}
+    .ui-sx{width:100%;overflow:hidden}
+    .subNavBox{overflow:hidden;margin-left:10px;padding-bottom:0;margin-right:10px}
+    .subNav{background-size:auto 13px}
+    .subNav.on{background-size:auto 14px}
+    .subNav strong{display:block;width:100%;height:40px;border-bottom:1px solid #eee;color:#666;font-weight:400;font-size:16px;line-height:40px}
+    .currentDt{background-size:auto 13px}
+    .navContent li{overflow:hidden;width:100%}
+    .navContent li .title{width:100%;font-size:16px;line-height:30px;color:#666;margin-top:5px}
+    .navContent li .item{overflow:hidden;border-bottom:1px solid #eee;padding-bottom:5px}
+    .navContent li .item a{padding-left:10px;padding-right:10px;border:1px solid #CCC;line-height:30px;display:inline-block;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;margin-right:5px;margin-bottom:10px}
+    .navContent li .item a.hover{background:red;color:#FFF;border:1px solid red;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px}
+    .navContent li .purchase{font-size:14px;line-height:25px;color:#666}
+    .navContent li .purchase_v{font-size:16px;line-height:25px;color:#dd2724;font-weight:700}
+    .navContent li h2{font-size:18px;line-height:30px;color:#333;font-weight:400}
+    .navContent li p{width:95%;overflow:hidden;height:25px;line-height:25px;margin:auto}
+    .navContent li .key{display:block;float:left;width:30%;font-size:14px;color:#666;text-align:right}
+    .navContent li .p-price-v{display:block;width:70%;float:left;font-size:16px;color:#dd2724}
+    .navContent li .title1{width:100%;font-size:16px;height:20px;line-height:20px;color:#666;padding-top:10px}
+    .navContent li .item1{width:100%;height:50px;overflow:hidden;padding-bottom:5px}
+    .navContent li .item1 a{padding-left:10px;padding-right:10px;border:1px solid #CCC;line-height:30px;display:inline-block;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;margin-right:5px;margin-bottom:10px}
+    .navContent li .item1 a.hover{background:red;color:#FFF;border:0;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px}
+    .navContent li .item1 .ui-number{border:1px solid #ddd9da;overflow:hidden;height:30px;display:block;width:106px;margin-top:10px}
+    .navContent li .item1 .ui-number .decrease{display:inline-block;background:0 0;font-size:24px;line-height:30px;border:0;width:30px;float:left;height:30px;color:#F8849C;border-right:1px solid #ddd9da;text-indent:-9999px;background-size:60px}
+    .navContent li .item1 .ui-number .num{display:inline-block;border:0;width:40px;height:30px;float:left;text-align:center;font-size:12px;line-height:30px;color:#666;font-size:20px;text-align:center}
+    .navContent li .item1 .ui-number .increase{display:inline-block;background:0 0;border:0;border-left:1px solid #ddd9da;float:right;width:30px;height:30px;font-size:24px;line-height:30px;color:#F8849C;background-size:60px;text-indent:-9999px}
+    .row{padding:15px 10px}
+    .tuan-detail2{border-top:0 solid #eee}
+    .txt-small .txt{border:none}
+    .margin-small-top2{margin-top:5px}
+    .buy_area .detail_coupons,.detail_baitiao{position:relative;padding:0 30px 0 10px;height:42px;line-height:42px;font-size:0;color:#999;word-break:break-word;overflow:hidden}
+    .buy_area .detail_coupons span.num,.detail_baitiao span.num{float:right}
+    .buy_area .detail_coupons span,.detail_baitiao span{font-size:12px}
+    .buy_area .detail_coupons span.title,.detail_baitiao span.title{margin-right:16px}
+    .buy_area .detail_coupons .coupon,.detail_baitiao .coupon{position:relative;display:inline-block;margin-right:5px;padding:0 9px 0 12px;border-top:1px solid #e4393c;border-bottom:1px solid #e4393c;height:18px;line-height:18px;color:#e4393c;font-size:10px}
+    .buy_area .detail_coupons .coupon:before,.detail_baitiao .coupon:before{left:0;width:7px}
+    .buy_area .detail_coupons .coupon:after,.detail_baitiao .coupon:after{right:0;width:4px;background-position:-11px 0}
+    .buy_area .detail_coupons .coupon:after,.buy_area .detail_coupons .coupon:before,.detail_baitiao .coupon:after,.detail_baitiao .coupon:before{content:"";position:absolute;top:-1px;height:18px;background-size:15px 18px;background-repeat:no-repeat}
+    .text-green{border: 1px solid #8CBF4C;  padding: 2px 5px 2px 5px;  font-size: 12px;  border-radius: 5px;margin-right: 2px;}
+</style>
+
+
+<header class="top-fixed bg-yellow bg-inverse detail">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title search center">
+        <span class="on">简介</span>
+        <span><a href="<{:U('decorate/dianping',array('id'=>$detail['id']))}>">评价</a></span>
+    </div>
+</header>
+
+<style>
+    .tudou-slides{width:100%;margin:0 auto;position:relative;overflow:hidden;height: 48px;}
+    .tudou-slides .hd{width:100%;height:11px;position:absolute;z-index:1;top:100px;text-align:center}
+    .tudou-slides .hd ul{display:inline-block;height:10px;padding:3px 5px;background-color:rgba(171,171,171,.7);-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;font-size:0;vertical-align:top}
+    .tudou-slides .hd ul li{display:inline-block;width:5px;height:5px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;background:#8C8C8C;margin:0 5px;vertical-align:top;overflow:hidden}
+    .tudou-slides .hd ul .on{background:#06c1ae}
+    .tudou-slides .bd{position:relative;z-index:0;}
+    .tudou-slides .bd li img{width:100%;max-height:48px;max-height:48px;background:url(images/loading.gif) center center no-repeat}
+    .tudou-slides .bd li a{-webkit-tap-highlight-color:transparent}
+    .tui{background-color: red;font-size: 10px;color: #fff;padding: 3px;border-radius: 5px;line-height: 10px;display: inline-block;}
+
+
+</style>
+
+<div class="xq_details" style="margin-top: 50px">
+    <div class="tuan-detail">
+        <div class="line banner" style="height: 300px;">
+            <div id="focus" class="focus">
+                <div class="hd">
+                    <ul></ul>
+                </div>
+                <div class="bd">
+                    <ul>
+                        <li><a href="javascript:void(0);"><img src="<{:config_img($detail['photo'])}>" /></a></li>
+                        <foreach  name="pics" item="item">
+                            <li><a href="javascript:void(0);"><img src="<{:config_img($item['photo'])}>" /></a></li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--广告位开始-->
+        <div id="tudou-slides" class="tudou-slides">
+            <div class="hd"><ul></ul></div>
+            <div class="bd">
+                <ul>
+                    <calldata mdl="Ad" where=" closed=0 AND site_id=1 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                        <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+                    </calldata>
+                </ul>
+            </div>
+        </div>
+        <script>
+            TouchSlide({
+                slideCell: "#tudou-slides",
+                titCell: ".hd ul",
+                mainCell: ".bd ul",
+                effect: "left",
+                autoPlay: true,
+                autoPage: true,
+                switchLoad: "_src",
+            });
+        </script>
+        <!--广告位END-->
+    </div>
+
+    <script type="text/javascript">
+        TouchSlide({
+            slideCell:"#focus",
+            titCell:".hd ul",
+            mainCell:".bd ul",
+            effect:"left",
+            autoPlay:true,//自动播放
+            autoPage:true, //自动分页
+            switchLoad:"_src"
+        });
+    </script>
+
+    <div class="item-detail">
+        <div class="detail-row bb">
+            <div class="item-price">
+                <div style="width: 100%;">
+                    <b style="font-style:14px;"><{:tu_msubstr($detail['title'],0,20)}>&nbsp;<{:tu_msubstr($detail['intro'],0,30)}></b>
+                    <if condition="!empty($is_vs)">
+                        <eq name="detail.is_vs1" value="1"><span class="tui">惠</span></eq>
+                    </if>
+                </div>
+
+                <if condition="!empty($detail['views'])">
+                    <div class="x12 price-tip">
+                        <span class="dt-icon" style="background-color: #F00;">预览人数：<{$detail['sold_num']}></span>
+                    </div>
+                </if>
+            </div>
+        </div>
+
+        <div class="detail-row bb">
+            <div class="item-tips">
+                <if condition="!empty($is_vs)">
+                    <eq name="detail.is_vs1" value="1"><span class="text-green">享有优惠</span></eq>
+                    <eq name="detail.is_vs2" value="1"><span class="text-green">透明报价</span></eq>
+                    <eq name="detail.is_vs3" value="1"><span class="text-green">品质施工</span></eq>
+                    <eq name="detail.is_vs4" value="1"><span class="text-green">工地参观</span></eq><br/><br/>
+                    <eq name="detail.is_vs6" value="1"><span class="text-green">免费平面设计</span></eq>
+                    <eq name="detail.is_vs5" value="1"><span class="text-green">免费量房</span></eq>
+                    <eq name="detail.is_vs7" value="1"><span class="text-green">终身质保</span></eq>
+                    <eq name="detail.is_vs8" value="1"><span class="text-green">绿色环保</span></eq><br/><br/>
+                    <eq name="detail.is_vs9" value="1"><span class="text-green">质量保证</span></eq>
+                    <eq name="detail.is_vs10" value="1"><span class="text-green">免息分期</span></eq>
+                    <eq name="detail.is_vs11" value="1"><span class="text-green">先施工后付款</span></eq>
+                </if>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/static/default/wap/js/mobile-location.js"></script>
+
+    <script type="text/javascript">
+        function locationaddress(e){
+            $('.container').animate({width: '80%', opacity: 'show'}, 'normal',function(){
+                $('.container').show();
+            });
+            if(!$('.container').is(":hidden")){
+                $('body').css('overflow','hidden')
+                cover();
+                $('.mask-filter-div').css('z-index','9999');
+            }
+        }
+        function closelocation(){
+            var province_div = $('.province-list');
+            var city_div = $('.city-list');
+            var area_div = $('.area-list');
+            if(area_div.is(":hidden") == false){
+                area_div.hide();
+                city_div.show();
+                province_div.hide();
+                return;
+            }
+            if(city_div.is(":hidden") == false){
+                area_div.hide();
+                city_div.hide();
+                province_div.show();
+                return;
+            }
+            if(province_div.is(":hidden") == false){
+                area_div.hide();
+                city_div.hide();
+                $('.container').animate({width: '0', opacity: 'show'}, 'normal',function(){
+                    $('.container').hide();
+                });
+                undercover();
+                $('.mask-filter-div').css('z-index','inherit');
+                return;
+            }
+        }
+        function toshare(){
+            $(".am-share").addClass("am-modal-active");
+            if($(".sharebg").length>0){
+                $(".sharebg").addClass("sharebg-active");
+            }else{
+                $("body").append('<div class="sharebg"></div>');
+                $(".sharebg").addClass("sharebg-active");
+            }
+            $(".sharebg-active,.share_btn").click(function(){
+                $(".am-share").removeClass("am-modal-active");
+                setTimeout(function(){
+                    $(".sharebg-active").removeClass("sharebg-active");
+                    $(".sharebg").remove();
+                },300);
+            })
+        }
+
+    </script>
+
+    <style>
+        /*底部弹出*/
+        .am-share {height: 500px; font-size: 14px; border-radius: 0; bottom: 0; left: 0; position: fixed; text-align: center;
+            display: block;background-color: #ffffff;
+            -webkit-transform: translateY(100%); -ms-transform: translateY(100%); transform: translateY(100%);
+            -webkit-transition: -webkit-transform 300ms; transition: transform 300ms ; width: 100%; z-index: 1110; }
+        .am-modal-active { transform: translateY(0px);  -webkit-transform: translateY(0); -ms-transform: translateY(0); transform: translateY(0) }
+        .am-share .div1{-webkit-user-select: auto;position: relative;width: 100%;height: 50px;line-height: 50px;font-size: 20px;color: #151516;text-align: center;border-bottom: 1px solid hsla(0,0%,88%,.4);background-repeat: no-repeat;background-size: cover;background-position: 50%;}
+        .am-share .div1 .div2{position: absolute;width: 50px;height: 50px;padding: 2px;top: 0;right: 0;padding-top: 1px;}
+        .am-share .div1 .div2 i{color: #66666650}
+        .sharebg { background-color: rgba(0, 0, 0, 0.6); bottom: 0; height: 100%; left: 0; opacity: 0; position: fixed; right: 0; top: 0; width: 100%; z-index: 1100; display:none; }
+        .sharebg-active { opacity: 1; display:block; }
+        .youhui{width: 100%;height: 160px;background-image: url('/static/default/wap/img/zhaungxiou.png');background-size: 100% 100%;}
+        .yl{width: 59%;float: left;margin-left: 15%;margin-top: 6px;}
+        .yr{width: 22%;float: right;line-height: 153px;}
+        .qu{background-color: #ed07ff;color: #fff;font-size: 16px;padding: 5px 10px 5px 10px;border-radius: 20px;margin-left: 5px;}
+    </style>
+
+    <div class="tuan-detail2">
+        <div class="line status border-bottom">
+            <div class="x3"><h3 style="color: black">商家信息</h3></div>
+            <div class="x9"><span class="float-right"><a class="pop-goods-attribute" href="<{:U('decorate/shopdetail',array('id'=>$detail['id']))}>">查看更多</a><i class="iconfont icon-angle-right"></i></span></div>
+            <p style="margin-top: 40px"><span class="x3">承接类型：</span><span class="x9" style="color: black"><{$detail['type']}></span></p>
+            <p><span class="x3">承接价位：</span><span class="x9" style="color: black"><{$detail['money']}></span></p>
+            <p><span class="x3">服务区域：</span><span class="x9" style="color: black"><{$detail['region']}></span></p>
+        </div>
+
+        <if condition="!empty($user)">
+            <div class="line status border-bottom">
+                <div class="x9"><a href="<{:U('decorate/gps',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfonts icongps"></i><{$tel['address']}></a></div>
+                <div class="x3"><span class="float-right">|<a style="margin-left: 10px;margin-right: 20px" href="tel:<{$tel['tel']}>">
+                    <img style="width: 30px;height: 30px" src="/static/default/wap/img/mobile.png">
+                </a></span></div>
+            </div>
+        </if>
+
+        <div class="line status">
+            <div class="x6"><span class="ui-starbar"><span style="width:<{:round($score*10,2)}>%"></span></span></div>
+            <div class="x6"><span class="float-right"><a href="<{:U('decorate/dianping',array('id'=>$detail['id']))}>"><{$pingnum}>位业主评价 </a><i class="iconfont icon-angle-right"></i></span></div>
+        </div>
+
+        <div class="line status border-bottom" style="border-top: 1px solid #eee">
+           <h3 style="color: black">优惠活动</h3>
+            <div class="youhui">
+                <if condition="empty($user)">
+                    <div class="yr"><span class="lingqu qu">领取</span></div>
+                    <else/>
+                    <div class="yr"><span class="qu">已领取</span></div>
+                </if>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="item-intro" >
+    <h2 style="color: black;font-size: 18px">装修案例</h2>
+    <div class="intro-bd"><{$detail['details']}> <hr/></div>
+</div>
+
+<style>
+    /*显示列表*/
+    .goods-box h3{text-align: center;color:#F60;margin-bottom: 10px;}
+    .goods { margin:auto; overflow:hidden;background: #F2F2F2;}
+    .goods ul { width:50%; float: left; text-align: center; overflow:hidden;padding-right: 5px;padding-left: 5px;}
+    .goods ul li {margin:auto;margin-bottom:5px; background:#FFF; overflow:hidden;padding-bottom:2%; }
+    .goods ul li .index_pro{ width:100%; overflow:hidden; margin:auto;}
+    .goods ul li .products_kuang { width:100%; margin:auto;overflow: hidden; position:relative;}
+    .goods ul li .products_kuang img{ display:block;width:100%; margin:auto;width: 174px;height: 150px;}
+    .goods ul li .goods_name { width:93%; margin:auto;text-align:left;height: 38px; overflow: hidden; color:#666; font-size:14px;line-height: 18px; -webkit-line-clamp: 2; -webkit-box-orient: vertical;display: -webkit-box; margin-top:8px; margin-bottom:8px;}
+    .goods ul li .price {width:100%; margin:auto; position:relative; border-top:1px solid #eeeeee }
+    .goods ul li .price .price_pro{  width:93%; margin:auto;  display: block;font-size:16px; color: #F23015; height:40px; line-height:40px;text-align:left;}
+    .goods ul li .btns{ position:absolute; display:block;right:5px;height:25px;width:25px;background: #f23; border-radius:50%; bottom:8px;}
+    .goods ul li .btns img{ display:block; width:25px;height:25px; }
+    .info del{color: #999;margin-left: 10px;}
+    .info em{color: #999;margin-left: 10px;}
+   .yu{text-align: center;width: 150px;margin-left: 27%;margin-top: 50px;background-color: red;color: #fff;font-size: 16px;padding: 3px;border-radius: 20px;border: 0;}
+    .time{margin-top: 20px;margin-left: 25px;}
+    .tel{margin-top: 10px;margin-left: 25px;}
+</style>
+<div class="blank-20"></div>
+
+<!--底部footer开始-->
+<div data-spm="action" class="item-action">
+    <if condition="!empty($user)">
+    <div class="active-contact">
+        <a data-spm="dwangwang"  href="<{$service_url}>">
+            <span class="iconfont icon-31erweima"></span>客服</a>
+    </div>
+    <div class="active-contact">
+        <a data-spm="dwangwang"  href="tel:<{$tel['tel']}>">
+            <span class="iconfonts icontel" style="display: block"></span>电话</a>
+    </div>
+    </if>
+    <div id="bottom-cart-entrance" class="add-to-cart pop-goods-attribute yuyue">免费预约</div>
+    <if condition="empty($user)">
+    <div style="background-color: red" id="bottom-cart-entrance" class="add-to-cart pop-goods-attribute lingqu">购买反利劵</div>
+    </if>
+</div>
+
+
+
+<script>
+    //查看商品详情
+    $('.seedeadei').click(function(){
+        $('.xq_details').eq(1).show();
+
+        $('body').animate({ scrollTop: 0 }, 0);
+        $('.detail').find('.center').find('span').eq(1).addClass('on');
+        $('.detail').find('.center').find('span').eq(0).removeClass('on');
+    })
+
+    //评论
+    $('.tbv').click(function(){
+        $('.xq_details').eq(2).show();
+        $('body').animate({ scrollTop: 0 }, 0);
+        $('.detail').find('.center').find('span').eq(2).addClass('on');
+        $('.detail').find('.center').find('span').eq(0).removeClass('on');
+        $('.gizle').show();
+    })
+
+
+
+
+
+    //顶部导航切换
+    $('.detail .search span').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+        var a = $('.detail .search span').index(this);
+        $('.xq_details').eq(a).show().siblings('.xq_details').hide();
+        $('.xq_details').eq(2).show();
+        if($('.detail .search span').eq(2).hasClass('on')){
+            $('.comment_de').show();
+        }else{
+            $('.comment_de').hide();
+        }
+        if($('.detail .search span').eq(1).hasClass('on')){
+            $('.tab-con-wrapper').hide();
+            $('.comment_con').hide();
+        }else{
+            $('.tab-con-wrapper').show();
+            $('.comment_con').show();
+        }
+    });
+
+
+    //购买返利劵
+    $(".lingqu").click(function () {
+        layer.open({
+            type: 1,
+            title:'购买领取返利劵',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['350px', '450px'], //宽高
+            content: '<form action="<{:U(\'decorate/pay\')}>" method="post">' +
+                '  <div style="padding: 10px;margin-top: 20px;">' +
+                '      <label>预约时间：</label>' +
+                '      <label><input type="date" name="time"></label><br/><br/>' +
+                '  <label>联系电话：</label><label><input placeholder="请输入联系方式" type="number" name="tel"></label></div>' +
+                '<p style="color: red;font-size: 12px;margin-left: 10px">返利劵说明：订单结束后用返利劵可享巨大返利，订单金额越大返利越多</p>' +
+                '<p style="font-size: 12px;margin-left: 10px">注意：返利劵仅装修板块有效！！！</p>'+
+                '  <ul id="pay-method" class="pay-method">' +
+                '    <foreach name="payment" item="var">' +
+                '        <li data-rel="<{$var.code}>" class="media media-x payment">' +
+                '          <a class="float-left"  href="javascript:;"><img src="/static/default/wap/image/pay/<{$var.mobile_logo}>"></a>' +
+                '          <div class="media-body">' +
+                '            <div class="line">' +
+                '              <div class="x10"><{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p></div>' +
+                '              <div class="x2"><span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span></div>' +
+                '            </div>' +
+                '          </div>' +
+                '        </li>' +
+                '    </foreach>' +
+                '  </ul>' +
+                '  <input id="code" type="hidden" name="code" value="" /><input name="id" type="hidden" value="<{$detail['id']}>">' +
+                '  <button name="fanlijuan" value="<{$fanlijuan}>" style="margin-top: 20px;margin-bottom: 20px;margin-left: 8%;padding: 5px;width: 300px;border: 0;border-radius: 5px;background-color: red;color: #fff;font-size: 16px;">' +
+                '购买返利券并预约&nbsp;&nbsp;&nbsp;<{$fanlijuan}>元</button>' +
+                '</form>  '
+        })
+        $("#pay-method li").click(function(){
+            var code = $(this).attr("data-rel");
+            $("#code").val(code);
+            $("#pay-method li").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass("active");
+        });
+    });
+
+    //预约
+    $(".yuyue").click(function () {
+        layer.open({
+            type: 1,
+            title:'预约',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['350px', '250px'], //宽高
+            content:'<form action="<{:U('decorate/yuyue')}>" method="post" target="x-frame">' +
+                '<div class="time"><label>预约时间：</label><label><input type="date" name="time"></label></div>' +
+                '<div class="tel"><label>联系方式：</label><label><input type="number" name="tel" placeholder="请输入联系方式"></label></div>' +
+                '<input type="hidden" name="id" value="<{$detail['id']}>">'+
+                '<button class="yu" type="submit">立即预约</button>' +
+                '</from>'
+        })
+    })
+
+</script>
+
+
+
+<div class="mask-filter-div" style="display: none;"></div>
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+</body>
+</html>

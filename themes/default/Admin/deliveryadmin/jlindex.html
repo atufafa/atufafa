@@ -1,0 +1,46 @@
+<include file='public:header'/>
+<div class="mainBt">
+	<ul>
+		<li class="li1">频道</li>
+        <li class="li2">配送员管理列表</li>
+        <li class="li2 li3">配送员奖励配置</li>
+	</ul>
+</div>
+<p class="attention">
+	<span>注意：</span>这个设置配送员以及配送管理员的奖励有关系。
+</p>
+<form target="x-frame" action="<{:U('deliveryadmin/upjiangli')}>" method="post">
+	<div class="mainScAdd">
+		<div class="tableBox">
+			<table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px" style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#fff;">
+			<foreach name='list' item='var'>
+				<tr>
+				<td class="lfTdBt">
+					配送员推荐新人
+				</td>
+				<td class="rgTdBt">
+					配送员推荐新人跑单<input type="text" name="recommend1" value="<{$var.recommend1}>" style="width: 50px" class="scAddTextName"/>(单)数量，奖励
+					<input type="text" name="reward1" value="<{$var.reward1}>" style="width: 50px" class="scAddTextName" />元。
+				</td>
+			</tr>
+			</foreach>	
+			<foreach name='lists' item='vars'>
+			<tr>
+				<td class="lfTdBt">
+					配送员管理员推荐新人
+				</td>
+				<td class="rgTdBt">
+					配送管理员推荐新人跑单<input type="text" name="recommend2" value="<{$vars.recommend2}>" style="width: 50px" class="scAddTextName"/>(单)数量，奖励
+					<input type="text" name="reward2" value="<{$vars.reward2}>" style="width: 50px" class="scAddTextName" />元。
+				</td>
+			</tr>
+			
+		</foreach>	 
+			</table>
+		</div>
+		<div class="smtQr">
+			<input type="submit" value="确认保存" class="smtQrIpt"/>
+		</div>
+	</div>
+</form>
+<include file='public:footer'/>

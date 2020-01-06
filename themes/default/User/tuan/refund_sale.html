@@ -1,0 +1,52 @@
+<include file="public:header"/>
+
+<style>
+    ul{padding-left: 0px}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        售后订单
+    </div>
+    <div class="top-signed">
+
+    </div>
+</header>
+<div class="list-media-x" id="list-media">
+    <div class="blank-10 bg"></div>
+    <ul></ul>
+
+    <foreach name="list" item="item">
+        <div>
+            <a class="x3">售后单号：<{$item.id}></a>
+            <a class="x9 text-right">申请时间：<{$item.create_time|date='Y-m-d H:i:s',###}></span> </a>
+            <ul>
+
+                <li class="line padding">
+                    <div class="x3">
+                        <img style="width:90%;" src="<{$order_goods['photo']}>" />
+                    </div>
+                    <div class="x9">
+                        <p>订单商品ID：<{$item['goods_id']}></p>
+                        <p>商品名称：<{$order_goods['title']}></p>
+                        <p>退款金额：&yen; <{:round($item['money'],2)}></p>
+                        <p>申请数量：<{$item['num']}></p>
+                        <p><{$item['type_text']}> <{$item['status_text']}></p>
+                        <p><eq name="item.status" value="6"><a target="x-frame" style="color: red" href="<{:U('tuan/refund_sale_q', array('id' => $item['id']))}>">确认收货</a></eq></p>
+                        <p><a href="<{:U('tuan/detail', array('order_id' => $item['order_id']))}>">查看详情</a></p>
+                        <p><eq name="item.status" value="1"><neq name="item.type" value="1"><a style="color: red" href="<{:U('tuan/input_express', array('id' => $item['id']))}>">填写快递单号</a></neq></eq></p>
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <div class="blank-10 bg"></div>
+    </foreach>
+
+
+</div>
+
+<include  file='public:footer'/>

@@ -1,0 +1,128 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">配送员配置</li>
+    </ul>
+</div>
+<style>
+    .lfTdBt{width:160px;}
+    .profit{text-align: center;color: #333;font-weight: bold; background: #F5F5FB;}
+    .sogn{width:160px; margin:5px 0;height: 30px;}
+</style>
+<p class="attention"><span>注意：</span>首先再这里配置配送员评分项以及其他的项目，请第一次点击下保存</p>
+<form  target="x-frame" action="<{:U('setting/delivery')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+            
+            	<tr>
+                    <td class="lfTdBt">配送员抢单间隔时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[interval_time]" value="<{$CONFIG['delivery']['interval_time']|default='300'}>" class="manageInput w150" />
+                        <code>单位秒，这里是配送员接单第一单后再次抢单需要间隔多少秒</code>
+                    </td>
+                </tr>
+            
+            
+            
+                <tr>
+                    <td class="lfTdBt">配送员评分项1：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d1]" value="<{$CONFIG['delivery']['d1']|default='描述相符'}>" class="manageInput w150" />
+                        <code>配送员评分项1</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">配送员评分项2：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d2]" value="<{$CONFIG['delivery']['d2']|default='服务态度'}>" class="manageInput w150" />
+                        <code>配送员评分项2</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">配送员评分项2：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d3]" value="<{$CONFIG['delivery']['d3']|default='快速守时'}>" class="manageInput w150" />
+                        <code>配送员评分项2</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">消费者下单：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[xaidan_time]" value="<{$CONFIG['delivery']['xaidan_time']}>" class="manageInput w80" />分钟
+                        <code>消费者下单，多少分钟内没人接单，就指定离店铺最近的配送员接单</code>
+                    </td>
+                </tr>
+
+               <tr>
+                    <td class="lfTdBt">拒绝接单配送员：</td>
+                    <td class="rgTdBt">
+                        处罚<input type="text" name="data[refuse_money]" value="<{$CONFIG['delivery']['refuse_money']}>" class="manageInput w80" />元
+                        <code>如果没有配送员接单，就指定附近的配送员接单，拒绝接单扣除金额</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="rgTdBt profit" colspan="2"> 下面是配送员的奖励</td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">每日晚上送单：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[times]" value="<{$CONFIG['delivery']['times']}>" class="manageInput w80">  -  <input type="text" name="data[end_times]" value="<{$CONFIG['delivery']['end_times']}>"class="manageInput w80">
+                <!-- <input type="text" name="data[night_monry]" value="<{$CONFIG['delivery']['night_monry']}>" class="manageInput w80">元-->
+                        <code>配送员在多少时间点送餐，配送费在原来基础上加一半，<span style="color: red">格式:00:00-00:00&nbsp;&nbsp;&nbsp;</span></code>
+                    </td>
+                </tr>
+
+                <!--<tr>-->
+                    <!--<td class="lfTdBt">每日高峰期送餐奖励：</td>-->
+                    <!--<td class="rgTdBt">-->
+                        <!--中午：<input type="text" name="data[noon_money]" value="<{$CONFIG['delivery']['noon_money']}>" class="manageInput w80"><code>10:00-2:00</code><br/><br/>-->
+                        <!--下午：<input type="text" name="data[afternoon_money]" value="<{$CONFIG['delivery']['afternoon_money']}>" class="manageInput w80"><code>5:00-21:00</code><br/>-->
+                        <!--<code>获得这项奖励必须，两个时间段都满足在线时间</code><br/>-->
+                        <!--<input type="text" name="data[subsidy_monry]" value="<{$CONFIG['delivery']['subsidy_monry']}>" class="manageInput w80">元<code>如果配送员获得这项奖励之后，在今天之内所跑的单，每单补助<{$CONFIG['delivery']['subsidy_monry']}>元</code>-->
+                    <!--</td>-->
+                <!--</tr>-->
+
+                <tr>
+                    <td class="lfTdBt">每日跑单量奖励：</td>
+                    <td class="rgTdBt">
+                        第一阶段奖励单：<input type="text" name="data[one_num]" value="<{$CONFIG['delivery']['one_num']}>" class="manageInput w80">单后
+                        一公里内奖励：<input type="text" name="data[one_money1]" value="<{$CONFIG['delivery']['one_money1']}>" class="manageInput w80">元，
+                        一公里以外奖励：<input type="text" name="data[one_money2]" value="<{$CONFIG['delivery']['one_money2']}>" class="manageInput w80">元
+                        <code>配送员每天跑单满<{$CONFIG['delivery']['one_num']}>单,每单一公里内奖励<{$CONFIG['delivery']['one_money1']}>元
+                            每单一公里以外奖励<{$CONFIG['delivery']['one_money2']}>元</code><br/><br/>
+                        第二阶段奖励单：<input type="text" name="data[two_num]" value="<{$CONFIG['delivery']['two_num']}>" class="manageInput w80">单后
+                        一公里内奖励：<input type="text" name="data[two_money1]" value="<{$CONFIG['delivery']['two_money1']}>" class="manageInput w80">元，
+                        一公里以外奖励：<input type="text" name="data[two_money2]" value="<{$CONFIG['delivery']['two_money2']}>" class="manageInput w80">元
+                        <code>配送员每天跑单满<{$CONFIG['delivery']['two_num']}>单,每单一公里内奖励<{$CONFIG['delivery']['two_money1']}>元
+                            每单一公里以外奖励<{$CONFIG['delivery']['two_money2']}>元</code><br/><br/>
+                        第三阶段奖励单：<input type="text" name="data[three_num]" value="<{$CONFIG['delivery']['three_num']}>" class="manageInput w80">单后
+                        一公里内奖励：<input type="text" name="data[three_money1]" value="<{$CONFIG['delivery']['three_money1']}>" class="manageInput w80">元，
+                        一公里以外奖励：<input type="text" name="data[three_money2]" value="<{$CONFIG['delivery']['three_money2']}>" class="manageInput w80">元
+                        <code>配送员每天跑单满<{$CONFIG['delivery']['three_num']}>单,每单一公里内奖励<{$CONFIG['delivery']['three_money1']}>元
+                            每单一公里以外奖励<{$CONFIG['delivery']['three_money2']}>元</code><br/><br/>
+                        第四阶段奖励单：<input type="text" name="data[four_num]" value="<{$CONFIG['delivery']['four_num']}>" class="manageInput w80">单后
+                        一公里内奖励：<input type="text" name="data[four_money1]" value="<{$CONFIG['delivery']['four_money1']}>" class="manageInput w80">元，
+                        一公里以外奖励：<input type="text" name="data[four_money2]" value="<{$CONFIG['delivery']['four_money2']}>" class="manageInput w80">元
+                        <code>配送员每天跑单满<{$CONFIG['delivery']['four_num']}>单,每单一公里内奖励<{$CONFIG['delivery']['four_money1']}>元
+                            每单一公里以外奖励<{$CONFIG['delivery']['four_money2']}>元</code><br/>
+                    </td>
+                </tr>
+
+
+
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>   

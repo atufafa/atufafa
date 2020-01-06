@@ -1,0 +1,298 @@
+
+<if condition="empty($index_mask_show) and $CONFIG['other']['index_mask_show']">
+	<div id="notice" style="visibility:visible;display:block;">
+      <div class="mask" onclick="showDig()"></div>
+        <div class="mask2 ">
+           <div class="iboxx n-cus-bb animated bounceIn animationd05">
+
+                <div class="n-cus-b">
+                    <!-- 红包雨容器 -->
+                    <div id="petalbox"></div>
+                        <!--天降红包开始-->
+                            <?php
+                                $envelopes = D('Envelope')->where(array('shop_id'=>0,'type' => 1,'status' => 1,'closed'=>0))->find();
+
+                                $round=array();
+                                $round['num']=$envelopes['num'];
+                                $round['money']=$envelopes['single'];
+
+                             ?>
+                           <div  class="div1">
+                            <form  method="post" action="<{:U("user/envelope/currency",array("envelope_id"=>$envelopes['envelope_id']))}>">
+
+                            <span class="num">抢<input type="text" class="num1" name="num" value="<{$round['num']}>">个</span>    
+                            <span  class="money">，单个<input type="text" class="money1" name="money" value="<{$round['money']}>">元</span>
+                            <span  class="coun">抢得总金额<input type="text" class="coun1" value="<{$round['money']*$round['num']}>">元</span>
+
+                              <input type="submit"  class="l"  value="立抢红包">  
+                            </form>
+                              <a class="r" href="javascript:;" onclick="showDig('<{:U('news/index')}>')">今日乐事</a>
+                              <img class="img" src="../../static/hongbao.png">                        
+                            </div> 
+                        
+
+                   <!--天降红包结束-->
+
+                     <!--普通红包开始-->
+                   <!--  <div class="top1">
+                        <h2><{$CONFIG[other][index_mask_title]}></h2>
+                        <span style="left:0px;"><{$CONFIG[other][index_mask_intro]}></span>
+                    </div>
+
+                    <div class="bottom1">
+                        <div class="notice"><{$CONFIG[other][index_mask_textarea]}></div>
+                        <div class="bs">
+                            <a href="javascript:;" onclick="showDig('<{:U('index/url')}>')" class="url">抢红包</a>
+                            <a href="javascript:;" onclick="showDig('<{:U('news/index')}>')" class="url2">今日头条</a>
+                        </div>
+                    </div>   -->
+
+                     <!--普通红包结束-->
+                </div> 
+            </div>
+            <i class="close iconfont animated bounceIn animationd05" onclick="showDig()"></i>
+        </div> 
+    </div> 
+</if>
+
+<style>
+.div1{
+    position: relative;width: 100%;height: auto;
+    
+
+}
+
+.img{
+    width: 100%;
+    height: 350px;
+}
+.l{
+     position: absolute; width: 80px;
+                bottom: 25px;/*离底下20像素*/
+                left: 18%;/*离左边18%像素*/
+                font-size: 16px;
+                color: red;
+                float: left;
+                text-align: center;
+                background-color: yellow;
+                border-radius: 15px;border: 0
+}
+.r{
+     position: absolute; width: 80px;
+                bottom: 25px;/*离底下20像素*/
+                right: 20%;/*离左边20%像素*/
+                font-size: 16px;
+                color: red;
+                float: right;
+                text-align: center;
+                background-color: yellow;
+                border-radius: 15px;
+}
+.num{
+   position: absolute;
+    bottom: 105px;/*离底下20像素*/
+    left: 24%;/*离左边18%像素*/
+    font-size: 14px;
+    color: red;
+    float: left;
+    }
+.num1{
+    width: 30px;height: 27px;border: 0;text-align: center;color: red;font-size: 16px;
+}
+
+.money1{
+    width: 40px;height: 27px;border: 0;text-align: center;color: red;font-size: 16px;
+}
+.money{
+    position: absolute;
+    bottom: 105px;/*离底下20像素*/
+    right:24%;/*离左边18%像素*/
+     font-size: 14px;
+    color: red;
+    float: right;
+}
+.coun{
+     position: absolute;
+    bottom: 88px;/*离底下20像素*/
+    font-size: 14px;left: 27%;color: red
+}
+.coun1{width: 50px;text-align: center;height: 25px;color: red;border: 0;font-size: 16px}
+
+.mask{background:rgba(0,0,0,.55);position:absolute;height:110%;width:100%;top:0;left:0;overflow:hidden}
+#notice .n-cus-bb{z-index:1001;width:100%;position:relative}
+#notice{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:1001;box-sizing:border-box;padding-top:30%}
+#notice .n-cus-bb i{z-index:6;font-size:35px;position:absolute;display:block;right:43%;bottom:0;color:#fff}
+#notice .mask{display:block;z-index:1001}
+/*天降红包背景*/
+#notice .iboxx{overflow:hidden;height:auto;margin:0 auto;border-radius:10px 10px 10px 10px}
+#notice .top1{background-size:cover;height:80px;text-align:center;padding:20px 20px 20px 20px;background-image:url(/static/default/wap/image/index/bgimg.png)}
+#notice .bottom1{height:auto;padding:20px 20px 20px 20px;background-color:#fff}
+#notice .top1>h2{color:rgba(248,250,90,.93);height:30px;overflow:hidden;margin-bottom:5px}
+#notice .notice{height:auto;color:grey;margin-bottom:15px;font-size:14px;line-height:1.8em}
+#notice .bs>a:visited{color:#fff}
+#notice .bs>a:link{color:#fff}
+#notice .bs{height:40px;width:100%;margin:0 auto;margin-top:20px}
+#notice .bs a{height:40px;background-color:#ffd800;text-align:center;color:#fff;line-height:40px;border-radius:20px 20px 20px 20px;float:left;margin-right:10%;width:45%;display:inline-block}
+#notice .bs .url2{background-color:rgba(255,106,0,.97);float:right;margin:0}
+#notice .imgg{margin-top:20px;background-color:#fff;width:35px;height:35px;border-radius:50%;line-height:50px}
+#notice .imgg img{width:23px;height:18px;position:relative;top:-4px}
+#notice .top1>span{font-size:13px;color:#fff;position:relative;right:-25px}
+#notice .mask2{height:auto;width:80%;margin:0 auto;border-radius:10px 10px 30px 10px;z-index:13}
+#notice .close{z-index:1001;font-size:35px;position:relative;display:block;color:#ffffff96;text-align:center;bottom:-10px}
+#notice .iboxx .top1 .audio-play{box-shadow:0 0 10px 1px rgba(0,0,0,.06);text-align:center;line-height:40px;width:40px;height:40px;border-radius:50%;box-shadow:0 0 10px #e0e6ec;position:absolute;left:20px;margin-top:10px;text-align:center;background-color:#fff}
+#notice .iboxx .audio-play>.music{margin-top:35px;margin-left:13px;position:relative;top:-5px;left:-5px}
+#triangle-right1{width:0;height:0;position:absolute;left:13px;top:12px;border-top:10px solid transparent;border-left:20px solid #c00;border-bottom:10px solid transparent}
+#notice audio{display:none}
+#notice .hidd{display:none}
+
+/*红包雨开始*/
+
+* { margin: 0; padding: 0; }
+
+.header { position: relative; z-index: 100; width: 100%; background: #ddd; height: 52px; }
+
+#petalbox { position: fixed; top: 0; left: 0; width: 100%; z-index: 98; pointer-events: none; }
+
+#petalbox > div { position: absolute; -webkit-ani   mation-iteration-count: 1, 1; -webkit-ani   mation-direction: normal, normal; -webkit-ani   mation-timing-function: linear, ease-in; -webkit-backface-visibility: hidden; ani   mation-iteration-count: 1, 1; ani   mation-direction: normal, normal; ani   mation-timing-function: linear, ease-in; backface-visibility: hidden; }
+
+#petalbox > div > img { position: absolute; -webkit-ani   mation-iteration-count: infinite; -webkit-ani   mation-direction: alternate; -webkit-ani   mation-timing-function: linear; -webkit-backface-visibility: hidden; ani   mation-iteration-count: infinite; ani   mation-direction: alternate; ani   mation-timing-function: linear; backface-visibility: hidden; width: 40px;}
+
+@-webkit-keyframes fade {  0%, 90% { opacity: 1;} 100% { opacity: 0;}}@keyframes fade {  0%, 90% { opacity: 1;} 100% { opacity: 0;}}
+
+@-webkit-keyframes drop {  0% { -webkit-transform: translate3d(0, 0, 0);} 100% { -webkit-transform: translate3d(0, 1100px, 0);}}@keyframes drop {  0% { transform: translate3d(0, 0, 0);} 100% { transform: translate3d(0, 1100px, 0);}}@-webkit-keyframes clockwiseSpin {  0% { -webkit-transform: none;} 100% { -webkit-transform: rotate(480deg);}}@keyframes clockwiseSpin {  0% { transform: none;}100% { transform: rotate(480deg);}}
+
+@-webkit-keyframes counterclockwiseSpinAndFlip {  0% { -webkit-transform: none;} 100% { -webkit-transform: rotate(-480deg);}}}
+
+@keyframes counterclockwiseSpinAndFlip {  0% { transform: none;} 100% { transform: rotate(-480deg);}}
+
+.timenav .time_list .time1 { -webkit-ani   mation: lantern_shake1 3s linear both; -webkit-transform-origin: center top; ani   mation: lantern_shake1 3s linear both; transform-origin: center top; }
+
+@-webkit-keyframes lantern_shake1 {  0%, 50% { -webkit-transform: none;} 25% { -webkit-transform: rotate(-4deg);} 75% { -webkit-transform: rotate(4deg);}}@keyframes lantern_shake1 {  0%, 50% { transform: none;} 25% { transform: rotate(-4deg);} 75% { transform: rotate(4deg);}}.timenav .time_list .time2 { -webkit-ani   mation: lantern_shake2 3s linear both; -webkit-transform-origin: center top; -webkit-backface-visibility: hidden; ani   mation: lantern_shake2 3s linear both; transform-origin: center top; }@-webkit-keyframes lantern_shake2 {  0%, 50% { -webkit-transform: none;} 25% { -webkit-transform: rotate(-6deg) translate3d(5px, 0, 0);} 75% { -webkit-transform: rotate(6deg) translate3d(-5px, 0, 0);}}@keyframes lantern_shake2 {  0%, 50% { transform: none;} 25% { transform: rotate(-6deg) translate3d(5px, 0, 0);} 75% { transform: rotate(6deg) translate3d(-5px, 0, 0);}}.timenav .time_list .time3 { -webkit-ani   mation: lantern_shake3 3s linear both; -webkit-transform-origin: center top; -webkit-backface-visibility: hidden; ani   mation: lantern_shake3 3s linear both; transform-origin: center top; }@-webkit-keyframes lantern_shake3 {  0%, 50% { -webkit-transform: none;} 25% { -webkit-transform: rotate(-8deg) translate3d(14px, 0, 0);} 75% { -webkit-transform: rotate(8deg) translate3d(-14px, 0, 0);}}@keyframes lantern_shake3 {  0%, 50% { transform: none;} 25% { transform: rotate(-8deg) translate3d(14px, 0, 0);} 75% { transform: rotate(8deg) translate3d(-14px, 0, 0);}}.timenav .time_list:hover a { -webkit-ani   mation: none; ani   mation: none; }.banner_tit, .banner_subtit { -webkit-ani   mation: bounceInDown 0.8s both; ani   mation: bounceInDown 0.8s both; }.banner_subtit { -webkit-ani   mation-delay: 0.4s; ani   mation-delay: 0.4s; }@-webkit-keyframes bounceInDown {  from, 60%, 75%, 90%, to { -webkit-ani   mation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);} 0% { opacity: 0; -webkit-transform: translate3d(0, -3000px, 0);} 60% {-webkit-transform: translate3d(0, 25px, 0);} 75% { -webkit-transform: translate3d(0, -10px, 0);} 90% { -webkit-transform: translate3d(0, 5px, 0);}to { -webkit-transform: none; opacity: 1; }}@keyframes bounceInDown {  from, 60%, 75%, 90%, to { ani   mation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);} 0% { opacity: 0; transform: translate3d(0, -3000px, 0);} 60% { transform: translate3d(0, 25px, 0);} 75% { transform: translate3d(0, -10px, 0);} 90% { transform: translate3d(0, 5px, 0);}to { transform: none; opacity: 1; }}.banner_time { -webkit-ani   mation: fadeIn 1s 1.2s both; ani   mation: fadeIn 1s 1.2s both; }@-webkit-keyframes fadeIn {  from { opacity: 0;}to { opacity: 1; }}@keyframes fadeIn {  from { opacity: 0;}to { opacity: 1; }}.fireworks i { -webkit-ani   mation: fireworkani    1.6s .2s ease both; -webkit-ani   mation-iteration-count: 2; ani   mation: fireworkani    1.6s .2s ease both; ani   mation-iteration-count: 2; }.fireworks .f2 { -webkit-ani   mation-delay: .6s; ani   mation-delay: .6s; }.fireworks .f3 { -webkit-ani   mation-delay: .3s; ani   mation-delay: .3s; }.fireworks .f4 { -webkit-ani   mation-delay: .8s; ani   mation-delay: .8s; }@-webkit-keyframes fireworkani    {  0%, 9% { -webkit-transform: scale(.1); opacity: 0;} 10% {-webkit-transform: scale(.1); opacity: 1;} 95% { -webkit-transform: scale(1.5); opacity: .1;} 100% { -webkit-transform: scale(1.5); opacity: 0;}}@keyframes fireworkani    {  0%, 9% { transform: scale(.1); opacity: 0;} 10% { transform: scale(.1); opacity: 1;} 95% { transform: scale(1.5); opacity: .1;} 100% { transform: scale(1.5); opacity: 0;}}.main_before, .main_after, .main_cont { -webkit-ani   mation: contfadein 1s .5s both; ani   mation: contfadein 1s .5s both; }@-webkit-keyframes contfadein {  0% { -webkit-transform: translate3d(0, 100px, 0); opacity: 0;} 100% { -webkit-transform: none; opacity: 1;}}@keyframes contfadein {  0% { transform: translate3d(0, 100px, 0); opacity: 0;} 100% { transform: none; opacity: 1;}}.small_window .timenav { left: 20px; margin-left: 0; }
+/*红包雨结束*/
+</style>
+<script>
+      
+        function showDig(url) {
+            if($("#notice:visible").length==1){
+                if(url != undefined)
+					window.location.href = url;
+					$("#notice").remove();
+            }else{
+				$("#notice").show();
+			}
+
+            var ajax = new XMLHttpRequest();
+            ajax.open('post','<{:U("index/setAdCookie")}>');
+            ajax.send();
+        }
+        
+        
+
+// 红包雨开始
+        (function() {
+
+        var NUMBER_OF_LEAVES = 280;
+
+        function init() {
+
+            var container = document.getElementById('petalbox');
+
+            try {
+
+                for (var i = 0;
+
+                     i < NUMBER_OF_LEAVES;
+
+                     i++) {
+
+                    container.appendChild(createALeaf());
+
+                }
+
+            }
+
+            catch(e) {
+
+            }
+
+        }
+
+        function randomInteger(low, high) {
+
+            return low + Math.floor(Math.random() * (high - low));
+
+        }
+
+        function randomFloat(low, high) {
+
+            return low + Math.random() * (high - low);
+
+        }
+
+        function pixelValue(value) {
+
+            return value + 'px';
+
+        }
+
+        function durationValue(value) {
+
+            return value + 's';
+
+        }
+
+        function createALeaf() {
+
+            var leafDiv = document.createElement('div');
+
+            var image = document.createElement('img');
+
+            image.src ='../../static/img/petal'+ randomInteger(1, 9) + '.png';
+
+            leafDiv.style.top = pixelValue(randomInteger(-200, -100));
+
+            leafDiv.style.left = pixelValue(randomInteger(0, 1920));
+
+            var spinAnimationName = (Math.random() < 10) ? 'clockwiseSpin':'counterclockwiseSpinAndFlip';  
+
+            leafDiv.style.webkitAnimationName ='fade, drop';
+
+            leafDiv.style.animationName ='fade, drop';
+
+            image.style.webkitAnimationName = spinAnimationName;
+
+            image.style.animationName = spinAnimationName;
+
+            var fadeAndDropDuration = durationValue(randomFloat(1.2, 8.2));
+
+            var spinDuration = durationValue(randomFloat(30, 140));
+
+            leafDiv.style.webkitAnimationDuration = fadeAndDropDuration + ', ' + fadeAndDropDuration;
+
+            leafDiv.style.animationDuration = fadeAndDropDuration + ', ' + fadeAndDropDuration;
+
+            // 随机delay时间
+
+            var leafDelay = durationValue(randomFloat(0, 3));
+
+            leafDiv.style.webkitAnimationDelay = leafDelay + ', ' + leafDelay;
+
+            leafDiv.style.animationDelay = leafDelay + ', ' + leafDelay;
+
+            image.style.webkitAnimationDuration = spinDuration;
+
+            image.style.animationDuration = spinDuration;
+
+            leafDiv.appendChild(image);
+
+            return leafDiv;
+
+        }
+
+        init();
+
+    }
+
+)();
+    //红包雨结束
+    </script>

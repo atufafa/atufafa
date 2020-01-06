@@ -1,0 +1,192 @@
+<div class="jinx" style="margin-top: 52px">
+ <foreach name="list" item="item">
+    <div class="div2">
+        <div class="container">
+            <a href="<{:U('tuan/tuan_detail',array('tuan_id'=>$item['tuan_id']))}>" >
+            <img  class="x3 img_photo" src="<{:config_img($tuan[$item[tuan_id]]['photo'])}>" />
+            </a>
+            <div class="des x8 div3">
+                <a href="<{:U('tuan/tuan_detail',array('tuan_id'=>$item['tuan_id']))}>" >
+                <h5><{:tu_msubstr($tuan[$item[tuan_id]]['title'],0,28,false)}></h5>
+                </a><?php $sum=$item['nums']-$item['num']?>
+               <if condition="$item['num'] gt $item['nums']">
+                <span style="color: red">恭喜您，已点赞完成请前往领取！</span>
+                    <else/>
+                   <span>已点赞：</span><{$item.num}>人,还差<span style="color:red"><{$sum}></span>人点赞
+            </if><br/>
+                <input type="hidden" value="<{$item['tuan_id']}>" class="goods_id">
+                <input type="hidden" value="<{$item['shop_id']}>" class="shop_id">
+                <span>结束时间：</span>
+                <input type="hidden" class="ends" value="<{$item.end_time|date='Y-m-d H:i:s',###}>">
+                <span></span>
+                <if condition="$item['num'] gt $item['nums']">
+                    <a href="<{:U('tuan/tuan_detail',array('tuan_id'=>$item['tuan_id']))}>" class="fenxian1 dain" style="background-color: #fce70a;color: red">去下单领取</a>
+                    <else/>
+                    <span class="fenxian1 dain" onclick="zhuanfa(this)">继续分享点赞</span>
+                </if>
+
+            </div>
+        </div>
+    </div>
+ </foreach>
+</div>
+
+<script>
+    function zhuanfa(l){
+        var _this = $(l);
+        F = function (str) {
+            return _this.parent().parent().find(str);
+        };
+        product_id = F('.goods_id').val();
+        shop_id=F('.shop_id').val();
+
+        layer.open({
+            type: 1,
+            title: '',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['80%', '380px'], //宽高
+            content: '<div class="fu">' +
+                '<div class="jiu5"><span ><a class="huode">恭喜您</a><br/><span class="fenxians">赶快分享好友点赞，商品马上拿哦</span></span></div>' +
+                '<span class="fuzhi">口令成功复制</span> <div class="fudong1">' +
+                '<p id="zhi">复制整段信息在浏览器打开，☞阿涂发发☜，即可查看【哇，这里有大牌超值积分任你领，就差你帮我点一下了>>>】' +
+                '(未安装App的点这里：https://<?php echo $_SERVER['HTTP_HOST']?>/wap/tuan/tuan_detail/tuan_id/<span class="product_id"></span>.html?user_id=<?php echo $MEMBER['user_id'];?>))</p></div>' +
+                '<button  class="fu_btn" id="btn_btn" data-clipboard-target="#zhi">去粘贴分享</button>' +
+                '</div>'
+        });
+
+        $(".product_id").text(product_id);
+        $("#shop_id").val(shop_id);
+
+        $("#btn_btn").click(function(){
+            let e = document.getElementById("zhi").innerText;
+            //实例化clipboard
+            var clipboard = new ClipboardJS('#btn_btn');
+
+            var tuan_id=product_id;
+            var shop_ids=shop_id;
+            alert(shop_ids);
+            $.ajax({
+                url: '<{:U("tuan/fenxian")}>',
+                data:{tuan_id:tuan_id,shop_id:shop_ids},
+                type: 'post',
+                success: function (data) {
+                    if (data.status == 'success') {
+
+                    } else {
+
+                    }
+                }
+            });
+            clipboard.on("success", function(e){
+                layer.msg("复制成功！");
+
+            });
+            clipboard.on("error", function(e){
+                layer.msg("复制失败！");
+            });
+        });
+    }
+
+
+
+    //时间为一位数时显示格式为："0X"
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    function checkTimeS(i) {
+        if (i < 10) {
+            i = i;
+        }
+        return i;
+    }
+
+    //显示浏览器现在的时间
+    function formatTime(timeVal) {
+        var datePara = new Date(timeVal);//定义日期对象
+        var yyyy = datePara.getFullYear();//通过日期对象的getFullYear()方法返回年
+        var MM = datePara.getMonth() + 1;//通过日期对象的getMonth()方法返回月
+        var dd = datePara.getDate();//通过日期对象的getDate()方法返回日
+        var hh = datePara.getHours();//通过日期对象的getHours方法返回时
+        var mm = datePara.getMinutes();//通过日期对象的getMinutes方法返回分
+        var ss = datePara.getSeconds();//通过日期对象的getSeconds方法返回秒
+        // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09
+        MM = checkTime(MM);
+        dd = checkTime(dd);
+        hh = checkTime(hh);
+        mm = checkTime(mm);
+        ss = checkTime(ss);
+
+        //用于保存星期（getDay()方法得到星期编号）
+        var day;
+        if (datePara.getDay() == 0) day = "星期日 "
+        if (datePara.getDay() == 1) day = "星期一 "
+        if (datePara.getDay() == 2) day = "星期二 "
+        if (datePara.getDay() == 3) day = "星期三 "
+        if (datePara.getDay() == 4) day = "星期四 "
+        if (datePara.getDay() == 5) day = "星期五 "
+        if (datePara.getDay() == 6) day = "星期六 "
+
+        //document.getElementById('start').value = yyyy + "-" + MM + "-" + dd + " " + hh + ":" + mm + ":" + ss + " " + day;
+        //setTimeout('formatTime()', 1000);//每一秒中重新加载formatTime()方法
+        return yyyy + ":" + MM + ":" + dd + " " + hh + ":" + mm + ":" + ss; //+ " " + day;
+    }
+
+    //服务器现在的时间（这里只是测试，就用浏览器时间代替）
+    var startTime = '';
+    //活动截止时间endTime（以服务器时间为标准，即给定的时间）
+    var end = '';
+    var endTime = '';
+    //活动截止时间（以浏览器时间为标准）
+    var browserEndTime = '';
+    //距离活动结束还剩余的时间（以浏览器为标准）
+
+    function for_setTimer(){
+        //console.log(3333);
+        var times=$.each($('.ends'),function (index,obj) {
+            setTimer($(obj));
+        });
+    }
+    var plus ="";
+    //倒计时
+    function setTimer(obj) {
+        end=obj.val();
+        endTime = new Date(end);
+        if (endTime>0) {
+            //服务器现在的时间（这里只是测试，就用浏览器时间代替）
+            startTime = new Date();
+            //活动截止时间endTime（预先给定的值）
+
+            //活动截止时间与当前时间的时间差
+            plus = endTime - startTime;
+        } else {
+
+            //距离活动结束还剩余的时间，第二次以后就不需要再计算，直接自减即可
+            plus -= 1000;
+            //更新当前时间(getTime()获取时间转化成毫秒后的数值)
+            startTime = new Date(startTime.getTime() + 1000);
+        }
+
+        var day = parseInt(plus / 1000 / 60 / 60 / 24);
+        var hour = parseInt(plus / 1000 / 60 / 60) - day * 24;
+        var minute = parseInt(plus / 1000 / 60) - parseInt(plus / 1000 / 60 / 60) * 60;
+        var second = parseInt(plus / 1000) - parseInt(plus / 1000 / 60) * 60;
+        var millisecond = parseInt(plus %1000).toString();
+
+        //local-group-timer
+        // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09
+        day = checkTime(day);
+        hour = checkTime(hour);
+        minute = checkTime(minute);
+        second = checkTime(second);
+        obj.next().html("剩"+hour + ":"+ minute +":  "+ second +":"+millisecond.charAt(0));
+        if (plus <= 1) {
+            clearInterval(id);
+        }
+    }
+    //每秒循环一次，刷新活动截止时间与当前时间的时间差
+    var id = setInterval(for_setTimer, 100);
+</script>

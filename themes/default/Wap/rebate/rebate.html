@@ -1,0 +1,187 @@
+<include  file='public:header'/> 
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script> 
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1)"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		申请返利ID:<{$detail.id}>
+	</div>
+</header>
+
+<style>
+#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+</style>
+<if condition="$detail['fl'] neq 0">
+    <div class="container" style="margin-top: 50px">
+            <div class="line" style="padding:10px">
+                <div class="x12">
+                 <if condition="$detail['fl'] eq 1">
+                    <h1>审核中，加快审核联系电话<{$CONFIG.site.tel}></h1>
+                 <elseif condition="$detail['fl'] eq 3" />
+                 <a class="button button-block button-big bg-dot text-center">已通过返利审核，请注意余额资金！</a>
+                 <div class="blank-20"></div>
+                 <a class="button button-block button-big bg-yellow text-center" href="javascript:history.back(-1);">返回会员中心</a>
+                    <elseif condition="$detail['fl'] eq 4"/>
+                       <p>已拒绝返利，理由：<{$detail['refuse']}></p>
+                 </if>
+                </div>
+            </div>
+           </div>
+    <div class="blank-10 bg"></div>
+<else/>
+<form style="margin-top: 50px" class="fabu-form" target="x-frame" method="post"  action="<{:U('rebate/rebate',array('id'=>$detail['id']))}>">
+
+<div class="blank-10"></div>
+<div class="Upload-img-box">
+   <div  id="fileToUplo">发票收据图片</div>
+   <div class="Upload-img">
+   <div class="list-img loadi" style="display:none;"><img src=""></div>
+   <div class="list-img jq_pho" style="display:none;"></div>
+  </div>
+</div>
+    <script>
+    	var width_life = '<{:thumbSize($CONFIG[attachs][life][thumb],0)}>';                     
+		var height_life = '<{:thumbSize($CONFIG[attachs][life][thumb],1)}>'; 
+		var pic_wap_quality = '<{$CONFIG[attachs][pic_wap_quality][thumb]}>';  
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"life"))}>',                             
+			pick: '#fileToUplo',   
+			resize: true,
+			accept: {
+				title: 'Images',
+				extensions: 'gif,jpg,jpeg,png',
+				mimeTypes: 'image/*'//只永许上传JPG格式文件
+			}, 
+			compress : {width: width_life,height: height_life,quality: pic_wap_quality,allowMagnify: false,crop: true}   
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loadi").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_life,//这里裁剪长度
+                    quality:70
+                });
+            }
+        });
+		
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loadi").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="evidencephoto" value="' + resporse.url + '" />';
+            $(".jq_pho").show().html(str);
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+<div class="blank-10"></div>
+<div class="Upload-img-box">
+   <div  id="fileToUpload">购买物品图片</div><span style="color: red">小提示:购买房子、购买车辆、装修图片的正面图</span>
+   <div class="Upload-img">
+   <div class="list-img loading" style="display:none;"><img src=""></div>
+   <div class="list-img jq_photo" style="display:none;"></div>
+  </div>
+</div>
+    <script>
+    	var width_life = '<{:thumbSize($CONFIG[attachs][life][thumb],0)}>';                     
+		var height_life = '<{:thumbSize($CONFIG[attachs][life][thumb],1)}>'; 
+		var pic_wap_quality = '<{$CONFIG[attachs][pic_wap_quality][thumb]}>';  
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"life"))}>',                             
+			pick: '#fileToUpload',   
+			resize: true,
+			accept: {
+				title: 'Images',
+				extensions: 'gif,jpg,jpeg,png',
+				mimeTypes: 'image/*'//只永许上传JPG格式文件
+			}, 
+			compress : {width: width_life,height: height_life,quality: pic_wap_quality,allowMagnify: false,crop: true}   
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_life,//这里裁剪长度
+                    quality:70
+                });
+            }
+        });
+		
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="goodsphoto" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+<div class="blank-10 bg border-top"></div>
+
+
+<div class="row" style="padding: 10px;
+    border-bottom: thin solid #eee;">
+	<div class="line">
+		<span class="x3">购买类型：</span>
+		<span class="x9">
+			<select name="type_id" class="text-select" style="border: none;width: 100%;background: #fff!important;">
+				<option value="0">请选择</option>
+                <option value="1">房屋</option>
+                <option value="2">车辆</option>
+                <option value="3">装修服务</option>
+			</select>
+		</span>
+	</div>
+</div>
+
+    <div class="padding" style="border-bottom: 1px solid #eee">
+        <div class="line">
+            <span class="x3">成交金额：</span>
+            <span class="x9"><input style="padding: 5px 0px 5px 0px;color: #999;border: 1px solid #999;border-radius: 5px" type="text" name="money" placeholder="请填写成交价格"></span>
+        </div>
+        <span style="color:red;font-size: 12px">注意：如果核实，成交价与此处填写金额不不符，将失去此次返利</span>
+    </div>
+
+<div class="padding">
+	<div class="line">
+		<span class="x3">详细说明：</span>
+	</div>
+</div>
+<div class="line">
+	<div class="container">
+		<textarea style="    width: 100%;
+    border: thin solid #eee;
+    resize: none;" rows="5" name="explain" class="text-area" placeholder="请输入返利说明内容"></textarea>
+	</div>
+</div>
+
+<div class="container">
+	<div class="blank-30"></div>
+	<button  type="submit" class="button button-block button-big bg-dot">确认提交返利</button>
+	<div class="blank-30"></div>
+</div>
+
+</form>
+</if>
+<include  file='public:footer'/>

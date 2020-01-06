@@ -1,0 +1,20 @@
+<include file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        商家资质
+    </div>
+</header>
+<if condition="!empty($yingye)">
+    <div style="width: 96%;margin-left: 2%;margin-top: 50px">
+        <img style="width: 100%;max-height: 300px" src="<{:config_img($yingye)}>" />
+    </div>
+</if>
+
+<if condition="!empty($weishen)">
+    <div style="width: 96%;margin-left: 2%;margin-top: 10px">
+        <img style="width: 100%;max-height: 300px" src="<{:config_img($weishen)}>" />
+    </div>
+</if>

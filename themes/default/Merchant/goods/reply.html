@@ -1,0 +1,65 @@
+<link href="http://www.wapxina.com/themes/default/Admin/statics/css/main.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    
+.smtQrIpt{
+    margin-right: 120px;
+    margin-top: 20px;
+}
+#lfTdBt.input{
+
+}
+</style>
+<div class="tuan_content">
+    <div class="tabnr_change show">
+    <form method="post"  action="<{:U('goods/reply')}>"  target="x-frame">
+        <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+               
+                    <td class="lfTdBt"><font style="size: 15px;">推广竞价：</font></td>
+                    <td class="rgTdBt">
+                        <input type="text" placeholder name="data[check_price]">
+                        <!-- "此处填写商品推广竞价，出价后会根据此价格进行商品排行" -->
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt"><font style="size: 15px;">竞价限额：</font></td>
+                    <td class="rgTdBt">
+                        <input type="text" placeholder="" name="data[check_price_money]">
+                      <!--   <td>
+                    <span>此处填写该商品限额，当点击扣费额达到此金额将不在扣费并退出推广列，不填则直接与推广余额关联扣费</span>
+                </td> -->
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt"><font style="size: 15px;">竞价开启时间：</font></td>
+                    <td class="rgTdBt"><input type="text" name="data[star_time]" placeholder="点击选择时间"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="inputData" />
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="lfTdBt"><font style="size: 15px;">竞价结束时间：</font></td>
+                        <td class="rgTdBt"><input type="text" name="data[end_time]" placeholder="点击选择时间"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="inputData" />
+                        </td>
+                    </tr>
+                <tr>
+                <td></td>
+                <td class="tl">
+                    <!-- <if condition="!empty($detail['reply'])"> -->
+                        <!-- <else/> -->
+                        <input type="submit" class="smtQrIpt" value="确认提交竞价"  />
+                    <!-- </if> -->
+                </td>
+                
+            </tr>
+            <tr>
+
+            </tr>
+        </table>
+    </form>
+    
+    
+
+
+</div>
+</div>

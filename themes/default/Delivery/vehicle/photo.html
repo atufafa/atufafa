@@ -1,0 +1,210 @@
+<include  file='public:header'/>
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css">
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        图片管理
+    </div>
+</header>
+<style>
+    #login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+    #login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+</style>
+<if condition="$open['shenghe'] neq 0">
+    <div class="container">
+        <div class="line" style="padding:10px">
+            <div class="x12">
+                <if condition="$open['shenghe'] eq 3">
+                    <h1>审核中，加快审核联系电话<{$CONFIG.site.tel}></h1>
+                    <elseif condition="$open['shenghe'] eq 2" />
+                    <h1>已驳回，拒绝理由：<{$open.liyou}> <a class="button button-small bg-dot" href="<{:U('vehicle/photo',array('type'=>1))}>">重新编辑</a></h1>
+                    <elseif condition="$open['shenghe'] eq 1" />
+                    <a class="button button-block button-big bg-dot text-center" onclick="location='<{:U('vehicle/vehicleindex')}>'">已通过</a>
+                </if>
+            </div>
+        </div>
+    </div>
+    <div class="blank-10 bg"></div>
+    <else/>
+    <form class="fabu-form" method="post" action="<{:U('vehicle/photo')}>" target="x-frame">
+        <div class="blank-10"></div>
+        <div class="Upload-img-box">
+            <div  id="fileToUpload">司机带车左侧</div>
+            <div class="Upload-img">
+                <div class="list-img loading">
+                    <if condition="empty($open['left_photo'])">
+                        <img src="<{:config_img($CONFIG[running][left_photo])}>">
+                        <else/>
+                        <img src="<{:config_img($open['left_photo'])}>">
+                    </if>
+
+                </div>(样图)
+                <div class="list-img jq_photo" style="display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            var width_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],0)}>';
+            var height_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],1)}>';
+            var uploader = WebUploader.create({
+                auto: true,
+                swf: '/static/default/webuploader/Uploader.swf',
+                server: '<{:U("app/upload/uploadify",array("model"=>"delivery_user_photo"))}>',
+                pick: '#fileToUpload',
+                resize: true,
+                compress : {width:width_delivery_user_photo,height:height_delivery_user_photo,quality:60,allowMagnify: false,crop: true}//裁剪
+            });
+            //监听文件处理
+            uploader.on( 'beforeFileQueued', function( file ) {
+                $(".loading").show();
+                if(file.size > 1024000){
+                    uploader.option( 'compress', {
+                        width:width_delivery_user_photo,//这里裁剪长度
+                        quality:60
+                    });
+                }
+            });
+            //上传成功替换页面图片
+            uploader.on( 'uploadSuccess', function( file,resporse) {
+                $(".loading").hide();
+                var str = '<img src="'+resporse.url+'"><input type="hidden" name="left_photo" value="' + resporse.url + '" />';
+                $(".jq_photo").show().html(str);
+            });
+            //上传失败提醒
+            uploader.on( 'uploadError', function( file ) {
+                alert('上传出错');
+            });
+
+            $(document).ready(function () {
+                $(document).on("click", ".photo img", function () {
+                    $(this).parent().remove();
+                });
+            });
+        </script>
+
+        <div class="blank-10 bg"></div>
+        <div class="Upload-img-box">
+            <div  id="fileToUploads">司机带车右侧</div>
+            <div class="Upload-img">
+                <div class="list-img loadinga" >
+                    <if condition="empty($open['right_photo'])">
+                        <img src="<{:config_img($CONFIG[running][right_photo])}>">
+                        <else/>
+                        <img src="<{:config_img($open['right_photo'])}>">
+                    </if>
+                   </div>(样图)
+                <div class="list-img jq_photoa" style="display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            var width_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],0)}>';
+            var height_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],1)}>';
+            var uploader = WebUploader.create({
+                auto: true,
+                swf: '/static/default/webuploader/Uploader.swf',
+                server: '<{:U("app/upload/uploadify",array("model"=>"delivery_user_photo"))}>',
+                pick: '#fileToUploads',
+                resize: true,
+                compress : {width:width_delivery_user_photo,height:height_delivery_user_photo,quality:60,allowMagnify: false,crop: true}//裁剪
+            });
+            //监听文件处理
+            uploader.on( 'beforeFileQueued', function( file ) {
+                $(".loadinga").show();
+                if(file.size > 1024000){
+                    uploader.option( 'compress', {
+                        width:width_delivery_user_photo,//这里裁剪长度
+                        quality:60
+                    });
+                }
+            });
+            //上传成功替换页面图片
+            uploader.on( 'uploadSuccess', function( file,resporse) {
+                $(".loadinga").hide();
+                var str = '<img src="'+resporse.url+'"><input type="hidden" name="right_photo" value="' + resporse.url + '" />';
+                $(".jq_photoa").show().html(str);
+            });
+            //上传失败提醒
+            uploader.on( 'uploadError', function( file ) {
+                alert('上传出错');
+            });
+
+            $(document).ready(function () {
+                $(document).on("click", ".photo img", function () {
+                    $(this).parent().remove();
+                });
+            });
+        </script>
+
+        <div class="blank-10 bg"></div>
+        <div class="Upload-img-box">
+            <div  id="fileToUploadssss">司机带车后面</div>
+            <div class="Upload-img">
+                <div class="list-img loadingaa" >
+                    <if condition="empty($open['back_photo'])">
+                        <img src="<{:config_img($CONFIG[running][back_photo])}>">
+                        <else/>
+                        <img src="<{:config_img($open['back_photo'])}>">
+                    </if>
+                  </div>(样图)
+                <div class="list-img jq_photoaa" style="display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            var width_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],0)}>';
+            var height_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],1)}>';
+            var uploader = WebUploader.create({
+                auto: true,
+                swf: '/static/default/webuploader/Uploader.swf',
+                server: '<{:U("app/upload/uploadify",array("model"=>"delivery_user_photo"))}>',
+                pick: '#fileToUploadssss',
+                resize: true,
+                compress : {width:width_delivery_user_photo,height:height_delivery_user_photo,quality:60,allowMagnify: false,crop: true}//裁剪
+            });
+            //监听文件处理
+            uploader.on( 'beforeFileQueued', function( file ) {
+                $(".loadingaa").show();
+                if(file.size > 1024000){
+                    uploader.option( 'compress', {
+                        width:width_delivery_user_photo,//这里裁剪长度
+                        quality:60
+                    });
+                }
+            });
+            //上传成功替换页面图片
+            uploader.on( 'uploadSuccess', function( file,resporse) {
+                $(".loadingaa").hide();
+                var str = '<img src="'+resporse.url+'"><input type="hidden" name="back_photo" value="' + resporse.url + '" />';
+                $(".jq_photoaa").show().html(str);
+            });
+            //上传失败提醒
+            uploader.on( 'uploadError', function( file ) {
+                alert('上传出错');
+            });
+
+            $(document).ready(function () {
+                $(document).on("click", ".photo img", function () {
+                    $(this).parent().remove();
+                });
+            });
+        </script>
+        
+<div class="blank-10 bg"></div>
+<div class="row">
+    <div class="line">
+        <span><font>温馨提示：</font><font color="red">必须按上面图片提示弄好车身广告后上传图片，不然严重影响接单。恶意提交不真实的图片，一旦查明，平台有权暂停接单权利</font></span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="blank-30"></div>
+    <button  type="submit" class="button button-block button-big bg-dot">确认提交</button>
+    <div class="blank-30"></div>
+</div>
+</form>
+</if>
+<include  file='public:footer'/>

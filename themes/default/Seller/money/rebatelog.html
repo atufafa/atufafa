@@ -1,0 +1,67 @@
+<include  file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        商家返利日志
+    </div>
+    <div class="top-signed">
+        <include file="public:message"/>
+    </div>
+</header>
+
+<style>
+    ul{padding-left: 0px;}
+    p, .p{margin-bottom:0px;}
+</style>
+
+
+
+<ul id="shangjia_tab">
+    <li class="x6"><a href="<{:U('money/rebate')}>" >返利充值</a></li>
+    <li class="x6"><a href="<{:U('money/rebatelog')}>" class="on">充值日志</a></li>
+</ul>
+
+<div class="blank-40 bg"></div>
+
+<div class="list-media-x" id="list-media">
+    <ul>
+        <foreach name="list" item="item">
+            <li class="line">
+                <dt>
+                    <a class="x4">ID：<{$item['log_id']}></a>
+                    <a class="x8 text-right">返利日期：<{$item['create_time']|date='Y-m-d H:i:s', ###}></a>
+                </dt>
+                <dd class="zhong">
+                    <div class="x12">
+                        <p class="text-small"><span class="text-gray">返利金额：&yen; <{:round(($item['money']),2)}> 元</span></p>
+                        <p class="text-small"><span class="text-dot">返利ID：<{$item['life_id']}></span></p>
+                        <p class="text-small"><span class="text-dot">支付ID： <{$item['logs_id']}> </span></p>
+                        <if condition="!empty($item['remarks'])">
+                            <p>备注：<{$item['remarks']}></p>
+                        </if>
+                    </div>
+                </dd>
+                <dl>
+                    <p class="text-right padding-top">
+                        <if condition="$item['is_pay'] eq 0">
+                            <a class="button button-small border-blue">未支付</a>
+                            <else/>
+                            <a class="button button-small border-dot">已支付</a>
+                        </if>
+                    </p>
+                </dl>
+            </li>
+            <div class="blank-10 bg"></div>
+        </foreach>
+    </ul>
+</div>
+
+
+
+<div class="container login-open">
+    <h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+    <div class="blank-20"></div>
+</div>
+<include file='public:footer'/>

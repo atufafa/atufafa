@@ -1,0 +1,26 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">申请自配权限管理</a> > <a href="">申请自配权限</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top" style="border-bottom: 1px solid #999999;">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">如果店内月订单达到5万订单数量，可在此申请自配送权限</div>
+        </div>
+    </div> 
+   
+    <form method="post" action="<{:U('applydelivery/index')}>"  target="x-frame">
+        <div style="width: 90%;margin-left: 5%;">
+        <div>
+            <label style="font-size: 16px">申请说明：</label> 
+        </div>
+        <br/>
+       <textarea style="width: 50%;height: 400px;font-size: 14px" placeholder="请在此处描述您申请自配权限的原因！" name="content"></textarea>
+         <br/> <br/> <br/>  
+       <input type="submit" value="确认申请" style="width: 150px;height: 50px;color: #ffffff;border: 0px;border-radius: 5px;background-color: limegreen;font-size: 20px;">
+       </div>
+    </form>
+
+    <include  file='public:footer'/>

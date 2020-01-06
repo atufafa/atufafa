@@ -1,0 +1,25 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form target="x-frame" action="<{:U('usersaux/jujue',array('user_id'=>$user_id))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                        <tr>
+                            <td class="lfTdBt">拒绝理由：</td>
+                            <td class="rgTdBt"><input type="text" name="reason" value="<{$detail.reason|default=''}>" class="scAddTextName w150" />
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确定提交" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+

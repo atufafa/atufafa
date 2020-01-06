@@ -1,0 +1,136 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员管理</li>
+        <li class="li2 li3">会员卡列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention">此处查看分销商列表和分销商的下级会员统计数</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('card/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <label>
+                            <span>用户ID</span>
+                            <input type="text" name="userid" value="<{$usreid}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>账户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>昵称</span>
+                            <input type="text" name="nickname" value="<{$nickname}>" class="inptText" />
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        </label>
+                    </div>
+                </form>
+                <a href="javascript:void(0);" class="searchG">高级搜索</a>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form method="post" action="<{:U('card/index')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>用户ID</span>
+                            <input type="text" name="userid" value="<{$usreid}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>店铺编号</span>
+                            <input type="text" name="shopnum" value="<{$shopnum}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>账户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>昵称</span>
+                            <input type="text" name="nickname" value="<{$nickname}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>扩展字段</span>
+                            <input type="text" name="ext0" value="<{$ext0}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>用户等级：</span>
+                            <select name="rank_id" class="select w100">
+                                <option value="0">请选择</option>
+                                <foreach name="ranks" item="item">
+                                    <option <eq name="item.rank_id" value="$rank_id">selected="selected"</eq>  value="<{$item.rank_id}>"><{$item.rank_name}></option>
+                                </foreach>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50">ID</td>
+                    <td>昵称</td>
+                    <td>会员等级</td>
+                    <td>电话号码</td>
+                    <td>账户余额</td>
+                    <td>状态</td>
+                    <td>上级</td>
+                    <td>下级真实注册总数</td>
+                    <td>卡片数量</td>
+                    <td>分发卡片次数</td>
+                    <td>注册时间</td>
+                    <td>店铺编号</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><{$var.user_id}></td>
+                        <td><{$var.nickname}></td>
+                        <td><{$rank[$var['rank_id']]['rank_name']}></td>
+                        <td><{$var.mobile}></td>
+                        <td><{:round($var['money'],2)}></td>
+                        <td>
+                            <if condition="$var.closed eq 0">
+                                <font style="color: green;">正常</font>
+                                <elseif condition="$var.closed eq 1" />
+                                <font style="color: red;">已删除</font>
+                                <else />
+                                <font style="color: gray;">等待激活</font>
+                            </if>
+                        </td>
+                        <td>
+                            <if condition="$var.fuid1 eq 0">
+                                平台方
+                                <else/>
+                                <{$var.fusername}>(UID: <{$var.fuserid}>)
+                            </if>
+                        </td>
+                        <td><{$var.effective}></td>
+                        <td><{$var.card_number}></td>
+                        <td><{$var.frequency}></td>
+                        <td><{$var.reg_time|date='Y-m-d H:i',###}></td>
+                        <td><{$var.shopnum}></td>
+                        <td>
+                            <{:BA('card/edit',array("user_id"=>$var["user_id"]),'编辑','load','remberBtn',700,500)}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>
+
+

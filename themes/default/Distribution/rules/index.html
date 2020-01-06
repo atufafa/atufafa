@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+<style type="text/css">
+    td{padding: 10px;font-size: 16px;}
+
+</style>
+
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">奖惩管理</a> > <a>奖惩说明</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+            <div class="left tuan_topser_l">如果推荐的配送员有投诉或差评，将进行连带惩罚！详细信息如下：</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px">
+            <table border="1" style="width: 50%;text-align: center;" >
+                <thead>
+                <tr>
+                    <td>处罚说明</td>
+                    <td>处罚金额</td>
+                </tr>
+            </thead>
+                 <tbody>
+                    
+                    <tr>
+                        <td>差评一次</td>
+                        <td><span style="color: red;font-size: 16px"><{$cp}>
+                            
+                        </span>元</td>
+                    </tr>
+                     <tr>
+                        <td>投诉一次</td>
+                        <td><span style="color: red;font-size: 16px"><{$ts}></span>元</td>
+                    </tr>
+                   
+                </tbody>
+
+            </table>
+
+    </div>
+
+     <div class="radius5 tuan_top" style="margin-top: 50px;">
+        <div class="tuan_top_t tuanfabu_top">
+            <div class="left tuan_topser_l">管理员推荐会员注册配送员跑单奖励,另外还可以获得每一单的提成哦！详细信息如下：</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px">
+            <table border="1" style="width: 50%;text-align: center;" >
+                <thead>
+                <tr>
+                    <td>推荐新人奖励说明</td>
+                    <td>奖励金额</td>
+                </tr>
+            </thead>
+                 <tbody>
+
+                     <foreach name="list" item="var">
+                    <tr>
+                        <td>配送员跑<span style="color: red;font-size: 16px"><{$var.recommend2}></span>单子</td>
+                        <td>即可获得<span style="color: red;font-size: 16px;"><{$var.reward2}></span>元</td>
+                    </tr>
+                </foreach>
+                </tbody>
+
+            </table>
+    </div>
+   
+</div>
+<include  file='public:footer'/>

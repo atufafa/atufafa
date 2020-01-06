@@ -1,0 +1,68 @@
+<include  file='public:header'/>  
+
+<link href="/static/default/wap/css/dianping.css">
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1)"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			评价跑腿司机列表
+		</div>
+        <div class="top-ping">
+		</div>
+	</header>
+    
+<style>
+ul{ padding-left:0px;}
+.coupon-list2{margin-top:0px;}
+.pics_img{width:60px; height:50px;float:left;padding-right:5px;}
+</style> 
+
+
+
+<!-- <div class="row padding">
+		<div class="line">
+			<span class="x12">
+            	<a class="margin-right button button-small <eq name="var['tag_id']" value="0">bg-dot<else/>border-gray</eq>" href="<{:LinkTo('delivery/lists',$linkArr,array('tag_id'=>0))}>" />全部标签</a>
+                 <foreach name="tags" item="var">
+                     <a class="margin-right button button-small <eq name="var['tag_id']" value="$tag_id">bg-dot<else/>border-gray</eq>" href="<{:LinkTo('delivery/lists',$linkArr,array('tag_id'=>$var['tag_id']))}>"/><{$var['tagName']}></a>
+                 </foreach>   
+			</span>
+		</div>
+	</div> -->
+    
+    
+ <div id="coupon-list" class="coupon-list2">
+ 	<foreach name='list' item='var'>
+<div class="item">  
+    <div class="line" id="layer-photos-demo-<{$var['comment_id']}>">
+        <div class="x2">
+            <img class="pic"  src="<{:config_img($delivery[$var['user_id']]['photo'])}>" />
+        </div>
+        
+        <div class="x10">
+            <h5><{:config_user_name($delivery[$var['user_id']]['name'])}></h5> 
+            <p class="intro"><{$var.content}></p>
+            
+            <php>$stars= intval(($var['score'])*20);</php>
+            <p class="intro ui-starbar"><span style="width:<{$stars}>%"></span></p>
+            
+            <span class="intro intro1 float-right "><{$var.create_time|date='Y-m-d H:i',###}></span>
+            
+            <eq name="var.photos" value="$var['photos']"> 
+            <p class="info7 x12">
+                 <img class="pics_img" style="width: 80px;height: 80px;" src="<{:config_img($var['photos'])}>" />
+                      
+            </p>
+        </eq>
+        </div>
+    </div>
+</div>
+<div class="blank-10 bg"></div>
+</foreach>
+
+
+ </div>
+
+<include  file='errands:footer'/>   

@@ -1,0 +1,32 @@
+<include  file='public:header'/>
+<style>
+    .lfTdBt { width: 200px;}
+    .profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">分类信息</li>
+        <li class="li2 li3">功能设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>配置打车的基本设置</p>
+</div>
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/taketaxi')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" >限制点击数：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[number]" value="<{$CONFIG.taketaxi.number}>" class="scAddTextName w80" />
+                        <code>限制点击数：请不要乱填写</code><br/>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

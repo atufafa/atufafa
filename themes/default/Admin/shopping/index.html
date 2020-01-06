@@ -1,0 +1,74 @@
+
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">免费购物券</li>
+        <li class="li2">发放列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form action="<{:U('shopping/index')}>" method="post" style="float:left;">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>状态</span>
+                        <select name="audit" class="select">
+                            <option value="0"  >全部</option>
+                            <option value="-1" <eq name="audit" value="-1">selected="selected"</eq> >等待审核</option>
+                            <option value="1" <eq name="audit" value="1">selected="selected"</eq>>正常</option>
+                        </select>
+                        <input type="submit" value="   搜索"  class="inptButton" />
+                    </div>
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="coupon_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>商家</td>
+                    <td>商家类型</td>
+                    <td>数量</td>
+                    <td>是否审核</td>
+                    <td>创建时间</td>
+                    <td>过期日期</td>
+                    <td>创建IP</td>
+                    <td>操作</td>
+
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_coupon_id" type="checkbox" name="id[]" value="<{$var.id}>" /> </td>
+                        <td><{$var.id}></td>
+                        <td>(ID:<{$var.shop_id}>)<br/><{$shops[$var['shop_id']]['shop_name']}></td>
+                        <td><if condition="$var['type'] eq 1">外卖<elseif condition="$var['type'] eq 2"/>便利店<elseif condition="$var['type'] eq 3"/>菜市场</if></td>
+                        <td><{$var.num}></td>
+                        <td><eq name="var.audit" value="0">等待审核<else/>正常</eq></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.end_time}></td>
+                        <td><{$var.create_ip}></td>
+                        <td>
+                            <{:BA('shopping/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                            <eq name="var.audit" value="0"> <{:BA('shopping/audit',array("id"=>$var["id"]),'审核','act','remberBtn')}> </eq>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('shopping/audit','','批量审核','list','remberBtn')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>

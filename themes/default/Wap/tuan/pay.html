@@ -1,0 +1,136 @@
+<include  file='public:header'/> 
+
+<style>
+	body{padding:10px 0;}
+
+	.address_bg {background: url("/static/default/wap/image/mall/address_bg.png") left top repeat-x;background-size: auto 83px;height: 85px;overflow: hidden;padding: 15px;color: #999999;border-bottom: 1px solid #f1dbb8;border-top: 1px solid #f1dbb8;}
+
+</style>
+<header class="top-fixed bg-yellow bg-inverse detail">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title search center">
+		<span class="on">商品支付</span>
+	</div>
+	<div class="top-share">
+		<a href="javascript:void(0);" id="share-btn"></a>
+	</div>
+</header>
+
+<div class="tuan-order" style="margin-top: 50px">
+		<form action="<{:U('tuan/pay2',array('order_id'=>$order['order_id']))}>" method="post" target="x-frame">
+		
+		
+		<div class="line border-top border-bottom">
+			<div class="container">
+				<div class="x12 row">
+					<span class="float-left">
+						商品金额：
+					</span>
+					<span class="float-right">
+						￥<{:round($order['total_price'],2)}>
+					</span>
+				</div>
+				<hr/>
+				<if condition="$order[freight_price] neq 0">
+					<div class="x12 row">
+					<span class="float-left">
+						运费：
+					</span>
+						<span class="float-right">
+						￥<{:round($order['freight_price'],2)}>
+					</span>
+					</div>
+					<hr/>
+				</if>
+
+
+				<div class="x12 row">
+					<span class="float-left">
+						总金额
+					</span>
+					<span class="float-right">
+						单价：￥<{:round($tuan['tuan_price'],2)}>元 * <{$order['num']}> = <em>￥<span id="text-red"><{$order['need_pay']}></span>元</em>
+					</span>
+				</div>
+				<if condition="$level neq 1">
+					<div class="x12 row">
+					<span class="float-left">
+						商品优惠：
+					</span>
+						<span class="float-right">
+						￥<{:round($tuan['favour_price'],2)}>元 * <{$order['num']}> = <em>￥<span><{$allFavoour}></span>元</em>
+					</span>
+					</div>
+					<hr/>
+				</if>
+				<div class="x12 row">
+					<span class="float-left">
+						需付款
+					</span>
+					<span class="float-right">
+						￥<{$lastPay}>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="blank-10 bg"></div>
+		<div class="row address_bg">
+			<span class="x10">
+				<i class="icon-wo iconfont"></i> <{:tu_msubstr($defaultAddress['xm'],0,3,false)}> &nbsp; <i class="iconfont icon-phone-line"></i> <{$defaultAddress.tel}>
+				<p onclick="location='<{$changeAddressUrl}>'"><{$defaultAddress.area_str}> <{$defaultAddress.info}></p>
+			 </span>
+					<span class="x2" onclick="location='<{$changeAddressUrl}>'"><i class="iconfont icon-angle-right padding-top"></i></span>
+		</div>
+        
+			<ul id="pay-method" class="pay-method">
+			<foreach name="payment" item="var">
+				<li data-rel="<{$var.code}>"  id="<{$var.code}>" class="media media-x payment">
+					<a class="float-left"  href="javascript:;">
+						<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+					</a>
+					<div class="media-body">
+						<div class="line">
+							<div class="x10">
+							<{$var.name}><p>推荐已安装<{$var.name}>客户端的用户使用</p>
+							</div>
+							<div class="x2">
+								<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+							</div>
+						</div>
+					</div>
+				</li>
+			</foreach>
+			</ul>
+		<input id="code" type="hidden" name="code" value="" />
+		<input id="code" type="hidden" name="newpay" value="<{$lastPay}>" />
+		<div class="blank-10"></div>
+		<div class="container">
+			<button class="button button-block button-big bg-yellow submit" type="submit">确认支付  &yen;<{$lastPay}>元</button>
+		</div>
+        </form>
+	</div>
+
+	
+<script>
+	
+	$(document).ready(function(){
+		var name = $("#<{$CONFIG['pay']['auto']}>").attr("data-rel");
+		if(name == "<{$CONFIG['pay']['auto']}>"){
+			$("#<{$CONFIG['pay']['auto']}>").addClass("active");
+			$("#code").val(name);
+		}
+	});
+		
+    $(document).ready(function(){
+		$("#pay-method li").click(function(){
+			var code = $(this).attr("data-rel");
+			$("#code").val(code);
+			$("#pay-method li").each(function(){
+				$(this).removeClass("active");
+			});
+			$(this).addClass("active");
+		});
+	});
+</script>

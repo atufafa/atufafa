@@ -1,0 +1,63 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">频道</li>
+        <li class="li2">招聘资料</li>
+        <li class="li2 li3">招聘资料列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top: none;">
+            
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="life_id" /></td>
+                        <td>会员ID</td>
+                        <td>会员昵称</td>
+                        <td>已付款金额</td>
+                        <td>营业执照</td>
+                        <td>法人手持身份证照</td>
+                        <td>创建时间</td>
+                        <td>状态</td>
+                        <td>是否支付</td>
+                        <td>到期时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_life_id" type="checkbox" name="life_id[]" value="<{$var.life_id}>" /></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td style="color:#F00">&yen;<{:round($var['money'])}>元</td>
+                            <td><img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['ying_photo'])}>" ></td>
+                            <td><img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['fa_photo'])}>" ></td>
+                            <td><{$var.create_time|date='Y-m-d H:i',###}></td>
+                            <td>
+                                <if condition="($var.audit eq 0) or ($var.audit eq '')">未审核<else/>已审核</if>
+                            </td>
+                            <td><eq name="var.is_pay" value="0"><span style="color:red;">未支付</span><else/><span style="color:green;">已支付</span></eq></td>
+                            <td><{$var.end_time}></td>
+                            <td><!-- 
+                                <{:BA('life/edit',array("life_id"=>$var["life_id"]),'编辑','','remberBtn')}> -->
+                                <{:BA('life/life_delete',array("user_id"=>$var["user_id"]),'删除','act','remberBtn')}>
+                                <if condition="($var.audit eq 0) or ($var.audit eq '')"><{:BA('life/life_audit_type',array("user_id"=>$var["user_id"]),'审核','act','remberBtn')}></if>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('life/delete','','批量删除','list','a2')}>
+                    <{:BA('life/audit','','批量审核','list','remberBtn')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

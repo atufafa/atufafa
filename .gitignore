@@ -1,0 +1,17 @@
+.idea
+attachs/*
+Tudou/Runtime/*
+Tudou/Conf/*
+Core/*
+log/*
+.DS_Store
+.vscode
+web.config
+.travis.yml
+.user.ini
+web-msg-sender/vendor/*
+
+
+
+
+

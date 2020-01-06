@@ -1,0 +1,206 @@
+<div class="tuan_content">
+    <div class="tabnr_change  show">
+                <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <div style="width: 100%;text-align: center;background-color: #999;color: #fff"><h2 style="font-size: 18px">公司简介</h2></div>
+                    <tr>
+                        <td><p class="tuanfabu_t">企业介绍：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <textarea placeholder="描述贵公司发展历程" cols="100" rows="10" name="data[brief]"><{$detail['brief']}></textarea>
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">联系电话：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[tel]" value="<{$detail['tel']}>" class="tuanfabu_int tuanfabu_intw2" />
+                            <code>这里是填写公司联系电话，便于用户联系</code>
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">营业时间：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[business]" value="<{$detail['business']}>" class="tuanfabu_int tuanfabu_intw2" />
+                            <code>如：周一~周天，每天9:00-22:00</code>
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">接单范围：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <textarea rows="5" cols="50" name="data[range]"><{$detail['range']}></textarea>
+                            <code>每个标签用“、”分隔</code>
+                        </div> </td>
+                    </tr>
+
+                    <tr>
+
+                        <td><p class="tuanfabu_t">承接价位：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[price]" value="<{$detail['price']}>" class="tuanfabu_int tuanfabu_intw3" />
+                            <code>每个标签用“、”分隔,如：5-10万、10-20万</code>
+                        </div></td>
+
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">公司规模：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <textarea name="data[scale]" rows="5" cols="50"><{$detail['scale']}></textarea>
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">装后服务：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <textarea name="data[service]" cols="50" rows="5"><{$detail['service']}></textarea>
+                        </div></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="width: 100%;text-align: center;background-color: #999;color: #fff"><h2 style="font-size: 18px">工商注册信息</h2></div>
+                        <td>
+                    </tr>
+
+                    <tr>
+
+                        <td><p class="tuanfabu_t">公司名称：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[shop_name]" value="<{$detail['shop_name']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">企业类型：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="text" name="data[type]" value="<{$detail['type']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td width="120"><p class="tuanfabu_t">注册地址：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[addr]" value="<{$detail['addr']}>" class="tuanfabu_int tuanfabu_intw3" />
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">注册资金：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="text" name="data[money]" value="<{$detail['money']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">营业期限：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="text" name="data[term]" value="<{$detail['term']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">成立日期：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="date" name="data[establish]" value="<{$detail['establish']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">登记机关：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="text" name="data[office]" value="<{$detail['office']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+
+                    <tr>
+                        <td><p class="tuanfabu_t">经营范围：</p></td>
+                        <td><div class="tuanfabu_nr"><textarea cols="100" rows="10" name="data[management]"><{$detail['management']}></textarea></div></td>
+                    </tr>
+
+
+                    <tr>
+                        <td><p class="tuanfabu_t">年检时间：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="date" name="data[inspection]" value="<{$detail['inspection']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+
+                    <tr>
+                        <td><p class="tuanfabu_t">注册号：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="text" name="data[register]" value="<{$detail['register']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">法人代表：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="text" name="data[representative]" value="<{$detail['representative']}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="2">
+                            <div style="width: 100%;text-align: center;background-color: #999;color: #fff"><h2 style="font-size: 18px">企业证书</h2></div>
+                        <td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">营业执照：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <div style="width: 300px;height: 100px; float: left;">
+                                <img id="photo_img" width="80" height="80"  src="<{:config_img($detail['photo'])}>" />
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td width="120"><p class="tuanfabu_t">资质证书【最多4张】：</p></td>
+                        <td class="rgTdBt">
+                            <div class="jq_uploads_img">
+                                <foreach  name="photos" item="item">
+                                    <span style="width: 120px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;">
+                                        <img width="100" height="100" src="<{:config_img($item['photos'])}>">
+                                    </span>
+                                </foreach>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td width="120"><p class="tuanfabu_t">荣誉证书【最多4张】：</p></td>
+                        <td class="rgTdBt">
+                            <div class="jq_uploads">
+                                <foreach  name="honors" item="item">
+                                    <span style="width: 120px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;">
+                                        <img width="100" height="100" src="<{:config_img($item['honorphoto'])}>">
+                                    </span>
+                                </foreach>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <div style="width: 100%;text-align: center;background-color: #999;color: #fff"><h2 style="font-size: 18px">其他设置</h2></div>
+                        <td>
+                    </tr>
+
+                    <tr>
+                        <td><p class="tuanfabu_t">公司所在地址：</p></td>
+                        <td><div class="tuanfabu_nr"><input type="text" name="data[address]" value="<{$detail['address']}>" class="tuanfabu_int tuanfabu_intw3" />
+                            <code>详细地址</code>
+                        </div></td>
+                    </tr>
+
+                    <tr>
+                        <td width="120"><p class="tuanfabu_t">公司所在坐标：</p></td>
+                        <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[lng]" id="lng" value="<{$detail['lng']}>" class="tuanfabu_int tuanfabu_intw2" /> 经度
+                            <input type="text" name="data[lat]" id="lat" value="<{$detail['lat']}>" class="tuanfabu_int tuanfabu_intw2" /> 纬度
+                        </div></td>
+                    </tr>
+
+                </table>
+
+                <div class="tuanfabu_an" style="float: right;margin-right: 100px">
+                    <a style="background-color: red;color: #fff;padding: 0px 10px 0px 10px" href="javascript:history.go(-1)">返回</a>
+                </div>
+    </div>
+</div>

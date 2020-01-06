@@ -1,0 +1,99 @@
+<include file="public:header"/>
+<script src="/static/default/wap/js/star.js"></script>
+<style>.list-media-x {margin-top: 0.0rem;}</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back"><a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a></div>
+	<div class="top-title"><{$show}>点评</div>
+	<div class="top-signed">	</div>
+</header>
+<form method="post" action="<{:U('dianping/dpedit',array('order_id'=>$order_id,'contrl'=>$contrl))}>"  target="x-frame">
+ <div class="blank-10 bg"></div>
+<div class="blank-10 bg"></div>
+	<div class="line padding border-bottom">
+		<div class="x3">评价：</div>
+		<div class="x9"><span id="jq_star" data-score="2"></span></div>
+	</div>
+	<div class="blank-10 bg"></div>
+	<script>
+		$(document).ready(function () {
+			$("#jq_star").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[score]',
+                start : <{$detail.score}>
+			});
+        });
+	</script>
+	<div class="line padding ">
+		<div class="blank-10"></div>
+		<textarea cols="33" rows="5" name="data[content]" placeholder="" style="border:thin solid #eee;width:100%;resize:none;padding:10px;"><{$detail.content}><{$detail.contents}></textarea>
+		<div class="blank-10"></div>
+	</div>
+	<div class="blank-10 bg"></div>
+		<br>
+        <link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+        <script src="/static/default/wap/other/webuploader.js"></script> 
+            <div class="Upload-img-box">
+           <div  id="fileToUpload">上传图片</div>
+
+           <div class="Upload-img">
+           <div class="list-img loading" style="display:none;"><img src=""></div>
+           <div class="list-img jq_photo" style="display:none;"></div>
+          </div>
+        </div>
+            <script>
+                var width_dianping = '<{:thumbSize($CONFIG[attachs][dianping][thumb],0)}>';                     
+                var height_dianping = '<{:thumbSize($CONFIG[attachs][dianping][thumb],1)}>';  
+                var uploader = WebUploader.create({                 
+                    auto: true,                             
+                    swf: '/static/default/webuploader/Uploader.swf',                             
+                    server: '<{:U("app/upload/uploadify",array("model"=>"dianping"))}>',                             
+                    pick: '#fileToUpload',
+                    fileNumberLimit:10,
+                    resize: true,    
+                    compress : {width:width_dianping,height:height_dianping,quality:60,allowMagnify: false,crop: true}//裁剪       
+                });
+                uploader.on( 'beforeFileQueued', function( file ) {
+                    $(".loading").show();
+                    if(file.size > 1024000){
+                        uploader.option( 'compress', {
+                            width:width_dianping,//这里裁剪长度
+                            quality:60
+                        });
+                    }
+                });
+                uploader.on( 'uploadSuccess', function( file,resporse) {
+                    $(".loading").hide();
+                    var str = '<img src="'+resporse.url+'" style="width:6rem;height:6rem; margin: 2px;"><input type="hidden" name="photos[]" value="' + resporse.url + '" />';
+                    //$(".jq_photo").show().html(str);
+                    $(".jq_photo").show().append(str);
+                });
+                uploader.on( 'uploadError', function( file ) {
+                    alert('上传出错');
+                });
+                $(document).ready(function () {
+                    $(document).on("click", ".photo img", function () {
+                        $(this).parent().remove();
+                    });
+                	<volist name="pics" id="pic" key="index">
+                    var str = '<img src="<{:config_img($pic['pic'])}>" style="width:6rem;height:6rem; margin: 2px;"><input type="hidden" name="photos[]" value="<{:config_img($pic['pic'])}>" />';
+                    $(".jq_photo").show().append(str);
+                	</volist>
+                });
+            </script>
+			<style>
+				.Upload-img .list-img {
+					width: 100%;
+					height: 100%;
+				}
+			</style>
+            </div>
+	<div class="container">
+		<div class="blank-20"></div>
+		<button class="button button-big button-block bg-dot">提交确认</button>
+		<div class="blank-20"></div>
+	</div>
+</form>
+<include  file='public:footer'/>

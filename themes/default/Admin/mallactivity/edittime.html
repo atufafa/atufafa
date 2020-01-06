@@ -1,0 +1,32 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">天天特价</li>
+        <li class="li2 li3">编辑时间</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form target="x-frame" action="<{:U('mallactivity/edittime',array('time_id'=>$detail['time_id']))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">时间段：</td>
+                    <td class="rgTdBt"><input type="text" name="data[time_name]" value="<{$detail.time_name|default=''}>" class="manageInput w210" />
+                        <code>时间格式：00:00</code>
+                    </td>
+                </tr>
+
+            </table>
+            <div style="margin-left:140px;margin-top:20px">
+                <input type="submit" value="确认编辑" class="smtQrIpt" />
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<include  file='public:footer'/>
+

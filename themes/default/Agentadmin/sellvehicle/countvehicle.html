@@ -1,0 +1,44 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">销售管理</a> > <a>卖房团队每月销售列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <form class="" method="post">
+            <div class="tuan_top_t tuanfabu_top">
+                选择商家：
+                <select name="shop_id" id="shop_id">
+                    <option>==请选择==</option>
+                    <foreach name="shopList" item="vo">
+                        <option value="<{$vo.shop_id}>" <if condition=" $vo.shop_id == $shop_id ">selected</if> data-cate_id="<{$vo.cate_id}>"><{$vo.shop_name}></option>
+                    </foreach>
+                </select>
+                <!--                年月：<input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM'});"/>-->
+                <input type="hidden" name="cate_id" id="cate_id"/>
+                <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+
+        </form>
+    </div>
+
+    <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0" >
+        <tr style="background-color:#F9F9F9;">
+            <td width="33.33%">月份</td>
+            <td width="33.33%">总销售金额</td>
+            <td width="33.33%">总销售订单数</td>
+    </table>
+    <foreach name="list" item="var">
+        <table class="dianping" width="100%" border="0" style="text-align: center;">
+            <tr class="tr_dianping_1">
+                <td width="33.33%"><{$var.months}></td>
+                <td width="33.33%"><{$var.total_price}></td>
+                <td width="33.33%"><{$var.order_count}></td>
+            </tr>
+        </table>
+    </foreach>
+    <br/>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

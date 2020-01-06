@@ -1,0 +1,276 @@
+<php>$mobile_title = $MEMBER.nickname."给您推荐的海报";
+$mobile_title = $detail["nickname"]."给您分享的海报";
+</php>
+<include file="public:header"/>
+<style type="text/css">
+* { padding: 0; margin: 0; }
+.am-share { font-size: 14px; border-radius: 0; bottom: 0; left: 0; position: fixed; text-align: center; -webkit-transform: translateY(100%); -ms-transform: translateY(100%); transform: translateY(100%); -webkit-transition: -webkit-transform 300ms; transition: transform 300ms ; width: 100%; z-index: 1110; }
+.am-modal-active { transform: translateY(0px);  -webkit-transform: translateY(0); -ms-transform: translateY(0); transform: translateY(0) }
+.am-modal-out { z-index: 1109; -webkit-transform: translateY(100%); -ms-transform: translateY(100%); transform: translateY(100%) }
+
+.am-share-title { background-color: #f8f8f8; border-bottom: 1px solid #fff; border-top-left-radius: 2px; border-top-right-radius: 2px; color: #555; font-weight: 400; margin: 0 10px; padding: 10px 0 0; text-align: center; }
+.am-share-title::after { border-bottom: 1px solid #dfdfdf; content: ""; display: block; height: 0; margin-top: 10px; width: 100%; }
+
+.am-share-footer { margin: 10px; }
+.am-share-footer .share_btn { color: #555;  display: block; width: 100%; background-color: #e6e6e6; border: 1px solid #e6e6e6; border-radius: 0; cursor: pointer;  font-size: 16px; font-weight: 400; line-height: 1.2; padding: 0.625em 0; text-align: center; transition: background-color 300ms ease-out 0s, border-color 300ms ease-out 0s; vertical-align: middle; white-space: nowrap;font-family:"微软雅黑";  }
+
+.am-share-sns { background-color: #f8f8f8; border-radius: 0 0 2px 2px; margin: 0 10px; padding-top: 15px; height:auto; zoom:1; overflow:auto; }
+
+.am-share-sns li { margin-bottom: 15px; display: block; float: left; height: auto;  width: 25%; }
+
+.am-share-sns a { color: #555; display: block; text-decoration:none; }
+.am-share-sns span { display: block; }
+
+.am-share-sns li i { background-position: center 50%; background-repeat: no-repeat; background-size: 36px 36px; color: #fff; display: inline-block; font-size: 18px; height: 36px; line-height: 36px; margin-bottom: 5px; width: 36px; }
+.am-share-sns .share-icon-weibo { background-image: url(); }
+
+.sharebg { background-color: rgba(0, 0, 0, 0.6); bottom: 0; height: 100%; left: 0; opacity: 0; position: fixed; right: 0; top: 0; width: 100%; z-index: 1100; display:none; }
+.sharebg-active { opacity: 1; display:block; }
+
+</style>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			<{$detail["nickname"]}>的海报
+		</div>
+		<!-- <div style="line-height: 30px;position: absolute;right: 0;top: 10px;">
+			<span  onclick="down('img1')" style="color: #fff;font-size: 16px;">分享··</span>
+		</div> -->
+
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+	<script src="/static/default/wap/js/wechat/vconsole.min.js"></script>
+</header>
+<script type="text/javascript">
+	
+function down(selector, name) {  
+        // 生成一个a元素
+        var a = document.createElement('a')
+        //将a的download属性设置为我们想要下载的图片名称
+        a.download = name || 'pic'
+        //将生成的URL设置为a.href属性
+        a.href = '__ROOT__<{$file}>'
+        //触发a的单击事件
+        a.click();
+
+}
+</script>
+
+
+<script type="text/javascript">
+	 var getIOSImage = function () {
+                var parameter = { 'url': 'http:\/\/doradiowap.local.webapphtml.cn\/Article.aspx?ArticleID=222&ArticleCategoryID=19', 'img': 'http:\/\/doradioweb.local.webapphtml.cn\/Upload\/images\/201703310337PM3106.jpg',"title":"Test" };
+                // 在下面这里实现js 调用系统原生api  
+                window.iosDelegate.share(JSON.stringify(parameter));// 实现数据的 json 格式字符串
+            }
+
+
+</script>
+
+
+<div class="list-media-x" id="list-media" style="margin-top: 50px">
+	<ul>
+		<div class="container">
+
+			<div class="padding-large">
+				<img src="__ROOT__<{$file}>" class="img1" onclick="down('img1')" width="100%" />
+			</div>
+			<p class="text-center">尊敬的<{$detail['nickname']}>，<font color="red">点击海报</font>可保存到手机，从手机图片里找出,可以分享给好友获取分成</p>
+		</div>
+
+	</ul>
+</div>
+
+<!-- <script src="https://res2.wx.qq.com/open/js/jweixin-1.4.0.js" type="text/javascript"></script> -->
+<!--<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>-->
+<!--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>-->
+<!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.1.0.js" type="text/javascript"></script> -->
+<!-- <script>
+	//var vConsole = new VConsole();
+    wx.config({
+		debug: true,
+		appId: '<{$signPackage.appId}>',
+		timestamp: '<{$signPackage.timestamp}>',
+		nonceStr: '<{$signPackage.nonceStr}>',
+		signature: '<{$signPackage.signature}>',
+		jsApiList: [
+			'checkJsApi',// 1 判断当前版本是否支持指定 JS 接口，支持批量判断,注册事件
+			'onMenuShareTimeline',//分享到朋友圈
+			'onMenuShareAppMessage',//分享给朋友
+			'onMenuShareQQ',//分享到QQ
+			'onMenuShareWeibo',//分享到微博
+			'onMenuShareQZone',//分享到QZone
+			]
+	});
+
+    wx.ready(function () {
+		var shareData={
+			title: '阿涂发发共享商城', // 分享标题
+			desc: '让您省钱又赚钱，放心的购物平台', // 分享描述
+			link: location.href.split('#')[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			imgUrl: '<{:config_weixin_img($file)}>', // 分享图标
+		};
+		
+		wx.onMenuShareTimeline(shareData); //分享到朋友圈
+		wx.onMenuShareAppMessage(shareData); //分享给朋友
+		wx.onMenuShareQQ(shareData); //分享到QQ
+		wx.onMenuShareWeibo(shareData); //分享到微博
+		wx.onMenuShareQZone(shareData); //分享到QZone
+
+		//2. 分享接口
+		//2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+		// document.querySelector('#updateAppMessageShareData').onclick = function () {
+		// 	wx.onMenuShareTimeline({
+		// 		title: '分享标题', // 分享标题
+		// 		desc: '分享描述', // 分享描述
+		// 		link: location.href.split("#")[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		// 		imgUrl: '<{:config_weixin_img($file)}>', // 分享图标
+		// 		trigger: function (res) {
+		// 			alert('开始分享！');
+		// 			// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+		// 			console.log('trigger'+JSON.stringify(res));
+		// 		},
+		// 		success: function (res) {
+		// 			alert('分享成功！');
+		// 			console.log('success'+JSON.stringify(res));
+		// 		},
+		// 		cancel: function (res) {
+		// 			console.log('cancel'+JSON.stringify(res));
+		// 		},
+		// 		fail: function (res) {
+		// 			console.log('fail'+JSON.stringify(res));
+		// 		},
+		// 		complete: function (res) {
+		// 			console.log('complete'+JSON.stringify(res));
+		// 		}
+		//     });
+		// };
+
+		//2.1 监听“分享到朋友圈”，按钮点击、自定义分享内容及分享结果接口
+		// document.querySelector('#updateTimelineShareData').onclick = function () {
+		// 	wx.updateTimelineShareData({
+		// 		title: '分享标题', // 分享标题
+		// 		desc: '分享描述', // 分享描述
+		// 		link: location.href.split("#")[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		// 		imgUrl: '<{:config_weixin_img($file)}>', // 分享图标
+		// 		trigger: function (res) {
+		// 			// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+		// 			console.log('trigger'+JSON.stringify(res));
+		// 		},
+		// 		success: function (res) {
+		// 			console.log('success'+JSON.stringify(res));
+		// 		},
+		// 		cancel: function (res) {
+		// 			console.log('cancel'+JSON.stringify(res));
+		// 		},
+		// 		fail: function (res) {
+		// 			console.log('fail'+JSON.stringify(res));
+		// 		},
+		// 		complete: function (res) {
+		// 			console.log('complete'+JSON.stringify(res));
+		// 		}
+		// 	});
+		// 	alert('已注册获取“发送给朋友圈”状态事件');
+		// };
+
+
+		//2.1 监听“分享到朋友圈”，按钮点击、自定义分享内容及分享结果接口
+		// document.querySelector('#onMenuShareQZone').onclick = function () {
+		// 	wx.onMenuShareQZone({
+		// 		title: '分享标题', // 分享标题
+		// 		desc: '分享描述', // 分享描述
+		// 		link: location.href.split("#")[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		// 		imgUrl: '<{:config_weixin_img($file)}>', // 分享图标
+		// 		trigger: function (res) {
+		// 			alert('触发分享事件');
+		// 			// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+		// 			console.log('trigger'+JSON.stringify(res));
+		// 		},
+		// 		success: function (res) {
+		// 			alert('分享成功！');
+		// 			console.log('success'+JSON.stringify(res));
+		// 		},
+		// 		cancel: function (res) {
+		// 			console.log('cancel'+JSON.stringify(res));
+		// 		},
+		// 		fail: function (res) {
+		// 			console.log('fail'+JSON.stringify(res));
+		// 		},
+		// 		complete: function (res) {
+		// 			console.log('complete'+JSON.stringify(res));
+		// 		}
+		// 	});
+		// };
+
+
+		//分享给QQ
+		// document.querySelector('#onMenuShareQQ').onclick = function () {
+		// 	wx.onMenuShareQQ({
+		// 		title: '分享标题', // 分享标题
+		// 		desc: '分享描述', // 分享描述
+		// 		link: location.href.split("#")[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		// 		imgUrl: '<{:config_weixin_img($file)}>', // 分享图标
+		// 		trigger: function (res) {
+		// 			// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+		// 			console.log('trigger'+JSON.stringify(res));
+		// 		},
+		// 		success: function (res) {
+		// 			console.log('success'+JSON.stringify(res));
+		// 		},
+		// 		cancel: function (res) {
+		// 			console.log('cancel'+JSON.stringify(res));
+		// 		},
+		// 		fail: function (res) {
+		// 			console.log('fail'+JSON.stringify(res));
+		// 		},
+		// 		complete: function (res) {
+		// 			console.log('complete'+JSON.stringify(res));
+		// 		}
+		// 	});
+		// 	alert('已注册获取“发送给QQ”状态事件');
+		// };
+
+		//分享给新浪微博
+		// document.querySelector('#onMenuShareWeibo').onclick = function () {
+		// 	wx.onMenuShareWeibo({
+		// 		title: '分享标题', // 分享标题
+		// 		desc: '分享描述', // 分享描述
+		// 		link: location.href.split("#")[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		// 		imgUrl: '<{:config_weixin_img($file)}>', // 分享图标
+		// 		trigger: function (res) {
+		// 			// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+		// 			console.log('trigger'+JSON.stringify(res));
+		// 		},
+		// 		success: function (res) {
+		// 			console.log('success'+JSON.stringify(res));
+		// 		},
+		// 		cancel: function (res) {
+		// 			console.log('cancel'+JSON.stringify(res));
+		// 		},
+		// 		fail: function (res) {
+		// 			console.log('fail'+JSON.stringify(res));
+		// 		},
+		// 		complete: function (res) {
+		// 			console.log('complete'+JSON.stringify(res));
+		// 		}
+		// 	});
+		// 	alert('已注册获取“发送给新浪微博”状态事件');
+		// };
+	});
+
+
+
+	wx.error(function (res) {
+		console.log('error：'+JSON.stringify(res));
+	});
+
+</script>
+<!--<script src="/static/default/wap/js/wechat/demo.js"></script>-->
+<!--<script src="/static/default/wap/js/wechat/zepto.min.js"></script>-->
+
+
+<include  file='public:footer'/>

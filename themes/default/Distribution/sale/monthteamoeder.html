@@ -1,0 +1,37 @@
+<include file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="">销售</a>><a>销售列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div style="margin-bottom: 20px;font-size: 16px;">仅显示团队每月配送的订单数量</div>
+    <form method="post" action="<{:U('sale/monthteamoeder')}>">
+        <div class="radius5 tuan_top">
+            <div class="tuan_top_t">
+                <div class="left tuan_topser_l">
+                    月份：<input type="text" class="radius3 tuan_topser"  name="months" value="<{$months|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM'});"/>
+                    <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>月份</td>
+
+            <td>每月配送订单数</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.months}></td>
+                <td><{$var.order_count}></td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include file='public:footer'/>

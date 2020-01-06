@@ -1,0 +1,91 @@
+<!--<volist name="list" id="item" key="index"> -->
+<!--<php>$shop = D('Shop')->find($item['shop_id']);</php>-->
+<!--	<li class="line">		-->
+<!--        <a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>">		-->
+<!--        <div class="x3">-->
+<!--            <img src="<{:config_img($item['photo'])}>" />-->
+<!--        </div>		-->
+<!--        <div class="x9" style="margin-top:0.1rem; padding: 0 5px;"><h5><{:tu_msubstr($item['title'],0,18)}></h5>	-->
+<!--            <if condition="!empty($item['mobile_fan'])">-->
+<!--            	<p class="desc">手机下单立减 <span style="color:#F00; font-size:12px;"><{:round($item['mobile_fan']/100,2)}></span> 元</p>	-->
+<!--            <else/>-->
+<!--            	<p class="desc"><{:tu_msubstr($item['intro'],0,26)}></p>	-->
+<!--            </if>  -->
+<!--                <p class="info"><span>&yen;<{:round($item['mall_price']/100,2)}></span><del>&yen;<{:round($item['price']/100,2)}></del>				-->
+<!--                	<em>已售<{$item.sold_num}></em>-->
+<!--                    <if condition="$item['is_tui'] eq 1" >-->
+<!--                        <em class="tuiguang">推广</em>-->
+<!--                    </if>-->
+<!--                </p>	-->
+<!--           </div>		-->
+<!--           </a>	-->
+<!--    </li>-->
+<!--</volist>-->
+<style>
+    /*显示列表*/
+    .goods-box{ background: #F2F2F2;}
+    .goods { margin:auto; overflow:hidden;}
+    .goods h2 {height:50px; line-height:50px;font-size: 16px;font-weight: normal;color:#999; text-align:center;  }
+    .goods ul { width:50%; float: left; text-align: center; overflow:hidden;}
+    .goods ul li {margin:auto;margin-bottom:5px; background:#FFF; overflow:hidden;padding-bottom:2%; }
+    .goods ul li .index_pro{ width:100%; overflow:hidden; margin:auto;}
+    .goods ul li .products_kuang { width:100%; margin:auto;overflow: hidden; position:relative;}
+    .goods ul li .products_kuang img{ display:block;width:100%; margin:auto;width: 174px;height: 150px;}
+    .goods ul li .goods_name { width:93%; margin:auto;text-align:left;height: 38px; overflow: hidden; color:#666; font-size:14px;line-height: 18px; -webkit-line-clamp: 2; -webkit-box-orient: vertical;display: -webkit-box; margin-top:8px; margin-bottom:8px;}
+    .goods ul li .price {width:100%; margin:auto; position:relative; border-top:1px solid #eeeeee }
+    .goods ul li .price .price_pro{  width:93%; margin:auto;  display: block;font-size:16px; color: #F23015; height:40px; line-height:40px;text-align:left;}
+    .goods ul li .btns{ position:absolute; display:block;right:5px;height:25px;width:25px;background: #f23; border-radius:50%; bottom:8px;}
+    .goods ul li .btns img{ display:block; width:25px;height:25px; }
+</style>
+
+<div class="goods-box">
+    <div class="goods">
+        <div id="J_ItemList">
+            <volist name="list" id="item" key="index">
+                <?php   $goods = D('Goods')->find($item['goods_id']);?>
+                <?php $order=D('Envelope')->where(array('goods_id'=>$item['goods_id']))->find();?>
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+                        </a><div class="index_pro"><a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+                        <div class="products_kuang">
+                            <img src="<{:config_img($item['photo'])}>"></div>
+                        <div class="goods_name"><{:tu_msubstr($item['title'],0,11,false)}>..<br/>
+                                <if condition="$goods['is_pintuan'] eq 1 && !empty($order)">
+                                   <span style="font-size: 18px;">拼团</span>
+                                </if>
+                                <if condition="$goods['is_vs5'] eq 1">
+                                    <span style="font-size: 10px;"><i class="check-circle"></i>免运费</span>
+                                </if>
+                                <if condition="$goods['is_vs7'] eq 1">
+                                    <span style="font-size: 10px;"><i class="check-circle"></i>七日退换货</span>
+                                </if>
+                        </div>
+                    </a><div class="price"><a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+                    </a>
+                        <p class="info"><span style="font-size: 18px;">&yen;<{:round($item['mall_price'],2)}></span><del>
+                            &yen;<{:round($item['price'],2)}></del>
+                            <em>已售
+                                <?php  if(mb_strlen($item['sold_num'])==5){
+                                            echo ($item['sold_num']/10000).'万件';
+                                           }elseif(mb_strlen($item['sold_num'])==6){
+                                            echo ($item['sold_num']/10000).'+万件';
+                                           }else{
+                                            echo $item['sold_num'].'件';
+                                           }
+                                ?>
+                            </em>
+                            <if condition="$item['is_tui'] eq 1" >
+                                <em class="tuiguang">推广</em>
+                            </if>
+                        </p>
+                    </div>
+                    </div>
+
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+

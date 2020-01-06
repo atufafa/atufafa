@@ -1,0 +1,1363 @@
+<php>$mobile_title = $detail['shop_name'];</php>
+<include file="public:header"/>
+<script src="/static/default/wap/other/cookie.js"></script>
+<script src="/static/default/wap/js/elecart.js"></script>
+<script src="/static/default/wap/js/dialog.js"></script>
+<script src="/static/default/wap/js/jquery.fly.min.js"></script>
+<link href="/static/default/wap/css/main.css" rel="stylesheet">
+<link href="/static/default/wap/css/shoplist.css" rel="stylesheet">
+<script src="/static/default/wap/js/clipboard.js"></script>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('market/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+        <if condition="empty($keyword)">
+            <div class="top-title">
+                <{$detail.shop_name}>
+            </div>
+        </if>
+        <div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+           <form method="post" action="<{:U('market/shop',array('shop_id'=>$detail['shop_id']))}>">
+              <input name="keyword" value="<{$keyword|default=''}>" <if condition="empty($keyword)">placeholder="<{$keyword|default='请输入商品关键字'}>"</if>  />
+              <input id="keyword" type="hidden" name="shop_id" value="<{$detail['shop_id']}>" />
+              <button type="submit" class="iconfont icon-search"></button> 
+           </form>
+        </div>
+        
+        <div class="top-share">
+        	<if condition="empty($keyword)">
+            	<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a> 
+            </if>
+          <!--   <a href="<{:U('market/dianping',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfont icon-dianping2"></i></a> -->
+        </div>
+	</header>
+
+    
+<script>
+    $(function () {
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+        $(".frame-set-left ul li").click(function () {
+            $(".frame-set-left ul li").removeClass('active');
+            $(this).addClass('active');
+            var cate = $(this).attr('rel');
+            if (cate == 'all') {
+                $('.list-box').show();
+				$('.cate-name').show();
+            } else {
+                $('.list-box').hide();
+				$('.cate-name').hide();
+                $('.' + cate).show();
+				$('#' + cate).show();
+                $("html, body").animate({
+					"scroll-top":0
+				},"fast");
+            }
+        });
+    });
+</script>
+
+<style>
+body{background: #f8f8f8;}
+.menu_detail img {max-height: 230px;}
+.tag1 {font-size: 75%;padding: 0.1em 0.5em 0.2em;color: #fff;}
+.tag1 em {padding: 0.1em 0.5em 0.2em;color: #fff;}
+.list-have-pic .list-content em {padding: 0 .22rem;}
+.list-have-pic .list-content p.fontcl2 span.tuijian{background:#F00;color:#fff; padding:0px 5px; font-size:12px;}
+.frame-set-right .list-have-pic .num-input .tuijian{background:#F00!important;border-color:#F00!important;}
+.detail-info{border-top:1px solid #dddddd;background-color:#fff;width:100%;display:-webkit-box;display:-ms-flexbox;display:-moz-box}
+.detail-info-cell{text-align:center;margin-top:6px;width:100%}
+.detail-info-desc{font-size:12px;padding-bottom: 5px;}
+.detail-info-data{font-size:23px;line-height:25px}
+.detail-info-units{font-size:12px;color:#959595}
+.detail-info-receive{color:#53a1dd}
+.detail-separate{width:1px;height:32px;background-color:#eeeeee;margin:14px 0;-webkit-box-flex:0;-ms-flex:0 0 auto;-moz-box-flex:0;box-flex:0}
+.menuwrap{width:100%;display:-webkit-box;display:-ms-flexbox;display:-moz-box;display:box;height:100%;-ms-touch-action:none}
+.asidewrap{width:28%;min-width:90px;height:100%;background-color:#f8f8f8;overflow:hidden}
+.u-flyer{display: block;width: 50px;height: 50px;border-radius: 50px;position: fixed;z-index: 9999;}
+.footer-cart .cart .iconfont{ color:#FFF; font-size:20px;}
+
+#ele {top:5.8rem;}
+#ele_tab{display:block;width:100%;background-color:#fff;border-bottom:.11rem #dedede solid;z-index:999; display:inline-block;}
+#ele_tab li{display:block;float:left}
+#ele_tab li a{display:block;text-align:center;line-height:2.2rem;height:2.2rem;color:#999}
+#ele_tab li a.on{border-bottom:.22rem solid #2fbdaa;margin-top:-.01rem}
+#ele_tab li em{display:inline-block;margin-left:.05rem;margin-bottom:.02rem;content:'';width:.07rem;height:.07rem;border-bottom:.02rem solid #666;border-left:.02rem solid #666;transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-o-transform:rotate(-45deg)}
+.list-have-pic .cate-name{ padding:5px;}
+
+.line-cate{list-style:none;text-align:center;height:40px;line-height:40px;position:fixed;width:100%;background:#fff;display: flex;}
+.line-cate li a{ margin: 0 5px;}
+.line-cate a{height:40px;line-height:40px;border-bottom:thin solid #eee;width:100%;}
+.line-cate a.active{border-bottom:thin solid #E9553B!important;color:#E9553B;}
+.select_wrapper .select_01 .active a {color: #ff9933;border-bottom: 2px solid #ff9933; padding: 5px 0;}
+
+.on{
+    color:red;
+
+}
+.v{color: #999999}
+.tu{width: 20px;height: 20px;}
+.three{width: 120px;float: left;margin-left: 5%;margin-top: 1%}
+.fours{padding: 2px;float: right;margin-right: 10px;background-color: red;color: #fff;border-radius: 5px}
+.navBarBox{
+    width:100%;
+    overflow-y: auto;
+    .navBar{
+     width: auto;
+        margin-left: 25px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        overflow-y: auto;
+        white-space:nowrap; 
+        li{
+            display: inline;
+            height: 50px;
+            line-height: 50px;
+            padding-left:  35px;
+            padding-right: 35px;
+            margin-right: 12.5px;
+            border-radius: 10px;
+            background: #EEEEEE;
+            font-family:" PingFangSC-Regular";
+            font-size: 30px;
+            color: #333333;
+            text-align: center;
+        }
+        .active{
+            background: #CB1E36;
+            color: #ffffff!important;
+        }
+    }
+}
+
+.huodong{width: 20px;height: 20px;}
+.onclk{pointer-events: none}
+</style>
+<!--商家信息-->
+
+<?php $storeshop=D('Shop')->where(['shop_id'=>$detail['shop_id']])->find();?>
+<div class="shopjies" style="margin-top: 50px">
+    <div class="divimg">
+        <img class="imglogo" src="<{:config_img($storeshop['logo'])}>">
+        <div class="jies">
+            <div>
+                <eq name="detail.is_full" value="1">
+                    <label><img class="huodong" src="/static/wai/jian.png"></label>
+                    <label> <if condition="!empty($detail['order_price_full_1'])">满&yen;<{$detail['order_price_full_1']}>减 &yen;<{$detail['order_price_reduce_1']}>
+                    </if>
+                        <if condition="!empty($detail['order_price_full_2'])">，满&yen;<{$detail['order_price_full_2']}>减 &yen;<{$detail['order_price_reduce_2']}>
+                        </if></label></eq> </div>
+            <div>
+                <if condition="!empty($detail['logistics_full'])"><label><img class="huodong" src="/static/wai/mian.png"></label>
+                    <label> 满<{$detail['logistics_full']}> 元，免配送费</label>
+                </if>   </div>
+            <div>
+                <eq name="detail.is_new" value="1">
+                    <label><img class="huodong" src="/static/wai/shou.png"></label>
+                    <label> <if condition="!empty($detail['is_new'])">首单满&yen;<{$detail['full_money']}>减 &yen;<{$detail['new_money']}>
+                    </if></label>
+                </eq>
+            </div>
+            <div>
+                <eq name="detail.is_yuyue" value="1">
+                    <label><img class="huodong" src="/static/wai/yuyue.png"></label>
+                    <label> <if condition="!empty($detail['is_new'])">可提前(1-7)天预约
+                    </if></label>
+                </eq>
+                <span class="xiala">
+                    <img style="width: 35px;height: 20px;" src="/static/default/wap/img/xaila.png">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="yanc">
+    <if condition="!empty($tuan)">
+        <div class="blank-10 bg"></div>
+        <div class="box-s" >
+            <{$count}>人在分享，可直接参与
+            <div class="box_ben btn1">
+                查看更多<i class="iconfont icon-angle-right"></i>
+            </div>
+        </div>
+        <div id="box">
+            <ul>
+                <foreach name="tuan" item="item">
+                    <li class="xia">
+                        <div class="one">
+                            <img class="tus" src="<{:config_img($shop[$item['shop_id']][logo])}>">
+                            <div class="two">
+                                <input type="hidden" class="product_id" value="<{$item['product_id']}>" >
+                                <input type="hidden" class="shop_id" value="<{$item['shop_id']}>">
+                                <span><{:tu_msubstr($shop[$item['shop_id']]['shop_name'],0,5)}></span>
+                            </div>
+                            <div class="three">
+                                还差<span style="color: red">1<!-- -->人</span>拼成
+                            </div>
+                            <input type="hidden" class="ends" value="<{$item.end_time|date='Y-m-d H:i:s',###}>">
+                            <div class="three">
+                                <span ></span>
+                            </div>
+                            <div class="fours fenx" onclick="market1(this)">
+                                分享抢红包
+                            </div>
+                        </div>
+                    </li>
+                    <hr style="margin: 2px;"/>
+                </foreach>
+            </ul>
+        </div>
+    <else/>
+        <div class="blank-10 bg"></div>
+        <div class="box-s" >
+            <{$count}>人在分享，可直接参与
+        </div>
+        <div id="box">
+            <ul>
+                <foreach name="goodstuan" item="item">
+                    <li class="xia">
+                        <div class="one">
+                            <img class="tus" src="<{:config_img($shop2[$item['shop_id']][logo])}>">
+                            <div class="two">
+                                <input type="hidden" class="product_id" value="<{$item['goods_id']}>" >
+                                <input type="hidden" class="shop_id" value="<{$item['shop_id']}>">
+                                <span><{:tu_msubstr($shop2[$item['shop_id']]['shop_name'],0,5)}></span>
+                            </div>
+                            <div class="three">
+                                还差<span style="color: red">1<!-- -->人</span>拼成
+                            </div>
+                            <input type="hidden" class="ends" value="<{$item.end_time|date='Y-m-d H:i:s',###}>">
+                            <div class="three">
+                                <span ></span>
+                            </div>
+                            <div class="fours fenx" onclick="location.href='<{:U('wap/mall/detail',array('goods_id'=>$item[\'goods_id\']))}>'">
+                                分享抢红包
+                            </div>
+                        </div>
+                    </li>
+                    <hr style="margin: 2px;"/>
+                </foreach>
+            </ul>
+        </div>
+    </if>
+
+</div>
+
+
+
+
+<div style="width:100%;position: relative;display:none;background-color: #fff" id="zhankai" >
+    <div class="blank-10 bg"></div>
+    <h4>商家介绍：<{$details['details']}></h4>
+
+    <div class="bom_btn">
+        <span><img style="width: 30px;height: 30px;" src="/static/default/wap/img/shang.png"></span>
+    </div>
+
+
+</div>
+
+<script>
+    $(".xiala").click(function () {
+        $("#zhankai").show();
+        $("#diancan").addClass("enable");
+        $("#top-wrap").addClass("enable");
+        $(".yanc").addClass("enable");
+        $(".xiala").addClass("enable");
+        $("#huod").addClass("enable");
+    })
+    $(".bom_btn").click(function () {
+        $("#zhankai").hide();
+        $("#diancan").removeClass("enable");
+        $("#top-wrap").removeClass("enable");
+        $(".yanc").removeClass("enable");
+        $(".xiala").removeClass("enable");
+        $("#huod").removeClass("enable");
+    })
+
+    //时间为一位数时显示格式为："0X"
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    function checkTimeS(i) {
+        if (i < 10) {
+            i = i;
+        }
+        return i;
+    }
+
+    //显示浏览器现在的时间
+    function formatTime(timeVal) {
+        var datePara = new Date(timeVal);//定义日期对象
+        var yyyy = datePara.getFullYear();//通过日期对象的getFullYear()方法返回年
+        var MM = datePara.getMonth() + 1;//通过日期对象的getMonth()方法返回月
+        var dd = datePara.getDate();//通过日期对象的getDate()方法返回日
+        var hh = datePara.getHours();//通过日期对象的getHours方法返回时
+        var mm = datePara.getMinutes();//通过日期对象的getMinutes方法返回分
+        var ss = datePara.getSeconds();//通过日期对象的getSeconds方法返回秒
+        // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09
+        MM = checkTime(MM);
+        dd = checkTime(dd);
+        hh = checkTime(hh);
+        mm = checkTime(mm);
+        ss = checkTime(ss);
+
+        //用于保存星期（getDay()方法得到星期编号）
+        var day;
+        if (datePara.getDay() == 0) day = "星期日 "
+        if (datePara.getDay() == 1) day = "星期一 "
+        if (datePara.getDay() == 2) day = "星期二 "
+        if (datePara.getDay() == 3) day = "星期三 "
+        if (datePara.getDay() == 4) day = "星期四 "
+        if (datePara.getDay() == 5) day = "星期五 "
+        if (datePara.getDay() == 6) day = "星期六 "
+
+        //document.getElementById('start').value = yyyy + "-" + MM + "-" + dd + " " + hh + ":" + mm + ":" + ss + " " + day;
+        //setTimeout('formatTime()', 1000);//每一秒中重新加载formatTime()方法
+        return yyyy + ":" + MM + ":" + dd + " " + hh + ":" + mm + ":" + ss; //+ " " + day;
+    }
+
+    //服务器现在的时间（这里只是测试，就用浏览器时间代替）
+    var startTime = '';
+    //活动截止时间endTime（以服务器时间为标准，即给定的时间）
+    var end = '';
+    var endTime = '';
+    //活动截止时间（以浏览器时间为标准）
+    var browserEndTime = '';
+    //距离活动结束还剩余的时间（以浏览器为标准）
+
+    function for_setTimer(){
+        //console.log(3333);
+        var times=$.each($('.ends'),function (index,obj) {
+            setTimer($(obj));
+        });
+    }
+    var plus ="";
+    //倒计时
+    function setTimer(obj) {
+        end=obj.val();
+        endTime = new Date(end);
+        if (endTime>0) {
+            //服务器现在的时间（这里只是测试，就用浏览器时间代替）
+            startTime = new Date();
+            //活动截止时间endTime（预先给定的值）
+
+            //活动截止时间与当前时间的时间差
+            plus = endTime - startTime;
+        } else {
+
+            //距离活动结束还剩余的时间，第二次以后就不需要再计算，直接自减即可
+            plus -= 1000;
+            //更新当前时间(getTime()获取时间转化成毫秒后的数值)
+            startTime = new Date(startTime.getTime() + 1000);
+        }
+
+        var day = parseInt(plus / 1000 / 60 / 60 / 24);
+        var hour = parseInt(plus / 1000 / 60 / 60) - day * 24;
+        var minute = parseInt(plus / 1000 / 60) - parseInt(plus / 1000 / 60 / 60) * 60;
+        var second = parseInt(plus / 1000) - parseInt(plus / 1000 / 60) * 60;
+        var millisecond = parseInt(plus %1000).toString();
+
+        //local-group-timer
+        // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09
+        day = checkTime(day);
+        hour = checkTime(hour);
+        minute = checkTime(minute);
+        second = checkTime(second);
+        obj.next().html("剩"+hour + ":"+ minute +":  "+ second +":"+millisecond.charAt(0));
+        if (plus <= 1) {
+            clearInterval(id);
+        }
+    }
+    //每秒循环一次，刷新活动截止时间与当前时间的时间差
+    var id = setInterval(for_setTimer, 100);
+</script>
+<script>
+    setTimeout(function(){
+        var table = document.getElementById("box");
+        var timer = null;
+        table.scrollTop = 0;
+        //table.innerHTML += table.innerHTML;
+        function play() {
+            clearInterval(timer);
+            timer = setInterval(function() {
+                table.scrollTop++;
+                if (table.scrollTop >= table.scrollHeight / 2) {
+                    table.scrollTop = 0;
+                }
+            }, 100);
+        }
+        setTimeout(play, 10);
+    },0)
+
+    $(document).ready(function (){
+        $(".btn1").click(function () {
+            layer.open({
+                type: 1,
+                title: '拼单列表',
+                skin: 'btn2', //样式类名
+                closeBtn: 1, //不显示关闭按钮
+                anim: 2,
+                area: ['350px', '500px'], //宽高
+                shadeClose: true, //开启遮罩关闭
+                content: '<div id="btn2"><ul> <foreach name="tuan" item="item">' +
+                    '<li class="xia"><div class="one"> <input type="hidden" class="product_id" value="<{$item[\'product_id\']}>">' +
+                    '<input type="hidden" class="shop_id" value="<{$item[\'shop_id\']}>">'+
+                    '<img class="tus" src="<{:config_img($shop[$item[\'shop_id\']][logo])}>">' +
+                    '<div class="two"><span><{:tu_msubstr($shop[$item[\'shop_id\']][\'shop_name\'],0,5)}></span></div>' +
+                    '<div class="three">还差<span style="color: red">1<!-- -->人</span>拼成</div>' +
+                    '<input type="hidden" class="ends" value="<{$item.end_time|date=\'Y-m-d H:i:s\',###}>">' +
+                    '<div class="three"><span ></span> </div>'+
+                    '<div class="fours" onclick="market1(this)">' +
+                    '分享抢红包</div></div></li> <hr style="margin: 2px;"/>' +
+                    '</foreach></ul></div>'
+            });
+
+        })
+    });
+
+    function market1(l){
+        var _this = $(l);
+        F = function (str) {
+            return _this.parent().find(str);
+        };
+        product_id = F('.product_id').val();
+        shop_id=F('.shop_id').val();
+
+        layer.open({
+            type: 1,
+            title: '',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['80%', '380px'], //宽高
+            content: '<div class="fu">' +
+                '<div class="jiu5"><span ><a class="huode">恭喜您</a><br/><span class="fenxians">赶快分享好友购买，红包马上拿哦</span></span></div>' +
+                '<span class="fuzhi">口令成功复制</span> <div class="fudong1"><input type="hidden" id="product_id">' +
+                '<input type="hidden" id="shop_id"><p id="zhi">复制整段信息在浏览器打开，☞阿涂发发☜，即可参与【哇，这里有大牌超值红包任你抢，就差你帮我买一份了>>>】' +
+                '(未安装App的点这里：https://<?php echo $_SERVER['HTTP_HOST']?>/wap/market/details/product_id/<span class="product_id"></span>.html?user_id=<?php echo $MEMBER['user_id'];?>))</p></div>' +
+                '<button  class="fu_btn" id="btn_btn" data-clipboard-target="#zhi">去粘贴分享</button>' +
+                '</div>'
+        });
+
+        $(".product_id").text(product_id);
+        $("#product_id").val(product_id);
+        $("#shop_id").val(shop_id);
+
+        $("#btn_btn").click(function(){
+            let e = document.getElementById("zhi").innerText;
+            //实例化clipboard
+            var clipboard = new ClipboardJS('#btn_btn');
+
+            var product_id=document.getElementById('product_id').value;
+            var shop_id=document.getElementById('shop_id').value;
+            $.ajax({
+                url: '<{:U("market/fenxian")}>',
+                data:{product_id:product_id,shop_id:shop_id},
+                type: 'post',
+                success: function (data) {
+                    if (data.status == 'success') {
+
+                    } else {
+
+                    }
+                }
+            });
+            clipboard.on("success", function(e){
+                layer.msg("复制成功！");
+
+            });
+            clipboard.on("error", function(e){
+                layer.msg("复制失败！");
+            });
+        });
+    }
+
+</script>
+<div id="top-wrap"  style="z-index: 999;width: 100%">
+  <div id="show_quan" style="width: 100%;height: 40px;background-color: #fff;color: #06c1ae;">
+    <span class="on" style="margin-left: 20px;font-size: 20px;" id="dczn">选购</span>
+    <span class="c" style="margin-left: 60px;font-size: 20px" id="pj" >评价</span>
+    <span class="c" style="margin-left: 60px;font-size: 20px" id="sj" >商家</span>
+  </div>
+    <div class="detail-info">
+        <div class="detail-info-cell">
+            <div class="detail-info-desc">
+                <marquee  scrolldelay=100 direction=left>
+            <span class="text-gray">店铺介绍：<{$detail.intro}>
+        <span class="margin-left text-small text-yellow"><!-- 配送费：<{:round($detail['logistics']/100,2)}>元 -->
+        <if condition="!empty($detail['logistics_full'])">
+            ，单笔订单免<{$detail['logistics_full']}> 元免配送费
+        </if>
+        <eq name="detail.is_full" value="1">
+           <if condition="!empty($detail['order_price_full_1'])">
+              单笔满&yen;<{$detail['order_price_full_1']}>元减 &yen;<{$detail['order_price_reduce_1']}>元
+           </if>
+           <if condition="!empty($detail['order_price_full_2'])">
+              ，单笔满&yen;<{$detail['order_price_full_2']}>元减 &yen;<{$detail['order_price_reduce_2']}>元
+           </if>
+         </eq>
+        ，(满<{$detail['since_money']}>元起送)</span>
+                </marquee>
+            </div>
+        </div>
+    </div>
+    <div id="huod">
+        <if condition="empty($fa)">
+            <div class="yaoqin" style="background-color: #f8f8f8;">
+                <span class="yao">邀请好友购买抢红包</span>
+                <span class="qin">立即邀请</span>
+            </div>
+            <else/>
+            <div class="yaoqin">
+                <span class="yao">点击查看更多活动</span>
+                <span class="btn1 qins">查看更多</span>
+            </div>
+            <div class="blank-10 bg"></div>
+        </if>
+    </div>
+</div>
+
+<script type="text/javascript">
+   $(document).ready(function(e) {
+    $("#pj").click(function(e) {
+        $("#diancan").hide();
+        $("#shangjia").hide();
+        $("#pingjia").show();
+    });
+      $("#dczn").click(function(e) {
+        $("#diancan").show();
+        $("#pingjia").hide();
+        $("#shangjia").hide();
+    });
+       $("#sj").click(function(e) {
+        $("#pingjia").hide();
+        $("#diancan").hide();
+        $("#shangjia").show();
+    });
+});
+</script>
+
+<script type="text/javascript">  
+    $('#show_quan span').each(function(i,v){//遍历加                          
+        $(v).click(function(){  
+            $(this).addClass('on').siblings().removeClass('on'); 
+            });  
+       });  
+</script>  
+
+<!-- <div class="select_wrapper">
+   <div class="select_01" id="wrapper2">
+     <ul class="tab-hd" id="scroller2">
+         <li id="all_nwes" class="<eq name="cat" value="">active</eq> item"><a href="<{:LinkTo('market/shop',$linkArr,array('cat'=>0))}>">全部</a></li>
+         <volist name="cates" id="var" key="index">
+             <eq name="var.parent_id" value="0">
+             	<li class="item <eq name="var['cate_id']" value="$cat">current</eq>"><a class="active" href="<{:LinkTo('market/shop',$linkArr,array('cat'=>$var['cate_id'],'cate_id'=>'0'))}>"><{$var.cate_name}></a></li>
+             </eq>
+         </volist>
+      </ul>
+     <div class="more" id="iscrollto"><span></span></div>
+     </div>
+</div>	 -->
+
+<script>
+   (function($){
+      $('#scroller2').css('width',(90*$('#scroller2').find('li').length)+40+'px'); 
+      window['myScroll2'] = new IScroll('#wrapper2', {
+         scrollX: true,
+         scrollY: false,
+         click:true,
+         keyBindings: true
+       });
+       $('#iscrollto').click(function(){
+          window['myScroll2'].scrollBy(-100,0,500)
+         });
+      })(jQuery);
+</script>
+
+<!--
+<ul class="line-cate">
+	<li>
+       <a <eq name="cat" value="">class="active"</eq> href="<{:LinkTo('market/shop',$linkArr,array('cat'=>0))}>">全部</a>
+    </li>
+	<volist name="cates" id="var" key="index">
+    	<eq name="var.parent_id" value="0">
+		<li>
+            <a <eq name="var['cate_id']" value="$cat">class="active"</eq> href="<{:LinkTo('market/shop',$linkArr,array('cat'=>$var['cate_id'],'cate_id'=>'0'))}>"><{$var.cate_name}></a>
+        </li>
+    </eq>
+	</volist>
+</ul>
+-->
+<style>
+.joinCart {
+    float: right;
+    margin-right: 15px;
+    background-color: red;
+    color: #fff;
+    border-radius: 15px;
+    width: 80px;
+    text-align: center;
+}
+</style>   
+<!-- 商家信息 -->
+<div id="shangjia" style="display: none;margin-top: 10px;position: absolute;width: 100%;">
+    
+<div class="sjdiv1" style="background-color: #FFF;">
+   <div class="sjdivtop">
+       <volist name="shops" id="addr">
+    <div>
+            <div class="nums" style="width: 100%;">
+          
+                <a class="text-small button-block" style="font-size: 16px; border-bottom: 1px solid #999999;margin-bottom: 5px;padding: 10px" href="<{:U('ele/gps',array('shop_id'=>$addr['shop_id'],'type' => '2'))}>"> 商家地址：<{$shops[$addr['shop_id']]['addr']}> <i class="iconfont icon-daohang text-blue text-default">导航到这去</i> </a>
+               
+                <a href="tel:<{$shops[$addr['shop_id']]['tel']}>" class="text-small button-block" style="font-size: 16px; border-bottom: 1px solid #999999;margin-top: 5px;padding: 10px" >商家电话：<{:substr_replace($shops[$addr['shop_id']]['tel'],'***',3,4)}> <span class="icon icon-phone"> 一键拨号</span></a>
+            </div>
+        
+    </div>
+</volist>
+   </div>
+<if condition="!empty($sjtu)">
+    <div class="navBarBox" style="margin-top: 10px;width: 100%;height: 80px; border-bottom: 1px solid #999999;">
+         <foreach name='sjtu' item='tu'>
+            <ul class="navBar">
+                <li style="float: left;">
+                    <img style="width: 105px;height: 80px;margin-left: 10px;"  src="<{:config_img($tu['photo'])}>" > 
+                </li>
+            </ul>
+      </foreach>
+</div>
+</if>
+</div>
+<div class="blank-10"></div>
+<div class="sjdiv2" style="background-color: #FFF;">
+  <table style="margin-left: 5px;padding: 10px;display: block;">
+    <eq name="detail.is_full" value="1">
+    <tr>
+      <td><img class="huodong" src="/static/wai/jian.png"></td>
+      <td style="margin-left: 10px; display: block;">
+           <if condition="!empty($detail['order_price_full_1'])">
+              单笔满&yen;<{$detail['order_price_full_1']}>元减 &yen;<{$detail['order_price_reduce_1']}>元
+           </if>
+           <if condition="!empty($detail['order_price_full_2'])">
+              ，单笔满&yen;<{$detail['order_price_full_2']}>元减 &yen;<{$detail['order_price_reduce_2']}>元
+           </if>
+      </td>
+    </tr>
+    </eq>
+    <if condition="!empty($detail['logistics_full'])"> 
+   <tr>
+      <td><img class="huodong" src="/static/wai/mian.png"></td>
+      <td style="margin-left: 10px; display: block;">
+       
+          单笔订单满<{$detail['logistics_full']}> 元，免配送费
+       
+      </td>
+    </tr>
+     </if>
+     <eq name="detail.is_new" value="1">
+     <tr>
+      <td><img class="huodong" src="/static/wai/shou.png"></td>
+      <td style="margin-left: 10px; display: block;">
+          <if condition="!empty($detail['is_new'])">
+              新用户首次下单满&yen;<{$detail['full_money']}>元减 &yen;<{$detail['new_money']}>元
+           </if>
+      </td>
+    </tr>
+    </eq>
+
+  </table>
+</div>
+
+<div class="blank-10"></div>
+    <div style="width: 100%;background-color: #fff;height: 35px;line-height: 35px">
+        <a href="<{:U('mall/qualifications',array('shop_id'=>$_GET['shop_id']))}>">
+            <label style="margin-left: 10px">商家资质</label>
+            <label style="float: right;margin-right: 20px"><i class="iconfont icon-angle-right"></i></label></a>
+    </div>
+    <div class="blank-10"></div>
+
+<div style="background-color: #ffffff;width: 100%;height: 80px;">
+  <div style="width: 100%;height: 40px;line-height: 40px;border-bottom: 1px solid #999999;">
+    <img style="width: 20px;height: 20px; margin-left: 10px;margin-bottom: 11px;" src="/static/wai/pei.png">
+    <span style="margin-left: 10px;">配送服务：由</span><span style="margin-left: 5px;background-color: #06c1ae;color: #ffffff;border-radius: 5px;">涂涂快送</span><span style="margin-left: 5px;">保证高品质送餐服务</span>
+  </div>
+
+ <div style="width: 100%;height: 40px;line-height: 40px;">
+    <img style="width: 20px;height: 20px; margin-left: 10px;margin-bottom: 11px;" src="/static/wai/time.png">
+    <span style="margin-left: 10px;">配送时间：</span><span style="margin-left: 5px;"><{$times.busihour}></span>
+  </div>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+<!-- 评价信息开始 -->
+<script>
+var i = 43;
+var timer = setInterval(() => {
+  $(".shu").html(i/10);
+  if (i === 49) {
+   i = 43;
+   } else{
+   i++;
+  }
+}, 86400000)
+
+var j = 41;
+var timer = setInterval(() => {
+  $(".bao").html(j/10);
+  if (j === 44) {
+   j = 41;
+   } else{
+   j++;
+  }
+}, 86400000)
+
+var k = 45;
+var timer = setInterval(() => {
+  $(".kou").html(k/10);
+  if (k === 49) {
+   k = 45;
+   } else{
+   k++;
+  }
+}, 86400000)
+
+
+
+var l = 88;
+var timer = setInterval(() => {
+  $(".pei").html(l);
+  if (l === 100) {
+   l = 88;
+   } else{
+   l++;
+  }
+},25000)
+
+</script>
+ 
+<div id="pingjia" style="display: none;margin-top:10px;position: absolute;width: 100%;height: auto;background-color: #ffffff">
+<div style="width: 100%;height: 70px;background-color: #fff;margin-bottom: 20PX;border-bottom: 2px solid#999999;">
+    <div style="width: 18%;height: 100%;margin-left: 10px;float: left;text-align: center;">
+        <div style="width: 100%;height: auto;">
+
+             <h2 style="margin-top: 5px;color: #06c1ae"><span class="shu"><b>4.3</b></span></h2>
+        </div>
+        <div style="width: 100%;height: auto;">
+        <span style="color: #999999;font-size: 12px;margin-bottom: 20px;">商家评分</span>
+        </div>  
+    </div>
+    <div style="width: 50%;float: left;height:100%;margin-left: 10px;">
+        <div style="width: 100%;height: 25px;margin-top: 5px;">
+            <span class="v">包装</span>
+            <img class="tu" src="/static/pingjia/xingxings.png">
+            <img class="tu" src="/static/pingjia/xingxings.png">
+            <img class="tu" src="/static/pingjia/xingxings.png">
+            <img class="tu" src="/static/pingjia/xingxings.png">
+            <span style="display: block;float: right;color: #06c1ae" class="bao">4.1</span>
+        </div>
+        <div style="width: 100%;height: 25px;margin-top: 5px;">
+            <span class="v">口味</span>
+             <img class="tu" src="/static/pingjia/xingxings.png">
+            <img class="tu" src="/static/pingjia/xingxings.png">
+            <img class="tu" src="/static/pingjia/xingxings.png">
+            <img class="tu" src="/static/pingjia/xingxings.png">
+            <img class="tu" src="/static/pingjia/xingxings.png">
+            <span style="display: block;float: right;color:#06c1ae" class="kou">4.5</span>
+        </div>
+    </div>
+    <div style="width: 18%;height: 100%;margin-right:15px;float: right;text-align: center;">
+        <div style="width: 100%;height: auto;" >
+
+            <h2 style="margin-top: 5px;color: #06c1ae"><span class="pei">88</span>%</h2>
+        </div>
+        <div style="width: 100%;height: auto;">
+        <span style="color: #999999;font-size: 12px;margin-bottom: 20px;">配送满意度</span>
+        </div>
+     </div>
+</div>
+
+    <!-- 循环评价内容开始 -->
+     <ul>
+   <foreach name='lists' item='vars'>
+<div class="item">  
+    <div class="line">
+        <div class="x2" style="margin-left: 2%"><img style="width: 90%;height: 50px;" class="pic"  src="<{:config_img($users[$vars['user_id']]['face'])}>" /></div>
+        <div style="width: 80%;float: right;">
+            <h5><{:config_user_name($users[$vars['user_id']]['nickname'])}></h5> 
+            
+            <php>$stars= intval(($vars['score'])*20);</php>
+            <p class="intro ui-starbar" ><span style="width:<{$stars}>%"></span></p>
+             <span class="intro intro1 float-right" style="margin-right: 10px;"><{$vasr.create_time|date='Y.m.d',###}></span>
+             <p class="intro"><{$vars.contents}></p>
+           
+            <p class="info7 x12" >
+                <volist name="pics" id="pic" key="index"> 
+                    <eq name="pic.order_id" value="$vars['order_id']"> 
+                        <div class="pics" class="ac" >
+                          <img class="pics_img" src="<{:config_img($pic['pic'])}>" >       
+                        </div>
+                    </eq>
+                </volist> 
+            </p>
+            <br/>
+            <if condition="!empty($vars['reply'])"><p class="intro x12">商家回复：<a style="color:#FF6430"><{$vars.reply}></a></p></if>
+        </div>
+    </div>
+</div>
+<div class="blank-10 bg"></div>
+</foreach>
+    </ul> 
+    <!-- 循环评价内容结束 -->
+</div>
+
+<style>
+    /*点击分享弹出*/
+    .fu{text-align: center;width: 100%}
+    .fudong1{overflow: hidden;width: 80%;height: 120px;border: 1px solid #9c9c9c;margin-left: 10%;margin-top: 10%;word-break: break-word}
+    .fudong1 p{margin-top: 20px;}
+    .fuzhi{position: relative;top:40px;background: #fff;font-size: 16px;font-weight: bold}
+    .fu_btn{width: 80%;padding: 2px;background: red;margin-top: 10px;border: 0;border-radius: 10px;color: #fff;font-size: 16px;}
+    .jiu5{margin-top: 20px;font-size: 16px;}
+    .huode{font-size: 18px;color: red;}
+    .fenxians{color: #f60}
+</style>
+
+<!-- 点餐 -->
+<div id="diancan">
+
+<div id="ele" class="page-center-box mt10" style="margin-top: 80%">
+    <div class="frame-set-left" style="height:77%;margin-top: 11%;">
+    <if condition="$cat eq 0">
+        <ul id="r-ggbox">
+            <li <eq name="$cate_id" value="0">class="active"</eq> style="border-top:0.1rem solid #dedede;"><a href="<{:LinkTo('market/shop',$linkArr,array('cat'=>0))}>">全部分类</a></li>
+             <volist name="cates" id="var" key="index">
+            	<eq name="var.parent_id" value="0">
+                <li <eq name="var['cate_id']" value="$cate_id">class="active"</eq>><a href="<{:LinkTo('market/shop',$linkArr,array('cat'=>$var['cate_id'],'cate_id'=>'0'))}>"><{:tu_msubstr($var['cate_name'],0,12,false)}></a></li>
+                </eq>
+            </volist>
+        </ul>
+    <else/>
+        <ul id="r-ggbox">
+            <li <eq name="$cate_id" value="0">class="active"</eq> style="border-top:0.1rem solid #dedede;"><a href="<{:LinkTo('market/shop',$linkArr,array('cat'=>'0'))}>">全部分类</a></li>
+            <foreach name="cates" item="item">
+            	<eq name="item.parent_id" value="$cat">
+                	<li <eq name="item['cate_id']" value="$cate_id">class="active"</eq>><a href="<{:LinkTo('market/shop',$linkArr,array('cate_id'=>$item['cate_id']))}>"><{:tu_msubstr($item['cate_name'],0,12,false)}></a></li>
+                </eq>
+            </foreach>
+        </ul>
+    </if>    
+
+    </div>
+
+    <script>
+        $('.qin').click(function () {
+            layer.open({
+                type: 1,
+                title: '',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['80%', '380px'], //宽高
+                content: '<div class="fu">' +
+                    '<div class="jiu5"><span ><a class="huode">恭喜您</a><br/><span class="fenxians">赶快分享好友购买，红包马上拿哦</span></span></div>' +
+                    '<span class="fuzhi">口令成功复制</span> <div class="fudong1"><input type="hidden" id="product_id" value="0">' +
+                    '<input type="hidden" id="shop_id" value="<{$detail[shop_id]}>"><p id="zhi">复制整段信息在浏览器打开，☞阿涂发发☜，即可参与【哇，这里有大牌超值红包任你抢，就差你帮我买一份了>>>】' +
+                    '(未安装App的点这里：https://<?php echo $_SERVER['HTTP_HOST']?>/wap/market/shop/shop_id/<?php echo $detail['shop_id'];?>.html?user_id=<?php echo $MEMBER['user_id'];?>))</p></div>' +
+                    '<button  class="fu_btn" id="btn_btn" data-clipboard-target="#zhi">去粘贴分享</button>' +
+                    '</div>'
+            });
+
+            $("#btn_btn").click(function(){
+                let e = document.getElementById("zhi").innerText;
+                //实例化clipboard
+                var clipboard = new ClipboardJS('#btn_btn');
+
+                var product_id=document.getElementById('product_id').value;
+                var shop_id=document.getElementById('shop_id').value;
+                $.ajax({
+                    url: '<{:U("market/fenxian")}>',
+                    data:{product_id:product_id,shop_id:shop_id},
+                    type: 'post',
+                    success: function (data) {
+                        if (data.status == 'success') {
+
+                        } else {
+
+                        }
+                    }
+                });
+                clipboard.on("success", function(e){
+                    layer.msg("复制成功！");
+                });
+                clipboard.on("error", function(e){
+                    layer.msg("复制失败！");
+                });
+            });
+        })
+    </script>
+    <div class="frame-set-right" style="margin-top: 40px;">
+        <div id="scroll">
+            <div class="list-have-pic">
+                <div class="eleList_box" id="eleList_box">
+                
+               
+                  
+                    
+                </div>
+            </div>                
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        <div class="tudou-cart-num-mask">
+            <div class="cont">
+                <div class="title1">菜市场购物车<a href="javascript:void(0);" class="closs float-right">×</a></div>
+                <div class="nr">
+                    <div class="tudou-cart-num-int">
+                        <ul>
+                        
+                        
+        
+        
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--<footer class="footer-cart eleFooter-cart">-->
+    <!--<div class="cart">-->
+        <!--<a id="cart_1" target="x-frame" class="tudou-cart-num-btn"  href="javascript:void(0);"><i class="iconfont icon-yunzhi2gouwuche"></i><div class="cart-num" id="num"></div></a>-->
+    <!--</div>-->
+   <!--<div class="price">￥<span id="total_price"></span>-->
+       <!--<span style="margin-left: 20px;margin-top: 5px;line-height: 20px">已优惠￥<span id="hui">0.00</span></span>-->
+    <!--</div>-->
+    <!--<eq name="detail.is_open" value="1">-->
+        <!--<div id="cart_2s" onclick="dianjis(this)" class="disable onclk"><a href="javascript:void(0);" style="color:#FFFFFF;" target="x-frame">选择下单</a></div>-->
+    <!--<else/>-->
+        <!--<div class="disable"><a href="javascript:void(0);" style="color:#FFFFFF;">已打样</a></div>-->
+    <!--</eq>-->
+<!--</footer>-->
+</div>
+<style>
+.hide{ display:none}
+.tudou-cart-num-mask{ position:fixed;  display:none; z-index:80; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0.6); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);}
+.tudou-cart-num-mask .cont{ position:absolute; bottom:48px; left:0; width:100%; background:#fff;}
+.tudou-cart-num-mask .title1{ overflow:hidden; font-size:14px; color:#333; line-height:2.34rem; padding:0 0.6rem; background:#f7f7f7;}
+.tudou-cart-num-mask .title1 .closs{ font-size:16px;}
+.tudou-cart-num-mask .nr{padding:0.6rem;}
+.tudou-cart-num-int{margin:0.2rem 0;}
+.tudou-cart-num-int .table th {}
+.tudou-cart-num-int ul li{display:block; float:left;}
+.tudou-cart-num-int span{cursor: pointer; display:inline-block; height:1.6rem; width:1.6rem; border: 0.1rem solid #dedede; background: #f0f0f0 none; font-size: 14px; line-height:1.4rem; text-align: center; outline: none;}
+.tudou-cart-num-int input[type="text"] { width:2.4rem; border: none 0; border-top: 0.1rem solid #dedede; border-bottom: 0.1rem solid #dedede; background: #fff none; font-size: 14px; line-height:1.5rem; text-align: center;  vertical-align: middle; padding: 0; border-radius: 0;}
+.tudou-cart-num-mask .btn_box{ border-top: 0.1rem solid #dedede; padding:0.6rem 0 0; text-align:center;}
+.tudou-cart-num-mask .btn{ display:inline-block; width: 80%; height: 2.1rem; line-height: 2.1rem; background: #2FBDAA; border-radius: 0.34rem; text-align: center; color: #FFF; font-size: 14px;}
+</style>
+
+
+
+
+</body>
+
+
+   <!--弹出 start-->
+   <div id="menuDetail" class="menu_detail">
+    <img style="display: none;">
+    <div class="nopic"></div>
+    <a id="detailBtn" class="comm_btn jq_addcart" onclick="addcart(this);"  did="<{$var.product_id}>" href="javascript:void(0);">来一份</a>
+        <dl><dt>价格：</dt><dd class="highlight"><span class="price"></span></dd></dl>
+        <dl style=" margin-top:15px;"><dt>介绍：</dt><dd class="info"></dd></dl>
+    </div>
+   <!--end-->
+    <!--弹出 start-->
+   <div id="menuDetails" class="menu_detail">
+    <div class="nopic">
+      <div style="margin-top: 10px;height: 30px;line-height: 30px;text-align: center;"><p>请选择配送费</p></div>
+      <div style="margin-top: 15px;width: 100%">
+      <span href="javascript:void(0);">专送配送费：￥<{$logistics}></span><a href="javascript:void(0)" style="color:#FFFFFF;background-color: #2FBDAA;float: right;margin-right: 10%;border-radius: 5px;padding: 3px;" class="queryorders" target="x-frame" data-type="1">确认下单</a>
+      </div>
+       <div style="margin-top: 40px;">
+      <span href="javascript:void(0);">直达配送费：￥<{$zdlogistics}></span><a href="javascript:void(0)" style="color:#FFFFFF;background-color: #2FBDAA;float: right;margin-right: 10%;border-radius: 5px;padding: 3px;" class="queryorders"  target="x-frame" data-type="2">确认下单</a>
+      </div>
+        <if condition="$detail['is_logistics'] eq 1">
+        <div style="margin-top: 40px;">
+            <span href="javascript:void(0);">外地物流配送：￥<{$wuliu}></span><a href="javascript:void(0)" style="color:#FFFFFF;background-color: #2FBDAA;float: right;margin-right: 10%;border-radius: 5px;padding: 3px;" class="queryorders"  target="x-frame" data-type="3">确认下单</a>
+        </div>
+        </if>
+        <if condition="$detail['is_carry'] eq 1">
+            <div style="margin-top: 40px;">
+                <span href="javascript:void(0);">到店自取：￥0</span><a href="javascript:void(0)" style="color:#FFFFFF;background-color: #2FBDAA;float: right;margin-right: 10%;border-radius: 5px;padding: 3px;" class="queryorders"  target="x-frame" data-type="4">确认下单</a>
+            </div>
+        </if>
+    </div>
+    </div>
+   <!--end-->
+   
+<script type="text/javascript">
+
+    //距离顶部固定
+    $(function() {
+        var elm = $('#top-wrap');
+        var startPos = $(elm).offset().top;
+        $.event.add(window, "scroll", function() {
+            var p = $(window).scrollTop();
+            $(elm).css('position',((p) > startPos) ? 'fixed' : 'static');
+            $(elm).css('top',((p) > startPos) ? '45px' : '');
+        });
+
+    });
+
+
+    $(function() {
+        var elms = $('.frame-set-left');
+        var startPos = $(elms).offset().top;
+        $.event.add(window, "scroll", function() {
+            var p = $(window).scrollTop();
+            $(elms).css('position',((p) > startPos) ? 'fixed' : 'static');
+            $(elms).css('top',((p) > startPos) ? '100px' : '');
+        });
+
+    });
+
+  $(".queryorders").click( function (){
+
+        var type = $(this).attr("data-type");
+        var pinuser = '<?php echo $_GET["user_id"];?>';
+        var url = "<{:U('market/orders',array('t'=>$nowtime))}>" +"?type="+type+"&user="+pinuser;
+        window.location.href = url;
+
+    });
+
+		loaddata('<{$nextpage}>', $("#eleList_box"), true);//加载页面
+
+        $(".tudou-cart-num-btn").click(function () {
+			var link = "<{:U('market/loadcart')}>";
+			$(".tudou-cart-num-int ul").load(link);
+            $(".tudou-cart-num-mask").show();
+				
+        });
+        $(".tudou-cart-num-mask").find(".closs").click(function () {
+            $(".tudou-cart-num-mask").hide();
+        });
+		$("#ele").find(".frame-set-right").click(function () {
+            $(".tudou-cart-num-mask").hide();
+        });
+		
+		
+		
+//添加弹出
+	var _wraper = $('#menuDetail');
+	var dialogTarget;
+	function liclick(l){
+		var _this = $(l),
+			F = function(str){return _this.parent().find(str);},
+			title = F('h5').text(),
+			imgUrl = F('img').attr('url'),
+			val = _this.parent().find('.jq_jian').attr('val'),
+			did = _this.parent().find('.jq_jian').attr('did'),
+			price = F('.unit_price').text(),
+			sales = F('.sales strong').attr('class'),
+			saleNum = F('.sale_num').text(),
+			info = F('h1').text(),
+			saleDesc = F('.salenum').html(),
+			unit=F('.theunit').text(),
+			_detailImg = _wraper.find('img');
+			_wraper.find('.price').text(price).end()
+			.find('.sales strong').attr('class', sales).end()
+			//.find('.sale_desc').html(saleNum).end()
+			.find('.info').text(info);
+		_wraper.parents('.dialog').find('.dialog_tt').text(title);
+			$('#detailBtn').removeClass('disabled').text('来一份');
+			$('#detailBtn').attr('val',val);
+			$('#detailBtn').attr('did',did);
+		if(imgUrl){
+			_detailImg.attr('src', imgUrl).show().next().hide();
+		}else{
+			_detailImg.hide().next().show();
+		}
+
+		dialogTarget = _this;
+		_wraper.dialog({title: title, closeBtn: true});
+		}
+
+
+
+//添加弹出
+  var dianji = $('#menuDetails');
+  var dialogTargetss;
+  function dianjis(k){
+    var _this = $(k),
+      F = function(str){return _this.parent().find(str);},
+      title = F('h5').text(),
+   
+      val = _this.parent().find('.jq_jian').attr('val'),
+      did = _this.parent().find('.jq_jian').attr('did'),
+      price = F('.unit_price').text(),
+      sales = F('.sales strong').attr('class'),
+      saleNum = F('.sale_num').text(),
+      info = F('h1').text(),
+      saleDesc = F('.salenum').html(),
+      unit=F('.theunit').text(),
+      _detailImg = dianji.find('img');
+      dianji.find('.price').text(price).end()
+      .find('.sales strong').attr('class', sales).end()
+      //.find('.sale_desc').html(saleNum).end()
+      .find('.info').text(info);
+    dianji.parents('.dialog').find('.dialog_tt').text(title);
+      $('#detailBtn').removeClass('disabled').text('来一份');
+      $('#detailBtn').attr('val',val);
+      $('#detailBtn').attr('did',did);
+    
+
+    dialogTargetss = _this;
+    dianji.dialog({title: title, closeBtn: true});
+    }
+
+		//添加弹出的商品到购物车
+		function addcart(o){
+			var data = {},did = $(o).attr('did'), shop_id = "<{$_GET['shop_id']}>";
+			data['product_id'] = $(o).attr('did');
+			data['price']      = $(o).attr('val');
+			
+			var v = $(".ordernum-" + did).val();
+			if(v < 99){
+				v++;
+				$(".ordernum-"+did).val(v);
+			}
+			window.market.addcart(shop_id,data);
+			$("#num").text(window.market.count());
+		}
+		
+		//加入购物车特效
+    $(function() {
+        var offset = $("#num").offset();
+        $(".jq_addcart").click(function(event) {
+            var addcar = $(this);
+            var img = addcar.parent().find('img').attr('src');
+            var flyer = $('<img class="u-flyer" src="' + img + '">');
+            flyer.fly({
+                start: {
+                    left: event.pageX,
+                    top: event.pageY
+                },
+                end: {
+                    left: offset.left + 10,
+                    top: offset.top + 10,
+                    width: 0,
+                    height: 0
+                }
+            });
+        });
+    })
+</script>
+
+<!--JS 购物车-->
+<script type="text/javascript">
+
+
+	
+    $(document).ready(function () {
+        var price = parseInt(window.market.totalprice("<{$detail['shop_id']}>"));
+        var since_money = "<{$detail['since_money']}>";
+        if(price > since_money){
+            $('#cart_2').find('a').attr('href', "<{:U('market/order',array('t'=>$nowtime))}>");
+            $('#cart_2').removeClass('disable');
+            $('#cart_2').addClass('btn');
+        }else{
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+            $('#cart_2').addClass('disable');
+            $('#cart_2').removeClass('btn');
+        }
+        
+    })
+
+
+
+    function addcart(o) {
+        var data = {}, did = $(o).attr('did'),shop_id = "<{$detail['shop_id']}>";
+        data['product_id'] = $(o).attr('did');
+        data['price'] = $(o).attr('val');
+		
+        var v = $(".ordernum-" + did).val();
+        if(v < 99){
+            v++;
+            $(".ordernum-"+did).val(v);
+        }
+        window.market.addcart(shop_id, data);
+        $("#num").text(window.market.count("<{$detail['shop_id']}>"));
+        $("#total_price").html(window.market.totalprice("<{$detail['shop_id']}>"));
+        var since_money = "<{$detail['since_money']}>";
+        if (parseInt(window.market.totalprice("<{$detail['shop_id']}>")) < parseInt(since_money)) {
+            $('#cart_2s').find('a').attr('href', "javascript:void(0);");
+			$('#cart_2s').removeClass('btn');
+            $('#cart_2s').addClass('disable');
+        } else {
+            $('#cart_2s').find('a').attr('href', "<{:U('market/order',array('t'=>$nowtime))}>");
+            $('#cart_2s').removeClass('disable');
+            $('#cart_2s').addClass('btn');
+        }
+    }
+    function dec(e) {
+        var product_id = $(e).attr('did'), did = $(e).attr('did'),shop_id = "<{$detail['shop_id']}>";
+        window.market.dec(shop_id, product_id);
+       var v = $(".ordernum-" + did).val();
+        if(v > 0){
+            v--;
+            $(".ordernum-"+did).val(v);
+        }
+		
+		
+        $("#num").text(window.market.count("<{$detail['shop_id']}>"));
+        $("#total_price").html(window.market.totalprice("<{$detail['shop_id']}>"));
+        var since_money = "<{$detail['since_money']}>";
+        if (parseInt(window.market.totalprice("<{$detail['shop_id']}>")) < parseInt(since_money)) {
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+            $('#cart_2').addClass('disable');
+            $('#cart_2').removeClass('btn');
+        } else {
+            $('#cart_2').find('a').attr('href', "<{:U('market/order',array('t'=>$nowtime))}>");
+            $('#cart_2').removeClass('disable');
+            $('#cart_2').addClass('btn');
+        }
+	}
+	
+	
+	
+	
+	function del(a) {
+        var product_id = $(a).attr('did'), did = $(a).attr('did');
+        //先清空再复制
+        $.each($('.change_price'),function(index,obj){
+            if($(obj).attr('did')==product_id){
+                $(obj).val('');
+            }
+        });
+        window.market.removeby(product_id);
+        $(".ordernum-"+did).val('0');
+		$(".hide-"+did).addClass('hide');
+        $("#num").text(window.market.count("<{$detail['shop_id']}>"));
+        $("#total_price").html(window.market.totalprice("<{$detail['shop_id']}>"));
+        var since_money = "<{$detail['since_money']}>";
+        if (parseInt(window.market.totalprice("<{$detail['shop_id']}>")) < parseInt(since_money)) {
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+            $('#cart_2').addClass('disable');
+            $('#cart_2').removeClass('btn');
+        } else {
+            $('#cart_2').find('a').attr('href', "<{:U('market/order',array('t'=>$nowtime))}>");
+            $('#cart_2').removeClass('disable');
+            $('#cart_2').addClass('btn');
+        }
+    
+	
+	
+    }
+
+//初始化购物城数据
+    ~function () {
+        var count = window.market.get_product_count();
+        var totalprice = window.market.get_product_totalPrice();
+        $("#num").text(count);
+        $("#total_price").html(totalprice);
+    }();
+
+</script>
+
+
+
+<!--左侧可滑动特效-->
+<script src="/static/default/wap/js/diyScroll.js"></script>
+<script src="/static/default/wap/js/jquery.easing.min.js"></script>
+<script src="/static/default/wap/js/function.js"></script>
+
+<script>	
+	//左侧可滑动特效
+	$(".frame-set-left:eq(0)").Frame({type:[0,0],background:"#f8f8f8",color:"#999999",topfunc:"history.go(0)",botfunc:"",id:"left_Scroll",ScrollWidth:1});
+	$(function(){
+		if(PhoneType()=='Android'){
+			setTimeout(function(){$(".frame-set-left:eq(0) .left_Scroll_to_top").css({marginTop:-35});},100);
+		}
+		if(PhoneType()=='iPhone'){
+			setTimeout(function(){$(".frame-set-left:eq(0) .left_Scroll_to_top").css({marginTop:-15});},100);
+		}
+	});
+</script>
+
+<php>
+$Shop = D('Shop')->find($detail['shop_id']);
+</php>
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$detail["shop_name"]}>."菜市场店铺"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/market/shop',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'shop_id'=>$detail['shop_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($Shop['photo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+     });
+     //分享给朋友
+     wx.onMenuShareAppMessage({
+            title: '<{$detail["shop_name"]}>."菜市场店铺"',
+            desc: '<{$detail["shop_name"]}>."速度来点餐了"',
+            link: "<{$CONFIG.site.host}><{:U('wap/market/shop',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'shop_id'=>$detail['shop_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($Shop['photo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+      });
+});
+
+
+</script>
+
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+</html>

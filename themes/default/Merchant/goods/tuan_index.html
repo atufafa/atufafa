@@ -1,0 +1,120 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城</a> > <a>分销商品列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+	<form method="post" action="<{:U('goods/tuan_index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">商品名称：<input type="text" class="radius3 tuan_topser"  name="keyword" value="<{$keyword}>"/><input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/></div>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('goods/tuan_create')}>">发布商品+</a></div>
+            <div class="right tuan_topfb_r" style="margin-right: 5px;"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('goods/tuan_refund')}>">0元购商品售后订单</a></div>
+             <div class="right tuan_topfb_r" style="margin-right: 5px;"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('goods/tuan_list')}>">0元购商品订单</a></div>
+        </div>
+    </div>
+    </form>
+    <include file='goods:nav'/><!--引入导航-->
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td width="50">商品ID</td>
+            <td width="120">商品图片</td>
+            <td width="130">商品名称</td>
+            <td width="150">商品时间</td>
+            <td width="70">原价</td>
+            <td width="70">商品重量</td>
+            <td width="70">是否免运费</td>
+            <td width="80">无规格配送费</td>
+            <td width="70">销量</td>
+            <td width="70">浏览次数</td>
+            <td width="70">状态</td>
+            <td width="140">操作</td>
+        </tr>
+        <foreach name="list" item="var">
+        <tr>
+            <tr>
+                <td><{$var.tuan_id}></td>
+                <td><img src="<{:config_img($var['photo'])}>"  style="width: 100px; margin: 0px auto;" /></td>
+                <td><{$var.title}></td>
+                <td><{$var.bg_date}>--<{$var.end_date}></td>
+                <td><{$var['price']}></td>
+                <td><{$var.weight}>g</td>
+                <td>
+                    <eq name="var.is_reight" value="0">免运费<else/>
+                        <{$kuaidi[$var[kuaidi]][name]|default='未设置运费模板'}>
+                    </eq>
+                </td>
+                <td style="height: 100px;"><{$var['tuan_price']}></td>
+                <td><{$var.sold_num}></td>
+                <td><{$var.check_num}></td>
+                <td><eq name="var.audit" value="0">等待审核<else/>正常</eq></td>
+                <td>
+                    <a class="radius3 sjgl_an tuan_topbt" href="<{:U('goods/tuan_edit',array('tuan_id'=>$var['tuan_id']))}>">编辑</a>
+
+                    <eq name="var.is_tui" value="0">
+                        <a class="radius3 sjgl_an tuan_topbt" onclick="goodsTop(<{$var.tuan_id}>)"  rel="<{$var['tuan_id']}>">付费推广</a>
+                        <else/>
+                        <a class="radius3 sjgl_an tuan_topbt" onclick="goodsTop(<{$var.tuan_id}>)"  rel="<{$var['tuan_id']}>">再次出价</a>
+                        <a class="radius3 sjgl_an tuan_topbt"  mini='confirm' href="<{:U('goods/update_tuantop',array('tuan_id'=>$var['tuan_id']))}>">取消付费推广</a>
+                    </eq>
+                    <eq name="var.closed" value="0">
+                        <a class="radius3 sjgl_an tuan_topbt"  mini='confirm' href="<{:U('goods/update2',array('tuan_id'=>$var['tuan_id']))}>">下架</a>
+                        <else/>
+                        <a class="radius3 sjgl_an tuan_topbt"  mini='confirm' href="<{:U('goods/update2',array('tuan_id'=>$var['tuan_id']))}>">上架</a>
+                    </eq>
+                    <if condition="$CONFIG['village']['tuan_enter_is_show']">
+                    	<a class="radius3 sjgl_an tuan_topbt" href="<{:U('shop/village',array('type'=>'2','id'=>$var['tuan_id']))}>">入驻乡村</a>
+                    </if>
+                    <a class="radius3 sjgl_an tuan_topbt"  mini='confirm'  href="<{:U('goods/tuan_del',array('tuan_id'=>$var['tuan_id']))}>">删除</a>
+                </td>
+            </tr>
+        </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<style>
+    .layui-layer-page .layui-layer-content{ padding:20px;}
+    .layui-layer-page .layui-layer-content input[type='text']{ width:100%; height:36px; border:1px solid #ccc; background:#fff; margin-bottom:10px; text-indent:10px; font-size:14px;}
+    .layui-layer-page .layui-layer-content input[type='button']{ width:100%; height:40px; border:none; background:#33b095; color:#fff; font-size:16px;}
+    .layui-layer-page .layui-layer-content p{ line-height:28px; color:#999;}
+    .layui-layer-page .layui-layer-content .check_box{ overflow:hidden; margin-bottom:5px;}
+    .layui-layer-page .layui-layer-content .check_box label{ display:block; float:left; margin-right:20px; margin-bottom:10px;}
+</style>
+<script>
+    function goodsTop(id){
+        layer.open({
+            type: 1,
+            title:'请填写竞价信息',
+            skin: 'layui-layer-rim',
+            area: ['360px', 'auto'],
+            content: '<div class="check_box"><label><input type="text" name="check_price" value="" id="check_price"><span>此处填写商品推广竞价，出价后会根据此价格进行商品排行</span></label><label><input type="button" class="button-pinche-top" value="确认推广"><p>推广费竞价目前最高<{$CONFIG.goods.top}>元，付费推广成功后不可取消，将在手机端首页按照竞价大小排序，请慎重操作</p>',
+        });
+        $(document).on('click','.button-pinche-top',function(){
+            var url = "<{:U('goods/tuan_top')}>";
+            var goods_id = id;
+            var check_price = $("#check_price").val();
+            var check_price_money = $("#check_price_money").val();
+            var end_time = $("#inputData").val();
+            layer.confirm('您确认要推广此商品吗？', {
+                btn: ['是的','不了']
+            }, function(){
+                $.post(url,{goods_id:goods_id,check_price:check_price,check_price_money:check_price_money},function(data){
+                    if(data.status == 'error'){
+                        layer.msg(data.msg);
+                    }else{
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        },1000)
+                    }
+                },'json')
+            });
+        })
+
+    }
+</script>
+<include  file='public:footer'/>

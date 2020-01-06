@@ -1,0 +1,34 @@
+<include  file='public:header'/>
+<script src="/static/default/wap/js/jquery.form.js"></script>
+<script src="/static/default/wap/js/public.js"></script>
+<div class="content_right">
+	<div class="tgdd">
+		<include file="zhe:zhenav"/>
+		<form method="post" class="fabu-form" id="ajaxForm">
+			<div class="password_nr">
+				<div class="list-media-x" id="list-media">
+					<div class="blank-10 bg"></div>
+					<ul></ul>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<style>
+	ul{padding-left:0px;}
+	.list-media-x li dd.zhong, .list-media-x li{border-bottom: 0px solid #eee;}
+</style>
+<script src="/static/default/wap/js/base.js"></script>
+<script src="/static/default/wap/other/layer.js"></script>
+<script src="/static/default/wap/js/jquery.form.js"></script>
+<script src="/static/default/wap/other/roll.js"></script>
+<script src="/static/default/wap/js/public.js"></script>
+
+<script>
+	$(document).ready(function(){
+		loaddata('<{$nextpage}>', $("#list-media ul"),true);
+	});
+</script>
+
+<include file='public:footer'/>   

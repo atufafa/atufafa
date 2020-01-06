@@ -1,0 +1,58 @@
+<include  file='public:header'/>
+
+<style>
+    .panel-list li em {float:inherit; margin-left:5px;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="<{:U('addrs/index')}>"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        录入快递单号
+    </div>
+</header>
+<style>
+    .list-media-x{margin-top:0rem;}
+    .panel-sub{margin-top:2.2rem;}
+    .list-media-x h3.list-shop-x{margin:5px 10px;}
+    .fa-spin{-webkit-animation: fa-spin 2s infinite linear;animation: fa-spin 2s infinite linear;}
+</style>
+
+
+<form class="fabu-form" method="post"   id="ajaxForm" action="<{:U('exchange/input_express')}>">
+    <input id="refund_id" type="hidden" name="id" value="<{$refund['id']}>" />
+    <div class="blank-10 bg"></div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">快递公司：</span>
+            <span class="x3" style="float:right;">
+                <select name="express_cp" id="type" class="text-select">
+                    <option value="">请选择</option>
+                    <option value="1">中通快递</option>
+                    <option value="2">圆通快递</option>
+                    <option value="3">顺丰快递</option>
+                </select>
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">快递单号：</span>
+            <span class="x9">
+                <input type="text" class="text-input" name="express_no" value=""/>
+            </span>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="blank-30"></div>
+        <button  type="submit" class="button button-block button-big bg-dot">确定提交</button>
+        <div class="blank-30"></div>
+    </div>
+</form>
+
+
+<include  file='public:footer'/>

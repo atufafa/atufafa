@@ -1,0 +1,40 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">团队管理</a> > <a>卖车团队列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+
+        </div>
+    </div>
+
+    <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0" >
+        <tr style="background-color:#F9F9F9;">
+            <td width="20%">会员ID</td>
+            <td width="20%">联系电话</td>
+            <td width="20%">出售类型</td>
+            <td width="20%">联系地址</td>
+            <td width="20%">注册时间</td>
+    </table>
+    <foreach name="list" item="var">
+        <table class="dianping" width="100%" border="0" style="text-align: center;">
+            <tr class="tr_dianping_1">
+                <td width="20%">(ID:<{$var.user_id}>)</td>
+                <td width="20%"><{$var.persontel}></td>
+                <td width="20%">
+                    <eq name="var.type" value="2">
+                        卖车
+                    </eq>
+                </td>
+                <td width="20%"><{$var.address}></td>
+                <td width="20%"><{$var.times}></td>
+            </tr>
+        </table>
+    </foreach>
+    <br/>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

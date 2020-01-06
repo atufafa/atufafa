@@ -1,0 +1,31 @@
+<foreach name="list" item="item">
+       <li class="line">
+        <dt>
+            <a class="x3">编号：<{$item.id}></a>
+            <a class="x9 text-right">分成时间：<{$item.time}> </a>
+        </dt>
+        
+          <dd class="zhong">
+                <div class="x12">
+                    <p>分成类型：<if condition="$item['order_type'] eq 1">外卖<elseif condition="$item['order_type'] eq 2"/>
+                        便利店<elseif condition="$item['order_type'] eq 3"/>菜市场</if></p>
+                    <p class="text-small">
+                        <span class="text-dot1 margin-right">
+                        	收益金额：<span class="text-dot">&yen;<{:round($item['money'],2)}>元 </span>
+                        </span>
+                        <span class="text-dot1 margin-right">
+                            <if condition="$item['order_id']">
+                                原始订单ID：<span class="text-dot"><{$item.order_id}></span>
+                            </if>
+                        </span>
+                    </p>
+                    <if condition="$item['info']">
+                    	<p class="text-small">分成说明：<span class="text-dot1 margin-right"><{$item.explain}></span></p>
+                    </if>
+                    
+              </div>
+          </dd>
+    </li>
+    <div class="blank-10 bg"></div>
+</foreach>
+

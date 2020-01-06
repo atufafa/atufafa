@@ -1,0 +1,71 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">外卖</li>
+        <li class="li2">奖励管理</li>
+        <li class="li2 li3">奖励列表</li>
+    </ul>
+</div>
+
+<style>
+    .seleK{height: 30px;}
+    .seleK label {margin-bottom: 10px;}
+    .main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+    .seleK .text{height: 28px; width:120px !important;}
+    .seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+    .main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+    .inptText{width: 120px; height: 28px; line-height: 30px;}
+    .inptButton{height: 30px;line-height:24px;background:rgb(0, 153, 204); width:70px;text-align: center;border-radius: 3px;}
+    .main-jsgl .jsglNr .selectNr .left a, .piliangcaozuo {height: 30px;line-height: 30px;}
+</style>
+
+
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50">ID</td>
+                    <td>商家ID</td>
+                    <td>商家名称</td>
+                    <td>申请说明</td>
+                    <td>申请时间</td>
+                    <td>状态</td>
+                    <td>理由</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><{$var.id}></td>
+                        <td>(ID:<{$var.shop_id}>)</td>
+                        <td><{$shop[$var['shop_id']]['shop_name']}></td>
+                        <td><{$var.reward}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td>
+                            <eq name="var.audit" value="0">审核中</eq>
+                            <eq name="var.audit" value="1">已审核</eq>
+                            <eq name="var.audit" value="2">已拒绝</eq>
+                            <eq name="var.audit" value="3">已奖励</eq>
+                        </td>
+                        <td><{$var.refuse}></td>
+                        <td>
+                            <if condition="$var['audit'] eq 0">
+                                <{:BA('elereward/shenhe',array("id"=>$var["id"]),'审核','act','remberBtn')}>
+                                <{:BA('elereward/refuse',array("id"=>$var["id"]),'拒绝','load','remberBtn',400,250)}>
+                            </if>
+                            <if condition="$var['audit'] eq 1">
+                                <{:BA('elereward/jiangli',array("id"=>$var["id"]),'发放奖励','act','remberBtn')}>
+                            </if>
+                            <{:BA('elereward/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,225 @@
+<div class="blank-10 bg"></div>
+<foreach  name="list" item="order">
+<li class="line" id="refresh_<{$order.order_id}>">
+	<dt><a class="x3">ID：<{$order.order_id}></a><a class="x9 text-right">下单日期：<{$order.create_time|date='Y-m-d,H:i:s',###}></a></dt>
+   <foreach name="products" item="product">  
+   <if condition="$product['order_id'] eq $order['order_id']">   
+  <dd class="zhong">
+        <div class="x2">
+            <a href="<{:U('market/detail',array('order_id'=>$order['order_id']))}>">
+            <img src="<{:config_img($marketproducts[$product['product_id']]['photo'])}>" style="width:90%;"></a>
+        </div>
+        <div class="x10">
+            <p><{$marketproducts[$product['product_id']]['product_name']}>
+            </p>
+            <p class="text-small">
+
+				<span class="text-dot1 margin-right">小计：<span class="text-dot">￥<{$marketproducts[$product['product_id']]['price']}> x <{$product.num}>斤 = <{$product['total_price']}> 元</span></span>
+                <if condition="$order['type'] eq 4">
+                    <p style="color: red">到店自取</p>
+                <elseif condition="$order['type'] eq 3"/>
+                    <p style="color: red">物流快递</p>
+                </if>
+
+			</p>
+         </div>
+        </dd>
+         </if>
+ </foreach>        
+         
+         <dt>
+             <div class="x12 text-small">
+             <span class="margin-right">
+             	<if condition="!empty($order['total_price'])">
+                    应付总费用：&yen;<span id="pay"><{$order['need_pay']}></span>元 <if condition="$order['type'] neq 4">(含配送费)</if>
+                 </if>
+             	 <if condition="!empty($order['new_money'])">
+                    - 新单立减：&yen;<span id="new"><{$order['new_money']}></span>元
+                 </if>
+                 <if condition="!empty($order['logistics_full_money'])">
+                    - 免配送费：&yen;<span id="full"><{$order['logistics_full_money']}></span>元
+                 </if>
+                 <if condition="!empty($order['reduce_coupun_money'])">
+                   - 优惠劵抵扣费用：&yen;<span id="coupun"><{$order['reduce_coupun_money']}></span>元
+                 </if>
+                  <if condition="!empty($order['full_reduce_price'])">
+                      - 满减优惠：&yen;<span id="reduce"><{$order['full_reduce_price']}></span>元
+                 </if>
+                 <if condition="!empty($order['tableware_price'])">
+                     + 包装费：&yen;<span id="tableware"><{$order['tableware_price']}></span>元
+                 </if>
+             </span>
+             <span>= 实际支付：<a  class="text-dot">&yen;<span id="need_pay"><{$order['need_pay']}></span>元</a></span>
+             </div>
+         </dt>   
+			
+        
+      
+      <dl>
+      <p class="text-right padding-top">
+      
+<eq name="order.is_daofu" value="0"> <!--如果不是到付-->   
+
+    <eq name="order.status" value="0">
+            <span id="show" style="display: none">
+            <a class="button button-small bg-dot" href="<{:u('wap/market/pay',array('order_id'=>$order['order_id']))}>">去付款</a>
+            </span>
+            <span id="show2">
+                <font id="pays"><a class="order_detail  button button-small bg-dot" rel="<{$order['order_id']}>" style="color: #fff;" href="javascript:void(0);">商家称重中，稍后支付</a></font>
+            </span>
+    <else />
+        <a class="button button-small bg-dot" href="javascript:void(0);"><{$cfg[$order['status']]}></a> 
+    <!--<if condition="$order['status'] eq 1">-->
+        <!--<a class="button button-small bg-gray" href="<{:u('user/market/markettui',array('order_id'=>$order['order_id']))}>">申请退款</a>-->
+    <!--</if>-->
+        <?php $endtime=$order['create_time']+5400;$t=time();?>
+        <if condition="$endtime gt $t && $order['status'] neq 8">
+            <a class="button button-small bg-gray" href="<{:u('user/market/markettui',array('order_id'=>$order['order_id']))}>">申请售后</a>
+        </if>
+    <if condition="$order['status'] eq 3">
+        <a  target="x-frame"  class="button button-small bg-dot" href="<{:u('user/market/qx',array('order_id'=>$order['order_id']))}>">取消退款</a>
+    </if>
+    
+    <php>
+    $Delivery = D('Delivery')->where(array('id' =>$order['delivery_order']['delivery_id']))->find();
+    
+    if($order['delivery_order']['status'] == 2){
+    	$status = '配送中';
+    }elseif($order['delivery_order']['status'] == 8){
+    	$status = '已完成';
+    }elseif($order['delivery_order']['status'] == 1 || $order['delivery_order']['status'] == 0 ){
+    	$status = '未配送';
+    }
+    
+    </php>
+    <if condition="!empty($order['delivery_order'])">	
+         <a id="is_pei<{$order.order_id}>" class="button button-small bg-yellow">配送信息</a>
+         <script type="text/javascript">
+            $('#is_pei<{$order.order_id}>').mouseover(function(){
+				var status = '<{$status}>';
+				var n = '<{$Delivery.name}>';
+				var m = '<{$Delivery.mobile}>';
+				layer.tips('配送状态：'+status+'<br>配送员姓名：'+n+'<br>电话：'+m+'',$(this),{
+					tips: [2, '#7a7a7a']
+				});
+			})
+        </script>
+    </if>
+    
+    
+    <!--<if condition="$order['status'] eq 0">-->
+        <!--<a class="order_detail jq_deletes button button-small bg-gray" rel="<{$order['order_id']}>" style="color: #fff;" href="javascript:void(0);">删除订单</a>-->
+    <!--</if>-->
+    <if condition="$order['status'] eq 4">
+        <a class="order_detail jq_deletes button button-small bg-gray" rel="<{$order['order_id']}>" style="color: #fff;" href="javascript:void(0);">删除订单</a>
+    </if>
+    <if condition="$order['status'] eq 8">
+        <a class="order_detail jq_deletes button button-small bg-gray" rel="<{$order['order_id']}>" style="color: #fff;" href="javascript:void(0);">删除订单</a>
+        <if condition="empty($order['comment'])">
+            <a class="order_detail button button-small bg-blue" href="<{:U('wap/delivery/comment',array('order_id'=>$order['order_id'],'type'=>'3'))}>">点评配送员</a>
+        </if>
+    </if>
+   </eq>
+
+<else/>
+	<!--如果是货到付款-->
+    <span class="button button-small bg-yellow" >餐到付款</span>&nbsp;
+    <if condition="$order['status'] eq 1">
+        <a class="order_detail jq_deletes button button-small bg-gray" rel="<{$order['order_id']}>" style="color: #fff;" href="javascript:void(0);">删除订单</a>
+    </if>
+    <span class="button button-small bg-dot" ><{$cfg[$order['status']]}></span> 
+</eq>      
+      
+        <if condition="$order['status'] eq 2 && $order['type'] eq 1 || $order['type'] eq 2">
+        <a target="x-frame"  class="order_detail button button-small bg-yellow"  href="<{:U('market/yes',array('order_id'=>$order['order_id']))}>">确定收货</a>
+        </if>
+          <if condition="$order['status'] eq 9 && $order['type'] eq 4">
+              <a target="x-frame"  class="order_detail button button-small bg-yellow"  href="<{:U('market/yes2',array('order_id'=>$order['order_id']))}>">确定收货</a>
+          </if>
+         <eq name="order.status" value="8">
+                <eq name="order.is_dianping" value="0">
+                <a class="order_detail button button-small bg-yellow" href="<{:U('market/dianping',array('order_id'=>$order['order_id']))}>">去点评</a>
+                </eq>
+          </eq>
+          <if condition="$order['type'] eq 3 && $order['status'] eq 2">
+              <a class="order_detail button button-small bg-yellow" href="<{:U('market/detail',array('order_id'=>$order['order_id']))}>">查看物流详情</a>
+              <else/>
+              <a class="order_detail button button-small bg-yellow" href="<{:U('market/detail',array('order_id'=>$order['order_id']))}>">详情</a>
+          </if>
+
+           <a class="order_detail button button-small bg-yellow sx">刷新</a> 
+        </p>
+      
+      </dl>
+    </li>
+    
+<div class="blank-10 bg"></div>
+</foreach>
+<script src="/static/default/wap/js/jquery.timers-1.2.js"></script>
+<script>
+    $(document).ready(function () {
+        test();
+    });
+    setInterval("test()",3000);
+    function test() {
+        $.ajax({
+            type: "POST",
+            url: "<{:U('market/refresh')}>",
+            timeout: 60000,
+            async: true,
+            data: "user_id="+"<{$user}>",
+            success: function(data, textStatus) {
+
+                if(data.code==1){
+                    var i;
+                    var j=data.data;
+                    for (i in j) {
+                         if (j[i].status == 0 && j[i].confirm==1) {
+                             var order1 = "refresh_"+j[i].order_id;
+                             var order_id=j[i].order_id;
+                             $('li#' + order1).find("#pay").html(j[i].need_pay);
+                             $('li#' + order1).find("#new").html(j[i].new_money);
+                             $('li#' + order1).find("#full").html(j[i].logistics_full_money);
+                             $('li#' + order1).find("#coupun").html(j[i].reduce_coupun_money);
+                             $('li#' + order1).find("#reduce").html(j[i].full_reduce_price);
+                             $('li#' + order1).find("#tableware").html(j[i].tableware_price);
+                             $('li#' + order1).find("#need_pay").html(j[i].need_pay);
+                             $('li#' + order1).find("#show").show();
+                             $('li#' + order1).find("#show2").hide();
+                             //$('li#' + order1).find("#pays").html('<a class="button button-small bg-dot" href="<{:u(\'wap/market/pay\',array(\'order_id\'=>order_id))}>">去付款</a>');
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+        $(".sx").click(function(){
+            window.location.reload();
+        });
+
+        $(".jq_deletes").click(function (){
+        var order_id = $(this).attr('rel');
+        layer.confirm('您确定要取消订单？',{
+            area: ['150px', '150px'], 
+            btn: ['是的', '不'],
+            shade: false
+        },function (){
+            $.post("<{:U('market/del')}>", {order_id:order_id}, function (result){
+                if(result.status == "success"){
+                    layer.msg(result.msg);
+                    setTimeout(function (){
+                        location.reload();
+                    }, 1000);
+                }else{
+                    layer.msg(result.msg);
+                }
+            }, 'json');
+        });
+        $('.layui-layer-btn0').css('background','#2fbdaa');
+    });
+
+
+
+    </script>
+

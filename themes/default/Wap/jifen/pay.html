@@ -1,0 +1,129 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('jifen/index',array('cat'=>$detail['cate_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			订单设定
+		</div>
+	</header>
+
+  
+<style>
+.iconfont icon-angle-right{ float:right; font-size:20px;}
+.redbag option{text-align:right;}
+#span{color: red;font-size: 16px;}
+	.pay-form{margin-top: 50px}
+</style>    
+	<form class="pay-form" action="<{:U('jifen/pay2',array('order_id'=>$order['order_id']))}>" method="post" target="x-frame">
+
+        <if condition="!empty($order['total_price'])">
+            <div class="row">
+                <span class="float-left">购物费用：</span>
+                <span class="float-right">  &yen;<span><{:round($order['total_price'],2)}></span>元</span>
+            </div>
+            <hr/>
+        </if>
+		<input type="hidden" value="<{:round($order['total_price'],2)}>" id="gowu">
+		<input type="hidden" value="<{:round($order['express_price'],2)}>" id="peisong">
+		<input type="hidden" value="<{:getUseIntegral($order['can_use_integral'],$type = 'exchange',$order['goods_id'])}>" id="jifen">
+        <if condition="!empty($order['express_price'])">
+            <div class="row">
+                <span class="float-left">配送费：</span>
+                <span class="float-right">  &yen;<{:round($order['express_price'],2)}>元</span>
+            </div>
+            <hr/>
+        </if>
+        <if condition="!empty(use_integral)">
+            <div class="row">
+                <span class="float-left">积分抵扣：</span>
+                <span class="float-right">  &yen; <{:getUseIntegral($order['can_use_integral'],$type = 'exchange',$order['goods_id'])}> 元
+                </span>
+            </div>
+            <hr/>
+        </if>
+
+         <div class="row">
+			<span class="float-left">实际支付：</span>
+					  <span class="float-right" id="span"><{:round($order['need_pay'],2)}></span>
+		</div>
+        <hr/>
+		<input id="span2" type="hidden" name="money" value="<{:round($order['need_pay'],2)}>">
+        <div class="blank-10 bg"></div>
+		<div class="row address_bg">
+        <span class="x10">
+			<i class="icon-wo iconfont"></i> <{:tu_msubstr($defaultAddress['xm'],0,3,false)}> &nbsp; <i class="iconfont icon-phone-line"></i> <{$defaultAddress.tel}> 
+            <p onclick="location='<{$changeAddressUrl}>'"><{$defaultAddress.area_str}> <{$defaultAddress.info}></p>
+         </span>
+          <span class="x2" onclick="location='<{$changeAddressUrl}>'"><i class="iconfont icon-angle-right padding-top"></i></span>
+		</div>
+		
+		<div class="blank-10 bg"></div>
+		
+		<ul id="pay-method" class="pay-method">
+			<foreach name="payment" item="var">
+			<li data-rel="<{$var.code}>"  id="<{$var.code}>" class="media media-x payment">
+				<a class="float-left"  href="javascript:;">
+					<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+				</a>
+				<div class="media-body">
+					<div class="line">
+						<div class="x10">
+						<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+						</div>
+						<div class="x2">
+							<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+						</div>
+					</div>
+				</div>
+			</li>
+			</foreach>
+		</ul>
+		<input id="code" type="hidden" name="code" value="" />
+		
+		<div class="text-center padding-left padding-right margin-large-top">
+			<button type="submit" class="button button-big button-block bg-yellow">提交订单</button>
+		</div>
+		
+		<div class="blank-20"></div>
+	</form>
+</div>
+     <script>
+	
+	   $(document).ready(function(){
+			var name = $("#<{$CONFIG['pay']['auto']}>").attr("data-rel");
+			if(name == "<{$CONFIG['pay']['auto']}>"){
+				$("#<{$CONFIG['pay']['auto']}>").addClass("active");
+				$("#code").val(name);
+			}
+		});
+		
+		
+    	$(document).ready(function(){
+			$("#pay-method li").click(function(){
+				var code = $(this).attr("data-rel");
+				$("#code").val(code);
+				$("#pay-method li").each(function(){
+					$(this).removeClass("active");
+				});
+				$(this).addClass("active");
+			});
+			
+		});
+
+		 $(document).ready(function () {
+			 var fei=parseFloat(document.getElementById('gowu').value);
+		 	 var peiso=parseFloat(document.getElementById('peisong').value);
+		 	 var jifen=parseFloat(document.getElementById('jifen').value);
+
+		 	var sum=(fei+peiso)-jifen;
+			
+			document.getElementById('span').textContent='￥'+sum+'元';
+			document.getElementById('span2').value=sum;
+
+
+		 })
+    </script>
+     
+
+<include  file='public:footer'/>       

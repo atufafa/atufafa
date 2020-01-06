@@ -1,0 +1,17 @@
+<include file="public:header"/>
+<style>ul {padding-left: 0px;}</style>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back"><a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a></div>
+    <div class="top-title">点评</div>
+    <div class="top-signed"></div>
+</header>
+<div class="list-media-x" id="list-media">
+    <ul>
+        <foreach name="list" item="var">
+            <li class="line ">
+                <dt style="float:right;"><a class="x3" href="<{:U('dianping/dpshow',array('grade_id'=>$var['grade_id']))}>"><{$var.grade_name}>点评</a><div style="text-align: right;">点评数<{$var.count}></div></dt>
+            </li>
+        </foreach>
+    </ul>
+</div>
+<include  file='public:footer'/>

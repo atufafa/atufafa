@@ -1,0 +1,126 @@
+<include file='public:header'/>
+<div class="mainBt">
+	<ul>
+		<li class="li1">系统</li>
+		<li class="li2">配送费管理</li>
+		<li class="li2 li3">外、菜、便配送费</li>
+	</ul>
+</div>
+<p class="attention">
+	<span>注意：</span>这个设置和外卖、菜市场、便利店配送费有关系。
+</p>
+<form target="x-frame" action="<{:U('freight/up')}>" method="post">
+	<div class="mainScAdd">
+		<div class="tableBox">
+			<table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px" style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#fff;">
+			<foreach name='list' item='var'>
+				
+
+			<tr>
+				<td class="lfTdBt">
+					专送配送费
+				</td>
+				<td class="rgTdBt">
+					<input type="text" name="price_1" value="<{$var.price_1}>" style="width: 50px" class="scAddTextName " />元
+					<input type="text" name="distance_1" value="<{$var.distance_1}>" style="width: 50px" class="scAddTextName" />公里数
+					<code>第一阶段</code>
+					<input type="text" name="price_2" value="<{$var.price_2}>" style="width: 50px;margin-left: 20px;" class="scAddTextName " />元
+					<input type="text" name="distance_2" value="<{$var.distance_2}>" style="width: 50px" class="scAddTextName " />公里数
+					<code>第二阶段</code>
+					<input type="text" name="price_3" value="<{$var.price_3}>" style="width: 50px;margin-left: 20px" class="scAddTextName " />元
+					<input type="text" name="distance_3" value="<{$var.distance_3}>" style="width: 50px" class="scAddTextName " />公里数
+					<code>第三阶段</code>
+					<input type="text" name="price_4" value="<{$var.price_4}>" style="width: 50px;margin-left: 20px" class="scAddTextName " />元
+					<input type="text" name="distance_4" value="<{$var.distance_4}>" style="width: 50px" class="scAddTextName " />公里数
+					<code>第四阶段</code>
+					<input type="text" name="price_5" value="<{$var.price_5}>" style="width: 50px;margin-left: 20px" class="scAddTextName " />元
+					<input type="text" name="distance_5" value="<{$var.distance_5}>" style="width: 50px" class="scAddTextName " />公里数
+					<code>第五阶段</code>
+				</td>
+			</tr>
+			<tr>
+				<td class="lfTdBt">
+					专送外卖扣差价
+				</td>
+				<td class="rgTdBt">
+					 <input type="text" name="chajia"  class="manageInput w80" value="<{$var.chajia}>" />
+                  <code>请填写数字，建议填写1-2，以可以不填写</code>
+				</td>
+			</tr>
+			
+		</foreach>
+		<foreach name='zdlist' item='zdvar'>	
+			<tr>
+				<td class="lfTdBt">
+				直达配送费
+				</td>
+				<td class="rgTdBt">
+					<input type="text" name="zdprice_1" value="<{$zdvar.zdprice_1}>" style="width: 50px" class="scAddTextName " />元
+					<input type="text" name="zddistance_1" value="<{$zdvar.zddistance_1}>" style="width: 50px" class="scAddTextName" />公里数
+					<code>第一阶段</code>
+					<input type="text" name="zdprice_2" value="<{$zdvar.zdprice_2}>" style="width: 50px;margin-left: 20px;" class="scAddTextName " />元
+					<input type="text" name="zddistance_2" value="<{$zdvar.zddistance_2}>" style="width: 50px" class="scAddTextName " />公里数
+					<code>第二阶段</code>
+					<input type="text" name="zdprice_3" value="<{$zdvar.zdprice_3}>" style="width: 50px;margin-left: 20px" class="scAddTextName " />元
+					<input type="text" name="zddistance_3" value="<{$zdvar.zddistance_3}>" style="width: 50px" class="scAddTextName " />公里数
+					<code>第三阶段</code>
+					<input type="text" name="zdprice_4" value="<{$zdvar.zdprice_4}>" style="width: 50px;margin-left: 20px" class="scAddTextName " />元
+					<input type="text" name="zddistance_4" value="<{$zdvar.zddistance_4}>" style="width: 50px" class="scAddTextName " />公里数
+					<code>第四阶段</code>
+					<input type="text" name="zdprice_5" value="<{$zdvar.zdprice_5}>" style="width: 50px;margin-left: 20px" class="scAddTextName " />元
+					<input type="text" name="zddistance_5" value="<{$zdvar.zddistance_5}>" style="width: 50px" class="scAddTextName " />公里数
+					<code>第五阶段</code>
+				</td>
+			</tr>
+				<tr>
+				<td class="lfTdBt">
+					直达外卖扣差价
+				</td>
+				<td class="rgTdBt">
+					 <input type="text" name="zdchajia"  class="scAddTextName" value="<{$zdvar.zdchajia}>" />
+                  <code>请填写数字，建议填写1-2，以可以不填写</code>
+				</td>
+			</tr>
+			
+		</foreach>	 
+			<tr>
+				<td class="lfTdBt">
+					外卖配送半径
+				</td>
+				<td class="rgTdBt">
+					 <input type="text" name="radius"  class="scAddTextName" value="<{$var.radius}>" />
+                  <code>单位为KM，超过距离范围不显示，请填写数字，建议填写1-5，以可以不填写</code>
+				</td>
+			</tr>
+		<foreach name='vehicle' item='v'>	
+			<tr>
+				<td class="lfTdBt">
+					司机跑腿最低起步价：
+				</td>
+				<td class="rgTdBt">
+					<input type="text" name="vehicle_price" value="<{$v.vehicle_price}>" style="width: 50px" class="scAddTextName " />元
+					<input type="text" name="vehicle_distance" value="<{$v.vehicle_distance}>" style="width: 50px" class="scAddTextName" />公里数
+					<code>填写最低公里数</code>
+				
+					<input type="text" name="vehicle_jiaja" value="<{$v.vehicle_jiaja}>" style="width: 50px" class="scAddTextName" />加价钱数
+					<code>超过最低公里数后，每公里加价多少钱!</code>
+				</td>
+			</tr>
+			<tr>
+				<td class="lfTdBt">
+					司机跑腿订单扣差价
+				</td>
+				<td class="rgTdBt">
+					 <input type="text" name="vehiclechajia"  class="scAddTextName" value="<{$v.vehiclechajia}>" />
+                  <code>请填写数字，建议填写5-10，以可以不填写</code>
+				</td>
+			</tr>
+		</foreach>	
+			</table>
+		</div>
+		<div class="smtQr">
+			<input type="submit" value="确认保存" class="smtQrIpt"/>
+		</div>
+	</div>
+</form>
+<include file='public:footer'/>

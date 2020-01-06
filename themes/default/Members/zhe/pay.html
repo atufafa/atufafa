@@ -1,0 +1,50 @@
+<include file='public:header'/>
+<script src="/static/default/wap/js/jquery.form.js"></script>
+<script src="/static/default/wap/js/web.js"></script>
+<style>
+	.password_input .left {
+		text-align: right;
+		margin-right: 100px;
+	}
+</style>
+<div class="content_right">
+	<div class="tgdd">
+		<include file="zhe:zhenav"/>
+		<form id="ajaxForm" class="fabu-form" action="<{:U('zhe/pay2',array('order_id'=>$order['order_id']))}>" method="post"  target="x-frame">
+			<div class="password_nr">
+				<div class="password_input">
+					<div class="left">支付编号</div>
+					<div class="lef"><{$order.order_id}></div>
+				</div>
+				<div class="password_input">
+					<div class="left">五折卡编号</div>
+					<div class="lef"><{$order['number']}></div>
+				</div>
+				<div class="password_input">
+					<div class="left">五折卡类型</div>
+					<div class="lef"><eq name="order.type" value="1">周卡<else/>年卡</eq></div>
+				</div>
+				<div class="password_input">
+					<div class="left">实付价格</div>
+					<div class="lef">&yen;<{:round($order['need_pay'],2)}></div>
+				</div>
+				<div class="password_input">
+					<div class="left"></div>
+					<div class="lef">
+						<foreach name="payment" item="var">
+							<eq name="var.is_open" value="1">
+								<if condition="$var['code'] neq 'weixin' ">
+									<dd><label><em><input class="pay_int" value="<{$var.code}>" name="code" type="radio" /></em><img src="__PUBLIC__/images/<{$var.logo}>" /></label></dd>
+								</if>
+							</eq>
+						</foreach>
+					</div>
+				</div>
+				<div class="password_subm"><input class="submit" type="submit" value="提交订单" /></div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+<include file="public:footer"/>

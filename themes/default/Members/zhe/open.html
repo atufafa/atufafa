@@ -1,0 +1,26 @@
+<php>$mobile_title = $detail['zhe_name'];</php>
+<include file="public:header"/>
+<div class="content_right">
+    <div class="tgdd">
+        <include file="zhe:zhenav"/>
+        <form method="post" target="x-frame" action="<{:U('zhe/buy',array('zhe_id'=>$detail['zhe_id']))}>">
+            <div class="password_nr">
+                <div class="password_input">
+                    <div class="left">周卡<p>价格 &yen;<{$CONFIG['zhe']['week_card_price']}>元</p></div>
+                    <div class="lef">
+                        <dd><label><em><input class="pay_int" value="1" name="type" type="radio" /></em><img src="/static/default/wap/image/pay/money_mobile.png" /></label></dd>
+                    </div>
+                </div>
+                <div class="password_input">
+                    <div class="left">年卡<p>价格 &yen;<{$CONFIG['zhe']['year_card_price']}>元</p></div>
+                    <div class="lef">
+                        <dd><label><em><input class="pay_int" value="2" name="type" type="radio" /></em><img src="/static/default/wap/image/pay/money_mobile.png" /></label></dd>
+                    </div>
+                </div>
+                <div class="password_subm"><input class="submit" type="submit" value="购买五折卡" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<include file="public:footer"/>

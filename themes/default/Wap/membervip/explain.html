@@ -1,0 +1,79 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        会员专享
+    </div>
+    <div class="top-search" style="display:none;">
+
+    </div>
+    <div class="top-signed">
+
+    </div>
+</header>
+
+<style>
+    .vip_div{width: 96%;margin-left: 2%;height: 480px}
+    .vip_div2{margin-top: 30px;height: 40px;line-height: 40px;text-align: center;background-color: red;color: #fff;border-radius: 5px}
+    .vip_div3{margin-top: 20px;text-align: center;font-size: 15px;color: #ec6d00}
+    .hrs{width: 60%;text-align: center;margin-top: 100px;margin-left: 20%;background-color:  #ec6d00}
+</style>
+<div id="index-cate" class="index-cate">
+    <!--广告位开始-->
+    <div id="tudou-slide" class="tudou-slide" style="margin-top: 50px">
+        <div class="hd"><ul></ul></div>
+        <div class="bd">
+            <ul>
+                <calldata mdl="Ad" where=" closed=0 AND site_id=1 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                    <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+                </calldata>
+            </ul>
+        </div>
+    </div>
+    <script>
+        TouchSlide({
+            slideCell: "#tudou-slide",
+            titCell: ".hd ul",
+            mainCell: ".bd ul",
+            effect: "left",
+            autoPlay: true,
+            autoPage: true,
+            switchLoad: "_src",
+        });
+    </script>
+    <!--广告位END-->
+    <div class="blank-10"></div>
+    <div id="filter2" class="filter2">
+        <div class="vip_div">
+            <h2 style="text-align: center;color: #e51525"><b><{$config['backers']['title']}></b></h2>
+            <h3 style="margin-top: 20px;"><b><{$config['backers']['backerstext']}></b></h3>
+            <hr class="hrs"/>
+            <div class="vip_div3">
+                <if condition="empty($hui)">
+                    点击下面红色按钮，立即购买成为阿涂发发会员
+                    <else/>
+                    点击下面红色按钮，立即免费兑换会员专享商品
+                </if>
+
+            </div>
+            <a href="<{:U('membervip/index')}>">
+            <div class="vip_div2">
+                <if condition="empty($hui)">
+                     现在就去购买
+                    <else/>
+                    现在就去兑换
+                </if>
+            </div>
+            </a>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+    <include file="public:footer"/>

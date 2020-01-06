@@ -1,0 +1,120 @@
+<foreach name="list" item="item">
+<li class="line ">
+        <dt>
+            <a class="x4">订单编号：<{$item.order_id}></a>
+            <a class="x8 text-right" href="<{:U('wap/edu/course_detail',array('course_id'=>$item['course_id']))}>">  
+               <{$item.course.title}> <span class=" iconfont icon-angle-right"></span> 
+            </a>
+        </dt>
+  <dd class="zhong">
+        <div class="x3">
+            <a href="<{:U('wap/edu/course_detail',array('course_id'=>$item['course_id']))}>">
+            	<img src="<{:config_img($item['course']['photo'])}>" width="70" height="70" style="width:90%;">
+            </a>
+        </div>
+        <div class="x9">
+            <p><{$item.course.title}></p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">下单时间：<{$item.create_time|date='Y-m-d H:i:s',###}></span>
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">
+                 订单总额：&yen;<{:round($item['need_pay'],2)}></span>
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">
+                 订单状态：
+                  <if condition="$item['order_status'] eq -1">
+                   <a class="button button-little" >已取消</a>
+                         <elseif condition="$item['order_status'] eq 0"/>
+                        待付款
+                        <elseif condition="$item[order_status] eq 3" />
+                        退款中
+                        <elseif condition="$item[order_status] eq 4" />
+                        已退款
+                        <elseif condition="$item[order_status] eq 1" />
+                       已付款
+                        <elseif condition="$item[order_status] eq 8" />
+                        已完成
+                        <elseif condition="$item['comment_status'] eq 1"/>
+                            已点评
+                  </if>
+                </span>
+            </p>
+            <p>
+               <span class="text-dot1 margin-right">
+                 授课状态：
+                  <eq name="item.class_status" value="0">未授课</eq>
+                    <eq name="item.class_status" value="1">申请授课信息</eq>
+                    <eq name="item.class_status" value="2">用户申请授课</eq>
+                    <eq name="item.class_status" value="3">用户确认授课</eq>
+                    <eq name="item.class_status" value="4">本次授课完成</eq>
+                    <eq name="item.class_status" value="5">授课取消</eq><br/>
+               </span>
+            </p>
+      </div>
+    </dd>
+      <dl>
+      <p class="text-right padding-top">
+          <a class="button button-little bg-dot"  href="<{:U('edu/detail',array('order_id'=>$item['order_id']))}>">查看详情</a>
+          <if condition="$item['order_status'] eq -1">
+                    <else/>
+                    <if condition="$item['order_status'] eq 0">
+                        <a class="button button-little bg-dot"  href="<{:U('wap/edu/pay',array('order_id'=>$item['order_id']))}>">去付款</a>
+
+                        <elseif condition="$item[order_status] eq 1" />
+                        <a  class="button button-little bg-dot"  href="<{:U('edu/refund',array('order_id'=>$item['order_id']))}>">申请退款</a>
+                        <a class="button button-little bg-yellow" href="<{:U('edu/qrcode',array('order_id'=>$item['order_id']))}>">查看二维码</a>
+                        <if condition="$item['comment_status'] eq 0">
+                            <a class="button button-little bg-dot" href="<{:U('edu/comment',array('order_id'=>$item['order_id']))}>">去点评</a>
+                        </if>
+                        <elseif condition="$item[order_status] eq 3" />
+                        <?php $fa=M('OrderRefund')->where(['goods_id'=>$item['order_id']])->count();?>
+                        <if condition="$fa egt 1">
+                            <a class="button button-little bg-dot" href="<{:U('edu/integralcomplaint',array('order_id'=>$item['order_id']))}>">投诉</a>
+                        </if>
+                        <else/>
+                    </if>
+          <if condition="$item[order_status] eq 1 && ($item[order_status] neq 3 || $item[order_status] neq 4 || $item[order_status] neq 8)">
+              <if condition="$item.class_status eq 0">
+                  <a  class="button button-little bg-dot class_status" data-status="2" data-json='<{:json_encode($item)}>'>申请授课</a>
+                  <elseif condition="$item.class_status eq 2"/>
+                  <a  class="button button-little bg-green class_status"  data-status="5" data-json='<{:json_encode($item)}>' >取消授课</a>
+                  <elseif condition="$item.class_status eq 1"/>
+                  <a  class="button button-little bg-dot class_status" data-status="3" data-json='<{:json_encode($item)}>' >确认授课</a>
+                  <elseif condition="$item.class_status eq 3 "/>
+                  <a  class="button button-little bg-dot class_status" data-status="4" data-json='<{:json_encode($item)}>'>结束本次授课</a>
+                  <elseif condition="$item.class_status eq 4 || $item.class_status eq 5"/>
+                  <a  class="button button-little bg-dot class_status" data-status="2" data-json='<{:json_encode($item)}>'>重新申请授课</a>
+              </if>
+              <a class="button button-little bg-dot"  href="<{:U('edu/details',array('order_id'=>$item['order_id']))}>">查看授课详情</a>
+          </if>
+          </if>
+
+
+      </p>
+      </dl>
+    </li>
+	<div class="blank-10 bg"></div>
+    <script>
+        $('.class_status').click(function () {
+            var json=$(this).data('json');
+            console.log(json);
+            var status=$(this).data('status');
+            $.post("<{:U('Api/user/UserUpdateClassStatus')}>",{
+                order_id:json.order_id,
+                shop_id:json.shop_id,
+                user_id:json.user_id,
+                class_id:json.class_id,
+                class_status:status
+            },function (res) {
+                layer.msg(res.msg);
+                if(res.code==200){
+                    window.location.reload();
+                }
+            });
+        });
+
+    </script>
+</foreach>
+

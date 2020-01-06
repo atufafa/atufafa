@@ -1,0 +1,46 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title  get-map-marker">大牌满减 </div>
+    <div id="allmap" style="display:none;"></div>
+</header>
+<!--广告位开始-->
+<div id="tudou-slide" class="tudou-slide" style="margin-top: 50px">
+    <div class="hd"><ul></ul></div>
+    <div class="bd">
+        <ul>
+            <calldata mdl="Ad" where=" closed=0 AND site_id=1 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+            </calldata>
+        </ul>
+    </div>
+    <div class="blank-10 bg"></div>
+</div>
+<script>
+    TouchSlide({
+        slideCell: "#tudou-slide",
+        titCell: ".hd ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+</script>
+
+<div class="list-media-x" id="list-media">
+    <ul></ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        loaddata('<{:U("ele/reductionloadata")}>', $("#list-media ul"), true);
+    });
+</script>
+
+<include file="public:footer"/>
+
+
+

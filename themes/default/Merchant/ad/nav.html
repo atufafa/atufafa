@@ -1,0 +1,36 @@
+<div class="tuanfabu_tab">
+    <ul>
+        <if condition="$CONFIG['operation']['ele']">
+            <if condition="$SHOPGRADE['is_ele']">
+                <li class="tuanfabu_tabli <eq name="act" value="index">on</eq>"><a href="<{:U('ad/index',array('type'=>1))}>">购买广告位</a></li>
+                <li class="tuanfabu_tabli <eq name="act" value="index2">on</eq>"><a href="<{:U('ad/index2',array('type'=>1))}>">我的广告位管理</a></li>
+                <li class="tuanfabu_tabli <eq name="act" value="index3">on</eq>"><a href="<{:U('ad/index3',array('type'=>1))}>">广告点击日志</a></li>
+             </if>
+        </if>
+
+        <if condition="$CONFIG['operation']['market']">
+            <if condition="$SHOPGRADE['is_market']">
+                <li class="tuanfabu_tabli <eq name="act" value="index">on</eq>"><a href="<{:U('ad/index',array('type'=>2))}>">购买广告位</a></li>
+                <li class="tuanfabu_tabli <eq name="act" value="index2">on</eq>"><a href="<{:U('ad/index2',array('type'=>2))}>">我的广告位管理</a></li>
+                <li class="tuanfabu_tabli <eq name="act" value="index3">on</eq>"><a href="<{:U('ad/index3',array('type'=>2))}>">广告点击日志</a></li>
+            </if>
+        </if>
+
+        <if condition="$CONFIG['operation']['store']">
+            <if condition="$SHOPGRADE['is_store']">
+                <li class="tuanfabu_tabli <eq name="act" value="index">on</eq>"><a href="<{:U('ad/index',array('type'=>3))}>">购买广告位</a></li>
+                 <li class="tuanfabu_tabli <eq name="act" value="index2">on</eq>"><a href="<{:U('ad/index2',array('type'=>3))}>">我的广告位管理</a></li>
+                 <li class="tuanfabu_tabli <eq name="act" value="index3">on</eq>"><a href="<{:U('ad/index3',array('type'=>3))}>">广告点击日志</a></li>
+             </if>
+        </if>
+
+        <if condition="$CONFIG['operation']['mall']">
+            <if condition="$SHOPGRADE['is_mall']">
+                <li class="tuanfabu_tabli <eq name="act" value="index">on</eq>"><a href="<{:U('ad/index',array('type'=>4))}>">购买广告位</a></li>
+                <li class="tuanfabu_tabli <eq name="act" value="index2">on</eq>"><a href="<{:U('ad/index2',array('type'=>4))}>">我的广告位管理</a></li>
+                <li class="tuanfabu_tabli <eq name="act" value="index3">on</eq>"><a href="<{:U('ad/index3',array('type'=>4))}>">广告点击日志</a></li>
+            </if>
+        </if>
+    </ul>
+</div>
+

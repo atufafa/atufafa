@@ -1,0 +1,62 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">积分商城管理</a> > <a href="">积分管理</a> > <a>入驻列表</a></li>
+    </ul>
+</div>
+<style>
+    .img{width: 80px;height: 60px;}
+</style>
+<div class="tuan_content">
+    <div>
+        <span style="font-size: 16px;color: red">通知：积分商城所有商品均为免运费</span>
+    </div>
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('integralmall/addgoods')}>">添加积分商品+</a></div>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('integralmall/creategoods')}>">新添加积分商品+</a></div>
+        </div>
+    </div>
+    <include  file='integralmall:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td >ID</td>
+            <td>产品名称</td>
+            <td>产品图片</td>
+            <td>出售类型</td>
+            <td>兑换积分</td>
+            <td>原价</td>
+            <td>现价</td>
+            <td>库存数量</td>
+            <td>兑换数量</td>
+            <td>创建时间</td>
+            <td>是否审核</td>
+            <td>商品状态</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.goods_id}></td>
+                <td><{$var.title}></td>
+                <td><img src="<{:config_img($var['face_pic'])}>" class="img"/></td>
+                <td><{$types[$var['cate_id']]['cate_name']}></td>
+                <td><{$var.integral}></td>
+                <td>￥<{$var.price}></td>
+                <td><span style="color: red">￥<{$var.now_price}></span></td>
+                <td><{$var.num}></td>
+                <td><{$var.exchange_num}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td><eq name="var.audit" value="0">等待审核<else/>正常</eq></td>
+                <td><eq name="var.shop_closed" value="0">正在出售<else/>已下架</eq></td>
+                <td>
+                    <{:BA('integralmall/edit',array("goods_id"=>$var["goods_id"]),'编辑','','remberBtn')}>
+                    <{:BA('integralmall/delete',array("goods_id"=>$var["goods_id"]),'下架','act','remberBtn')}>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

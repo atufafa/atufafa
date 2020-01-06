@@ -1,0 +1,119 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商城</a> > <a href="">0元购商品订单</a> > <a>订单列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include file='goods:tuan_nav'/><!--引入导航-->
+<div class="blank-20"></div>
+<table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="350">详情</td>
+            <td>单价</td>
+            <td>数量</td>
+            <td>总价</td>
+            <td>买家姓名</td>
+            <td>状态</td>
+            <td>实付金额</td>
+     </table>
+     <div class="blank-10"></div>
+<foreach name="list" item="order">   
+  <table  class="tuan_table1"  width="100%" border="0">
+  <tr class="tr_left_2">
+    <td class="left10" colspan="5">
+    订单ID：<span class="mallorder_jg"><{$order.order_id}></span>
+    <span class="td_top_1">交易时间：<{$order.create_time|date='Y-m-d H:i:s',###}>
+        <span class="td_top_1">收货地址：
+            <if condition="!empty($order['addr_id'])">
+           <{$addrs[$order['addr_id']]['xm']}>--<{$addrs[$order['addr_id']]['tel']}>--<{$addrs[$order['addr_id']]['area_str']}>---<{$addrs[$order['addr_id']]['info']}>
+           </if>
+       </span>
+    </td>
+  </tr>
+  <tr>
+    <td class="td_left_1"> 
+    <table  class="tuan_table2" width="100%" border="0">
+      <tr class="tr_left_1">
+      
+        <td class="left1">
+        
+       <!--商品展示开始-->
+        <div class="index__production___yfP3y" >
+        <a class="index__pic___TScfk" ><img src="<{:config_img($products[$order['tuan_id']]['photo'])}>" ></a>
+        <div class="index__infos___A6XLq" >
+            <p ><a href="<{:u('home/mall/detail',array('goods_id'=>$products[$order['goods_id']]['goods_id']))}>" target="_blank" ><span><{$products[$order['tuan_id']]['title']}></span></a></p>
+            <if condition="!empty($order[key_name])">
+                <span style="color:red;">规格：<{$order[key_name]}></span>
+            </if>
+        </div>
+    </div>
+       <!--商品展示END-->
+        </td>
+        <td class="left2">&yen;<{$order['price']}></td>
+        <td class="left3"><{$order['num']}></td>
+        <td class="left4">&yen;<{$order['total_price']}></td>
+        <td class="left5"> 
+            <if condition="$order['status'] neq 0  && $order['is_daofu'] neq 0">
+                <{$goodtypes[$order['status']]}>
+            </if>
+        </td>
+      </tr>
+     
+    </table>
+    </td>
+    <td class="left6" width="9%"><{$users[$order['user_id']]['account']}>
+      <eq name="order.is_mobile" value="1"><br/><img src="/themes/default/Merchant/statics/images/mobile.png" /></eq>
+         <eq name="order.is_profit" value="1">
+      <br/>
+        <a href="<{:U('order/profit',array('order_id'=>$order['order_id'],'order_type'=>2))}>">
+          <img src="/themes/default/Merchant/statics/images/profit.png" />
+        </a>
+    </eq>
+    </td>
+    <td class="left7" width="8%">
+        <{$types[$order['status']]}><br/>
+        <eq name="order.is_daofu" value="1">货到付款<br/></eq>
+        <eq name="order.is_print" value="1">已打印<br/></eq> 
+        <if condition="$order['status'] eq 3">
+            <a class="href"  mini='confirm' href="<{:U('goods/tuan_refund_sale',array('order_id'=>$order['order_id']))}>">审核通过</a><br/>
+        </if>
+        <if condition="$order['status'] eq 4">
+            <a href="javescript:;">售后已处理</a><br/>
+        </if>
+        <if condition="$order['status'] eq 0">
+            <a href="javescript:;">待付款</a><br/>
+        </if>
+        <if condition="$order['status'] eq 1">
+            <a href="javescript:;">已付款</a><br/>
+            <a class="href" href="<{:U('goods/tuan_wait',array('order_id'=>$order['order_id']))}>">去发货</a><br/>
+        </if>
+        <if condition="$order['is_dianping'] eq 1">
+          <a mini="load" h="550" w="600" style="margin-left: 80px;"  class="td_btn" href="<{:U('goods/tuan_reply',array('order_id'=>$order['order_id']))}>">查看点评</a>
+        </if>
+     </td>
+      <td class="left8"width="10%">
+      <span style="font-weight:bold;color:#F00">实付：&yen;<{$order['total_price']}></span><eq name="order.is_change" value="1">[改]</eq><br/>
+        <if condition="!empty($order['coupon_price'])">
+           <span> -优惠劵抵用&yen;<{$order['coupon_price']}>元</span><br/>
+        </if>
+        <if condition="!empty($order['use_integral'])">
+           <span> -积分抵扣&yen;<{:deduction($order['use_integral'])}>元</span><br/>
+        </if>
+        <if condition="!empty($order['mobile_fan'])">
+           <span> -手机下单立减&yen;<{$order['mobile_fan']}>元</span><br/>
+        </if>         
+        <span  style="color:#00F"> +配送费：&yen;<{$order['total_price']}>元</span><br/>
+    </td>
+
+    </foreach>
+   
+  </tr>
+ 
+</table>
+<br/>
+</foreach>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

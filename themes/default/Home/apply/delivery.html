@@ -1,0 +1,153 @@
+<include  file='public:header'/>
+<include  file='public:top'/>
+
+<link href="/themes/default/Members/statics/css/newstyle.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/statics/css/style.css" rel="stylesheet" type="text/css" />
+
+
+<link rel="stylesheet" href="/static/default/wap/css/alibase.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_295173_xnubd8xdu6czyqfr.css">
+<link rel="stylesheet" href="/static/default/wap/css/mcenter.css"/>
+<script src="/static/default/wap/js/jquery.js"></script>
+<script src="/static/default/wap/js/base.js"></script>
+<script src="/static/default/wap/other/layer.js"></script>
+<script src="/static/default/wap/js/jquery.form.js"></script>
+<script src="/static/default/wap/other/roll.js"></script>
+<script src="/static/default/wap/js/public.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css">
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+<style>
+	#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+	#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+	.row{
+		padding: 10px;
+	}
+	.line{
+		border-bottom: thin solid #eee;
+	}
+</style>
+<div style="text-align: center;">
+	<table border="0" style="margin: auto;" width='60%'>
+		<tr>
+			<td>
+				<style>
+					.fabu-form .row {
+						border-bottom: thin solid #fff;
+					}
+					.line {
+						border-bottom: thin solid #fff;
+					}
+					.pay-method {
+						 border-top: thin solid #fff;
+					}
+					.fabu-form .row .x3 {
+						color: #000;
+					}
+				</style>
+				<if condition="empty($user_delivery)">
+				<form class="fabu-form" method="post" action="<{:U('apply/psy')}>">
+					<div class="Upload-img-box">
+						<div  id="fileToUpload">上传身份证正面</div>
+						<div class="Upload-img">
+							<div class="list-img loading" style="display:none;"><img src=""></div>
+							<div class="list-img jq_photo" style="display:none;"></div>
+						</div>
+					</div>
+					<script>
+						var width_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],0)}>';
+						var height_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],1)}>';
+						var uploader = WebUploader.create({
+							auto: true,
+							swf: '/static/default/webuploader/Uploader.swf',
+							server: '<{:U("app/upload/uploadify",array("model"=>"delivery_user_photo"))}>',
+							pick: '#fileToUpload',
+							resize: true,
+							compress : {width:width_delivery_user_photo,height:height_delivery_user_photo,quality:60,allowMagnify: false,crop: true}//裁剪
+						});
+						//监听文件处理
+						uploader.on( 'beforeFileQueued', function( file ) {
+							$(".loading").show();
+							if(file.size > 1024000){
+								uploader.option( 'compress', {
+									width:width_delivery_user_photo,//这里裁剪长度
+									quality:60
+								});
+							}
+						});
+						//上传成功替换页面图片
+						uploader.on( 'uploadSuccess', function( file,resporse) {
+							$(".loading").hide();
+							var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[photo]" value="' + resporse.url + '" />';
+							$(".jq_photo").show().html(str);
+						});
+						//上传失败提醒
+						uploader.on( 'uploadError', function( file ) {
+							alert('上传出错');
+						});
+
+						$(document).ready(function () {
+							$(document).on("click", ".photo img", function () {
+								$(this).parent().remove();
+							});
+						});
+					</script>
+					<div class="row">
+						<div class="line">
+							<span class="x3">姓名：</span><span class="x3"><input type="text" class="text-input" style="border: 1px solid #DEDEDE; height: 30px;" name="data[name]" value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}><else/></if>"/></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="line">
+							<span class="x3">手机：</span><span class="x3"><input type="text" class="text-input" style="border: 1px solid #DEDEDE; height: 30px;" name="data[mobile]"  value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}><else/></if>" /></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="line">
+							<span class="x3">地址:</span><span class="x5"><input type="text" class="text-input" style="border: 1px solid #DEDEDE; height: 30px;" name="data[addr]"/></span>
+						</div>
+					</div>
+					<div class="line padding">
+						<span class="x3">配送员级别：</span><span class="x5"><select id="num" name="num" class="text-select" style="border: 1px solid #DEDEDE; height: 30px;"><option value="0" selected>请选择级别</option><foreach name="level" item="level"><option value="<{$level.id}>" title="<{$level.num}>">配送员级别:<{$level.title}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费金额:<{$level.num}></option></foreach></select></span>
+					</div>
+					<ul id="pay-method" class="pay-method">
+						<div class="password_input" style="padding-top: 8px;">
+							<span class="x3">支付方式</span>
+							<div class="lef">
+								<foreach name="payment" item="var">
+									<eq name="var.is_open" value="1">
+										<if condition="$var['code'] neq 'weixinh5' and $var['code'] neq 'money' ">
+											<dd><label><em><input class="pay_int" value="<{$var.code}>" name="code" type="radio" /></em><img src="__PUBLIC__/images/<{$var.logo}>" width="90" height="35" /></label></dd>
+										</if>
+									</eq>
+								</foreach>
+							</div>
+						</div>
+					</ul>
+					<div class="container">
+						<div class="blank-30"></div>
+						<button  type="submit" class="button button-block button-big bg-dot">点击申请</button>
+						<div class="blank-30"></div>
+					</div>
+				</form>
+				<elseif condition="$user_delivery['audit'] eq 0" />
+					<if condition="$ispaid eq ''">
+						<a  href="<{:U('apply/deldelivery',array('log_id'=>$user_delivery['log_id']))}>" class="button button-block button-big bg-dot">请重新申请</a>
+						<else/>
+					<div class="container">
+						<div class="blank-30"></div>
+						<button  type="submit" class="button button-block button-big bg-gray">审核中</button>
+						<div class="blank-30"></div>
+					</div>
+					</if>
+				<elseif condition="$user_delivery['audit'] eq 1" />
+					<div class="container">
+						<div class="blank-30"></div>
+						<a  href="<{:U('delivery/index/index')}>" class="button button-block button-big bg-dot">请登录app手机端,点击登录</a> 登陆后点击我的(会员中心)点击配送员
+						<div class="blank-30"></div>
+					</div>
+				</if>
+			</td>
+		</tr>
+	</table>
+</div>
+<include  file='public:footer'/>

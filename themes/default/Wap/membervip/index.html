@@ -1,0 +1,116 @@
+<include file="public:header"/>
+<php>
+
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    foreach ($areas  as $val) {
+    $area_ids[$val['area_id']] = $val['area_id'];
+    }
+    $bizs = D('Business')->where(array('area_id'=>array('IN',$area_ids)))->select();
+    $Area = D('Area')->find($area);
+    $business = D('Business')->find($business);
+</php>
+
+
+<script src="/static/default/wap/js/fontscroll.js"></script>
+<style>
+    .top-fixed .top-title{width:80%;}
+    .item-list h5 { height: inherit;}
+    .is_renzheng{background: #33b095;padding: 0 3px;color: #fff !important;font-size: 12px;margin-right: 5px; height: 16px;line-height: 16px;margin-top: 3px;}
+    .cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+    .cate-wrap li{box-sizing:border-box;width:20%;float:left}
+    .icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+    .cate-img{background-size:6rem auto;display:inline-block}
+    .cate-img img{width:2.6rem;height:2.6rem}
+    .cate-desc{display:block}
+    .cate-desc{padding-top:.4rem}
+    .container {margin-top: 0rem;}
+    .item-list img{position:relative;padding:0px; }
+    .item-list li span.album{ font-size:12px; color:#FFF;margin-right: 1px;position:absolute;bottom:0;width:100%;height:20px;line-height:20px;text-align:center;background: rgba(0,0,0,0.3);}
+    .tuiguang{background:#F63;padding: 0 3px;color: #fff !important;font-size: 12px;margin-right: 5px;height: 16px;line-height: 16px;margin-top: 3px;}
+
+    .tudou_scroll{position:relative;height: 220px;}
+    .tudou_scroll_box {width:auto;height: 30px;position:relative;background: rgba(138, 134, 134, 0.55);background-position: 5px;background-size: 50px auto;top: 4rem;position: absolute;border-radius: 1.08rem;}
+    .tudou_scroll_box .tudou_scroll {padding-left:5px; height: 30px;line-height: 30px;overflow: Hidden; margin: 0 auto;}
+    .tudou_scroll_box .tudou_scroll li {height: 30px;line-height: 30px;overflow: hidden;}
+    .tudou_scroll_box .tudou_scroll img { border-radius:100%}
+    .tudou_scroll_box .tudou_scroll li i {float: right;height: 30px;line-height: 30px;padding: 0 10px 0 20px;font-size: 12px;color: #999;}
+    .tudou_scroll_box .tudou_scroll li a {font-size: 12px;color:#fff;}
+
+
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <if condition="empty($keyword)">
+        <div class="top-title  get-map-marker">会员专享首页</div>
+    </if>
+
+    <div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+    <form method="post" action="<{:LinkTo('mall/index',$linkArr,array('keyword'=>'0'))}>">
+        <input name="keyword" placeholder="<{$keyword|default='输入商品的关键字'}>"  />
+        <button type="submit" class="iconfont icon-search"></button>
+    </form>
+    </div>
+    <if condition="empty($keyword)">
+        <div class="top-signed">
+            <a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+        </div>
+    </if>
+</header>
+
+<script>
+    $(function(){
+        $("#search-btn").click(function(){
+            if($(".top-search").css("display")=='block'){
+                $(".top-search").hide();
+                $(".top-title").show(200);
+            }
+            else{
+                $(".top-search").show();
+                $(".top-title").hide(200);
+            }
+        });
+        var time = "3000";
+        $('#tudou_scroll').FontScroll({time:time,num:1});
+    });
+</script>
+
+<!--广告位开始-->
+<div id="tudou-slide" class="tudou-slide" style="margin-top: 50px">
+    <div class="hd"><ul></ul></div>
+    <div class="bd">
+        <ul>
+            <calldata mdl="Ad" where=" closed=0 AND site_id=1 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+            </calldata>
+        </ul>
+    </div>
+</div>
+<script>
+    TouchSlide({
+        slideCell: "#tudou-slide",
+        titCell: ".hd ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+</script>
+<!--广告位END-->
+<div class="item-list" id="item-list">
+    <ul></ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+        loaddata('<{$nextpage}>', $("#item-list ul"), true);
+    });
+</script>
+
+
+
+
+<include  file='public:footer'/>

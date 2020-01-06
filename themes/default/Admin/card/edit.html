@@ -1,0 +1,37 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="x-frame" action="<{:U('card/edit',array('user_id'=>$user_id))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                        <tr>
+                            <td class="lfTdBt">当前会员ID:</td>
+                            <td class="rgTdBt"><{$details.user_id}></td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">会员昵称:</td>
+                            <td class="rgTdBt"><{$details.nickname}></td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">卡片数量:</td>
+                            <td class="rgTdBt"><input type="text" name="num" value="<{$details.card_number}>" class="manageInput w150"></td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">分发卡片次数:</td>
+                            <td class="rgTdBt"><input type="text" name="num1" value="<{$details.frequency}>" class="manageInput w150"></td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">店铺编号:</td>
+                            <td class="rgTdBt"><input type="text" name="num2" value="<{$details.shopnum}>" class="manageInput w150"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

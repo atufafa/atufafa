@@ -1,0 +1,49 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">红包</li>
+        <li class="li2 li3">平台红包配置</li>
+    </ul>
+</div>
+<form  target="x-frame" action="<{:U('setting/platform')}>" method="post">
+    <div class="mainScAdd ">
+
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td  class="lfTdBt">红包名称：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[title]" value="<{$CONFIG.platform.title}>" class="manageInput"/>
+                        <code>红包名称</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td  class="lfTdBt">红包简介：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[intro]" value="<{$CONFIG.platform.intro}>" class="manageInput"  />
+                        <code>简单些红包界面，用于领取页面说明，不超过30字</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">红包个数：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[prestore]" value="<{$CONFIG.platform.prestore}>" class="manageInput" />
+                        <code>每个会员领取红包个人不得大于这个数，填写这个红包个人在前台随机产生！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">单个红包金额：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[single]" value="<{$CONFIG.platform.single}>" class="manageInput" />
+                        <code>最高单个红包不能大于这个金额，金额数量在前台产生</code>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>

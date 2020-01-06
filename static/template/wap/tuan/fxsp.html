@@ -1,0 +1,93 @@
+<script id="template_integral_goods" type="text/html">
+    <div class="goods-box">
+        <div class="goods_jifen">
+            <div id="J_ItemList">
+                {{each data.goods as item}}
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a href="./tuan_detail/tuan_id/{{item.tuan_id}}">
+                            <div class="products_kuang">
+                                <img  src="{{item.photo}}">
+
+                            </div>
+                            <div >
+                                <span style="font-size: 12px;color: black">{{item.title.substring(0,6)}}</span><br/>
+                                <del> &yen;{{item.price}}</del><br/>
+                                <span style="font-size: 18px;color: red;">&yen;0</span><br/>
+                                <span class="qian">免费拿</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="boxs_guangao">
+        {{if data.ad1.logo}}
+            <div class="biaoti">
+                <div class="im">
+                    <img class="shop_logo" src="{{data.ad1.logo}}" />
+                </div>
+                <div class="tite">
+                    <span class="spa1">{{data.ad1.shop_name.substr(0,11)}}</span><br/>
+                    <span class="spa2">{{data.ad1.introduce.substr(0,11)}}</span>
+                </div>
+                <div class="genduo">
+                    <a href="../../ad/click/ad_id/{{data.ad1.ad_id}}"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+                </div>
+            </div>
+        {{/if}}
+        <ul class="category">
+            {{each data.ad2 as item}}
+                <li class="lis">
+                    <a href="../../wap/ad/click/ad_id/{{item.ad_id}}">
+                        <img class="imgss" src="{{item.photo}}" />
+                        <div class="mone">
+                            <div style="width: 100%;height: 35px;line-height: 20px;">
+                                <span style="font-size: 12px;color: black">{{item.title.substring(0,6)}}</span><br/>
+                                <del>&yen;{{item.price}}</del>
+                            </div>
+                            <div style="width: 100%;height: 21px;line-height: 21px;font-size: 14px;color: red">
+                                &yen;0
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div class="blank-10 bg" style="height: 3px;"></div>
+
+</script>
+
+
+<script id="template_category_integral_goods" type="text/html">
+    <div class="goods-box">
+        <div class="goods_jifen">
+            <div >
+                {{each data as item}}
+                <ul class="product single_item info">
+                    <li>
+                        <a href="./tuan_detail/tuan_id/{{item.tuan_id}}">
+                            <div class="products_kuang">
+                                <img  src="{{item.photo}}">
+
+                            </div>
+                            <div >
+                                <span style="font-size: 12px;color: black">{{item.title.substring(0,6)}}</span><br/>
+                               <del>
+                                &yen;{{item.price}}</del><br/>
+                                <span style="font-size: 18px;color: red;">&yen;0</span><br/>
+                                <span class="qian">免费拿</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</script>

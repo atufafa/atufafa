@@ -1,0 +1,296 @@
+<include  file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back"><a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a></div>
+	<div class="top-title">公司信息认证</div>
+</header>
+<style>
+#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+.row{padding-left: 20px;
+margin-top: 5px;}
+</style>
+<if condition="!empty($detail)">
+    <div class="container" style="margin-top: 50px">
+            <div class="line" style="padding:10px">
+                <div class="x12">
+                 <if condition="$detail['examine'] eq 0">
+                    <h1>审核中，加快审核联系电话<{$CONFIG.site.tel}></h1>
+                 <elseif condition="$detail['examine'] eq 1" />
+                 <a class="button button-block button-big bg-dot text-center">已通过公司认证</a>
+                 <div class="blank-20"></div>
+                 <a class="button button-block button-big bg-yellow text-center" href="javascript:history.back(-1);">返回会员中心</a>
+                 </if>
+                </div>
+            </div>
+           </div>
+    <div class="blank-10 bg"></div>
+<else/>
+<form method="post" action="<{:U('room/renz')}>" id="ajaxForm" style="margin-top: 50px">
+	<div class="blank-10"></div>
+	<div class="Upload-img-box">
+		<div  id="fileToUpload">上传营业执照</div>
+		<div class="Upload-img">
+			<div class="list-img loading" style="display:none;"><img src=""></div>
+			<div class="list-img jq_photo" style="display:none;"></div>
+		</div>
+	</div>
+	<script>
+        var width_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],0)}>';
+        var height_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"delivery_user_photo"))}>',
+            pick: '#fileToUpload',
+            resize: true,
+            compress : {width:width_delivery_user_photo,height:height_delivery_user_photo,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_delivery_user_photo,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[businessphoto]" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+	</script>
+	<div class="blank-10"></div>
+	<div class="Upload-img-box">
+		<div  id="fileToUploads">上传法人手持证件照</div>
+		<div class="Upload-img">
+			<div class="list-img loadings" style="display:none;"><img src=""></div>
+			<div class="list-img jq_photos" style="display:none;"></div>
+		</div>
+	</div>
+
+	<script>
+        var width_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],0)}>';
+        var height_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"delivery_user_photo"))}>',
+            pick: '#fileToUploads',
+            resize: true,
+            compress : {width:width_delivery_user_photo,height:height_delivery_user_photo,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loadings").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_delivery_user_photo,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loadings").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[handphoto]" value="' + resporse.url + '" />';
+            $(".jq_photos").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+	</script>
+
+    <div class="blank-10"></div>
+    <div class="Upload-img-box">
+        <div  id="filez">上传法人身份证正面照</div>
+        <div class="Upload-img">
+            <div class="list-img loadin" style="display:none;"><img src=""></div>
+            <div class="list-img jq_phot" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        var width_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],0)}>';
+        var height_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"delivery_user_photo"))}>',
+            pick: '#filez',
+            resize: true,
+            compress : {width:width_delivery_user_photo,height:height_delivery_user_photo,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loadin").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_delivery_user_photo,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loadin").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[positivephoto]" value="' + resporse.url + '" />';
+            $(".jq_phot").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+ 
+    <div class="blank-10"></div>
+    <div class="Upload-img-box">
+        <div  id="fil">上传法人身份证背面照</div>
+        <div class="Upload-img">
+            <div class="list-img load" style="display:none;"><img src=""></div>
+            <div class="list-img jq_ph" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        var width_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],0)}>';
+        var height_delivery_user_photo = '<{:thumbSize($CONFIG[attachs][delivery_user_photo][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"delivery_user_photo"))}>',
+            pick: '#fil',
+            resize: true,
+            compress : {width:width_delivery_user_photo,height:height_delivery_user_photo,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".load").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_delivery_user_photo,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".load").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[backphoto]" value="' + resporse.url + '" />';
+            $(".jq_ph").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+
+	<div class="blank-10 bg"></div>
+
+    <div style="padding: 10px;">
+        <label>推荐人ID：</label>
+        <label><input type="text" name="data[recommend]" placeholder="推荐人ID,如果没有就不填"></label>
+    </div>
+    
+     <div style="padding: 10px;">
+        <label>法人姓名：</label>
+        <label><input type="text" name="data[personname]"></label>
+    </div>
+
+     <div style="padding: 10px;">
+        <label>联系电话：</label>
+        <label><input type="text" name="data[persontel]"></label>
+    </div>
+   <!--  
+    <div style="padding: 10px;">
+        <label>出售类型：</label>
+        <label><select name="data[type]">
+            <option value="0">请选择出售类型</option>
+             <foreach name="types"  item="var">
+                    <option value="<{$var.type_id}>"><{$var.typename}></option>
+                </foreach>
+        </select></label>
+    </div> -->
+
+
+     <div style="padding: 10px;">
+        <label>联系地址：</label>
+        <label><input type="text" name="data[address]"></label>
+    </div>
+
+<div class="blank-10 bg"></div>
+
+	<input type="hidden"  name="data[deposit]" value="<{$money}>">
+    <input type="hidden"  name="data[management]" value="<{$moneys}>">
+     
+	<ul id="pay-method" class="pay-method">
+		<foreach name="payment" item="var">
+				<li data-rel="<{$var.code}>" class="media media-x payment">
+					<a class="float-left"  href="javascript:;"><img src="/static/default/wap/image/pay/<{$var.mobile_logo}>"></a>
+					<div class="media-body">
+						<div class="line">
+							<div class="x10"><{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p></div>
+							<div class="x2"><span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span></div>
+						</div>
+					</div>
+				</li>
+		</foreach>
+	</ul>
+	<input id="code" type="hidden" name="code" value="" />
+
+	<script>
+        $("#pay-method li").click(function(){
+            var code = $(this).attr("data-rel");
+            $("#code").val(code);
+            $("#pay-method li").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass("active");
+        });
+	</script>
+    <div class="blank-10 bg"></div>
+     <div class="row">
+        <div class="line">
+            <span><font>上传须知：</font><font color="red">提交认证需要交付押金￥<{$money}>,平台管理费￥<{$moneys}>,如出现举报信息并核实将扣除部分押金并奖励举报用户,如3个月内无异常,可申请退还押金</font></span>
+        </div>
+    </div>
+	<div class="blank-30"></div>
+	<div class="container"><button type="submit" class="button button-block button-big bg-dot">提交充值</button></div>
+	<div class="blank-30"></div>
+</form>
+    </if>
+<include  file='public:footer'/>

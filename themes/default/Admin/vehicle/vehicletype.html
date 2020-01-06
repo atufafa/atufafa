@@ -1,0 +1,57 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">功能</li>
+        <li class="li2">车辆信息管理</li>
+        <li class="li2 li3">车辆类型管理</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('vehicle/vehicleadd','','添加车辆类型')}>
+            </div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="t_id" /></td>
+                        <td class="w50">车辆ID</td>
+                        <td>类型名称</td>
+                        <td>类型押金</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="t_id[]" value="<{$var.t_id}>" /></td>
+                            <td><{$var.t_id}></td>
+                            <td><{$var.v_type}></td>
+                            <td>￥<{$var.v_price}></td>
+                           
+                            <td>
+                                <{:BA('vehicle/vehicleedit',array("id"=>$var["t_id"]),'编辑','','remberBtn')}>
+                                <{:BA('vehicle/vehicledel',array("id"=>$var["t_id"]),'删除','','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<include  file='public:footer'/>       

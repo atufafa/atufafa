@@ -1,0 +1,71 @@
+<include file='public:header'/>
+<script src="/static/default/wap/js/dialog.js"></script>
+<link href="/static/default/wap/css/dianping.css" rel="stylesheet">
+<style>
+    .coupon-list .shop{overflow:hidden;height:40px;line-height:40px;border-bottom:thin solid #eee;font-size:14px;padding:0 10px;background:#FAFAFA;font-weight:700}
+    .coupon-list .shop span{float:right;font-weight:400}
+    .coupon-list .item{border-bottom:thin solid #eee;display:block;overflow:hidden;padding:10px;position:relative}
+    .coupon-list .item .pic{border-radius:5.5rem;width:2.3rem;height:2.3rem;margin-top:.1rem}
+    .coupon-list .item h3{height:20px;line-height:20px;overflow:hidden;font-size:14px}
+    .coupon-list .item .intro{line-height:20px;color:#999;margin:5px 0;overflow:hidden;font-size:12px}
+    .coupon-list .item .info{line-height:20px;height:20px;color:#999;padding:5px 0;border-top:thin dotted #eee;font-size:12px}
+    .coupon-list .item .info7 img{width:60px;height:60px;padding:.34rem}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">投诉商家列表</div>
+    <div class="top-share">
+        <a href="#" id="share-btn"></a>
+    </div>
+</header>
+<style>
+    #coupon-list{margin-top: 2rem;}
+    .pics_img{width:60px; height:50px;float:left;padding-right:5px}
+</style>
+<div id="coupon-list" class="coupon-list2">
+<if condition="!empty($list)">
+<foreach name='list' item='var'>
+    <div class="item">
+        <div class="line">
+            <div class="x2">
+                <!--如果头像中有-->
+                <img class="pic"  src="<{:config_img($users[$var['id']]['photo'])}>" />
+            </div>
+            <div class="x10">
+                <h5>商家(ID)：<{$var.shop_id}></h5>
+                 <p class="intro">订单编号(ID)：<{$var.order_id}></p>
+                <p class="intro">内容：<{$var.content}></p>
+               
+                <span class="intro intro1 float-right ">时间：<{$var.time}></span>
+                <p class="info7 x12">
+                  
+                            <div class="pics" class="ac">
+                                <img class="pics_img" src="<{:config_img($var['photo'])}>" >
+                            </div>
+                    
+                </p>
+                <!--<p class="intro x12" style="text-align: right;">-->
+                    <!--<a href="<{:U('mytousu/edittssj',array('order_id'=>$var['order_id']))}>">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<{:U('mytousu/deltssj',array('order_id'=>$var['order_id']))}>">删除</a>-->
+                <!--</p>-->
+                <br/>
+                 <if condition="!empty($var['sjcontent'])">
+                    <p class="intro x12">商家回复：<a style="color:#FF6430"><if condition="$var.sjcontent neq null" ><{$var.sjcontent}><else/><{$var.sjcontent}></if></a></p>
+                    <else/>
+                </if>
+            </div>
+        </div>
+    </div>
+    <div class="blank-10 bg"></div>
+</foreach>
+    <else/>
+    <div style="width: 100%;text-align: center">
+        没有更多投诉内容
+    </div>
+    </if>
+</div>
+<include file='public:footer'/>
+
+
+

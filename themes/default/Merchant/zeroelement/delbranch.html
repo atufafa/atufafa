@@ -1,0 +1,32 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">分类</a> > <a>分类列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('zeroelement/addbranch')}>">添加分类+</a></div>
+        </div>
+    </div>
+    <include  file='goods:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>分类名称</td>
+            <td>排序</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="goodsTypeList" item="var">
+            <tr>
+                <td><{$var.cate_name}></td>
+                <td><{$var.orderby}></td>
+                <td>
+                    <{:BACELL('zeroelement/reductionclass',array("cate_id"=>$var["cate_id"]),'还原','act','remberBtn')}>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$show}>
+</div>
+<include  file='public:footer'/>

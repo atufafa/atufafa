@@ -1,0 +1,55 @@
+<include  file='public:header'/>
+<style>
+    .tuan_table tr.gray{color:#9E9E9E}
+</style>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">五折卡</a> > <a>五折卡预约</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli"><a href="<{:U('zhe/index')}>">五折卡首页</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('zhe/order')}>">五折卡订单</a></li>
+            <li class="tuanfabu_tabli "><a href="<{:U('zhe/yuyue')}>">五折卡预约</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('zhe/check')}>">五折卡验证</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('zhe/bond')}>">五折卡保证金</a></li>
+        </ul>
+    </div>
+    <if condition="empty($list)">
+        <form method="post" action="<{:U('zhe/bond')}>" target="x-frame">
+            购买须知：<span style="color: red;font-size: 18px">当前消费者够买周卡金额为：<{$config['zhe']['week_card_price']}>元、购买年卡金额为：<{$config['zhe']['year_card_price']}>元、
+        每天限制消费：<{$config['zhe']['limit_number']}>次、需交保证金：<{$config['zhe']['shop_money']}>元</span>
+            <div style="margin-top: 100px;margin-left: 200px">
+                <input style="padding: 5px;font-size: 16px;text-align: center" name="money" readonly="readonly"  value="<{$config['zhe']['shop_money']}>">
+                <br/>
+               <button style="width: 150px;font-size: 18px;margin-top: 50px;margin-left: 20px;padding: 5px 10px 5px 10px;color: #fff;background-color: #40cc40;border: 0;border-radius: 5px">立即申请</button>
+            </div>
+        </form>
+     <else/>
+        <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr style="background-color:#eee;">
+                <td class="w50">ID</td>
+                <td>类型</td>
+                <td>押金</td>
+                <td>申请时间</td>
+                <td>当前押金</td>
+            </tr>
+            <foreach name="list" item="var">
+                <tr>
+                    <td><{$var.deposit_id}></td>
+                    <td>五折卡保证金</td>
+                    <td>￥<{$var.money}></td>
+                    <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                    <td>￥<{$var.nowmoney}></td>
+                </tr>
+            </foreach>
+        </table>
+        <div class="paging">
+            <{$page}>
+        </div>
+    </if>
+</div>
+
+<include  file='public:footer'/>

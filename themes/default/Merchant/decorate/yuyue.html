@@ -1,0 +1,33 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">预约管理</a> > <a>预约列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include  file='decorate:nav'/>
+    <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="10%">编号</td>
+            <td width="10%">预约信息编号ID</td>
+            <td width="10%">会员ID</td>
+            <td width="10%">会员名称</td>
+            <td width="10%">联系电话</td>
+            <td width="20%">预约时间</td>
+    </table>
+    <foreach name="list" item="var">
+        <table class="dianping" width="100%" border="0">
+            <tr class="tr_dianping_1">
+                <td width="10%"><{$var.id}></td>
+                <td width="10%">ID:<{$var.life_id}></td>
+                <td width="10%">ID:<{$var.user_id}></td>
+                <td width="10%"><{$user[$var[user_id]][nickname]}></td>
+                <td width="10%"><{$user[$var[user_id]][mobile]}></td>
+                <td width="20%"><{$var.time}></td>
+            </tr>
+        </table>
+    </foreach>
+    <br/>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

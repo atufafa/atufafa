@@ -1,0 +1,57 @@
+<include file="public:header"/>
+<div class="content_right">
+    <div class="tgdd">
+        <include file="cash:cashnav"/>
+        <form action="<{:U('cash/alipay')}>" method="post" target="x-frame">
+        <div class="password_nr">
+            <div class="password_input" style="line-height: 30px;">
+                <span class="x12 text-gray">余额：<{$money}>元<if condition="!empty($CONFIG[cash][user_cash_commission])">，手续费：<{$CONFIG[cash][user_cash_commission]}>%</if><if condition="!empty($cash_money)">，单笔最少<{$cash_money}>元</if><if condition="!empty($cash_money_big)">，单笔最多<{$cash_money_big}>元。</if></span>
+            </div>
+            <div class="password_input">
+                <div class="left">提现金额：</div>
+                <div class="lef">
+                    <input type="text" name="money" id="money" placeholder="请输入金额" class="text-input" >
+                </div>
+            </div>
+            <div class="password_input">
+                <div class="left">支付宝账户：</div>
+                <div class="lef">
+                    <input type="text" name="alipay_account" id="alipay_account" class="text-input"   placeholder="" />
+                </div>
+            </div>
+            <div class="password_input">
+                <div class="left">支付宝实名姓名：</div>
+                <div class="lef">
+                    <input type="text" name="alipay_real_name" id="alipay_real_name" class="text-input"    placeholder="" />
+                </div>
+            </div>
+            <div class="password_input">
+                <div class="left">真实姓名：</div>
+                <div class="lef">
+                    <input type="text" name="re_user_name" id="re_user_name" class="text-input"  placeholder="" />
+                </div>
+            </div>
+            <div class="password_input">
+                <div class="left"></div>
+                <div class="lef">
+                    <if condition="!empty($connect['open_id']) and  !empty($CONFIG['cash']['is_weixin_cash'])">
+                        <dd><label><em><input class="pay_int" value="weixin" name="code" type="radio" /></em><img src="/static/default/wap/image/pay/weixin_mobile.png" /></label></dd>
+                    </if>
+                </div>
+            </div>
+            <div class="password_input">
+                <div class="left"></div>
+                <div class="lef">
+                    <if condition="$CONFIG['cash']['is_alipay_cash']">
+                        <dd><label><em><input class="pay_int" value="alipay" name="code" type="radio" /></em><img src="/static/default/wap/image/pay/alipay_mobile.png" /></label></dd>
+                    </if>
+                </div>
+            </div>
+            <div class="password_subm"><br><br>小提示：</span> 请您仔细核对您的提现信息!<br><br></div>
+            <div class="password_subm"><if condition="$money lt $cash_money"><span>您的余额不足，单笔最少 &yen;<{$cash_money}>元</span><else/><input class="submit" type="submit" value="确认信息" /></if></div>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+<include file="public:footer"/>

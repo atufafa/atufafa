@@ -1,0 +1,55 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1"> 当前位置</li>
+        <li class="li2">积分商城</li>
+        <li class="li3">入驻积分商城</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="id" /></td>
+                        <td class="w50">ID</td>
+                        <td>商家ID</td>
+                        <td>商家名称</td>
+                        <td>购买时间</td>
+                        <td>购买价格</td>
+                        <td>可上传商品数量</td>
+                        <td>每件商品上传价格</td>
+                        <td>审核状态</td>
+                        <td>开始时间</td>
+                        <td>结束时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td class="w50"><input class="child_goods_id" type="checkbox" name="id[]" value="<{$var.id}>" /> </td>
+                            <td class="w50"><{$var.id}></td>
+                            <td>ID(<{$var.shop_id}>)</td>
+                            <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                            <td><{$var.time}></td>
+                            <td>￥<{$var.money}></td>
+                            <td><{$var.num}>件</td>
+                            <td>￥<{$var.goods_money}></td>
+                            <td><eq name="var.shenhe" value="0">等待审核<else/>已审核</eq></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.end_time|date='Y-m-d H:i:s',###}></td>
+                            <td>
+                                <{:BA('integralmall/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                                <eq name="var.shenhe" value="0"> <{:BA('integralmall/shenhe',array("id"=>$var["id"]),'审核','act','remberBtn')}> </eq>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

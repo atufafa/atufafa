@@ -1,0 +1,89 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">外卖</li>
+        <li class="li2">投诉列表</li>
+        <li class="li2 li3">投诉配送员列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form action="<{:U('tousups/index')}>" method="post" >  
+                    <div class="seleHidden" id="seleHidden">
+                        <span>订单号:</span>
+                        <input type="text"  name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="搜索"  class="inptButton" />
+                    </div> 
+                </form>
+            </div>
+            <div class="right"></div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">编号</td>
+                        <td>订单编号</td>
+                        <td>用户ID</td>
+                        <td>配送员ID</td>
+                        <td>投诉内容</td>
+                        <td>图片证明</td>
+                        <td>投诉时间</td>
+                        <td>审核状态</td>
+                        <td>是否进行扣费处罚</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.complaint_id}></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$var.delivery_id}></td>
+                            <td><{$var.content}></td>
+                            <td> <img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['photo'])}>"/>
+                            </td>
+                            <td><{$var.time}></td>
+                            <td>
+                            <eq name="var.status" value="0">
+                                未审核
+                            <else/>
+                            已审核
+                            </eq> 
+                            </td>
+                            <td>
+                                <eq name="var.is_pay" value="0">
+                                    未惩罚
+                                <else/>
+                                    已惩罚
+                                </eq>
+                            </td>
+
+                            <td>
+
+                            <eq name="var.status" value="0">
+                            <{:BA('tousups/sh',array("complaint_id"=>$var["complaint_id"]),'审核','act','remberBtn')}>
+                            <else/>
+                            <span class="remberBtn_small">已审核</span>
+                               <eq name="var.is_pay" value="0">
+                             <{:BA('tousups/koufei',array("complaint_id"=>$var["complaint_id"]),'扣费惩罚','act','remberBtn')}>
+                         </eq>
+                            </eq> 
+                                
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  

@@ -1,0 +1,72 @@
+<include file="public:header"/>
+<div class="content_right">  
+<style>
+.red{ color:#F00}
+</style>
+<div class="tgdd">
+    <include file="logs:nav"/>
+        <div class="tgdd_nr">
+            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                <tr class="tgdd_nrt">
+                    <td>提现ID</td>
+                    <td>提现金额</td>
+                    <td>提现佣金</td>
+                    <td>提现类型</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>提现日期</td>
+                    <td>状态</td>
+                </tr>
+                <volist name="list" id="var" key="index">
+                    <tr class="tgdd_nrt">
+                        <td><{$var.cash_id}></td>
+                        <td style="text-align:center;"><a class="red" href="javascript:void(0);"><{:round($var['money'],2)}>元</a></td>
+                        <td> <if condition="!empty($var['commission'])">&yen; <{:round($var['commission'],2)}>元<else/>无</if></a></td>
+                        <if condition="$var['code'] eq bank">
+                            <td>银行</td>
+                            <td>提现银行：<{$var['bank_name']}></td>
+                            <td>提现户名：<{$var['bank_realname']}></td>
+                            <td><php>$bank_num = substr_replace($var['bank_num'],'****',2,15);</php></td>
+                            <td>银行账户：<{$bank_num}></td>
+                        </if>
+                        <if condition="$var['code'] eq alipay">
+                            <td>支付宝</td>
+                            <td>账户：<{$var['alipay_account']}></td>
+                            <td>实名姓名：<{$var['alipay_real_name']}></td>
+                            <td title="提现方式：支付宝提现，管理员审核通过后三个工作日内即可到账">管理员审核通过后三个工作日内即可到账</td>
+                            <td></td>
+                        </if>
+                        <if condition="$var['code'] eq weixin">
+                            <td>微信</td>
+                            <td>实名姓名：<{$var['re_user_name']}></td>
+                            <td>提现方式：支付宝提现，管理员审核通过后三个工作日内即可到账</td>
+                            <td title="提现方式：微信提现，管理员审核后即可到账">管理员审核后即可到账</td>
+                            <td></td>
+                        </if>
+                        <!--<td><{$var['bank_name']}></td>-->
+                        <!--<td><{$var.bank_realname}></td>-->
+                        <td><{$var.re_user_name}></td>
+                        <!--<php>$bank_num = substr_replace($var['bank_num'],'**************',2,15);</php>-->
+               			<!--<td><{$bank_num}></td>-->
+                        <td><{$var['addtime']|date='Y-m-d H:i:s', ###}></td>
+                        <td>
+                    <if condition="$var.status eq 0">
+                        未审核
+                        <elseif condition="$var.status eq 1" />
+                        <font color="green">通过</font>
+                        <else />
+                        <font color="red">拒绝</font>
+                    </if>
+                    </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="x"><{$page}></div>
+        </div>
+    </div>
+</div>
+</div>
+<include file="public:footer"/>

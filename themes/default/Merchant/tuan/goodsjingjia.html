@@ -1,0 +1,85 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">积分商城</a> > <a>竞价信息</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+   <include file='integralmall:nav'/><!--引入导航-->
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+        	<td>信息ID</td>
+            <td>竞价商品名称</td>
+            <td>竞价商品图片</td>
+            <td>竞价商品价格</td>
+            <td>商品消费金额</td>
+            <td>浏览IP</td>
+            <td>日志类型</td>
+            <td>创建时间</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+            	<td><{$var.bid_id}></td>
+                <td><{$var.title}></td>
+                <td style="height: 80px;"><img src="<{:config_img($var['photo'])}>"  style="width: 80px;  margin: 0px auto;" /></td>
+                <td><{$var.mall_price}></td>
+                <if condition="$var.type eq 2">
+                <td>浏览消费&yen;<{:round($var['check_price'],2)}></td>
+                <else/>
+                <td>出价金额&yen;<{:round($var['check_price'],2)}></td>
+                </if>
+                <td><{$var.get_ip}></td>
+                <td><eq name="var.type" value="1">商家参与竞价<else/>用户浏览消费</eq></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td>
+                <a class="radius3 sjgl_an tuan_topbt" mini='confirm' href="<{:U('tuan/jingjiadel',array('bid_id'=>$var['bid_id']))}>">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+     <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<style>
+.layui-layer-page .layui-layer-content{ padding:20px;}
+.layui-layer-page .layui-layer-content input[type='text']{ width:100%; height:36px; border:1px solid #ccc; background:#fff; margin-bottom:10px; text-indent:10px; font-size:14px;}
+.layui-layer-page .layui-layer-content input[type='button']{ width:100%; height:40px; border:none; background:#33b095; color:#fff; font-size:16px;}
+.layui-layer-page .layui-layer-content p{ line-height:28px; color:#999;}
+.layui-layer-page .layui-layer-content .check_box{ overflow:hidden; margin-bottom:5px;}
+.layui-layer-page .layui-layer-content .check_box label{ display:block; float:left; margin-right:20px; margin-bottom:10px;}
+</style>
+<script>
+	function goodsTop(id){
+        layer.open({
+           type: 1,
+           title:'请填写竞价信息',
+           skin: 'layui-layer-rim', 
+           area: ['360px', 'auto'], 
+           content: '<div class="check_box"><label><input type="text" name="check_price" value="" id="check_price"><span>此处填写商品推广竞价，出价后会根据此价格进行商品排行</span></label><label><input type="button" class="button-pinche-top" value="确认推广"><p>推广费竞价目前最高<{$CONFIG.goods.top}>元，付费推广成功后不可取消，将在手机端首页按照竞价大小排序，请慎重操作</p>',
+       });
+       $(document).on('click','.button-pinche-top',function(){
+           var url = "<{:U('goods/goods_top')}>";
+           var goods_id = id;
+           var check_price = $("#check_price").val();
+           var check_price_money = $("#check_price_money").val();
+           var end_time = $("#inputData").val();
+           layer.confirm('您确认要推广此商品吗？', {
+               btn: ['是的','不了']
+           }, function(){
+              $.post(url,{goods_id:goods_id,check_price:check_price,check_price_money:check_price_money},function(data){
+                 if(data.status == 'error'){
+                     layer.msg(data.msg);
+                 }else{
+                     layer.msg(data.msg);
+                       setTimeout(function(){
+                         window.location.reload(true);
+                       },1000)
+                     }
+                 },'json')
+            });
+       })
+            
+  }    
+</script> 
+<include  file='public:footer'/>

@@ -1,0 +1,46 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">积分商城</li>
+        <li class="li2">积分</li>
+        <li class="li2 li3">领取积分记录</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none; padding-bottom: 0px;">
+            <div class="clear"></div>
+        </div>
+        <form>
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>领取用户ID</td>
+                        <td>领取用户昵称</td>
+                        <td>领取积分</td>
+                        <td>领取时间</td>
+                        <td>领取IP</td>
+                        <td>领取状态</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$user[$var['user_id']]['nickname']}></td>
+                            <td><{$var.integral}></td>
+                            <td><{$var.time|date='Y-m-d H:i:s',###}></td>
+                            <td><if condition="!empty($var['create_ip'])"><{$var.create_ip}></if></td>
+                            <td><eq name="var.is_use" value="1">已到账<else/>进行中，未到账</eq></td>
+                            <td>
+                                <{:BA('receive/del',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+    </div>
+</div>
+<include  file='public:footer'/>

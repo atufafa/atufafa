@@ -1,0 +1,35 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="">团队</a>><a>配送管理员团队列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div style="margin-bottom: 20px;font-size: 16px;">仅显示推荐注册成为配送管理员的会员</div>       
+                        
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>会员ID</td>
+			<td>电话号码</td>
+            <td>代理等级</td>
+            <td>注册时间</td>
+            <td>联系地址</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var['user_id']}></td>
+				<td><{$var['sq_tel']}></td>
+                <td>
+                (ID:<{$var['dj_id']}>)
+                <{$recruit[$var['dj_id']][name]}></td>
+
+                <td><{$var['sq_time']}></td> 
+                <td><{$var['sq_address']}></td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include file='public:footer'/>

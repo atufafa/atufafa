@@ -1,0 +1,423 @@
+
+<include file="./themes/default/Wap/public/header.html" />
+
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script> 
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:u('member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		发布搬家搬货跑腿
+	</div>
+</header>
+
+<style>
+	.layui-layer-molv .layui-layer-title {background-color: #F8F8F8;border-bottom: 1px solid #eee;color: #333;}
+	.panel-list li{ padding:10px}
+	.panel-list li em{float:inherit; margin-left:5px;}
+	#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+	#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+	.ui_txt_num001{background:transparent;text-align:right;border:0;}
+	.float-left i{ font-style:normal}
+	.shuxing{width: 20px; height: 20px;margin-bottom: 10px;}
+	.Upload-img .jq_photo_more span.resporse_photo, .Upload-img .moreToUpload_img{margin:0 5px 5px 0; float:left; z-index:3;}
+	.Upload-img .jq_photo_more span.resporse_photo img, .Upload-img .jq_uploads_img img{width:100%;margin-bottom:3px;}
+	.Upload-img .jq_photo_more span.resporse_photo a.resporse_a, .Upload-img .jq_uploads_img .moreToUpload_img a{ font-size:12px; color:#FFF;margin-right: 0px;bottom:0;height:26px;line-height:26px;text-align:center;background: #06c1ae;padding:3px 10px;border-radius:2px;}
+	.bgs{background-color: yellow}
+</style>
+<form method="post"   target="x-frame" action="<{:U('running/vehicle')}>"  style="margin-bottom: 50px" >
+ <div class="line padding border-bottom">
+		<div class="x6">
+			<{:config_user_name($MEMBER['nickname'])}>
+		</div>
+		<div class="x6 text-right">
+	  		<php>$mobile = substr_replace($MEMBER['mobile'],'****',3,4);</php>
+            <a <if condition="!empty($MEMBER['mobile'])">id="change_mobile"<else/>id="bind_mobile"</if> href="javascript:void(0);">
+				<if condition="!empty($MEMBER['mobile'])">绑定手机：<em class="text-green "><{$mobile}></em><else/><em class="button button-little bg-blue">点我绑定手机</em></if>
+			</a>
+		</div>
+	</div>
+   
+<div class="blank-10 bg"></div>
+ <if condition="!empty($CONFIG[running][thumb])"> <!--是否开启上传图片功能-->
+ <div class="Upload-img-box">
+ 		<div class="blank-10"></div>
+		<div id="moreToUpload">搬货多少上传图片（如需要请上传）</div>
+		<div class="Upload-img">
+			<div class="list-img loading_photo" style="display:none;"></div>
+			<div class="list-img jq_photo_photo" style="display:none;"></div>
+			<div class="jq_photo_more"></div>
+		</div>
+	</div>
+	<script>
+    	var width= '<{:thumbSize($CONFIG[attachs][running][thumb],0)}>';                     
+		var height= '<{:thumbSize($CONFIG[attachs][running][thumb],1)}>'; 
+		var thumb_limt = '<{$CONFIG[running][thumb_limt]}>'; 
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"running"))}>',                             
+			pick: '#moreToUpload',
+			fileNumberLimit:thumb_limt,//最多3张图               
+			resize: true,    
+			accept: {
+				title: 'Images',
+				extensions: 'gif,jpg,jpeg,png',
+				mimeTypes: 'image/*'
+			}, 
+			compress:{width:width,height:height,quality:80,allowMagnify: false,crop: true}     
+        });
+        uploader.on('uploadSuccess', function( file,resporse) {
+            $(".loading_photo").hide();
+			var str = '<span class="resporse_photo x3"><img src="' + resporse.url + '">  <input type="hidden" name="thumb[]" value="' + resporse.url + '" /><a class="resporse_a" href="javascript:void(0);">删除</a> </span>';     
+            $(".jq_photo_more").append(str);  
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".jq_uploads_img a", function () {
+                $(this).parent().remove();
+            });
+			$(document).on("click", ".jq_photo_more a", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>    
+    </if>
+
+	<div class="panel-list" style="height: 30px">
+		<div class="x3">
+			车辆类型：
+		</div>
+		<div class="x9">
+			<input type="radio" name="data[vehicle_type]" value="1" class="xz">面包车&nbsp;&nbsp;
+			<input type="radio" name="data[vehicle_type]" value="2" class="xz">小货车&nbsp;&nbsp;
+			<input type="radio" name="data[vehicle_type]" value="3" class="xz">中货车
+		</div>
+	</div>
+
+	<div class="row" style="display:none;" id="shws">
+		<img id="img" style="width: 50%" src="">
+	</div>
+	<div class="blank-10 bg"></div>
+	<div class="panel-list" style="height: 30px">
+		<div class="x3" style="line-height: 30px;">
+			用车情况：
+		</div>
+		<div class="x9">
+			<input type="hidden" name="data[is_ues]" id="times">
+			<span class="use" att="2" id="se" style="background-color: red;color: #fff;padding: 2px 14px 2px 14px;border-radius: 6px;line-height: 30px;">立即用车</span>&nbsp;&nbsp;
+			<span class="use" att="1" id="se2" style="    background-color: #5fea5f;color: #fff;padding: 2px 14px 2px 14px;border-radius: 6px;line-height: 30px;margin-left: 25px;">预约用车</span>
+		</div>
+	</div>
+	<div class="panel-list" id="t" style="display: none;height: 30px">
+		<div class="blank-10 bg"></div>
+		<div class="x3">
+			预约时间：
+		</div>
+		<div class="x9">
+			<input type="datetime-local" name="data[times]">
+		</div>
+	</div>
+	<script>
+        $(".xz").click(function () {
+            $("#shws").show();
+            var type=$('input:radio:checked').val();
+            if(type==1){
+                $("#img").attr("src", "/static/default/wap/img/xiaoche.jpg");
+            }else if(type==2){
+                $("#img").attr("src", "/static/default/wap/img/zhongche.jpg");
+            }else if(type==3){
+                $("#img").attr("src", "/static/default/wap/img/dache.jpg");
+            }
+            $.ajax({
+				type:'POST',
+				url:'<{:U("running/fare")}>',
+				data:{type:type},
+                success: function (data) {
+					if (data.code == 1) {
+						$('.span1').html(data.data.gls);
+                        $('.span2').html(data.data.qibu);
+                        $('.span3').html(data.data.jiaja);
+                        $('#yunf').val(data.data.gls);
+                        $('#gls').val(data.data.qibu);
+                        $('#ja').val(data.data.jiaja);
+
+                        //新增
+                        //送达地址
+                        var lat1 = document.getElementById('data_lats').value;
+                        var lng1 = document.getElementById('data_lngs').value;
+                        //收货地址
+                        var lat2 = document.getElementById('data_lat').value;
+                        var lng2 = document.getElementById('data_lng').value;
+                        var d = getGreatCircleDistance(lat1, lng1, lat2, lng2);
+                        var m = d / 1000;
+                        var juli =parseFloat(m.toFixed(2));
+                        document.getElementById('d').value = juli;
+                        var qi=parseFloat(data.data.gls);
+                        var qu=parseFloat(data.data.qibu);
+                        var ja=parseFloat(data.data.jiaja);
+						if (juli < qi) {
+                            document.getElementById('paotuif').value = qu;
+                        }else{
+                            var coun = qu + (juli - qi) * ja;
+                            var sum = coun.toFixed(2);
+                            document.getElementById('paotuif').value = sum;
+                        }
+                    }
+                }
+			});
+        });
+
+		$(".use").click(function () {
+			var att=$(this).attr('att');
+			if(att==1){
+				$("#t").show();
+				$("#times").val(1);
+                $("#se2").css('background-color','yellow');
+                $("#se").css('background-color','red');
+			}else{
+                $("#t").hide();
+                $("#times").val(2);
+                $("#se").css('background-color','yellow');
+                $("#se2").css('background-color','#5fea5f');
+			}
+
+        })
+
+	</script>
+
+      <!--商家地图开始-->
+   	<style>
+		.panel-list li em {float:inherit; margin-left:5px;}
+		#data_addresss_val{ border:none; padding:10px;idth: 100%; margin-left:5px;}
+	</style>
+      <div class="blank-10 bg"></div>
+        <input id="data_addrs" type="hidden" name="data[addrs]" value="<{$detail.addrs|default=''}>" />
+        <input id="data_lngs" type="hidden" name="data[lngs]" value="<{$detail.lngs|default=''}>" />
+        <input id="data_lats" type="hidden" name="data[lats]" value="<{$detail.lats|default=''}>" />
+        <div class="panel-list">
+            <ul>
+              <li>
+                 <a title="选择坐标" rel="<{:U('wap/api/map',array('lats'=>$lats,'lngs'=>$lngs))}>" onclick="showWindow('90%','90%',this.rel,this.title)">
+                 送达详细地址：<em id="data_addresss" class="text-dot">点击选择</em><i class="float-right iconfont icon-angle-right"></i>
+                 </a>
+               </li>
+            </ul>
+        </div>
+    
+    <!--商家地图结束-->
+    <div class="blank-10 bg"></div>
+	<div class="line padding border-bottom">
+		<div class="x3">
+			您的需求：
+		</div>
+		<div class="x9">
+        <textarea data-role="none" rows="2" cols="20"  name="data[title]"  class="text-input" placeholder="请简短输入您的需求，建议不超过30字"></textarea>
+		</div>
+	</div>
+    
+   
+    
+      <!--用户地图开始-->
+   	<style>
+		.panel-list li em {float:inherit; margin-left:5px;}
+		#data_address_val{ border:none; padding:10px;idth: 100%; margin-left:5px;}
+	</style>
+      <div class="blank-10 bg"></div>
+        <input id="data_addr" type="hidden" name="data[addr]" value="<{$detail.addr|default=''}>" />
+        <input id="data_lng" type="hidden" name="data[lng]" value="<{$detail.lng|default=''}>" />
+        <input id="data_lat" type="hidden" name="data[lat]" value="<{$detail.lat|default=''}>" />
+        <div class="panel-list">
+            <ul>
+              <li>
+                 <a title="选择坐标" rel="<{:U('wap/api/maps',array('lat'=>$lat,'lng'=>$lng))}>" onclick="showWindow('90%','90%',this.rel,this.title)">
+                 搬货详细地址：<em id="data_address" class="text-dot">点击选择</em><i class="float-right iconfont icon-angle-right"></i>
+                 </a>
+               </li>
+            </ul>
+        </div>
+        <div class="blank-10 bg"></div>    
+    <!--商家地图结束-->
+
+	 
+    <div class="line padding border-bottom">
+		<div class="x4" >
+			联系地址门牌号：
+		</div>
+		<div class="x8">
+			 <input data-role="none"  class="text-input" type="text" name="data[addre]" value="">
+               
+		</div>
+	</div>
+
+	
+    
+    <div class="line padding border-bottom">
+
+       <div  style="margin-top: 10px;color: red;width: 100%;">
+			跑腿提示：搬货人数与打赏金额只能填写整数！！！
+		</div>
+		<div  class="x5" style="margin-top: 10px;">
+		是否需要搬货工人：
+		</div>
+		<div class="x5" style="margin-top: 10px;">
+			<input type="radio" id="one"  name="data[artificial]"  checked="click" value="1">需要
+			<input style="margin-left: 20px;" onclick="f()" type="radio" id="two" name="data[artificial]" value="0">不需要
+		</div>
+		<hr/>
+		<div id="zk">
+			<div class="x5" >
+				需要搬货几位工人：
+			</div>
+			<div class="x4">
+				 <input data-role="none" onclick="f()" type="number" id="nun"   class="text-input"  name="data[artificialnumber]"  placeholder="请填写人数">
+			</div>位	
+			<hr/>
+		<foreach name='list' item='var'>	 
+		   <div style="color: red;margin-top: 10px;">
+				小提示：每位搬运工的人工费用为：
+				&yen;<input style="width: 60px; color: red;border: 0px;" type="text" id="money" value="<{$var[price]}>">
+			</div>
+			<input type="hidden" id="sum" value="" name="data[price]">
+		</foreach>
+	</div>
+
+	<script type="text/javascript">
+		function f()
+		{
+			 //送达地址
+		    var lat1=document.getElementById('data_lats').value;
+
+		    var lng1=document.getElementById('data_lngs').value;
+		    //收货地址
+		    var lat2=document.getElementById('data_lat').value;
+		    var lng2=document.getElementById('data_lng').value;
+			
+		    var d=getGreatCircleDistance(lat1,lng1,lat2,lng2);
+		    var m=d/1000;
+		    document.getElementById('d').value=m.toFixed(2);
+
+		    var juli=parseFloat(document.getElementById('d').value);
+		    var yunf=parseFloat(document.getElementById('yunf').value);
+		    var gls=parseFloat(document.getElementById('gls').value);
+		    var ja=parseFloat(document.getElementById('ja').value);
+		    if(juli<yunf){
+		    	document.getElementById('paotuif').value=gls;
+		    }else{
+		    var coun=gls+(juli-yunf)*ja;
+			var sum=coun.toFixed(2);
+			document.getElementById('paotuif').value=sum;
+			}
+		}
+	function jisuan(){
+			var count=document.getElementById('nun').value;
+			var money=document.getElementById('money').value;
+			var num =parseInt(count)*parseInt(money);
+			 //alert(parseInt(count)*parseInt(money));
+			document.getElementById('sum').value=num;
+		}
+	
+	</script>
+
+	<script type="text/javascript">
+		$("#one").click(function(){
+			  $("#zk").show();
+			   $("#nun").val('');
+			});
+		$("#two").click(function(){
+			  $("#zk").hide();
+			  $("#nun").val('');
+			});
+	</script>
+
+<hr/>
+			<div class="x4" style="margin-top: 10px;">
+			司机跑腿打赏：
+		</div>
+		<div class="x4" style="margin-top: 10px;">
+			 <input data-role="none" type="text"  class="text-input"   name="data[dashan]" value="" placeholder="打赏司机小哥">
+		</div>
+<hr/>
+  			<div class="x5" style="margin-top: 10px;">
+  				司机跑腿距离：
+  			</div>
+  			<div class="x5" style="margin-top: 10px;">
+  				<input type="text" readonly="readonly" id="d" value="" style="width: 60px;border: 0;background-color: #fff">KM
+  			</div>
+<hr/>
+            <div class="x4" style="margin-top: 10px;">
+                 司机跑腿费用：
+            </div>
+            <div class="x4" style="margin-top: 10px;">
+                 <input type="text" id="paotuif" readonly="readonly" style="width: 60px;border: 0;background-color: #fff" name="data[freight]" value="">元
+            </div>
+	</div>
+	
+
+		<?php  $config = D('Setting')->fetchAll();?>
+    <div class="container">
+		<div class="blank-10"></div>
+		<p><span class="text-dot">小提示：</span>在<span class="span1">*</span>公里之内，运费为
+			<span class="span2">*</span>元，
+			每超过一公里加价<span class="span3">*</span>元！！！ </p>
+	</div>
+	<input type="hidden" id="yunf" >
+	<input type="hidden" id="gls" >
+	<input type="hidden" id="ja" >
+
+
+    <div class="container">
+        <if condition="!empty($CONFIG[running][freight])"> 
+            <button onclick="jisuan()"   class="button button-block button-big bg-yellow submit"   type="submit">确定下单</button>
+        <else/>
+        	<a class="button button-block button-big bg-gray text-center">跑腿费设置错误，无法下单</a>
+        </if>
+    </div>
+</form>
+
+<script type="text/javascript">
+	var EARTH_RADIUS = 6378137.0;    //单位M
+    var PI = Math.PI;
+    
+    function getRad(d){
+        return d*PI/180.0;
+    };
+  
+    /**
+     * caculate the great circle distance
+     * @param {Object} lat1
+     * @param {Object} lng1
+     * @param {Object} lat2
+     * @param {Object} lng2
+     */
+    function getGreatCircleDistance(lat1,lng1,lat2,lng2){
+        var radLat1 = getRad(lat1);
+        var radLat2 = getRad(lat2);
+        
+        var a = radLat1 - radLat2;
+        var b = getRad(lng1) - getRad(lng2);
+        
+        var s = 2*Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+        s = s*EARTH_RADIUS;
+        s = Math.round(s*10000)/10000.0;
+                
+        return s;
+    }
+</script>
+
+
+<if condition="!empty($MEMBER['mobile'])">
+<script>
+	$('#change_mobile').click(function(){
+		change_user_mobile('<{:U("wap/tuan/tuan_sendsms")}>','<{:U("wap/tuan/tuan_mobile")}>');
+	})
+</script>
+<else/>
+<script>
+	check_user_mobile('<{:U("wap/tuan/tuan_sendsms")}>','<{:U("wap/tuan/tuan_mobile")}>');
+	$('#bind_mobile').click(function(){
+		check_user_mobile('<{:U("wap/tuan/tuan_sendsms")}>','<{:U("wap/tuan/tuan_mobile")}>');
+	})
+</script>
+</if>
+<include file="public:footer"/>

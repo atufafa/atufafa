@@ -1,0 +1,25 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('agentdis/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+        <div class="top-title  get-map-marker">我的代理分成</div>
+	</header>
+
+	<div class="list-media-x" id="list-media-x">
+    	<div class="blank-10 bg"></div>
+		<ul></ul>
+	</div>
+
+    <script>
+       $(document).ready(function (){
+			$("#cate-btn").click(function (){
+				$("#cate_menu").toggle();
+			});
+			$("#cate_menu ul li a").click(function (){
+				$("#cate_menu").toggle();
+			});
+            loaddata('<{$nextpage}>', $("#list-media-x ul"),true);
+        });
+    </script>
+<include  file='public:footer'/>

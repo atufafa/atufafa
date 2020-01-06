@@ -1,0 +1,47 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家</a> > <a href="">资金记录</a> > <a>返利充值日志</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+   
+    <include  file='money:nav'/>
+   
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>编号</td>
+            <td>金额</td>
+            <td>说明</td>
+            <td>信息ID</td>
+            <td>日期</td>
+            <td>状态</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var['log_id']}></td>
+                <td> &yen;<{:round($var['need_pay'],2)}> 元</td>
+                <td>返利充值</td>
+                <td>ID【<{$var.life_id}>】</td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td>
+                  <eq name="var.is_paid" value="1">
+                      支付成功
+                  </eq>
+                  <eq name="var.is_paid" value="0">
+                      支付失败
+                  </eq>
+                </td>
+                <td> <{:BA('money/delete',array("log_id"=>$var["log_id"]),'删除','act','remberBtn')}></td>
+
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+
+<include  file='public:footer'/>

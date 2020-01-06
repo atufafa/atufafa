@@ -1,0 +1,142 @@
+<include  file='public:header'/>   
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('running/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			提高打赏金额
+		</div>
+	<div class="top-signed">
+
+	</div>
+</header>
+<style>
+.list-media-x {margin-top:0rem;}
+footer{position:fixed;bottom:0;z-index:999; background:rgba(241,9,9,0.8);width:100%}
+footer>div{width:65%;float:left}
+footer p{text-align:center;color:#fff;font-size:12px}
+footer .icon{width:1.24rem;height:.24rem;margin:0 auto;margin-top:.04rem;font-size: 18px;}
+footer .icon.on{}
+footer .i-1{background-position:center 0}
+footer .i-2{background-position:center -.24rem}
+footer .i-3{background-position:center -.48rem}
+footer .i-4{background-position:center -.72rem}
+footer .i-5{background-position:center -.96rem}
+.footer-btn,.footer-cart{}
+.footer-cart .price{font-size:14px;color:#fff;height:.55rem;line-height:2.8rem;margin-left:2.0rem;margin-top:0.2rem;}
+.footer-cart .cart{width:2.32rem;height:2.32rem;position:absolute;top:0.7rem;left:.5rem}
+.footer-cart .cart-num{width:1.3rem;height:1.3rem;line-height:1.3rem;background:#EB6100;border-radius:2.5rem;color:#FFF;text-align:center;position:relative;bottom:2.2rem;left:.64rem}
+.footer-cart .btn{width: 25%;height:3rem;background:#2fbdaa;float:right;cursor:pointer;color:#FFF;text-align:center;font-size:16x;line-height:3rem;}
+.footer-cart .disable{width:5.5rem;height:3rem;background:#dedede;float:right;cursor:pointer;color:#FFF;text-align:center;font-size:16x;line-height:3rem;}
+</style>
+
+<form method="post" action="<{:U('vehicleorder/tigao',array('running_id'=>$rr['running_id']))}>" id="ajaxForm">
+
+<div class="panel-list" style="margin-top:2.2rem;">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				需求说明：
+				<em><{$rr.title}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				发布时间：
+				<em class="text-dot"><{$rr.create_time|date='Y-m-d H:i:s',###}></em>
+			</a>
+		</li>
+        
+		
+        <div class="blank-10 bg"></div>
+		<li>
+			<a href="javascript:;">
+				联系人：
+				<em class="text-dot"><{$rr.name}> <{$rr.mobile}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				地址
+				<em><{$rr.addr}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				购物费用：
+				<em>￥<input style="border: 0;width: 50px;background-color: #fff" readonly="readonly" name="price" value="<{:round($rr['price'],2)}>"></em>
+
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				跑腿费用：
+				<em>￥<input style="border: 0;width: 50px;background-color: #fff" readonly="readonly" name="freight" value="<{:round($rr['freight'],2)}>"></em>
+
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				打赏金额：
+				<em>￥<input name="dashan" style="border: 0;width: 50px;background-color: #fff" readonly="readonly" value="<{:round($rr['dashan'],2)}>"></em>
+
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				提高打赏金额：
+				<em><input style="width: 150px" type="number"  name="ti" value="">元</em>
+
+			</a>
+		</li>
+	</ul>
+
+	<div class="blank-10 bg"></div>
+
+	<ul id="pay-method" class="pay-method">
+		<foreach name="payment" item="var">
+			<li data-rel="<{$var.code}>" id="<{$var.code}>" class="media media-x payment">
+				<a class="float-left"  href="javascript:;">
+					<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+				</a>
+				<div class="media-body">
+					<div class="line">
+						<div class="x10">
+							<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+						</div>
+						<div class="x2">
+							<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+						</div>
+					</div>
+				</div>
+			</li>
+		</foreach>
+	</ul>
+	<input id="code" type="hidden" name="code" value="" />
+
+	<div class="text-center padding-left padding-right margin-large-top">
+		<button type="submit" class="button button-big button-block bg-yellow  submit">确认修改</button>
+	</div>
+
+</div>
+</form>
+<script>
+    $(document).ready(function(){
+        var name = $("#<{$CONFIG['pay']['auto']}>").attr("data-rel");//获取默认支付方式的ID
+        if(name == "<{$CONFIG['pay']['auto']}>"){//如果是真
+            $("#<{$CONFIG['pay']['auto']}>").addClass("active");//给他选中
+            $("#code").val(name);//给他添加val值
+        }
+    });
+    //下面就是用户点击选择支付方式时候切换以前的默认不管他
+    $(document).ready(function(){
+        $("#pay-method li").click(function(){
+            var code = $(this).attr("data-rel");
+            $("#code").val(code);
+            $("#pay-method li").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass("active");
+        });
+    });
+</script>

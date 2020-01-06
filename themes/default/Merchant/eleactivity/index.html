@@ -1,0 +1,55 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">活动</a> > <a>外卖活动列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="right tuan_topfb_r" style="margin-bottom: 20px;margin-right: 20%;"><a  class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('eleactivity/create')}>">参与活动+</a></div>
+    <div style="color: red;font-size: 16px;">注意：以下活动是天天特价的，按结束时间结束或限购数量，限时秒杀的，按倒计时结束或限购数量结束，限量团购的，按限购数量结束</div>
+    <include file="eleactivity:nav"/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td width="5%">活动ID</td>
+            <td width="5%">活动类型</td>
+            <td width="10%">活动商品</td>
+            <td width="5%">价格</td>
+            <td width="6%">活动结束类型</td>
+            <td width="5%">限购数量</td>
+            <td width="6%">倒计时</td>
+            <td width="7%">开始时间</td>
+            <td width="7%">结束时间</td>
+            <td width="5%">出售时间</td>
+            <td width="5%">是否强制自取</td>
+            <td width="5%">是否领取礼品</td>
+            <td width="5%">是否审核</td>
+            <td width="6%">操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.id}></td>
+                <td><{$type[$var['type_id']]['cate_name']}></td>
+                <td><{$goods[$var['product_id']]['product_name']}></td>
+                <td>￥<{$var.price}></td>
+                <td><if condition="$var['type_id'] eq 3">以数量售完结束<elseif condition="$var['type_id'] eq 2"/>以时间倒计时结束<else/>时间下架结束或数量下架</if></td>
+                <td><{$var.num}>份</td>
+                <td><{$var.end_times}>小时</td>
+                <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                <td><{$var.end_date|date="Y-m-d H:i:s",###}></td>
+                <td><{$time[$var['time_id']]['time_name']}></td>
+                <td><eq name="var.is_shop" value="1">是<else/>否</eq></td>
+                <td><eq name="var.is_receive" value="1">是<else/>否</eq></td>
+                <td><eq name="var.audit" value="0">待审核
+                    <else/>
+                    已审核
+                    </eq>
+                </td>
+                <td>
+                    <a mini='confirm' href="<{:U('eleactivity/delete',array('id'=>$var['id']))}>">下架</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging"> <{$page}> </div>
+</div>
+<include  file='public:footer'/>

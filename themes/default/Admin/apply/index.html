@@ -1,0 +1,64 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">外卖</li>
+        <li class="li2">外卖自配送管理</li>
+        <li class="li2 li3">申请自配送列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+           <div class="right">
+                <form action="" >  
+                    <div class="seleHidden" id="seleHidden">
+
+                        <span>商家ID号:</span>
+                        <input type="text"  name="shop_id" value="<{$shop_id}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="right"></div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">编号</td>
+                        <td>商家ID</td>
+                        <td>申请内容</td>
+                        <td>申请时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.a_id}></td>
+                            <td><{$var.shop_id}></td>
+                            <td><{$var.content}></td>
+                            <td><{$var.time}></td>
+                            <td>
+                            <eq name="var.state" value="0">
+                            <{:BA('apply/sh',array("a_id"=>$var["a_id"],'p'=>$p),'审核','act','remberBtn_small_quxiao')}>
+                            <else/>
+                            <span class="remberBtn_small">已审核</span>
+                           
+                            </eq> 
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  

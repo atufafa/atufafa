@@ -1,0 +1,105 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        购物车
+    </div>
+    <div class="top-signed">
+    </div>
+</header>
+<style>
+    .div1{width: 100%;height: 470px;margin-top:55px}
+    .div1 ul{width: 100%}
+    .div1 ul .shopli{width: 50%;height: 110px;float: left;text-align: center;border: 1px solid #eee;line-height: 100px;padding: 2%;}
+    .div2{width: 30%;float: left}
+    .div2 img{width: 50px;height: 50px}
+    .div3{position: absolute;margin-left: 18%}
+    .span1{font-size: 18px;color: #ff9900}
+    .span2{font-size: 18px;color: #87D140}
+    .span3{font-size: 18px;color: #20b4ff}
+    .span4{font-size: 18px;color: #FF5F45}
+    .span5{font-size: 18px;color: #0a5aaf}
+    .spannum{line-height: 20px;border-radius: 10px;top:16%;background-color: red;font-size: 16px;min-width:20px;max-width: 35px;height:20px;color: #fff;position: absolute;}
+</style>
+
+<div class="div1">
+    <ul>
+        <li class="shopli">
+            <a href="<{:U('wap/ele/cart')}>">
+            <div class="div2">
+               <img src="/static/wai/ele.png">
+            </div>
+            <div>
+                 <span class="spannum" style="top:12%;"><{$cart_ele_num}></span>
+                 <span class="span1">外卖收藏店</span>
+            </div>
+            </a>
+        </li>
+        <li class="shopli">
+            <a href="<{:U('wap/store/cart')}>">
+            <div class="div2">
+                <img src="/static/wai/store.png">
+            </div>
+            <div >
+                <span class="spannum" style="top:12%; margin-left: 10px;"><{$cart_store_num}></span>
+                <span class="span2">便利店购物车</span>
+            </div>
+            </a>
+        </li>
+        <li class="shopli">
+            <a href="<{:U('wap/market/cart')}>">
+            <div class="div2">
+                <img src="/static/wai/maket.png">
+            </div>
+            <div>
+                <span class="spannum" style="top:28%;margin-left: 5px;"><{$cart_market_num}></span>
+                <span class="span3">菜市场购物车</span>
+            </div>
+            </a>
+        </li>
+        <li class="shopli">
+            <a href="<{:U('wap/mall/cart')}>">
+            <div class="div2">
+                <img src="/static/wai/shopping.png">
+            </div>
+            <div class="div3">
+                <span class="spannum"><{$cartnum}></span>
+                 <span class="span4">商城购物车</span>
+            </div>
+            </a>
+        </li>
+        <li class="shopli" style="width: 70%;margin-left: 15%">
+            <a href="<{:U('wap/mall/pindan_cart')}>">
+            <div class="div2">
+                <img src="/static/wai/pin.png">
+            </div>
+            <div class="div3">
+                <span class="spannum"><{$cartnums}></span>
+                <span class="span5">商城拼团购物车</span>
+            </div>
+            </a>
+        </li>
+        <li class="shopli" style="width: 70%;margin-left: 15%">
+            <a href="<{:U('wap/jifen/cart')}>">
+                <div class="div2">
+                    <img src="/static/wai/jifen.png">
+                </div>
+                <div class="div3">
+                    <span class="spannum"><{$jifennum}></span>
+                    <span class="span5">积分商城购物车</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+<include file="public:footer"/>

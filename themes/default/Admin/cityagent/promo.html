@@ -1,0 +1,51 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">功能</li>
+        <li class="li2"> 代理内容</li>
+        <li class="li2 li3"> 代理分类</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <div class="jsglNr">
+        <form id="cate_action" action="" target="x-frame" method="post">
+            <div class="selectNr" style="border-top: 1px solid #e1e6eb;">
+                <div class="left">
+                    <{:BA('cityagent/create',array("level"=>2),'添加合伙人等级','load','',600,380)}>
+                </div>
+                <div class="right">
+                    <{:BA('cityagent/update',array('level'=>2),'更新','list','remberBtn')}>
+                </div>
+            </div>
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                    <tr bgcolor="#F5F6FA" height="35px;" style="color:#333; font-size:16px; line-height:35px;">
+                        <td>编号</td>
+                        <td>合伙人等级名称</td>
+                        <td>代理等级金额</td>
+                        <td>招商分成比率</td>
+                        <td>代理分佣比率</td>
+                        <td>操作</td>
+                    </tr>
+                    <?php $i=1;?>
+                    <foreach name="list" item="var">
+                        <tr height="48px" style="font-size:14px; color:#545454; text-align:center; line-height:48px;">
+                            <td style="padding-left:20px;"><{$i}></td>
+                            <td><{$var.agent_name}></td>
+                            <td>&yen;<{$var.price}>元</td>
+                            <td><{$var.recruit}>%</td>
+                            <td><{$var.rate}>%</td>
+                            <td style="text-align: center;">
+                                <{:BA('cityagent/edit',array("agent_id"=>$var["agent_id"],'level'=>2),'编辑','load','remberBtn',600,380)}>
+                                <{:BA('cityagent/delete',array("agent_id"=>$var["agent_id"],'level'=>2),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                        <?php $i++;?>
+                    </foreach>        
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,309 @@
+<style>
+
+    .lims{height: auto;background-color: #ec2b48;border-radius: 5px}
+    .lims_div1{width: 94%;margin-left:3%;}
+    /*div{border: 1px solid red}*/
+    .lims_div2{width: 100%;margin-top: 3%;height:auto;background-color: #fff}
+    .lims_img{width: 100%;height: 128px}
+    .div_img{width: 100%;height: 100%}
+    .lims_div3{width: 100%;height: 30px}
+    .lims_div3_div1{width: 25%;background-color: #fa3852;float: left;height: 100%;border-top-right-radius: 20px;border-bottom-right-radius: 20px}
+    .limspanri{float: right;margin-top: 2px;font-size: 16px;color: red;margin-right: 5px;}
+    .div_b{font-size: 20px;color: #fff}
+    .lims_div4{width: 100%;height: 40px;line-height: 40px;text-align: center}
+    .lims_div5{height: auto;margin-bottom:2%;background-color: #fa3852;text-align: center}
+    .lims_div5_p1{margin-top: 10px;color: #fff;font-size: 16px;}
+    .lims_div5_p2{color: #fff}
+    .p_span{background:#fff;color: red;padding: 2px;border-radius: 5px }
+    .p_span2{color: #fff}
+    .lims_div6{width: 90%;margin-left: 5%;line-height: 35px;text-align: center;height:35px;margin-top: 20px;background-color: #ffeba6;font-size: 16px;color:  #fa3852;border-radius: 20px}
+
+    /*参与者样式*/
+    .canjia{background-color: #ffeba6;color: red;padding: 3px;border-radius: 5px;}
+    .li_img{width: 30px;height: 30px;}
+    .p_ul{width: 100%;height: 35px;}
+    .p_li{width: 14%;float: left}
+    .zan{color: #fff}
+
+    /*点击分享弹出*/
+    .fu{text-align: center;width: 100%}
+    .fudong1{overflow: hidden;width: 80%;height: 120px;border: 1px solid #9c9c9c;margin-left: 10%;margin-top: 10%;word-break: break-word}
+    .fudong1 p{margin-top: 20px;}
+    .fuzhi{position: relative;top:40px;background: #fff;font-size: 16px;font-weight: bold}
+    .fu_btn{width: 80%;padding: 2px;background: red;margin-top: 10px;border: 0;border-radius: 10px;color: #fff;font-size: 16px;}
+    .jiu5{margin-top: 20px;font-size: 16px;}
+    .huode{font-size: 18px;color: red;}
+    .fenxians{color: #f60}
+
+
+    /*进度条*/
+    #progressBar{width: 80%;height: 1px;position: relative;margin: 30px 0 0 10%;}
+    #progressBar div{width: 100%;height: 5px;position: absolute;top:50%;left: 0;margin-top:-20px;border:1px solid #ddd;background: #ccc;}
+    #progressBar div span{position: absolute;display: inline-block;background: #ccc;height: 3px;width: 20%;}
+    #progressBar>span{position: absolute;top:0;margin-top: -10%;width: 20px;height: 20px;border:2px solid #ddd;border-radius: 50%;background: #ccc;margin-left: -20px;color:#fff;}
+    #progressBar>span:nth-child(1){
+        left: 0%;
+    }
+    #progressBar>span:nth-child(2){
+        left: 1%;
+        background:#ccc;
+    }
+    #progressBar>span:nth-child(3){
+        left: 25%;
+        background:#ccc;
+    }
+    #progressBar>span:nth-child(4){
+        left: 50%;
+        background:#ccc;
+    }
+    #progressBar>span:nth-child(5){
+        left: 75%;
+        background:#ccc;
+    }
+    #progressBar>span:nth-child(6){
+        left: 100%;
+        background:#ccc;
+    }
+</style>
+<script src="/static/default/wap/js/layui.js" type="text/javascript"></script>
+ <script src="/static/default/wap/js/clipboard.js" type="text/javascript"></script>
+ <foreach name="list" item="var">
+        <li class="lims">
+                <div class="lims_div1">
+                    <a href="<{:U('mall/details',array('goods_id'=>$var['goods_id']))}>">
+                    <div class="lims_div2">
+                        <div class="lims_img">
+                            <img class="div_img" src="<{:config_img($var['photo'])}>">
+                        </div>
+                        <div class="lims_div3">
+                            <div class="lims_div3_div1">
+                               <b class="div_b">￥<{:round($var['mall_price'],2)}></b>
+                            </div>
+
+                            <b class="limspanri">限量 <if condition="$var.num2 neq 0"> <{$var['num2']}><else/><{$var['num']}></if>件&nbsp;|&nbsp;<{$time}>即将开抢</b>
+                        </div>
+                        <div class="lims_div4">
+                            <input type="hidden" id="type" value="<{$var['type_id']}>">
+                            <input class="product_id" type="hidden" value="<{$var['goods_id']}>">
+                            <input class="shop_id" type="hidden" value="<{$var['shop_id']}>">
+                            <b class="canp"><{:tu_msubstr($var['title'],0,20,false)}></b>
+                        </div>
+                    </div></a>
+                    <div class="lims_div5">
+                        <p class="lims_div5_p1">邀请5位好友点赞，即可参与<{$time}>抢购</p>
+
+                        <p class="lims_div5_p2" id="tellTime"></p>
+                        <!--<p class="lims_div5_p2">仅剩-->
+                            <!--<span class="p_span">00</span>-->
+                            <!--<span class="p_span2">:</span>-->
+                            <!--<span class="p_span">00</span>-->
+                            <!--<span class="p_span2">:</span>-->
+                            <!--<span class="p_span">00</span>-->
+                            <!--开抢-->
+                        <!--</p>-->
+                        <div id="progressBar">
+                            <!-- 进度条 -->
+                            <div>
+                                <span></span>
+                            </div>
+                            <!-- 五个圆 -->
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <if condition="$var['is_receive'] eq 1">
+                            <b style="color: #fff">参与点赞用户可获得进店领取精美礼品一份</b>
+                            <else/>
+                            <b style="color: #fff">参与点赞可获得大礼积分</b>
+                        </if>
+                        <?php $sumzan=D('FabulousEleStoreMarkert')->where(['product_id'=>$var['goods_id'],'user_id'=>$user,'close'=>0,'type'=>4,'type_id'=>1])->find();?>
+                        <input value="<{$sumzan['num']}>" type="hidden" id="zhans">
+                        <p class="lims_div5_p3">
+                            <if condition="$sumzan['num'] egt 5">
+                                <div class="lims_div6"><a href="<{:U('mall/details',array('goods_id'=>$var['goods_id']))}>">立即抢购&nbsp;&nbsp;></a></div>
+                                <else/>
+                                <div class="lims_div6" onclick="yaoqin(this)"><b>立即邀请&nbsp;&nbsp;></b></div>
+                            </if>
+                        <if condition="empty($dianz[$var['product_id']])">
+                        <span style="color:#ffeba6;">还没有好友点赞，赶快去邀请吧！</span>
+                        </if>
+                        </p>
+                        <if condition=" $var.goods_id eq $_GET['goods_id'] ">
+                            <span class="canjia" id="<{$var['goods_id']}>">点击参与</span>
+                        </if>
+                        <if condition="!empty($dianz)">
+                              <p>
+                                 <ul class="p_ul">
+                                    <li class="p_li"><img class="li_img" src="<{:config_img($var['photo'])}>"> </li>
+                                    <li class="p_li"><img class="li_img" src="/static/default/wap/img/canjia.png"> </li>
+                                    <li class="p_li"><img class="li_img" src="/static/default/wap/img/canjia.png"></li>
+                                    <li class="p_li"><img class="li_img" src="/static/default/wap/img/canjia.png"> </li>
+                                    <li class="p_li"><img class="li_img" src="/static/default/wap/img/canjia.png"></li>
+                                    <li class="p_li zan" style="width: 25%;line-height: 35px">已点赞<{$sumzan['num']}>次</li>
+                                </ul>
+                             </p>
+                        </if>
+                    </div>
+                </div>
+        </li>	
+</foreach>
+
+<script src="/static/default/wap/js/layui.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        var sun=$("#zhans").val();
+        if(sun==1){
+            $("#progressBar").find("span").eq(1).css('background','green');
+        }else if(sun==2){
+            $("#progressBar").find("span").eq(1).css('background','green');
+            $("#progressBar").find("span").eq(2).css('background','green');
+        }else if(sun==3){
+            $("#progressBar").find("span").eq(1).css('background','green');
+            $("#progressBar").find("span").eq(2).css('background','green');
+            $("#progressBar").find("span").eq(3).css('background','green');
+        }else if(sun==4){
+            $("#progressBar").find("span").eq(1).css('background','green');
+            $("#progressBar").find("span").eq(2).css('background','green');
+            $("#progressBar").find("span").eq(3).css('background','green');
+            $("#progressBar").find("span").eq(4).css('background','green');
+        }else if(sun>=5){
+            $("#progressBar").find("span").eq(1).css('background','green');
+            $("#progressBar").find("span").eq(2).css('background','green');
+            $("#progressBar").find("span").eq(3).css('background','green');
+            $("#progressBar").find("span").eq(4).css('background','green');
+            $("#progressBar").find("span").eq(5).css('background','green');
+        }
+    })
+
+
+
+    var user="<?php echo $_GET['user_id'];?>";
+    var goods="<?php echo $_GET['goods_id']?>";
+    var type_id = document.getElementById('type').value;
+    var clcik_count=1;
+    var end_time = "<{:date('Y-m-d', time());}> <{$time}>";
+
+    $(document).ready(function(){
+        showTime();
+        setInterval(function(){{
+            showTime()
+        }}, 1000);
+    })
+    // showTime();
+    // window.onload = function(){
+    //     showTime();
+    //     setInterval(function(){{
+    //         showTime()
+    //     }}, 1000);
+    // }
+    function showTime(){
+        var timeStr = end_time;  //获得的时间字符串.
+        if(timeStr==null || timeStr==''){
+            return;
+        }
+        var end_str = (timeStr).replace(/-/g,"/");
+        var class_time = new Date(end_str);   //将时间字符串转换为时间.
+        var now_time = new Date();
+        var totalSecs=(class_time-now_time)/1000;   //获得两个时间的总毫秒数. 靠前的就调换再减。
+        var days=Math.floor(totalSecs/3600/24);
+        var hours = Math.floor((totalSecs-days*24*3600)/3600);
+        var mins = Math.floor((totalSecs-days*24*3600-hours*3600)/60);
+        var secs = Math.floor((totalSecs-days*24*3600-hours*3600-mins*60));
+
+        hours = hours < 10 ? '0'+hours : hours;
+        mins = mins < 10 ? '0'+mins : mins;
+        secs = secs < 10 ? '0'+secs : secs;
+
+        if (secs != 0) {
+            // $("#tellTime").html("还有"+hours+"小时"+mins+"分钟"+secs+"秒");
+            $("#tellTime").html('仅剩<span class="p_span">'+hours+'</span>\n' +
+                '                            <span class="p_span2">:</span>\n' +
+                '                            <span class="p_span">'+mins+'</span>\n' +
+                '                            <span class="p_span2">:</span>\n' +
+                '                            <span class="p_span">'+secs+'</span>开抢')
+        }
+    }
+
+    $(".canjia").click(function () {
+        $.ajax({
+            type:"post",
+            url:"<{:U('mallactivity/spot')}>",
+            data:{user_id1:user,goods_id:goods,type_id:type_id},
+            success:function(data){
+                if (data.status == 'success') {
+                    $('#progressBar').find('span').eq(clcik_count).css({'background':'green'});
+                    clcik_count++;
+                    layer.msg(data.msg);
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+        });
+    });
+
+
+    function yaoqin(l) {
+        var _this = $(l);
+        F = function (str) {
+            return _this.parent().parent().find(str);
+        };
+        product_id = F('.product_id').val();
+        shop_id=F('.shop_id').val();
+        canp=F('.canp').text();
+        money=F('.div_b').text();
+        layer.open({
+            type: 1,
+            title: '',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['80%', '380px'], //宽高
+            content: '<div class="fu">' +
+                '<div class="jiu5"><span ><a class="huode">恭喜您</a><br/><span class="fenxians">赶快分享好友点赞，特价商品马上抢哦</span></span></div>' +
+                '<span class="fuzhi">口令成功复制</span> <div class="fudong1"><input type="hidden" id="product_id">' +
+                '<input type="hidden" id="shop_id"><p id="zhi">复制整段信息在浏览器打开，☞阿涂发发☜，即可参与【天天特价，我真的很想这个商品<span class="money"></span>元的<span class="canp"></span>,' +
+                ',就差白送了，就差你帮点个赞了，拜托拜托>>>】' +
+                '(未安装App的点这里：https://<?php echo $_SERVER['HTTP_HOST']?>/wap/mallactivity/special.html?user_id=<?php echo $MEMBER['user_id'];?>&goods_id=<span class="product_id"></span>>))</p></div>' +
+                '<button  class="fu_btn" id="btn_btn" data-clipboard-target="#zhi">去粘贴分享</button>' +
+                '</div>'
+        });
+
+        $("#product_id").val(product_id);
+        $(".product_id").text(product_id);
+        $("#shop_id").val(shop_id);
+        $(".canp").text(canp);
+        $(".money").text(money);
+        $("#btn_btn").click(function () {
+            let e = document.getElementById("zhi").innerText;
+            //实例化clipboard
+            var clipboard = new ClipboardJS('#btn_btn');
+
+            var product_id = document.getElementById('product_id').value;
+            var shop_id = document.getElementById('shop_id').value;
+
+            $.ajax({
+                url: '<{:U("mallactivity/fenxian")}>',
+                data: {product_id: product_id, shop_id: shop_id,type_id:type_id},
+                type: 'post',
+                success: function (data) {
+                    if (data.status == 'success') {
+
+                    } else {
+
+                    }
+                }
+            });
+            clipboard.on("success", function (e) {
+                layer.msg("复制成功！");
+
+            });
+            clipboard.on("error", function (e) {
+                layer.msg("复制失败！");
+            });
+        });
+
+    };
+
+
+
+</script>

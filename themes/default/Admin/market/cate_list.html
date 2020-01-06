@@ -1,0 +1,71 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">菜市场</li>
+        <li class="li2">菜市场分类</li>
+        <li class="li2 li3">菜市场分类列表</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('market/cate_add','','添加分类')}>
+            </div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="cate_id" /></td>
+                        <td class="w50">分类ID</td>
+                        <td>分类名称</td>
+                        <td>是否开启</td>
+                        <td>是否展示</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="cate_id[]" value="<{$var.cate_id}>" /></td>
+                            <td><{$var.cate_id}></td>
+                            <td><{$var.cate_name}></td>
+                            <td>
+                                <if condition="$var['status'] eq 0">
+                                    <{:BA('market/cate_status',array("cate_id"=>$var["cate_id"],"status"=>1),'关闭','','remberBtn_small')}>
+                                <else/>
+                                    <{:BA('market/cate_status',array("cate_id"=>$var["cate_id"],"status"=>0),'开启','','remberBtn_small')}>
+                                </if>    
+                            </td>
+                            <td>
+                                <if condition="$var['is_look'] eq 0">
+                                <{:BA('market/cate_IsLook',array("cate_id"=>$var["cate_id"],"is_look"=>1),'展示','','remberBtn_small')}>
+                                <else/>
+                                <{:BA('market/cate_IsLook',array("cate_id"=>$var["cate_id"],"is_look"=>0),'取消展示','','remberBtn_small')}>
+                                </if>    
+                            </td>
+                            <td>
+                                <{:BA('market/cate_parent',array("parent_id"=>$var['cate_id']),'添加子类','load','remberBtn',600,280)}>
+                                <{:BA('market/cate_edit',array("cate_id"=>$var["cate_id"]),'编辑','','remberBtn')}>
+                                <{:BA('market/cate_del',array("cate_id"=>$var["cate_id"]),'删除','','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<include  file='public:footer'/>       

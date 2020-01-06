@@ -1,0 +1,28 @@
+<include  file='public:header'/>
+<style>.lfTdBt {width: 200px;}</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">常用功能设置</li>
+        <li class="li2 立li3">在线抢购设置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>以后在线抢购需要配置的，都尽量在这里写！ </p>
+    <form  target="x-frame" action="<{:U('setting/rush')}>" method="post">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">抢购商家数：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[num]" value="<{$CONFIG.rush.num}>" class="manageInput  w80" />
+                        <code>建议填写60，这里是商家发布抢购商品，同一时间段的商家数量</code>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </form>
+</div>
+<include  file='public:footer'/>

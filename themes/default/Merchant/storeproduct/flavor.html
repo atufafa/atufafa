@@ -1,0 +1,44 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城规格</a> > <a>规格列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('storeproduct/spec')}>">添加规格+</a></div>
+        </div>
+    </div>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('storecate/index')}>">商品分类</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('storeproduct/index')}>">商品管理</a></li>
+            <li class="tuanfabu_tabli tabli_change on"><a href="<{:U('storeproduct/flavor')}>">规格管理</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('storeproduct/type')}>">类型管理</a></li>
+        </ul>
+    </div>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td class="w50">ID</td>
+            <td>规格类型</td>
+            <td>规格名称</td>
+            <td>规格项</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="specList" item="list">
+            <tr>
+                <td><{$list.id}></td>
+                <td><{$list.bname}></td>
+                <td><{$list.name}></td>
+                <td><{$list.spec_item}></td>
+                <td>
+                    <a href="<{:U('storeproduct/spec',array('id'=>$list['id']))}>">编辑</a>
+                    <a mini='confirm' href="<{:U('storeproduct/dele',array('id'=>$list['id']))}>">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,26 @@
+<style>
+.liimg{width: 50%;height: 100px}
+.div1{width: 50%;float: right;text-align: center}
+</style>
+
+
+<foreach name="list" item="var">
+    <li style="margin-bottom: 2%;padding: 2%;border: 1px solid #99999950">
+        <a href="<{:U('ele/shop',array('shop_id'=>$var['shop_id']))}>">
+            <img class="liimg" src="<{:config_img($shops[$var['shop_id']]['photo'])}>"/>
+            <div class="div1">
+            <h4 class="h4"><{:tu_msubstr($var['shop_name'],0,20)}></h4>
+            <p class="des-addr">
+                <i class="mui-icon mui-icon-location"></i>
+                &yen;<{$var['since_money']}>起送
+                /已售<{$var['sold_num']}>份
+            </p>
+            <if condition="!empty($var['logistics_full'])">
+                <p class="des-addr">
+                    单笔满&yen;<{$var['logistics_full']}>元免配送费
+                </p>
+            </if>
+            </div>
+        </a>
+    </li>
+</foreach>

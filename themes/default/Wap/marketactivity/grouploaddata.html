@@ -1,0 +1,92 @@
+<style>
+    .lims{height: 110px;margin-bottom: 2%;border-bottom: 1px solid #dddddd}
+    .lim_div1{width: 30%;float: left}
+    /*div{border: 1px solid red}*/
+    .lim_img{width: 100%;height: 100px;border-radius: 5px;}
+    .lim_div2{width: 65%;float: right}
+    .xainshi{background-color: red;color: #fff;border-radius: 5px;font-size: 10px;}
+    .xianlian{font-size: 12px;color: #dddddd;margin-left: 5px;}
+    .limp{line-height: 20px;margin-bottom: 0px;}
+    .limspan{font-size: 18px;color: red}
+    .limdel{font-size: 12px;color: #dddddd}
+    .liji{float: right;margin-right: 2px;background-color: red;color: #fff;border-radius: 20px;padding: 2px;}
+</style>
+<link rel="stylesheet" href="/static/default/wap/css/layui.css"  media="all">
+<script src="/static/default/wap/js/layui.js"></script>
+<script type="text/javascript" src="/static/default/wap/js/lay/modules/element.js"></script>
+<foreach name="list" item="var">
+    <if condition="$shop[$var['shop_id']]['is_open'] eq 1">
+        <li class="lims">
+            <div class="lim_div1">
+                <img class="lim_img" src="<{:config_img($goods[$var['product_id']]['photo'])}>">
+            </div>
+            <div class="lim_div2">
+                <p class="limp"><span class="xainshi">限量团购</span>
+                    <b><{:tu_msubstr($goods[$var['product_id']]['product_name'],0,25,ture)}></b>
+                </p>
+                <p class="limp">
+<!--                    <if condition="!empty($var['num'])"><span class="xianlian">限量<{$var['num']}>份</span>&nbsp</if>-->
+                <input type="hidden" class="nums" data-id="<{$var.id}>" start_time="<{$var['num']}>" value="<{$var['num']}>">
+                <div style="height: 20px;line-height: 20px;">
+                    <div style="width: 50%;height: 10px;float: left;margin-top: 5px;" class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo<{$var.id}>">
+                        <div style="height: 10px;line-height: 10px;" class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
+                    </div><span class="xianlian">已抢：0份</span>
+                </div>
+                <span style="font-size: 10px;color: red">折:<{:round($goods[$var['product_id']]['cost_price']/$goods[$var['product_id']]['price'])}>
+                    <span style="margin-left: 10px;">返:<{:round($goods[$var['product_id']]['price']*($config['ele']['elejifen']/100)/100,2)}>积分</span></span>
+                </p>
+                <p class="limp" style="margin-top: 5px;">
+                    <span class="limspan">&yen<{:round($goods[$var['product_id']]['price'],2)}></span> <del class="limdel">&yen<{:round($goods[$var['product_id']]['cost_price'],2)}></del>
+                    <a href="<{:U('market/details',array('product_id'=>$var['product_id']))}>">
+                        <span class="liji">立即抢购</span>
+                    </a>
+                </p>
+            </div>
+        </li>
+
+    </if>
+</foreach>
+<script>
+    function progress(id,rate){
+        layui.use('element', function(){
+        var $ = layui.jquery
+            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+        //触发事件
+        var active = {
+            loading: function(othis){
+                var DISABLED = 'layui-btn-disabled';
+                if(othis.hasClass(DISABLED)) return;
+                //模拟loading
+                var n = 0, timer = setInterval(function(){
+                    n = n + Math.random()*10|0;
+                    if(n>100){
+                        n = 100;
+                        clearInterval(timer);
+                        othis.removeClass(DISABLED);
+                    }
+                    element.progress('demo'+id,rate);
+                }, 300+Math.random()*1000);
+
+                othis.addClass(DISABLED);
+            }
+        };
+        var othis = $(this);
+        active.loading(othis,id,rate);
+    });
+    }
+
+    function for_setTimer() {
+        var times = $.each($('.nums'), function (index, obj) {
+            setTimer($(obj));
+        });
+    }
+    function setTimer(obj) {
+            start_time=obj.val();
+        //start_time=obj.next().attr('start_time');
+        rate=(start_time/100).toFixed(2)+'%';
+        var activity_id=obj.data('id');
+        progress(activity_id,rate);
+    }
+
+    var id = setInterval(for_setTimer, 1000);
+</script>

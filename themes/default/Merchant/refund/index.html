@@ -1,0 +1,125 @@
+<include  file='public:header'/>
+
+ <style>
+.tuan_table1 td.td_left_1 {width: 20%;}
+.change_price{ margin-bottom:10px;}
+ td{font-size: 16px;padding: 10px;}
+ .one{padding: 5px;border-radius: 5px;border: 0}
+ a{font-size: 14px;}
+</style>
+
+
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">退款管理</a> > <a>退款列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('order/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+            开始时间：<input type="text" placeholder="输入开始时间"  class="radius3 seleFl"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            结束时间：<input type="text"  placeholder="输入结束时间" class="radius3 seleFl"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            状态：
+            <select name="st" class="seleFl w80">
+               <option value="999">请选择</option>
+               <option <eq name="st" value="0">selected="selected"</eq> value="0">未付款</option>
+               <option <eq name="st" value="1">selected="selected"</eq>value="1">已付款</option>
+               <option <eq name="st" value="2">selected="selected"</eq>value="2">已拣货</option>
+               <option <eq name="st" value="3">selected="selected"</eq>value="3">已发货</option>
+               <option <eq name="st" value="4">selected="selected"</eq>value="4">退款中</option>
+               <option <eq name="st" value="5">selected="selected"</eq>value="5">已退款</option>
+               <option <eq name="st" value="8">selected="selected"</eq>value="8">已完成</option>
+           </select>
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+
+   
+<div class="blank-20"></div>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;padding: 10px;height: 50px;">
+            <td>退款订单ID</td>
+            <td>详情</td>
+            <td>商品金额</td>
+            <td>退款说明</td>
+            <td>退款金额</td>
+            <td>买家昵称</td>
+            <td>联系电话</td>
+            <td>状态</td>
+            <td>下单时间</td>
+            <td>退款时间</td>
+            <td>操作</td>
+        </tr> 
+         <foreach name="list" item="var">
+            <tr>
+                <td><{$var.id}></td>
+                <td><{$var.info.title}></td>
+                <td><{:round($var['goods_price'],2)}></td>
+                <td><{$var.ramke}></td>
+                <td><{:round($var['goods_price'],2)}></td>
+                <td><{$var.info.user_name}></td>
+                <td><{$var.mobile}></td>
+                <td>
+                  <if condition="$var['status'] eq 0">
+                    待处理
+                  </if>  
+                  <if condition="$var['status'] eq 1">
+                    已同意退款
+                  </if>    
+                  <if condition="$var['status'] eq 2">
+                    已拒绝
+                  </if>  
+                  <if condition="$var['status'] eq 3">
+                    用户已取消
+                  </if>  
+                </td>
+                <td><{$var.info.pay_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td>
+                    <if condition="$var['status'] eq 0">
+                        <button class="one"><a style="color: green" class="radius3 sy_c1an" mini="confirm" href="<{:U('refund/do_refund',array('order_id'=>$var['id']))}>">同意退款</a></button>
+                        <button class="one"><a style="color: red" class="radius3 sy_c1an" mini="confirm" href="<{:U('refund/miss_refund',array('order_id'=>$var['id']))}>">取消退款</a></button>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+     </table>
+
+
+
+
+
+
+
+
+    <{$page}>
+</div>
+
+<script>
+function changePrice(order_id){
+	var senddata = 'order_id=' + order_id + '&change_price=' + $('#change_'+order_id).val();
+	$.ajax({
+        url: "<{:U('order/changePrice')}>",
+        type: 'post',
+        data: senddata,
+        success: function(data){
+          if(data.status == 'success'){
+             layer.msg(data.msg,{icon:1});
+                setTimeout(function () {
+                  window.location.href = data.url;
+                }, 1000)
+          }else{
+            layer.msg(data.msg,{icon:2});
+          }
+        }
+	});
+}
+</script>
+
+
+<include  file='public:footer'/>

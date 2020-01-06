@@ -1,0 +1,259 @@
+<include file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="<{:U('mall/index',array('cat'=>$detail['cate_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        订单设定
+    </div>
+</header>
+
+<script>
+    $(document).ready(function(){
+
+        $("#pay-method li").click(function(){
+            var code = $(this).attr("data-rel");
+            $("#code").val(code);
+            $("#pay-method li").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass("active");
+        });
+
+    });
+</script>
+
+<style>
+    .iconfont icon-angle-right{ float:right; font-size:20px;}
+    .pay-form{margin-top: 50px}
+</style>
+<form class="pay-form" action="<{:U('mall/paycode2',array('log_id'=>$logs['log_id']))}>" method="post" target="x-frame">
+    <div class="row">
+        <span class="float-left">购物费用：&yen; <{:round($logs['need_pay'],2)}>元</span>
+        <span class="float-right">
+             </span>
+    </div>
+
+    <if condition="!empty($logs['express_price'])">
+        <div class="row">
+            <span class="float-left">配送费：</span>
+            <span class="float-right">  &yen;<{:round($logs['express_price'],2)}>元</span>
+        </div>
+        <hr/>
+    </if>
+
+    <if condition="!empty($logs['use_integral'])">
+        <div class="row">
+            <span class="float-left">积分抵扣：</span>
+            <span class="float-right">  &yen;<{:round($logs['use_integral'],2)}>元</span>
+        </div>
+        <hr/>
+        </else>
+        <if condition="!empty($use_integral)">
+            <div class="row">
+                <span class="float-left">积分抵扣：</span>
+                <span class="float-right">  &yen;<{:getUseIntegral($use_integral,$type = 'goods',$logs['goods_id'])}> 元</span>
+            </div>
+            <hr/>
+        </if>
+    </if>
+
+    <if condition="!empty($logs['can_use_integral'])">
+        <div class="row">
+            <span class="float-left">积分抵扣：</span>
+            <span class="float-right">  &yen; <{:getUseIntegral($logs['can_use_integral'],$type = 'goods',$logs['goods_id'])}> 元
+                </span>
+        </div>
+        <hr/>
+    </if>
+    <!--使用优惠劵逻辑开始-->
+    <if condition="!empty($coupon)">
+        <div class="row">
+            <span class="float-left">优惠劵使用：</span>
+            <input type="hidden" name="download_id" id="download_id" value="<{$coupon['download_id']}>" checked="checked" />
+            <span class="float-right"> 优惠劵ID：<{$coupon['download_id']}>，抵现 &yen;<{:round($coupon['reduce_price'],2)}>元</span>
+        </div>
+        <hr/>
+        <elseif condition="!empty($download_id)" />
+        <div class="row">
+            <span class="float-left">优惠劵使用：</span>
+            <input type="hidden" name="download_id" id="download_id" value="$download_id" checked="checked" />
+            <span class="float-right"> 当前使用的优惠劵ID：<{$download_id}></span>
+        </div>
+        <hr/>
+    </if>
+    <input type="hidden" value="<{:round($need_pay,2)}>" id="paymoney"/>
+
+    <div class="row">
+        <span class="float-left">实际支付：</span>
+        <span class="float-right text-dot" id="useEnvelope">
+                <if condition="$logs['need_pay']">&yen; <span id="need_pay" need_pay="<{:round($logs['need_pay'],2)}>"><{:round($logs['need_pay'],2)}></span></if>元
+            </span>
+    </div>
+    <hr/>
+
+    <hr />
+    <ul class="pay-method">
+        <foreach name="shopList" item="item">
+            <li shop_id="<{$item.shop_id}>" class="media media-x payment">
+                <span><{$item.shop_name}></span>
+                <input  type="hidden" name="redbag[<{$item.shop_id}>][reduce_price]"  value="0" >
+                <input  type="hidden" name="redbag[<{$item.shop_id}>][use_id]"  value="0" >
+                <input  type="hidden" name="redbag[<{$item.shop_id}>][type]"  value="0" >
+                <input  type="hidden" name="redbag[<{$item.shop_id}>][money]"  value="0" class="redbag_sum">
+                <input  type="hidden" name="redbag[<{$item.shop_id}>][coupon]"  value="0" class="coupon_sum">
+                <span style="width:100px;display: block " total_price="<{$item.total_prcie}>">&yen;<{$item.total_prcie}>元</span>
+                <!--  优惠卷 -->
+                <if condition="!empty($item['user_coupon'])">
+                    <span class="float-left"></span>
+                    <span class="float-right">
+                                        <select id="user_coupon" class="user_coupon">
+                                                <option value="0">请选择</option>
+                                            <foreach name="item.user_coupon" item="var">
+                                                <option value="<{$var.download_id}>" coupon_id="<{$var.coupon_id}>" full_price="<{$var.full_price}>"  reduce_price="<{$var.reduce_price}>" >
+													<{$var.title}>满<{$var.full_price}>减<{$var.reduce_price}>
+												</option>
+                                            </foreach>
+                                        </select>
+                            </span>
+                </if>
+                <!--  红包 -->
+                <if condition=" !empty($item['useEnvelope']) && empty($item['user_coupon']) ">
+                    <span class="float-left"></span>
+                    <span class="float-right">
+                                        <select  id="redbag" class="redbag">
+                                                <option value="0">请选择</option>
+                                            <foreach name="item.useEnvelope" item="var">
+                                                <option value="<{$var.envelope}>" useEnvelope_id="<{$var.useEnvelope_id}>" ><{$var.type}>&yen; <{$var.envelope}></option>
+                                            </foreach>
+                                        </select>
+                                        元
+                            </span>
+                </if>
+            </li>
+        </foreach>
+    </ul>
+    <div class="blank-10 bg"></div>
+    <div class="row address_bg">
+        <span class="x10">
+			<i class="icon-wo iconfont"></i> <{:tu_msubstr($defaultAddress['xm'],0,3,false)}> &nbsp; <i class="iconfont icon-phone-line"></i> <{$defaultAddress.tel}>
+            <p onclick="location='<{$changeAddressUrl}>'"><{$defaultAddress.area_str}> <{$defaultAddress.info}></p>
+         </span>
+        <span class="x2" onclick="location='<{$changeAddressUrl}>'"><i class="iconfont icon-angle-right padding-top"></i></span>
+    </div>
+
+    <div class="blank-10 bg"></div>
+
+    <ul id="pay-method" class="pay-method">
+        <foreach name="payment" item="var">
+            <li data-rel="<{$var.code}>" class="media media-x payment">
+                <a class="float-left"  href="javascript:;">
+                    <img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+                </a>
+                <div class="media-body">
+                    <div class="line">
+                        <div class="x10">
+                            <{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+                        </div>
+                        <div class="x2">
+                            <span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </foreach>
+        <!--			<li data-rel="wait" class="media media-x payment">-->
+        <!--				<a class="float-left" href="javascript:;">-->
+        <!--					<img src="/static/default/wap/image/pay/dao.png">-->
+        <!--				</a>-->
+        <!--				<div class="media-body">-->
+        <!--					<div class="line">-->
+        <!--						<div class="x10">-->
+        <!--						货到付款<p>如果您没有网银，可以到店付</p>-->
+        <!--						</div>-->
+        <!--						<div class="x2">-->
+        <!--							<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>-->
+        <!--						</div>-->
+        <!--					</div>-->
+        <!--				</div>-->
+        <!--			</li>-->
+    </ul>
+    <input id="code" type="hidden" name="code" value="" />
+
+    <div class="text-center padding-left padding-right margin-large-top">
+        <button type="submit" class="button button-big button-block bg-yellow">提交订单</button>
+    </div>
+
+    <div class="blank-20"></div>
+</form>
+</div>
+
+<script>
+    //使用红包
+    $("#redbag").change(function () {
+        var _this=$(this).find("option:selected");
+        var money = _this.val();
+        var useEnvelope_id = _this.attr('useEnvelope_id');
+        var need_pay=$('#need_pay').attr('need_pay');
+        var redbag_content = $(this).find("option:selected").text();
+        if(money==0){
+            $(this).parent().prev().html('');
+        }else{
+            $(this).parent().prev().html(redbag_content);
+        }
+        var redbag_input=$(this).parent().prev().prev().prev().prev();
+        redbag_input.val(money);
+        redbag_input.prev().val(1);
+        redbag_input.prev().prev().val(useEnvelope_id);
+        redbag_input.prev().prev().prev().val(money);
+        var total_price=getTotalPrice();
+        $('#need_pay').text(need_pay-total_price);
+    });
+
+    //使用优惠卷
+    $("#user_coupon").change(function () {
+        var _this=$(this).find("option:selected");
+        var download_id = _this.val();
+        var full_price=_this.attr('full_price');
+        var reduce_price=parseFloat(_this.attr('reduce_price')).toFixed(2);
+        var total_price=_this.parent().parent().prev().prev().attr('total_price');
+        var need_pay=$('#need_pay').attr('need_pay');
+        //判断满减券
+        if(total_price>full_price){
+            $('#need_pay').text(need_pay-reduce_price);
+        }
+
+        var redbag_content = $(this).find("option:selected").text();
+        if(download_id==0){
+            $(this).parent().prev().html('');
+        }else{
+            $(this).parent().prev().html(redbag_content);
+        }
+        var coupon_input=$(this).parent().prev().prev().prev();
+        coupon_input.val(reduce_price);
+        coupon_input.prev().prev().val(2);
+        coupon_input.prev().prev().prev().val(download_id);
+        coupon_input.prev().prev().prev().prev().val(reduce_price);
+        var total_price=getTotalPrice();
+        $('#need_pay').text(need_pay-total_price);
+    });
+    function getTotalPrice(){
+        var total_price=0.00;
+        var redbag_obj=$('.redbag_sum');
+        var coupon_obj=$('.coupon_sum');
+        $.each(redbag_obj,function (index,obj) {
+            var redbag_price=$(obj).val();
+            var coupon_proce=$(coupon_obj[index]).val();
+            redbag_price=parseFloat(redbag_price);
+            coupon_proce=parseFloat(coupon_proce);
+            if(redbag_price>0){
+                total_price+=redbag_price;
+            }
+            if(coupon_proce>0){
+                total_price+=coupon_proce;
+            }
+        });
+        return total_price;
+    }
+</script>
+<include  file='public:footer'/>

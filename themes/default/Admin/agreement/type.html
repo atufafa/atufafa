@@ -1,0 +1,58 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">文章</li>
+        <li class="li2">协议类型管理</li>
+        <li class="li2 li3">协议分类</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span> 这里编辑是关于整个APP用户的协议！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('agreement/add','','添加协议')}>
+            </div>
+            <div class="right">
+                <form class="" method="post"  action="<{:U('agreement/type')}>"> 
+
+                    <div class="seleHidden" id="seleHidden">
+
+                        <span>协议名称</span>
+                        <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                        <input type="submit" value=" 搜索"  class="inptButton" />
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td>ID</td>
+                        <td>协议名称</td>
+                        <td>协议说明</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.x_id}></td>
+                            <td><{$var.typename}></td>
+                            <td><{$var.explain}></td>
+                            <td><{$var.times}></td>
+                            <td>
+                                <{:BA('agreement/edit',array("x_id"=>$var["x_id"]),'编辑','','remberBtn')}>
+                                <{:BA('agreement/delete',array("x_id"=>$var["x_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

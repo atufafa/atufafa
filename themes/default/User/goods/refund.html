@@ -1,0 +1,224 @@
+<include  file='public:header'/>   
+
+<style>
+.panel-list li em {float:inherit; margin-left:5px;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		售后申请
+	</div>
+</header>
+<style>
+.list-media-x{margin-top:0rem;}
+.panel-sub{margin-top:2.2rem;}
+.list-media-x h3.list-shop-x{margin:5px 10px;}
+.fa-spin{-webkit-animation: fa-spin 2s infinite linear;animation: fa-spin 2s infinite linear;}
+</style>
+
+<div class="blank-10 bg"></div>
+<div class="list-media-x">
+    <h3 class="list-shop-x">售后商品</a></h3>
+    <ul>
+        
+        <li class="line padding">
+            <div class="x3">
+                <img style="width:90%;" src="<{$order_goods['photo']}>" />
+            </div>
+            <div class="x9">
+                <p>商品名称：<{$order_goods['title']}></p>
+                <p>商品单价：&yen; <{:round($order_goods['price'],2)}></p>
+                <p>商品数量：<{$order_goods['num']}></p>
+                <p class="text-small padding-top">小计：<span class="text-dot">&yen; <{:round($order_goods['price'],2)}> x <{$order_goods['num']}> = &yen; <{:round($order_goods['total_price'],2)}> 元</span></p>
+            </div>
+        </li> 
+        
+    </ul>
+</div>
+
+<form class="fabu-form" method="post"   id="ajaxForm" action="<{:U('goods/refund')}>">
+    <input type="hidden" name="data[shop]" value="<{$order_goods['shop_id']}>">
+    <input id="order_id" type="hidden" name="data[order_id]" value="<{$order_goods['order_id']}>" />
+    <input id="order_goods_id" type="hidden" name="data[order_goods_id]" value="<{$order_goods['id']}>" />
+    <div class="blank-10 bg"></div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">申请类型：</span>
+            <span class="x3" style="float:right;">
+                <select name="data[type]" id="type" class="text-select">
+                    <option value="">请选择</option>
+                    <option value="1">仅退款</option>
+                    <option value="2">退货退款</option>
+                    <option value="3">换货</option>
+                </select>
+            </span>
+        </div>          
+    </div>
+    
+    <div class="row">
+        <div class="line">
+            <span class="x3">货物状态：</span>
+            <span class="x3" style="float:right;">
+                <select name="data[received]" id="received" class="text-select">
+                    <option value="">请选择</option>
+                    <option value="1">已收到货</option>
+                    <option value="0">未收到货</option>
+                </select>
+            </span>
+        </div>             
+    </div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">申请原因：</span>
+            <span class="x3" style="float:right;">
+                <select name="data[reason_id]" id="reason_id" class="text-select">
+                    <option value="">请选择</option>
+                </select>
+            </span>
+        </div>          
+    </div>
+    
+    <div class="row">
+        <div class="line">
+            <span class="x3">申请数量：</span>
+            <span class="x3" style="float:right;">
+                <select name="data[num]" id="num" class="text-select">
+                    <option value="">请选择</option>
+                    <php>
+                        for ($i = 1; $i <= $order_goods['num']; $i++) {
+                            echo '<option value="' . $i . '">' . $i . '件</option>';
+                    }
+                    </php>
+                    
+                </select>
+            </span>
+        </div>             
+    </div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">退款金额：</span>
+            <span class="x9">
+                &yen;<input type="text" style="font-size: 14px;width: 200px;color: red" id="refund_max_money" class="text-input" name="data[money]" />
+            </span>
+        </div>
+<!--        <div class="line">-->
+<!--            <span class="x3"></span>-->
+<!--            <span class="x3">-->
+<!--                最多可申请 &yen; <span id="refund_max_money"></span>元-->
+<!--            </span>-->
+<!--        </div>-->
+    </div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">退款说明：</span>
+            <span class="x9">
+                <input type="text" class="text-input" name="data[remark]"/>
+            </span>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+    <script src="/static/default/wap/other/webuploader.js"></script> 
+    <div class="Upload-img-box" class="row">
+       <div  id="fileToUpload">上传凭证</div>
+       <div class="Upload-img"  class="line">
+       <div class="list-img loading" style="display:none;"><img src=""></div>
+        <div class="list-img jq_photo" style="display:none;"></div>
+        </div>
+    </div>
+    <script>
+        var width_dianping = '<{:thumbSize($CONFIG[attachs][dianping][thumb],0)}>';                     
+        var height_dianping = '<{:thumbSize($CONFIG[attachs][dianping][thumb],1)}>';  
+        var uploader = WebUploader.create({                 
+            auto: true,                             
+            swf: '/static/default/webuploader/Uploader.swf',                             
+            server: '<{:U("app/upload/uploadify",array("model"=>"dianping"))}>',                             
+            pick: '#fileToUpload',                             
+            resize: true,    
+            compress : {width:width_dianping,height:height_dianping,quality:60,allowMagnify: false,crop: true}//裁剪       
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_dianping,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[photo]" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    
+     <div class="container">
+            <div class="blank-30"></div>
+            <button  type="submit" class="button button-block button-big bg-dot">提交申请</button>
+            <div class="blank-30"></div>
+     </div>
+    </form>
+    
+<script>
+    $(document).ready(function() {
+        
+        $("#received").change(function() {
+            $("#reason_id").html('');
+            var received = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: "<{:U('goods/refund_reason')}>",
+                data:{'received':received}, 
+                dataType:'text',
+                success: function(result){
+                    $("#reason_id").append(result);
+                }
+            });
+        });
+
+
+        $('#num').change(function() {
+            //alert($(this).val())
+            var order_goods_id = $('#order_goods_id').val();
+            //var order_goods_id=document.getElementById('refund_max_money').value;
+            var num = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: "<{:U('goods/refund_max_money')}>",
+                data:{'order_goods_id':order_goods_id, 'num':num}, 
+                dataType:'text',
+                success: function(result){
+                    document.getElementById('refund_max_money').value=result;
+                    //$("#order_goods_id").value(result);
+                    //alert(result);
+                }
+            });
+
+        });
+
+
+    });
+</script>
+  
+
+	
+<include  file='public:footer'/>

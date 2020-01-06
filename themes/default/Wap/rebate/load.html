@@ -1,0 +1,27 @@
+    <foreach name="list" item="var">   
+    <li class="line" style="padding: 5px">
+      <dd class="zhong">
+         <div class="12">
+            <p class="text-small">信息ID：<{$var.life_id}></p>
+            <p class="text-small">预约商家ID：<{$var.sell_user_id}></p>
+             <p class="text-small">预约类型：<if condition="$var['type'] eq 1">卖房信息<elseif condition="$var['type'] eq 2"/>卖车信息
+                 <elseif condition="$var['type'] eq 3"/>装修服务</if></p>
+            <p class="text-small">预约时间：<{$var.time}></p>
+             <if condition="$var['type'] eq 3">
+             <a href="<{:U('rebate/dianping',array('id'=>$var['id']))}>">评价</a>&nbsp;&nbsp;&nbsp;
+             </if>
+             <if condition="$var['fl'] eq 0">
+                 <a style="float: right;margin-right: 5%;" href="<{:U('rebate/rebate',array('id'=>$var['id']))}>"><button style="background-color: red;padding: 2px;width: 120px;font-size: 16px;color: #fff;border: 0;border-radius: 5px;">上传收据返利</button></a><br/> </if>
+             <if condition="$var['fl'] neq 0">
+                 <a style="float: right;margin-right: 5%;" href="<{:U('rebate/rebate',array('id'=>$var['id']))}>"><button style="background-color: red;padding: 2px;width: 120px;font-size: 16px;color: #fff;border: 0;border-radius: 5px;">查看返利情况</button></a>
+            <br/></if>
+             <p style="color: red;margin-top: 10px">
+                 小提示：交易成功后，可上传发票等相应证据,平台根据成交金额进行不等的返利,成交金额越大返利越多！！！
+             </p>
+         </div>
+      </dd>
+       
+    </li>
+    <div class="blank-10"></div>
+    <div class="blank-10 bg"></div>
+   </foreach>  

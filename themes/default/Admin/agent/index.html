@@ -1,0 +1,138 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">代理</li>
+        <li class="li2">代理申请</li>
+        <li class="li2 li3">申请列表</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:24px;background:rgb(0, 153, 204); width:70px;text-align: center;border-radius: 3px;}
+.main-jsgl .jsglNr .selectNr .left a, .piliangcaozuo {height: 30px;line-height: 30px;}
+</style>
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span>线下付款的请先确认收到款项后审核，审核后会员就可以登录代理商管理系统查看财务报表了！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('agent/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                             <label>
+                                <span>用户</span>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text" />
+                                <a  href="<{:U('user/select')}>" w="800" h="600" mini="select" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>支付方式</span>
+                                <select name="type" class="select w120">
+                                    <option value="999"  >选择支付方式</option>
+                                    <option value="1" <eq name="type" value="1">selected="selected"</eq>>支付宝支付</option>
+                                    <option value="2" <eq name="type" value="2">selected="selected"</eq>>余额支付</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>关键字：</span>
+                                <input type="text" name="keyword" id="keyword"  value="<{$keyword}>"   class="inptText" />
+                                <input type="submit" value="  搜索"  class="inptButton" />
+                            </label>
+                        </div>
+                    </div> 
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="apply_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>申请用户</td>
+                        <td>代理城市ID</td>
+                        <td>推荐人ID</td>
+                        <td>代理等级</td>
+                        <td>售价</td>
+                        <td>支付方式</td>
+                        <td>营业执照</td>
+                        <td>法人姓名</td>
+                        <td>手持身份证正面</td>
+                        <td>身份证正反面</td>
+                        <td>店铺图片</td>
+                        <td>LOGO</td>
+                        <td>联系人电话</td>
+                        <td>申请时间</td>
+                        <td>是否审核</td>
+                        <td>到期时间</td>
+                        <td>支付状态</td>
+                        <td>操作</td>
+
+                    </tr>
+                    <volist name="list" id="var" key="index"> 
+                        <tr>
+                            <td><input class="child_apply_id" type="checkbox" name="apply_id[]" value="<{$var.apply_id}>" /> </td>
+                            <td><{$var.apply_id}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><?php echo ($var['addr1'])?$var['addr1']:($var['addr2']?$var['addr2']:'无');?></td>
+                            <td><?php echo ($var['user_guide_id']<1) ? '平台方' : $var['user_guide_id'];?></td>
+                            <td>
+                                <?php 
+                                    $ler = D('Cityagent')->field('agent_name')->where(array('level'=>$level))->find($var['agent_id']); 
+                                    echo $ler['agent_name'];
+                                ?>    
+                            </td>
+                            <td>&yen;<{:round($var['price'],2)}>元</td>
+                            <td><eq name="var.type" value="1">支付宝支付<else/>余额支付</eq></td>
+                            <td><a target="_blank" href="<{:config_img($var['photo_ying'])}>"><img src="<{:config_img($var['photo_ying'])}>" class="w80" /></a></td>
+                            
+                            <!-- <td><a target="_blank" href="<{:config_img($var['photo_shou'])}>"><img src="<{:config_img($var['photo_shou'])}>" class="w80" /></a></td> -->
+                            <td><{$var['name']}></td>
+
+                            <td><a target="_blank" href="<{:config_img($var['photo_positive'])}>"><img src="<{:config_img($var['photo_positive'])}>" class="w80" /></a></td>
+                            <td><a target="_blank" href="<{:config_img($var['photo_back'])}>"><img src="<{:config_img($var['photo_back'])}>" class="w80" /></a></td>
+                            <td><a target="_blank" href="<{:config_img($var['photo_shop'])}>"><img src="<{:config_img($var['photo_shop'])}>" class="w80" /></a></td>
+                            <td><a target="_blank" href="<{:config_img($var['photo_shen'])}>"><img src="<{:config_img($var['photo_shen'])}>" class="w80" /></a></td>
+                            <td><{$var.mobile}>   </td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><eq name="var.audit" value="0">等待审核<else/>正常</eq></td>
+                            <td><{$var.end_time}></td>
+                            <td><eq name="var.is_pay" value="1"><span style="color:green;">已支付</span><else/><span style="color:red;">未支付</span></eq></td>
+                            <td>
+                            <eq name="var.audit" value="0">
+                                <{:BA('agent/audit',array("apply_id"=>$var["apply_id"],"level"=>$var["level"]),'审核','act','remberBtn')}> 
+                                <{:BA('agent/delete',array("apply_id"=>$var["apply_id"],"level"=>$var["level"]),'删除','act','remberBtn')}>
+                            </eq>
+                                <if condition="$var['user_guide_id'] neq 0">
+                                    <if condition="$var['audit'] eq 1">
+                                        <if condition="$var['is_fan'] eq 0">
+                                            <{:BA('agent/fanli',array("apply_id"=>$var["apply_id"]),'返利推荐人','act','remberBtn')}>
+                                        </if>
+                                    </if>
+                                </if>
+                             <a target="_blank" class="remberBtn_small" href="<{:U('agent/login',array('apply_id'=>$var['apply_id']))}>">管理</a>
+                        </td>
+                        </tr>
+                    </volist>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

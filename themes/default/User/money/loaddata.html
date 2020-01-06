@@ -1,0 +1,34 @@
+<foreach name="list" item="var">
+<li class="line ">
+	<dd class="zhong">
+		<div class="12">
+        	<p class="text-small">押金类型：<if condition="$var['type'] eq 1">发布信息认证押金<elseif condition="$var['type'] eq 0"/>商户入驻押金
+				<elseif condition="$var['type'] eq 2"/>注册配送员押金<elseif condition="$var['type'] eq 3"/>注册配送管理员押金
+				<elseif condition="$var['type'] eq 4"/>注册代理押金<elseif condition="$var['type'] eq 5"/>认证拼车拉货司机押金
+				<elseif condition="$var['type'] eq 6"/>卖房认证公司押金<elseif condition="$var['type'] eq 7"/>卖车认证公司押金
+				<elseif condition="$var['type'] eq 8"/>五折卡保证金<elseif condition="$var['type'] eq 9"/>发布信息押金</if></p>
+            <p class="text-small">支付时间：<{$var.create_time|date='Y-m-d H:i:s',###}></p>
+			<p class="text-small text-dot">押金金额：&yen;<{$var['money']-$var['koumoney']}>元</p>
+			<p class="text-small">备注：<if condition="$var['type'] eq 8">一年后到期才能申请退出<else/>退出后3个月无任何单纠纷后才能到账</if></p>
+			<if condition="$var['shenghe'] eq 0 && $var['koumoney'] eq 0">
+				<span class="text-dot1 margin-right">
+                	<a style="font-size: 12px" href="<{:U('money/lifeHandle',array('deposit_id'=>$var['deposit_id'],'type'=>$var['type']))}>">申请退出平台管理</a>
+            	</span>
+				<elseif condition="$var['koumoney'] neq 0"/>
+				<span class="text-dot1 margin-right">
+                	<a style="font-size: 12px" >您未补齐押金，不能退出平台</a>
+            	</span>
+			</if>
+			<if condition="$var['shenghe'] eq 1">
+			<span class="text-dot1 margin-right">
+                	<a style="font-size: 12px" >审核中</a>
+            	</span>
+			</if>
+			<if condition="$var['koumoney']  gt   0">
+			<span style="float: right;margin-right: 5%;"> <button style="background-color: red;border-radius: 5px;border: 0"> <a style="color: #ffffff" href="<{:U('money/rechargedeposit',array('deposit_id'=>$var['deposit_id']))}>">补齐押金</a></button></span>
+			</if>
+		</div>
+	</dd>
+</li>
+</foreach>        
+         

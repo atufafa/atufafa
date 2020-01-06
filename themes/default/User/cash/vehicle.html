@@ -1,0 +1,35 @@
+<include file='public:header'/> 
+<link rel="stylesheet" href="/static/default/wap/css/housekeeping.css"/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			返利充值日志
+		</div>
+	</header>
+
+<style>
+.list-media-x{margin-top: 0.0rem;}
+ul{ padding-left:0px;}
+</style>
+
+<ul id="shangjia_tab">
+	<li class="x6"><a href="<{:U('money/vehicle')}>">返利充值</a></li>
+    <li class="x6"><a href="<{:U('cash/vehicle')}>">充值日志</a></li>
+  </li>
+</ul>
+<div class="blank-40 bg"></div>
+<div class="list-media-x" id="list-media">
+	<ul></ul>
+</div>	
+
+
+<script>
+	$(document).ready(function () {
+		loaddata('<{:U("cash/vehicleload",array("t"=>$nowtime,"p"=>"0000"))}>', $("#list-media ul"), true);
+	});
+</script>
+	
+<include file='public:footer'/>  
+

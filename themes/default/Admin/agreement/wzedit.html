@@ -1,0 +1,58 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">文章</li>
+        <li class="li2">协议管理</li>
+        <li class="li2 li3">编辑</li>
+    </ul>
+</div>
+        <form target="x-frame" action="<{:U('agreement/wzedit',array('id'=>$detail['id']))}>" method="post">
+           <div class="mainScAdd">
+        <div class="tableBox"> 
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+                    
+                
+
+                <tr>
+                    <td class="lfTdBt">分类：</td>
+                   <td class="rgTdBt">
+                       <select id="grade_id" name="data[x_id]" class="seleFl w210">
+                        <foreach name="cates" item="var">
+                         <option  value="<{$var.x_id}>" <eq name="var.x_id" value="$detail.x_id">selected="selected"</eq>><{$var.typename}></option>
+                        </foreach>
+                        </select>
+                        <code>必须选择</code>
+                    </td>
+                    
+                </tr>    
+                <tr>
+                    <td class="lfTdBt">标题：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput" />
+                    <code>输入文章标题</code>
+                    </td>
+                </tr>
+           
+            
+            <tr>
+                    <td class="lfTdBt">详细内容：</td>
+                    <td class="rgTdBt">
+                        <script type="text/plain" id="data_details" name="data[details]" style="width:800px;height:360px;"><{$detail.details}></script>
+                    </td>
+                </tr><link rel="stylesheet" href="__PUBLIC__/qiniu_ueditor/themes/default/css/ueditor.min.css" type="text/css">
+                    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/qiniu_ueditor/ueditor.config.js"></script>
+                    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/qiniu_ueditor/ueditor.all.min.js"></script>
+                    <script type="text/javascript" src="__PUBLIC__/qiniu_ueditor/lang/zh-cn/zh-cn.js"></script>
+                <script>
+                    um = UE.getEditor('data_details', {
+                        lang: 'zh-cn',
+                        toolbars:[['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'backcolor', 'fontsize', 'fontfamily', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'unlink', 'map', 'template', 'background','inserttable','print','attachment',  'emotion',  'snapscreen','insertimage', 'music', 'insertvideo']],  
+                        });
+                </script>
+            
+    </table>
+            <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
+</form>
+</div>
+</div>
+<include  file='public:footer'/>       

@@ -1,0 +1,35 @@
+
+<style>
+    .div1{width: 50%;float: right;text-align: center}
+    .fulldiv2 ul {width: 100%}
+    .fulldiv2 ul li{width: 50%;float: left;border: 1px solid #dddddd;padding: 2%;text-align: center;height: 224px;padding-bottom: 2%}
+    .liimgss{width: 50%;height: 100px;}
+    .h5 span {color: #fff;font-size: 12px!important;cursor: pointer;padding: 2px;}
+    .h5 .jian {background: #00a0e9;}
+    .h5 .fu{background: #eb6100;}
+    .h5 .fan{background: #ff2121}
+</style>
+
+    <foreach name="list" item="var">
+        <li style="margin-bottom: 2%;padding: 2%;border: 1px solid #99999950">
+            <a href="<{:U('store/shop',array('shop_id'=>$var['shop_id']))}>">
+                <img class="liimgss" src="<{:config_img($shops[$var['shop_id']]['photo'])}>"/>
+                <div class="div1">
+                <h4 class="h4"><{:tu_msubstr($var['shop_name'],0,15,true)}></h4>
+                <h5 class="h5">
+                    <eq name="var.is_pay" value="1"> <span class="fu">付</span></eq>
+                    <eq name="var.is_full" value="1"> <span class="fan">惠</span></eq>
+                    <eq name="var.is_new" value="1"><span class="jian">减</span></eq>
+                </h5>
+                <p class="des-addr">
+                    <if condition="!empty($var['order_price_full_1'])">
+                        满&yen;<{$var['order_price_full_1']}>减 &yen;<{$var['order_price_reduce_1']}>
+                    </if>
+                    <br/>
+                    <if condition="!empty($var['order_price_full_2'])">
+                        满&yen;<{$var['order_price_full_2']}>减 &yen;<{$var['order_price_reduce_2']}>
+                    </if>
+                </p></div>
+            </a>
+        </li>
+    </foreach>

@@ -1,0 +1,153 @@
+<style>
+    .hui{font-size: 12px;color: #999}
+</style>
+<!--推荐商品开始固定-->
+                <foreach name="tuijian" item="var">
+                   <div class="list-boxs" style="background-color: #fff;">
+                       <div class="list-img ac"><!--增加触发事件-->
+                           <a style="padding: 0;height: 0" href="<{:U('market/details',array('product_id'=>$var['product_id']))}>">
+                          <img  url="<{:config_img($var['photo'])}>" src="<{:config_img($var['photo'])}>">
+                           </a>
+                       </div>
+                   		<div class="list-content">
+                       		<p class="overflow_clear"><h5><{:tu_msubstr($var['product_name'],0,10,false)}></h5></p>
+                               <h1 style="display:none" class="salenum"><{:tu_msubstr($var['desc'],0,56,false)}>...</h1>
+                            <p class="price fontcl2">
+                                  <span class="unit_price">&yen;<{$var['price']}></span><em>元/斤</em>
+                                  <span class="fontc3">月售：<{$var.sold_num}>份</span>
+                                  <span class="tuijian">推荐</span>
+                            </p>
+                            <div class="num-input">
+                                <img style="display: none;" src="<{:config_img($var['photo'])}>">
+                                <eq name="detail.bsti" value="0">
+                                    <!--                                            <div class="btn jq_jian" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="dec(this);">-</div>-->
+                                </eq>
+                                <div class="input" style="width: 100%;margin: 0px">
+                                            <span>
+                                                <span class="hui">已优惠:<font style="color: red">￥<?php echo round($var['cost_price']-$var['price'],2)?></font>
+                                                 &nbsp;&nbsp;折:<font style="color: red"><?php $discount = round(10 / ($var['cost_price']/$var['price']), 1); echo $discount;?></font></span>
+
+                                            <!--<input autocomplete="off" type="number" class="change_price" style="border:1px #999 solid;width: 80px;margin-left: -12px;" placeholder="请输入斤数" price="<{$var['price']}>" cost="<{$var['cost_price']}>"  did="<{$var.product_id}>" class="ordernum-<{$var.product_id}>"  value="<{:getMarketCartNum($var['product_id'],$detail['shop_id'])}>" />斤-->
+
+                                            <button onclick="location='<{:U('market/details',array('product_id'=>$var['product_id']))}>'" style="color:#ffffff;background-color: red;border-radius: 5px;border:none;float:right;margin-right: 25px;">马上买</button>
+                                            </span>
+                                </div>
+                                <eq name="detail.bsti" value="0">
+                                    <!--                                            <div class="btn active jq_addcart"  val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="addcart(this);" >+</div>-->
+                                </eq>
+                             </div>
+                         </div>
+                     </div>
+                </foreach>
+                <!--推荐商品开始结束-->    
+                
+                
+                <!--商品循环开始-->
+               
+                    <foreach name="list" item="var">
+                            <div class="list-boxs" style="background-color: #fff;">
+                                <div class="list-img ac"><!--增加触发事件-->
+                                    <a style="padding: 0;height: 0;"  href="<{:U('market/details',array('product_id'=>$var['product_id']))}>">
+                                    <img  url="<{:config_img($var['photo'])}>" src="<{:config_img($var['photo'])}>">
+                                    </a>
+                                </div>
+                                <div class="list-content">
+                                    <p class="overflow_clear"><h5><{:tu_msubstr($var['product_name'],0,10,false)}></h5></p>
+                                    <h1 style="display:none" class="salenum"><{:tu_msubstr($var['desc'],0,56,false)}>...</h1>
+                                    <p class="price fontcl2">
+                                        <span class="unit_price">&yen;<{$var['price']}></span><em>元/斤</em>
+                                        <span class="fontc3">月售：<{$var.sold_num}>份</span>
+                                    </p>
+                                     <div class="num-input">
+                                        <img style="display: none;" src="<{:config_img($var['photo'])}>">
+                                        <eq name="detail.bsti" value="0">
+<!--                                            <div class="btn jq_jian" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="dec(this);">-</div>-->
+                                        </eq>
+                                        <div class="input" style="width: 100%;margin: 0px">
+                                            <span>
+                                                <span class="hui">已优惠:<font style="color: red">￥<?php echo round($var['cost_price']-$var['price'],2)?></font>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;折:<font style="color: red"><?php $discount = round(10 / ($var['cost_price']/$var['price']), 1); echo $discount;?></font></span>
+                                            <!--<input autocomplete="off" type="number" class="change_price" style="border:1px #999 solid;width: 80px;margin-left: -12px;" placeholder="请输入斤数" price="<{$var['price']}>"  did="<{$var.product_id}>" cost="<{$var['cost_price']}>" class="ordernum-<{$var.product_id}>"  value="<{:getMarketCartNum($var['product_id'],$detail['shop_id'])}>" />-->
+                                            <!--斤-->
+                                            <button onclick="location='<{:U('market/details',array('product_id'=>$var['product_id']))}>'" style="color:#ffffff;background-color: red;border-radius: 5px;border:none;float:right;margin-right: 25px;">马上买</button>
+                                            </span>
+                                        </div>
+                                        <eq name="detail.bsti" value="0">
+<!--                                            <div class="btn active jq_addcart"  val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="addcart(this);" >+</div>-->
+                                        </eq>
+                                    </div> 
+                                </div>
+                            </div>
+                    </foreach>
+                <!--商品循环结束-->
+ <script>
+     product_arr=new Array();
+     total_price_arr=new Array();
+     $('.buy_btn').click(function(){
+         $(this).prev().focus();
+     });
+     $(".change_price").bind("input propertychange",function(event){
+         var data = {};
+         var shop_id = "<{$detail['shop_id']}>";
+         var product_id = $(this).attr('did');
+         var price = $(this).attr('price');
+         var youhui=$(this).attr('cost');
+         var num = $(this).val();
+         data['product_id'] = product_id;
+         data['price'] =price;
+         data['cost_price'] = youhui;
+         var count=get_product_count();
+         var totalprice=get_product_totalPrice();
+         window.market.addcart(shop_id,data,get_cart_info());
+         $("#num").text(count);
+         $("#total_price").html(totalprice);
+         var since_money = "<{$detail['since_money']}>";
+         if (parseInt(window.market.totalprice("<{$detail['shop_id']}>")) < parseInt(since_money)) {
+             $('#cart_2').find('a').attr('href', "javascript:void(0);");
+             $('#cart_2').removeClass('btn');
+             $('#cart_2').addClass('disable');
+         } else {
+             $('#cart_2').find('a').attr('href', "<{:U('market/order',array('t'=>$nowtime))}>");
+             $('#cart_2').removeClass('disable');
+             $('#cart_2').addClass('btn');
+         }
+     });
+     //获取商品数量
+     function  get_product_count(){
+         var product_count=0;
+         $.each($('.change_price'),function(index,obj){
+             var num=$(obj).val();
+             if(num>0){
+                 product_count++;
+             }
+         });
+         return product_count;
+     }
+     //获取所有商品价格
+     function  get_product_totalPrice(){
+         var total_price=0;
+         $.each($('.change_price'),function(index,obj){
+             var price=$(obj).attr('price');
+             var num=$(obj).val();
+             total_price+=price*num;
+         });
+         return total_price;
+     }
+     //购物车商品信息
+     function get_cart_info(){
+         $.each($('.change_price'),function(index,obj){
+             var price=$(obj).attr('price');
+             var product_id=$(obj).attr('did');
+             var num=$(obj).val()?$(obj).val():0;
+             var product_info={'product_id':product_id, 'total_price':num*price,'num':num};
+             total_price_arr[product_id]=product_info;
+         });
+         return total_price_arr;
+     }
+     ~function () {
+         var count = window.market.get_product_count();
+         var totalprice = window.market.get_product_totalPrice();
+         $("#num").text(count);
+         $("#total_price").html(totalprice);
+     }();
+ </script>

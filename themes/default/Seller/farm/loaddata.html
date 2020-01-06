@@ -1,0 +1,53 @@
+<foreach name="list" item="item">
+<li class="line ">
+        <dt>
+            <a class="x4">订单编号：<{$item.order_id}></a>
+        </dt>
+  <dd class="zhong">
+        <div class="x3">
+            	<img src="<{:config_img($farm[$item['farm_id']]['photo'])}>" width="70" height="70" style="width:90%;">
+        </div>
+        <div class="x9">
+            <p class="text-small">
+                <span class="text-dot1 margin-right">套餐名称：<{$farmpackage[$item['pid']]['title']}></span>
+            </p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">姓名：<{$item.name}> &nbsp; &nbsp; 电话：<{$item.mobile}> </span>
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">预订时间：<{$item.gotime|date='Y-m-d',###}></span>
+			</p>
+
+            <p class="text-small">
+                <span class="text-yellow margin-right">
+                 支付金额：&yen;<{:round($item.amount,2)}></span>
+            </p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">
+                 结算价格：&yen;<{:round($item['jiesuan_price'],2)}></span>
+			</p>
+
+            <p class="text-small">
+                <span class="text-dot1 margin-right">备注：<{$item.note}></span>
+            </p>
+      </div>
+    </dd>
+      <dl>
+          <p class="text-right padding-top">
+              <if condition="$item['order_status'] eq 0">
+                 <a class="button button-little bg-gray" >未支付</a>
+              <elseif condition="$item[order_status] eq 1" />
+                 <a class="button button-little bg-blue" >已付款</a>
+              <elseif condition="$item[order_status] eq 3" />
+                  <a class="button button-little bg-gray" >退款中</a> 
+               <elseif condition="$item[order_status] eq 4" />
+                  <a class="button button-little bg-blue" >已退款</a>    
+              <elseif condition="$item[order_status] eq 8" />
+                  <a class="button button-little bg-yellow" >已完成</a>     
+               </if>
+           </p>     
+      </dl>
+    </li>
+	<div class="blank-10 bg"></div>
+</foreach>
+

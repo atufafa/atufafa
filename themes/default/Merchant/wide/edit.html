@@ -1,0 +1,47 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">红包</a> > <a>购买红包广告</a></li>
+    </ul>
+</div>
+<style>
+    .xia{padding: 5px;width: 400px;font-size:14px;}
+    .ops{font-size: 14px;}
+</style>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">积分充值</div>
+        </div>
+    </div>
+
+
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('wide/edit',array('ad_id'=>$detail['ad_id']))}>"  target="x-frame">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">当前广告ID：</p></td>
+                    <td> <input type="text" readonly="readonly" style="width: 100px;padding: 5px" value="<{$detail.ad_id}>"></td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">充值积分：</p></td>
+                    <td>
+                        <input style="width: 100px;padding: 5px" type="text" name="jifen" >
+                        <code>目前只支持整数</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><div style="margin-top: 100px;"></div></td>
+                </tr>
+                <tr>
+                    <td width="120"></td>
+                    <td><input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认充值" /></td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

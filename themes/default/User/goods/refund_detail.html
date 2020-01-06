@@ -1,0 +1,87 @@
+<include file="public:header"/>
+
+<style>
+	ul{padding-left: 0px}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			售后详情
+		</div>
+	<div class="top-signed">
+
+	</div>
+</header>
+
+<!-- 
+<ul id="shangjia_tab">
+	
+    <li style="width:14.2857142857%;"><a href="<{:LinkTo('goods/refundorder',array('aready'=>8))}>" <eq name='aready' value='8'>class="on"</eq>>退款售后</a></li>
+</ul> -->
+
+
+
+<div class="list-media-x" id="list-media">
+<div class="blank-10 bg"></div>
+<div class="row">
+    <div class="line">
+        <span class="x3">申请类型：</span>
+        <span class="x6" style="float:right;"><{$refund['type_text']}></span>
+    </div>             
+</div>
+<div class="row">
+    <div class="line">
+        <span class="x3">状态：</span>
+        <span class="x6" style="float:right;"><{$refund['status_text']}>
+		<eq name="refund.status" value="3">&nbsp;&nbsp;<a href="<{:U('goods/input_express', array('refund_id' => $refund['refund_id']))}>">填写快递单号</a></eq>
+        </span>
+    </div>             
+</div>
+<neq name="refund.type" value="3">
+<div class="row">
+    <div class="line">
+        <span class="x3">退款金额：</span>
+        <span class="x6" style="float:right;">&yen; <{:round($refund['money'], 2)}></span>
+    </div>             
+</div>
+</neq>
+
+<div class="blank-10 bg"></div>
+	<ul>
+		
+		<div>
+		    <h3 class="list-shop-x">商家：<{$order_goods['shop_name']}></a></h3>
+		    <ul>
+		        
+		        <li class="line padding">
+		            <div class="x3">
+		                <img style="width:90%;" src="<{$order_goods['photo']}>" />
+		            </div>
+		            <div class="x9">
+		                <p>商品名称：<{$order_goods['title']}></p>
+		                <p>商品单价：&yen; <{:round($order_goods['price'],2)}></p>
+		                <p>购买数量：<{$order_goods['num']}></p>
+		            </div>
+		            
+		        </li> 
+		        
+		    </ul>
+		</div>
+		
+
+		<div class="x9" style="height: 200px;background: #fff;width:100%">
+	        <p style="margin: 5px 0">退款原因：<{$refund['reason_name']}></p>
+	        <p>退款金额：&yen; <{:round($refund['money'],2)}></p>
+	        <p>申请数量：<{$refund['num']}></p>
+	        <p style="float: right;">申请时间：<{$refund.create_time|date='Y-m-d H:i',###}></p>
+	        <p>退款编号：<{$refund['refund_id']}></p>
+	    </div>
+		<div class="blank-10 bg"></div>
+	</ul>
+</div>	
+
+
+
+<include  file='public:footer'/>

@@ -1,0 +1,587 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">外卖配置</li>
+    </ul>
+</div>
+<style>
+    .lfTdBt { width: 200px;}
+    .profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是外卖相关的信息，请各位看清楚下面配置具体事项，配置不正确直接影响全局</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/ele')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" >餐具费用最高：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[tableware_price_max]" value="<{$CONFIG.ele.tableware_price_max}>" class="scAddTextName w80" />
+                        <code>注意，这里留空或者不填写的话，全局关闭配送费，如果设置了最高配送费，最低配送费就必须设置，商家在设置餐具费用的时候，餐具费用最高不能超过多元，建议设置1-3元，支持小数点，但是不超过2位数</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >餐具费用最低：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[tableware_price_mini]" value="<{$CONFIG.ele.tableware_price_mini}>" class="scAddTextName w80" />
+                        <code>
+                        
+                        <if condition="$CONFIG['ele']['tableware_price_max']">
+                            <if condition="$CONFIG['ele']['tableware_price_mini'] egt $CONFIG['ele']['tableware_price_max']">
+                            	<a style="color:#F00; font-size:16px; font-weight:bold">最低餐具费用不得大于等于最高餐具费用</a>
+                            </if>
+                        </if>
+                        
+                        商家在设置餐具费用的时候，餐具费用最低不能超过多元，建议设置0.3-0.5元，支持小数点，不超过2位数
+                        
+                        </code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt" >外卖未付款订单自动过期时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[past_due_ele_order_time]" value="<{$CONFIG.ele.past_due_ele_order_time}>" class="scAddTextName w80" />
+                        <code>用户下单后，多少分钟不付款，订单自动删除，但是会微信通知买家，这里时间是分钟比如可以设置15分钟，删除后，买家需要重新下单</code>
+                    </td>
+                </tr>
+
+				 <tr>
+                    <td class="lfTdBt" >商家炒制时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[chao_times]" value="<{$CONFIG.ele.chao_times}>" class="scAddTextName w80" />分钟
+                        <code>商家在炒作时间不能大于多少分钟，建议在20-25</code>
+                    </td>
+                </tr>
+
+
+                <!--<tr>-->
+                    <!--<td class="lfTdBt" >外卖分享有效时间：</td>-->
+                    <!--<td class="rgTdBt">-->
+                        <!--<input type="text" name="data[times]" value="<{$CONFIG.ele.times}>" class="scAddTextName w80" />小时-->
+                        <!--<input type="text" name="data[num1]" value="<{$CONFIG.ele.num1}>" class="scAddTextName w80" />- <input type="text" name="data[num2]" value="<{$CONFIG.ele.num2}>" class="scAddTextName w80" />随机人数-->
+                        <!--<code>用户分享后，在有效时间内参与人数达到多少就可以获得红包</code>-->
+                    <!--</td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                    <!--<td class="lfTdBt" >拼团红包随机金额：</td>-->
+                    <!--<td class="rgTdBt">-->
+                        <!--<input type="text" name="data[shopmoney]" value="<{$CONFIG.ele.shopmoney}>" class="scAddTextName w80" />元<code>商家资金必须大于多少，才能使用此活动</code>-->
+                        <!--<input type="text" name="data[money1]" value="<{$CONFIG.ele.money1}>" class="scAddTextName w80" />- <input type="text" name="data[money2]" value="<{$CONFIG.ele.money2}>" class="scAddTextName w80" />元-->
+                        <!--<code>用户获得的随机红包</code>-->
+                    <!--</td>-->
+                <!--</tr>-->
+
+                <tr>
+                    <td class="lfTdBt" >外卖返积分：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[elejifen]" value="<{$CONFIG.ele.elejifen}>" class="scAddTextName w80" />%<code>根据商家现价进行百分比返积分</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt" >外卖活动下架时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[xaitime]" value="<{$CONFIG.ele.xaitime}>" class="scAddTextName w80" />小时
+                        <code>这里是商家进行外卖的任何活动时，满足当前时间才能下架，除非售卖完了，系统自动下架，建议填写48-72</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt" >是否开启外卖活动：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[is_open]" <eq name="CONFIG.ele.is_open" value="1">checked="checked"</eq> value="1"/>开启</label>
+                        <label><input type="radio" name="data[is_open]" <eq name="CONFIG.ele.is_open" value="0">checked="checked"</eq> value="0"/>关闭</label>
+                        <code>这里是外卖首页活动设置</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt" >免费购物券：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[shopping_num]" value="<{$CONFIG.ele.shopping_num}>" class="scAddTextName w80" >份<code>这里是每次可发布的数量</code>
+                        <input type="text" name="data[shopping_time]" value="<{$CONFIG.ele.shopping_time}>" class="scAddTextName w80" />天<code>这是过期时间</code>
+                        <code>这里是外卖商家，发布天天特价活动时，可发布免费购物卷</code><br/>
+                        <input type="text" name="data[goods_money]" value="<{$CONFIG.ele.goods_money}>" class="scAddTextName w80">元<code>用户在领取完购物卷后，可在0元购商城里免点赞就可以兑换这里所填价格以下的商品</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt" >外卖点赞获得积分：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[ele_jifen1]" value="<{$CONFIG.ele.ele_jifen1}>" class="scAddTextName w80" >-
+                        <input type="text" name="data[ele_jifen2]" value="<{$CONFIG.ele.ele_jifen2}>" class="scAddTextName w80" /><code>这里是随机数</code>
+                    </td>
+                </tr>
+
+					  <tr><td class="rgTdBt  profit" colspan = "2" style="height: 40px;">下面填写是关于外卖商家奖励的，每月进行一次奖励，在没有违规的情况下拥有奖励</td></tr>
+
+                <tr>
+                    <td class="lfTdBt" >外卖商家奖励：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[num]" value="<{$CONFIG.ele.num}>" class="scAddTextName w80" />单
+                        <code>商家每月销售量达到多少单后可以进行奖励</code>&nbsp;&nbsp;&nbsp; 奖励
+                        <input type="text" name="data[money]" value="<{$CONFIG.ele.money}>" class="scAddTextName w80" />元
+                        <code>给商家的奖励</code><br/><br/>
+                        <input type="text" name="data[num2]" value="<{$CONFIG.ele.num2}>" class="scAddTextName w80" />单
+                        <code>商家每月销售量达到多少单后可以进行奖励</code>&nbsp;&nbsp;&nbsp; 奖励
+                        <input type="text" name="data[money2]" value="<{$CONFIG.ele.money2}>" class="scAddTextName w80" />元
+                        <code>给商家的奖励</code><br/><br/>
+                        <input type="text" name="data[num3]" value="<{$CONFIG.ele.num3}>" class="scAddTextName w80" />单
+                        <code>商家每月销售量达到多少单后可以进行奖励</code>&nbsp;&nbsp;&nbsp; 奖励
+                        <input type="text" name="data[money3]" value="<{$CONFIG.ele.money3}>" class="scAddTextName w80" />元
+                        <code>给商家的奖励</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt" >商家违规奖励制度：</td>
+                    <td class="rgTdBt">
+                        每月没有延迟给:<input type="text" name="data[no_violation]" value="<{$CONFIG.ele.no_violation}>" class="scAddTextName w80" />奖金
+                        <code>建议填写1%</code><br/><br/>
+                        每月第一次延迟时间给:<input type="text" name="data[one_violation]" value="<{$CONFIG.ele.one_violation}>" class="scAddTextName w80" />奖金
+                        <code>建议填写0.8%</code><br/><br/>
+                        第二次给延迟时间给:<input type="text" name="data[two_violation]" value="<{$CONFIG.ele.two_violation}>" class="scAddTextName w80" />奖金
+                        <code>建议填写0.6%</code><br/><br/>
+                        第三次延迟时间给:<input type="text" name="data[three_violation]" value="<{$CONFIG.ele.three_violation}>" class="scAddTextName w80" />奖金
+                        <code>建议填写0.3%</code><br/><br/>
+                        每月延迟时间超过:<input type="text" name="data[violationtime]" value="<{$CONFIG.ele.violationtime}>" class="scAddTextName w80" />分钟没有奖金
+                        <code>建议填写20</code><br/><br/>
+                        每月延迟时间:<input type="text" name="data[one_time]" value="<{$CONFIG.ele.one_time}>" class="scAddTextName w80" />分钟-
+                        <input type="text" name="data[two_time]" value="<{$CONFIG.ele.two_time}>" class="scAddTextName w80" />分钟
+                        给 <input type="text" name="data[four_violation]" value="<{$CONFIG.ele.four_violation}>" class="scAddTextName w80" />奖金
+                        <code>建议时间填写5-20，奖励比例0.3%</code><br/><br/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt" >商家违规奖励制度：</td>
+                    <td class="rgTdBt">
+                        第四次延迟时间惩罚：<input type="text" name="data[punishment_one]" value="<{$CONFIG.ele.punishment_one}>" class="scAddTextName w80" />元<br/><br/>
+                        第五次延迟时间惩罚：<input type="text" name="data[punishment_two]" value="<{$CONFIG.ele.punishment_two}>" class="scAddTextName w80" />元<br/><br/>
+                        第六次延迟时间惩罚：<input type="text" name="data[punishment_three]" value="<{$CONFIG.ele.punishment_three}>" class="scAddTextName w80" />元<br/><br/>
+                    </td>
+                </tr>
+
+
+
+<!--                <tr>-->
+<!--                    <td class="lfTdBt" >外卖首页广告：</td>-->
+<!--                    <td class="rgTdBt">-->
+<!--                        标题：<input type="text" name="data[eletitle]" value="<{$CONFIG.ele.eletitle}>" class="scAddTextName w300" />-->
+<!--                        内容：<input type="text" name="data[elecontent]" value="<{$CONFIG.ele.elecontent}>" class="scAddTextName w300">-->
+<!--                        地址链接：<input type="text" name="data[eleurl]" value="<{$$CONFIG.ele.eleurl}>" class="scAddTextName w300">-->
+<!--                        <code style="color:red;">仅平台使用</code>-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+                <tr>
+                    <td class="lfTdBt">活动背景图片（左）：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_zuo_photo]" value="<{$CONFIG.ele.ele_zuo_photo}>" id="data_photo" />
+                            <div id="fileToUpload" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="photo_img" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_zuo_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileToUpload',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#data_photo").val(resporse.url);
+                                $("#photo_img").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">活动背景图片（右）：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_you_photo]" value="<{$CONFIG.ele.ele_you_photo}>" id="data_photos" />
+                            <div id="fileToUploads" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="photo_imgs" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_you_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileToUploads',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#data_photos").val(resporse.url);
+                                $("#photo_imgs").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">图片轮播背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_goods_photo]" value="<{$CONFIG.ele.ele_goods_photo}>" id="data_phot" />
+                            <div id="fileToUploa" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="photo_im" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_goods_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileToUploa',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#data_phot").val(resporse.url);
+                                $("#photo_im").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="lfTdBt">0元配送背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_zreo_photo]" value="<{$CONFIG.ele.ele_zreo_photo}>" id="data_pho" />
+                            <div id="fileToUplo" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="photo_i" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_zreo_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileToUplo',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#data_pho").val(resporse.url);
+                                $("#photo_i").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="lfTdBt">热卖背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_heat_photo]" value="<{$CONFIG.ele.ele_heat_photo}>" id="data_ph" />
+                            <div id="fileToUpl" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="photo" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_heat_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileToUpl',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#data_ph").val(resporse.url);
+                                $("#photo").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="lfTdBt">大牌满减背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_reduce_photo]" value="<{$CONFIG.ele.ele_reduce_photo}>" id="data_p" />
+                            <div id="fileToUp" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="phot" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_reduce_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileToUp',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#data_p").val(resporse.url);
+                                $("#phot").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">限时抢购倒计时背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_limited_photo]" value="<{$CONFIG.ele.ele_limited_photo}>" id="data" />
+                            <div id="fileToU" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="pho" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_limited_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileToU',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#data").val(resporse.url);
+                                $("#pho").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="lfTdBt">限量抢购背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_limit_photo]" value="<{$CONFIG.ele.ele_limit_photo}>" id="dat" />
+                            <div id="fileTo" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="ph" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_limit_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileTo',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#dat").val(resporse.url);
+                                $("#ph").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">天天特价背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_special_photo]" value="<{$CONFIG.ele.ele_special_photo}>" id="da" />
+                            <div id="fileT" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="pd" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_special_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fileT',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#da").val(resporse.url);
+                                $("#pd").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">优惠卷背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_youhui_photo]" value="<{$CONFIG.ele.ele_youhui_photo}>" id="youhui" />
+                            <div id="file" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="youhuijuan" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_youhui_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#file',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#youhui").val(resporse.url);
+                                $("#youhuijuan").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="lfTdBt">免费购物背景图：</td>
+                    <td class="rgTdBt">
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <input type="hidden" name="data[ele_shopping_photo]" value="<{$CONFIG.ele.ele_shopping_photo}>" id="shopping" />
+                            <div id="fil" >上传背景图片</div>
+                        </div>
+                        <div style="width: 300px;height: 100px; float: left;">
+                            <img id="shoppings" width="120" height="80"  src="<{:config_img($CONFIG[ele][ele_shopping_photo])}>" />
+                            <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                            建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                        </div>
+                        <script>
+                            var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                            var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                                pick: '#fil',
+                                resize: true,
+                                compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#shopping").val(resporse.url);
+                                $("#shoppings").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                        <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                    </td>
+                </tr>
+                <!--                <tr>-->
+<!--                    <td class="lfTdBt" >外卖数量到达：</td>-->
+<!--                    <td class="rgTdBt">-->
+<!--                        <input type="text" name="data[past_due_ele_num]" value="<{$CONFIG.ele.past_due_ele_num}>" class="scAddTextName w80" />-->
+<!--                        <code>多少份后</code>-->
+<!--                        每加<input type="text" name="data[past_due_ele_fenshu]" value="<{$CONFIG.ele.past_due_ele_fenshu}>" class="scAddTextName w80"><code>份</code>-->
+<!--                        配送费增加<input type="text" name="data[past_due_ele_peisong]" value="<{$CONFIG.ele.past_due_ele_peisong}>" class="scAddTextName w80">元-->
+<!--                    </td>-->
+<!--                </tr>-->
+                
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

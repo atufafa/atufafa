@@ -1,0 +1,42 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">贴吧管理</a> > <a>贴吧列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+            <span style="color: red;font-size: 16px">审核前，请认真看一下是否有敏感词存在，没有就审核通过，有就不用管</span>
+        </div>
+    </div>
+    <include file='rural:nav'/>
+    <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0" >
+        <tr style="background-color:#F9F9F9;">
+            <td width="10%">ID</td>
+            <td width="30%">标题</td>
+            <td width="30%">内容</td>
+            <td width="10%">发布时间</td>
+            <td width="10%">发布者</td>
+            <td width="10%">操作</td>
+    </table>
+    <foreach name="list" item="var">
+        <table class="dianping" width="100%" border="0" style="text-align: center;">
+            <tr class="tr_dianping_1">
+                <td width="10%">(ID:<{$var.post_id}>)</td>
+                <td width="30%"><{$var.title}></td>
+                <td width="30%"><{$var.details}></td>
+                <td width="10%"><{$var.create_time|date='Y-m-d',###}></td>
+                <td width="10%"><{:substr_replace($var['username'],'****',3,4);}></td>
+                <td width="10%">
+                    <eq name="var.audit" value="0">
+                        <a class="radius3 sy_c1an" mini="confirm" href="<{:U('rural/examine',array('post_id'=>$var['post_id']))}>">审核</a>
+                    </eq>
+                </td>
+            </tr>
+        </table>
+    </foreach>
+    <br/>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

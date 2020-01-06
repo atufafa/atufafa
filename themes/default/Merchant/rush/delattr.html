@@ -1,0 +1,42 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城属性</a> > <a>属性列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include  file='rush:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td class="w50">ID</td>
+            <td>规格类型</td>
+            <td>规格项</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="goodsAttributeList" item="list">
+            <tr>
+                <td><{$list.attr_id}></td>
+                <td><{$list.attr_name}></td>
+                <td><{$list.attr_values|mb_substr=0,30,'utf-8'}></td>
+                <td>
+                    <a mini='confirm' href="<{:U('rush/reductionattr',array('attr_id'=>$list['attr_id']))}>">还原</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<script>
+    $(document).ready(function(){
+    <?php
+        if($_GET['type_id']){
+            echo "$('#type_id').val(".$_GET['type_id'].");";
+        }
+            ?>
+        $('#button-filter').trigger('click');
+    });
+</script>
+
+
+<include  file='public:footer'/>

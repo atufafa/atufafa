@@ -1,0 +1,40 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">投诉管理</a> > <a>投诉列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+            <div class="left tuan_topser_l">如果收到恶意投诉，可以联系网站客服：<{$CONFIG.site.tel}></div>
+        </div>
+    </div>
+   
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="10%">编号</td>
+            <td width="20%">用户ID</td>
+            <td width="10%">订单编号</td>
+            <td width="25%">投诉内容</td>
+			<td width="10%">图片证明</td>
+            <td width="20%">投诉时间</td>
+            <td width="5%">操作</td>
+    </table>
+    <foreach name="list" item="var">
+    <table class="dianping" width="100%" border="0" style="text-align: center;">
+      <tr class="tr_dianping_1">
+        <td width="10%"><{$var.complaintsmerchant_id}></td>
+        <td width="20%">(ID:<{$var.user_id}>)</td>
+        <td width="10%"><{$var.order_id}></td>
+        <td width="25%"><{$var.content}></td>
+        <td width="10%"><img style="padding:2px; height:80px; width:80px;" src="<{:config_img($var['photo'])}>"/></td>
+        <td width="20%"><{$var.time}></td>
+        <td width="5%"><a mini="load" h="550" w="600"  class="td_btn" href="<{:U('tousus/tousureply',array('order_id'=>$var['order_id']))}>">点击回复</a></td>
+      </tr>
+    </table>
+    </foreach>
+    <br/>
+   <{$page}>
+</div>
+<include  file='public:footer'/>

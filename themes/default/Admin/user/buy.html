@@ -1,0 +1,109 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员管理</li>
+        <li class="li2 li3">会员管理</li>
+    </ul>
+</div>
+<style>
+    .seleK{height: 30px;}
+    .seleK label {margin-bottom: 10px;}
+    .main-sc .jsglNr .selectNr .right span{line-height:30px; height:30px; padding-right: 0;}
+    .seleK .text{height: 28px; width:120px !important;}
+    .seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+    .main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+    .inptText{width: 120px; height: 28px; line-height: 30px;}
+    .inptButton{height:36px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+    .weixin{ background:#44b549!important;}
+    .shang, .delivery, .weibo, .qq, .weixin{color:#FFF; padding:0 3px; margin:0 2px;}
+    .shang{ background:#F00; }
+    .delivery{ background: #00F;}
+    .weibo{ background:#903;}
+    .qq{ background:#09F}
+    .fanli{background:#0000FF;color: #fff }
+    .weixin{ background:#0C0;}
+    .zhuanx{color: #fff;background-color: #ff0068}
+</style>
+
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('user/buy')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <span>用户等级：</span>
+                                <select name="rank_id" class="select w100">
+                                    <option value="0">请选择</option>
+                                    <foreach name="ranks" item="item">
+                                        <option <eq name="item.rank_id" value="$rank_id">selected="selected"</eq>  value="<{$item.rank_id}>"><{$item.rank_name}></option>
+                                    </foreach>
+                                </select>
+                            </label>
+                            <label>
+                                <input type="submit" value="   搜索"  class="inptButton" />
+                            </label>
+                        </div>
+                    </div>
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="selectNr selectNr2">
+            <div class="left">
+                <div class="seleK">
+                </div>
+            </div>
+            <div class="right">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>用户ID</td>
+                        <td>会员名称</td>
+                        <td>审核状态</td>
+                        <td>支付状态</td>
+                        <td>购买时间</td>
+                        <td class="w150">操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$rank[$var['rank_id']]['rank_name']|default='无等级'}></td>
+                            <td><eq name="var.autio" value="1"><span style="color: green">已审核</span><else/><span style="color:red;">未审核</span></eq></td>
+                            <td><eq name="var.is_pay" value="1"><span style="color: green">已支付</span><else/><span style="color:red;">未支付</span></eq></td>
+                            <td>
+                                <{$var.create_time|date='Y-m-d H:i:s',###}><br/>
+                            </td>
+
+                            <td class="w150">
+                                <{:BA('user/delbuy',array("id"=>$var["id"]),'删除','act','remberBtn_small')}>
+                                <eq name="var.autio" value="0">
+                                    <{:BA('user/auditbuy',array("id"=>$var["id"]),'审核通过','act','remberBtn_small')}>
+                                </eq>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+</script>
+
+
+<include  file='public:footer'/>
+
+

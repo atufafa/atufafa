@@ -1,0 +1,39 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">活动</a> > <a>外卖活动列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="right tuan_topfb_r" style="margin-bottom: 20px;margin-right: 20%;"><a  class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('marketactivity/shopcreate')}>">发布免费购物卷+</a></div>
+    <div style="color: red;font-size: 16px;">注意：只有参与天天特价的商家才有资格发布免费购物券</div>
+    <include file="marketactivity:nav"/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td width="5%">ID</td>
+            <td width="5%">发放数量</td>
+            <td width="7%">创建时间</td>
+            <td width="7%">结束时间</td>
+            <td width="5%">是否审核</td>
+            <td width="5%">状态</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.id}></td>
+                <td><{$var.num}>份</td>
+                <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                <td><{$var.end_time|date="Y-m-d H:i:s",###}></td>
+                <td><eq name="var.audit" value="0">待审核
+                    <else/>
+                    已审核
+                </eq>
+                </td>
+                <td>
+                    <eq name="var.close" value="0">使用中<else/>已过期</eq>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging"> <{$page}> </div>
+</div>
+<include  file='public:footer'/>

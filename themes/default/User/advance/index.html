@@ -1,0 +1,36 @@
+<include file="public:header"/>
+
+<style>
+    ul{padding-left: 0px}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        预定订单
+    </div>
+    <div class="top-signed">
+    </div>
+</header>
+
+<ul id="shangjia_tab">
+    <li style="width:25%;"><a href="<{:LinkTo('advance/index',array('aready'=>1))}>" <eq name='aready' value='1'>class="on"</eq>>商城</a></li>
+    <li style="width:25%;"><a href="<{:LinkTo('advance/index',array('aready'=>2))}>" <eq name='aready' value='2'>class="on"</eq>>菜市场</a></li>
+    <li style="width:25%;"><a href="<{:LinkTo('advance/index',array('aready'=>3))}>" <eq name='aready' value='3'>class="on"</eq>>便利店</a></li>
+    <li style="width:25%;"><a href="<{:LinkTo('advance/index',array('aready'=>4))}>" <eq name='aready' value='4'>class="on"</eq>>外卖</a></li>
+</ul>
+
+
+<div class="list-media-x" id="list-media">
+    <div class="blank-10 bg"></div>
+    <ul></ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        loaddata('<{:U("advance/advanceload",array("aready"=>$aready))}>', $("#list-media ul"), true);
+    });
+</script>
+
+<include  file='public:footer'/>

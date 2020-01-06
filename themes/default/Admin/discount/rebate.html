@@ -1,0 +1,72 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">信息</li>
+        <li class="li2">返利管理</li>
+        <li class="li2 li3">商家返利列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right"></div>
+            <div class="clear"></div>
+            <div class="right">
+                <form method="post" action="<{:U('discount/rebate')}>">
+                    <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  /><input type="submit" value="   搜索"  class="inptButton" />
+                </form>
+            </div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td>ID</td>
+                        <td>返利信息ID</td>
+                        <td>返利商家ID</td>
+                        <td>返利金额</td>
+                        <td>备注</td>
+                        <td>支付编号</td>
+                        <td>合同照片</td>
+                        <td>收据发票</td>
+                        <td>创建时间</td>
+                        <td>是否支付</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.log_id}></td>
+                            <td><{$var.life_id}></td>
+                            <td><{$var.shop_id}></td>
+                            <td >￥<{$var.money}></td>
+                            <td><{$var.remarks}></td>
+                            <td><{$var.logs_id}></td>
+                            <td>
+                                <img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['card_photo'])}>" />
+                            </td>
+                            <td>
+                                <img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['jia_photo'])}>" />
+                            </td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><if condition="$var['is_pay'] eq 0"><font style="color: red">未支付</font><else/>
+                                <font style="color:green;">已支付</font></if></td>
+                            <td>
+                                <{:BA('discount/del',array("log_id"=>$var["log_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+

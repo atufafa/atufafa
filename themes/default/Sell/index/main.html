@@ -1,0 +1,104 @@
+<include file='public:header'/>
+<script src="__PUBLIC__/js/echarts-all-3.js"></script>
+<style>
+.sy_c1Li {width: 1000px;}
+.sy_content { padding: 20px 0 40px 20px;}
+.tuan_topser_2016 span.red, .tuan_topser_l {font-size: 18px;}
+.tuan_topser_l strong.green, .tuan_topser_l a{ font-size:16px;}
+.tuan_table td { font-size:14px;}
+.tuan_topser_2016 span.red{ color:#F00}
+.tuan_topser_2016{color: #000;line-height: 30px;text-indent: 15px; font-size:18px;}
+.tuan_table td span.red{ color:#F00; font-size:14px;}
+.hatudou-btn{border: 1px solid #1881A4;display: inline-block;line-height: 30px;cursor: pointer;background-color: #09c;color: #fff !important; padding: 0 15px; text-indent:0px !important;}
+.tuan_topser_l strong.green {margin: 0 10px;}
+</style>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">配送管理员首页</a>
+        </li>
+    </ul>
+</div>
+    <php>
+        $day = date("Y-m-d");
+        $dat_1 = date("Y-m-d",strtotime("-1 day"));
+        $dat_2 = date("Y-m-d",strtotime("-2 day"));
+        $dat_3 = date("Y-m-d",strtotime("-3 day"));
+        $dat_4 = date("Y-m-d",strtotime("-4 day"));
+        $dat_5 = date("Y-m-d",strtotime("-5 day"));
+        $dat_6 = date("Y-m-d",strtotime("-6 day"));
+        $Smsshop = D('Smsshop')->where(array('shop_id'=>$SHOP['shop_id'],'type'=>shop,'status'=>0))->find();
+    </php>   
+<?php $SHOP=session('shop');?>
+<div class="sy_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+                当前管理员名称：<strong class="green"><{$SHOP['personname']}> </strong>
+        
+                城市区域：<strong class="green"><{$SHOP.address}></strong>
+
+                出售类型：<strong class="green"><eq name="SHOP.type" value="1">卖房 </eq>
+                    <eq name="SHOP.type" value="2">卖车 </eq></strong>
+                
+            </div>
+        </div>   
+   
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+                <if condition="!empty($SHOP['end_date']) and ($SHOP['end_date'] neq '0000-00-00')">
+                <div class="left tuan_topser_l">
+                    商家有效期至：<strong class="green"><{$SHOP.end_date}></strong>    
+                </div>
+            </if>              
+            </div>
+            
+                <div class="left tuan_topser_l" style="margin-left:80px;">
+                    当前会员余额：<strong class="green"><{:round($MEMBER['money'],2)}></strong>元
+                    <a target="_blank" href="<{:U('members/money/money')}>" class="hatudou-btn">充值</a>
+                </div>
+             
+                
+        </div>
+        
+
+        
+        <div id="www_hatudou_com_1" style="width:750px;height:350px;"></div>
+ 
+        
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('www_hatudou_com_1'));
+        var option = {
+            title: {
+                text: '<{$SHOP.shop_name}>最近6日销售额走势图'
+            },
+            tooltip: {},
+            legend: {
+                data:['销售额']
+            },
+            xAxis: {
+                data: ["<{$day}>","<{$dat_1}>","<{$dat_2}>","<{$dat_3}>","<{$dat_4}>","<{$dat_5}>"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销售额（元）',
+                type: 'bar',
+                data: ["<{:round($m,2)}>", "<{:round($m_1,2)}>", "<{:round($m_2,2)}>",  "<{:round($m_3,2)}>", "<{:round($m_4,2)}>", "<{:round($m_5,2)}>"]
+            }]
+        };
+        myChart.setOption(option);
+    </script>
+    
+    
+        
+        
+        
+        
+         
+    
+    </div>  
+</div>
+
+
+    
+    
+<include file='public:footer'/>

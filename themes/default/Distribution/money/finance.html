@@ -1,0 +1,35 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家</a> > <a href="">财务管理</a> </li>
+    </ul>
+</div>
+<style>
+.tuan_table td span{ font-size:14px;}
+.tuan_table td p{ font-size:18px;}
+.tuan_table td p span.red{ font-size:26px; color:#F00; font-weight:bold}
+.tuan_table td li a{ font-size:16px;}
+</style>
+<div class="tuan_content">
+    <include  file='money:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td colspan="5"><span>管理名称：<{$SHOP.sq_name}>&nbsp;&nbsp;&nbsp;管理ID：（<{$SHOP.user_id}>） &nbsp;&nbsp;&nbsp;
+           </span> </td>
+        </tr>
+         <tr style="background-color:#FFF0F0;">
+            <td colspan="5">
+            
+            <p>
+               <if condition="$counts['money'] gt 0">
+               您资金总收入【含已提现】：<{:round($counts['money'],2)}>元，
+               </if>
+        </p>
+         </td>
+       </tr>
+
+ </table>
+<div class="paging"> </div>
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,23 @@
+<style>
+    .m{width: 88px;height: 88px}
+.mm{border-bottom: 1px solid #dddddd;padding:2% 2% 5% 2%}
+</style>
+
+<volist name="list" id="item" key="index">
+    <li class="line mm">
+        <a href="<{:U('membervip/detail',array('goods_id'=>$item['goods_id']))}>">
+            <div class="x3">
+                <img class="m" src="<{:config_img($item['photo'])}>" />
+            </div>
+            <div class="x9" style="margin-top:0.1rem; padding: 0 5px;"><h5><{:tu_msubstr($item['title'],0,18)}></h5>
+                <p class="desc" style="color: #999;font-size: 12px"><{:tu_msubstr($item['intro'],0,26)}></p>
+                <p class="info" ><span style="font-size: 16px;color: red">会员免费兑换</span>&nbsp;&nbsp;<del style="color: #999;font-size: 12px">&yen;<{:round($item['price'],2)}></del>
+                    <em style="float: right;color: #999">已兑<{$item.sold_num}></em>
+                </p>
+            </div>
+        </a>
+    </li>
+</volist>
+
+
+

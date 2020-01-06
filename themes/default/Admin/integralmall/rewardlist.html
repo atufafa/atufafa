@@ -1,0 +1,61 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1"> 当前位置</li>
+        <li class="li2">积分商城</li>
+        <li class="li3">申请奖励列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td>ID</td>
+                        <td>商家ID</td>
+                        <td>商家名称</td>
+                        <td>积分商城销售额</td>
+                        <td>销售订单</td>
+                        <td>申请说明</td>
+                        <td>拒绝说明</td>
+                        <td>奖励金额</td>
+                        <td>状态</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td><{$var.shop_id}></td>
+                            <td><{$shops[$var['shop_id']][shop_name]}></td>
+                            <td>￥<{$var.money}></td>
+                            <td><{$var.order_num}></td>
+                            <td><{$var.title}></td>
+                            <td><{$var.jutitle}></td>
+                            <td><{$var.fa_money}></td>
+                            <td><if condition="$var['examine'] eq 0"><span style="color:red;">待审核</span><elseif condition="$var['examine'] eq 2"/>已拒绝<else/>已审核</if></td>
+                            <td>
+                                <{:BA('integralmall/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                                <eq name="var.examine" value="0"> <{:BA('integralmall/shenhes',array("id"=>$var["id"]),'审核','act','remberBtn')}>
+                                    <{:BA('integralmall/refuse',array("id"=>$var["id"]),'拒绝','load','remberBtn',400,250)}>
+                                </eq>
+
+                                <if condition="empty($var['fa_money']) && $var['examine']==1">
+                                    <{:BA('integralmall/grant',array("id"=>$var["id"]),'发放奖励','load','remberBtn',400,250)}>
+                                </if>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,21 @@
+<include file="public:header"/>
+<script src="/static/default/wap/js/clipboard.js"></script>
+<link rel="stylesheet" href="/static/default/wap/css/fenx.css">
+
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+         我的点赞商品
+    </div>
+</header>
+
+<div class="tuan-list" id="tuan-lists"></div>
+<script>
+    $(document).ready(function () {
+        showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+        loaddata('<{$nextpages}>', $("#tuan-lists"), true);
+    });
+</script>
+<include  file='public:footer'/>

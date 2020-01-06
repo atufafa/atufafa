@@ -1,0 +1,151 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">广告</a> > <a>购买广告位</a></li>
+    </ul>
+</div>
+<style>
+    .xia{padding: 5px;width: 200px;font-size:14px;}
+    .ops{font-size: 14px;}
+</style>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">发放广告需要购买广告位</div>
+        </div>
+    </div>
+
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli on"><a href="<{:U('wide/index')}>">购买广告位</a></li>
+            <li class="tuanfabu_tabli "><a href="<{:U('wide/buy')}>">购买广告位记录</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('wide/buylog')}>">广告点击日志</a></li>
+            <!--<li class="tuanfabu_tabli"><a href="<{:U('wide/list_bit')}>">广告位列表</a></li>-->
+        </ul>
+    </div>
+
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('wide/index')}>"  target="x-frame">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">购买时间：</p></td>
+                    <td>
+                        <select name="active_time" class="xia">
+                            <option class="ops" value="0">==请选择==</option>
+                            <foreach name="guangao" item="guangao">
+                                <option class="ops" value="<{$guangao.id}>">购买时间：<{$guangao.buy_time}>,价格:<{$guangao.buy_money}></option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><div style="margin-top: 50px;"></div></td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">广告位置：</p></td>
+                    <td>
+                        <select name="site_id" class="xia">
+                            <option class="ops" value="0">==请选择==</option>
+                            <foreach name="weizhi" item="weizhi">
+                                <option class="ops" value="<{$weizhi.site_id}>"><{$weizhi.site_name}></option>
+                            </foreach>
+                        </select>
+                        如果购买广告位为两边，平台可根据两边广告位数量做出相应调整。
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">广告位购买说明：</p></td>
+                    <td>当前两边点击扣除积分为：<{$CONFIG['ad']['ad_consume']}>积分，中间点击扣除积分为：<{$CONFIG['ad']['ad_zhong']}>积分。</td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">标题：</p></td>
+                    <td><input  style="width: 200px;padding: 5px;" type="text" name="title"></td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">预存积分：</p></td>
+                    <td><input style="width: 200px;padding: 5px;" type="text" name="prestore_integral"></td>
+                </tr>
+
+                <tr>
+                    <td width="120">所属城市：</td>
+                    <td>
+                        <select name="city_id" class="manageSelect" style="padding: 5px;width: 200px">
+                            <option value="0">请选择</option>
+                            <foreach name="citys" item="var">
+                                <option value="<{$var.city_id}>" ><{$var.name}></option>
+                            </foreach>
+                        </select>
+                        <code>不选择则表示全站通用</code>
+                    </td>
+                </tr>
+
+                <tr class="service_img">
+                    <td class="lfTdBt"> 展示图片：</td>
+                    <td class="rgTdBt">
+                        <div style="width:300px;float: left;">
+                            <input type="hidden" name="photo"  id="data_photo" />
+                            <div id="fileToUpload" style="margin-top: 20px">上传缩略图</div>
+                        </div>
+                        <div style="width: 300px;float: left;">
+                            <!--<img id="photo_img" width="60" height="60"  src="<{:config_img($SHOP['photo'])}>" />-->
+                            <img id="photo_img" width="60" height="60"  src="" />
+                            缩略图设置
+                            建议尺寸<{$CONFIG.attachs.shopphoto.thumb}>
+                        </div>
+                        <script>
+                            var width_shopphoto = '<{:thumbSize($CONFIG[attachs][shopphoto][thumb],0)}>';
+                            var height_shopphoto = '<{:thumbSize($CONFIG[attachs][shopphoto][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"shopphoto"))}>',
+                                pick: '#fileToUpload',
+                                resize: true,
+                                compress : {width: width_shopphoto,height: height_shopphoto,quality: 80,allowMagnify: false,crop: true}
+                            });
+                            uploader.on( 'uploadSuccess', function( file,resporse) {
+                                $("#data_photo").val(resporse.url);
+                                $("#photo_img").attr('src',resporse.url).show();
+                            });
+                            uploader.on( 'uploadError', function( file ) {
+                                alert('上传出错');
+                            });
+                        </script>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">商品编号：</p></td>
+                    <td><input  style="width: 200px;padding: 5px;" type="text" name="goods_id">
+                        <code style="color: red">必须与链接上的一致，否则后果自负</code></td>
+                </tr>
+
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">地址连接：</p></td>
+                    <td><input type="text" name="intro" placeholder ="请输入地址连接" style="width: 500px;padding: 10px;"> <br/><br/>
+                    <code>例如商城：https://<?php echo $_SERVER['HTTP_HOST'];?>/wap/mall/detail/goods_id/商品编号<br/><br/>
+                        例如积分商城：https://<?php echo $_SERVER['HTTP_HOST'];?>/wap/jifen/detail2/goods_id/商品编号<br/><br/>
+                        例如0元购：https://<?php echo $_SERVER['HTTP_HOST'];?>/wap/tuan/tuan_detail/tuan_id/商品编号<br/><br/>
+                        例如在线抢购：https://<?php echo $_SERVER['HTTP_HOST'];?>/wap/tuan/detail/tuan_id/商品编号<br/>
+                    </code></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><div style="margin-top: 100px;"></div></td>
+                </tr>
+                <tr>
+                    <td width="120"></td>
+                    <td><input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认购买" /></td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

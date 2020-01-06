@@ -1,0 +1,992 @@
+<include  file='public:header'/>
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css">
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="<{:U('wap/index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        商家入驻
+    </div>
+</header>
+<style>
+    #login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+    #login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+    .type_c{width:100%; height:30px; padding:10px;}
+    .type_c p{width:25%; float:left; text-align:center;}
+    .type_c p input{width:15px; height:15px;}
+</style>
+<form class="fabu-form" method="post" id="ajaxForm" action="<{:U('apply/shenqin')}>">
+
+    <div class="blank-10"></div>
+    <div class="type_c"><p></p><p><input type="radio"  name="data[business_type]" value="1" class="type_radio" checked="checked" /><label>个体户</label></p><p><input type="radio"  name="data[business_type]" value="2" class="type_radio" /><label>企业</label></p><p></p></div>
+    <div class="blank-10 bg"></div>
+    <div class="row">
+        <div class="line">
+            <span class="x3">店铺名称：</span>
+            <span class="x9">
+			<input type="text" id="type_radi" class="text-input" placeholder="" name="data[shop_name]"/>
+		</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">推荐人ID</span>
+            <span class="x9">
+			<input type="text" class="text-input" placeholder="填写用户的推广ID，如没有可以不填"  name="data[user_guide_id]" value="<{$guide_id}>" />
+		</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">经营分类：</span>
+            <span class="x4">
+      <select name="data[grade_id]" id="grade_id2" class="text-select" value="">
+        <option value="0" selected="selected">请选择</option>
+        <foreach name="auth" item="vara">
+          <option value="<{$vara.grade_id}>"><{$vara.grade_name}></option>
+          </foreach>
+      </select>
+
+      <script type="text/javascript">
+        $(document).ready(function(e){
+            $("#grade_id2").change(function(){
+                v = $("#grade_id2 option:selected").html();
+                $("#parent_id2 option").each(function(i){
+                    if(v==$(this).html()){
+                        $("#parent_id2").val($(this).attr("value"));
+                    }
+                });
+
+                var grade_id = $("#grade_id2 option:selected").val();
+                $("#v_id").val(grade_id);
+                console.log(grade_id)
+
+                if(grade_id == 29 || grade_id == 30 || grade_id == 31){
+                    $(".upload_wx").show();
+                    if(grade_id == 30){
+                        $("#price").html(0);
+                        $(".price").val(0);
+                    }
+
+                    if(grade_id == 29){
+                        $("#spf2").show();
+                    }else{
+                        $("#spf2").hide();
+                    }
+                }else{
+                    $("#spf2").hide();
+                    //	$(".upload_wx").hide();
+                }
+
+
+            });
+        })
+      </script>
+    </span>
+            <input type="hidden"  class="text-input"  id="v_id" value="1">
+        </div>
+    </div>
+
+    <div class="row" id="sjfl">
+        <div class="line">
+            <span class="x3">商家分类：</span>
+            <span class="x3">
+			<select name="data[parent_id]" id="parent_id2" class="text-select" disabled="disabled" style="appearance:none;-moz-appearance:none;-webkit-appearance:none;   ">
+        <!-- <input type="hidden" id="catess"> -->
+				<!--<option value="0" selected="selected">请选择经营分类</option>-->
+				<foreach name="cates" item="var">
+                	<eq name="var.parent_id" value="0">
+					<option value="<{$var.cate_id}>" data_prite="<{$var.price}>" data_handle="<{$var.handle}>"><{$var.cate_name}></option>
+					</eq>
+                </foreach>
+			</select>
+		</span>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('#grade_id2').change(function(){
+                        var grade_name = $("#grade_id2").val();
+                        var array = new Array();  //定义数组
+                        $("#parent_id2 option").each(function(){  //遍历全部option
+                            var txt = $(this).html();   //获取option值
+                            if(txt!=''){
+                                array.push(txt);  //加入到数组中
+                            }
+                        })
+                        var selname = $("#parent_id2 option:selected").html();
+                        console.log(array)
+
+                        var price = $("#parent_id2 option:selected").attr("data_prite");
+
+                        for(var i = 0,vlen = array.length; i < vlen; i++){
+
+                            if(array[i] == selname){
+                                var arr=new Array();
+                                $("#parent_id2 option").each(function(){
+                                    var vv = $(this).val();
+                                    if(vv!=''){
+                                        arr.push(vv);
+                                    }
+                                })
+                                //  $("#parent_id2 option").removeAttr('selected');
+
+                                $("#parent_id2 option[value='"+arr[i]+"']").attr("selected", "selected");
+                                price = $("#parent_id option[value='"+arr[i]+"']").attr("data_prite");
+
+
+                                money = $("#cate_id  option:selected").attr("data_price");
+
+                                var url = '<{:U("public/shopcate",array("parent_id"=>"0000"))}>';
+                                if ($(this).val() > 0) {
+                                    var url2 = url.replace('0000', arr[i]);
+                                    $.get(url2, function (data) {
+                                        console.log(url2)
+                                        $("#cate_id").html(data);
+                                        cate_price = $("#cate_id  option:selected").attr("data_price");
+                                        var price = default_prite;
+                                        $("#price").html(price);
+                                        $(".price").val(price);
+                                        //		alert(prite)
+                                        if(cate_price == 0){
+                                            price = cate_price;
+                                            $("#price").html(0);
+                                            $(".price").val(0);
+                                        }else{
+                                            price = default_prite;
+                                            if($("#type_radio").val() == 2){
+                                                $("#price").html(shop_price);
+                                                $(".price").val(shop_price);
+                                            }else{
+                                                $("#price").html(personal_price);
+                                                $(".price").val(personal_price);
+                                            }
+                                        }
+                                        //	alert(price)
+                                    }, 'html');
+                                }
+                                // return i;
+
+                            }
+                        }
+                    });
+                    $(".upload_wx").show();
+
+                    $("#cate_id").change(function () {
+                        money = $("#cate_id  option:selected").attr("data_price");
+
+                        if(money == 0){
+                            $("#price").html(0);
+                            $(".price").val(0);
+                            console.log(money)
+                        }else if(money == -1){
+                            var type = $("#type_radio").val();
+                            if(type == 1){
+                                $("#price").html(personal_price);
+                                $(".price").val(personal_price);
+                            }else{
+                                $("#price").html(shop_price);
+                                $(".price").val(shop_price);
+                            }
+                        }else{
+                            price = 0;
+                            $("#price").html(money);
+                            $(".price").val(money);
+                        }
+                        var cate_id = $("#cate_id  option:selected").val();
+                        if(cate_id == 108 || cate_id == 109 || cate_id == 110){
+                            $(".upload_wx").show();
+                        }else{
+                            //	$(".upload_wx").hide();
+                        }
+
+                        if($("#parent_id2 option:selected").val() == 100 || $("#parent_id2 option:selected").val() == 101 || $("#parent_id2 option:selected").val() == 102){
+                            $(".upload_wx").show();
+                        }
+
+                        $("#handle").html($("#cate_id option:selected").attr("data_handle"));
+                        $(".handle").val($("#cate_id option:selected").attr("data_handle"));
+                    });
+                })
+
+            </script>
+            <span class="x2">类型：</span>
+            <span class="x4">
+			<select name="data[cate_id]" id="cate_id" class="text-select">
+				<option value="0" selected="selected">← 选择子分类</option>
+			</select>
+		</span>
+            <script>
+                $(document).ready(function (e) {
+                    $("#parent_id2").change(function () {
+                        v = $("#parent_id2 option:selected").html();
+                        $("#grade_id2 option").each(function(i){
+                            if(v==$(this).html()){
+                                $("#grade_id2").val($(this).attr("value"));
+                            }
+                        });
+                        if($(this).val()==99){
+                            $("#spf2").show();
+                        }else{
+                            $("#spf2").hide();
+                        }
+
+                        var parent_id = $("#parent_id2 option:selected").val();
+                        //	alert(parent_id)
+
+                        var money = $("#parent_id2 option:selected").attr("data_prite");
+
+                        if(money == 0){
+                            $("#price").html(0);
+                            $(".price").val(0);
+                            console.log(money)
+                        }else if(money == -1){
+                            var type = $("#type_radio").val();
+                            if(type == 1){
+                                $("#price").html(personal_price);
+                                $(".price").val(personal_price);
+                            }else{
+                                $("#price").html(shop_price);
+                                $(".price").val(shop_price);
+                            }
+                        }else{
+                            $("#price").html(money);
+                            $(".price").val(money);
+                        }
+
+                        if($(this).val()==99 || $(this).val()==100 || $(this).val()==101|| $(this).val()==102){
+                            $(".upload_wx").show();
+                        }else{
+                            //	$(".upload_wx").hide();
+                        }
+
+                        var array = new Array();  //定义数组
+                        $("#parent_id2 option").each(function(){  //遍历全部option
+                            var txt = $(this).html();   //获取option值
+                            if(txt!=''){
+                                array.push(txt);  //加入到数组中
+                            }
+                        })
+                        var selname = $("#parent_id2 option:selected").html();
+                        console.log(array)
+
+                        var price = $("#parent_id2 option:selected").attr("data_prite");
+
+                        for(var i = 0,vlen = array.length; i < vlen; i++){
+
+                            if(array[i] == selname){
+                                var arr=new Array();
+                                $("#parent_id2 option").each(function(){
+                                    var vv = $(this).val();
+                                    if(vv!=''){
+                                        arr.push(vv);
+                                    }
+                                })
+                                //  $("#parent_id2 option").removeAttr('selected');
+
+                                $("#parent_id2 option[value='"+arr[i]+"']").attr("selected", "selected");
+                                price = $("#parent_id option[value='"+arr[i]+"']").attr("data_prite");
+
+
+                                money = $("#cate_id  option:selected").attr("data_price");
+
+                                var url = '<{:U("public/shopcate",array("parent_id"=>"0000"))}>';
+                                if ($(this).val() > 0) {
+                                    var url2 = url.replace('0000', arr[i]);
+                                    $.get(url2, function (data) {
+                                        console.log(url2)
+                                        $("#cate_id").html(data);
+                                        cate_price = $("#cate_id  option:selected").attr("data_price");
+                                        var price = default_prite;
+                                        $("#price").html(price)
+                                        $(".price").val(price)
+                                        //		alert(prite)
+                                        if(cate_price == 0){
+                                            price = cate_price;
+                                            $("#price").html(0);
+                                            $(".price").val(0)
+                                        }else{
+                                            price = default_prite;
+                                            if($("#type_radio").val() == 2){
+                                                $("#price").html(shop_price);
+                                                $(".price").val(shop_price)
+                                            }else{
+                                                $("#price").html(personal_price);
+                                                $(".price").val(personal_price)
+                                            }
+                                        }
+
+                                        if($("#cate_id option").size()>0){
+                                            $("#handle").html($("#cate_id option:selected").attr("data_handle"));
+                                            $(".handle").val($("#cate_id option:selected").attr("data_handle"));
+                                        }else{
+                                            $("#handle").html($("#parent_id2 option:selected").attr("data_handle"));
+                                            $(".handle").val($("#parent_id2 option:selected").attr("data_handle"));
+                                        }
+                                        //	alert(price)
+                                    }, 'html');
+                                }
+                                // return i;
+                            }
+                        }
+                    });
+                });
+
+            </script>
+        </div>
+    </div>
+
+
+    <div class="row" id="spf2">
+        <div class="line">
+            <span class="x3">商品分类：</span>
+            <span class="x4">
+      <select name="data[goods_cate]" id="goods_cate" class="text-select">
+        <option value="0" selected="selected">请选择</option>
+
+        <foreach name="goods" item="vara">
+            <eq name="vara.parent_id" value="0">
+              <option value="<{$vara.cate_id}>"><{$vara.cate_name}></option>
+            </eq>
+          </foreach>
+      </select>
+
+    </span>
+
+            <span class="x5">
+			<select name="data[goods_parent_id]" id="parent_ids" class="text-select">
+				<option value="0" selected="selected">← 选择子分类</option>
+			</select>
+		</span>
+            <!--  <input type="hidden"  class="text-input" name="data[goods_cate]" id="goosdsss_id" > -->
+            <script type="text/javascript">
+                $(document).ready(function(e){
+                    $("#goods_cate").change(function(){
+                        $("#goods_cate option[value='0']").removeAttr("selected");
+                        // console.info($('#goods_cate').val());
+                        //$("#grade_id option").attr("selected","selected");
+                        var goods_cate = $("#goods_cate").val();
+                        $("#goods_cate option[value='"+goods_cate+"']").attr("selected","selected");
+                        $("#goosdsss_id").val(goods_cate);
+                    });
+
+                    $("#goods_cate").change(function () {
+                        if ($("#goods_cate").val() > 0){
+                            var codeid=$("#goods_cate").val();
+                            var area_str ="";
+                            $.ajax({
+                                url:'<{:U("apply/goods_cat")}>',
+                                type:"post",
+                                data:{codeid:codeid},
+                                dataType: 'json',
+                                success:function(ret){
+                                        for (a in ret.data) {
+                                            area_str += '<option selected="selected" value="' + ret.data[a].cate_id + '">' + ret.data[a].cate_name + '</option>';
+                                        }
+                                        console.log(area_str);
+                                        $("#parent_ids").html(area_str);
+                                }
+                            });
+                        }
+                    });
+                })
+            </script>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">
+                <select name="data[province_id]" id="province_id" class="text-select">
+                    <option value="0" selected="selected">省市..</option>
+                    <foreach name="province" item="var">
+                        <option value="<{$var.province_id}>"><{$var.name}></option>
+                    </foreach>
+                </select>
+            </span>
+            <span class="x3">
+			<select name="data[city_id]" id="city_id" class="text-select">
+				<option value="0" selected="selected">城市</option>
+			</select>
+		</span>
+            <span class="x3">
+			<select name="data[area_id]" id="area_id" class="text-select">
+				<option value="0" selected="selected">← 地区</option>
+			</select>
+		</span>
+
+            <span class="x3">
+			<select name="data[business_id]" id="business_id" class="text-select">
+				<option value="0" selected="selected">← 商圈</option>
+			</select>
+		</span>
+        </div>
+
+        <!-- <script src="<{:U('app/datas/onecity',array('name'=>'cityareas'))}>"></script> -->
+        <script>
+            var city_id = "<{$city_id}>";
+            var area_id = "";
+            var business_id = "";
+            $(document).ready(function () {
+                var city_str = ' <option value="0">请选择市...</option>';
+                // for (a in cityareas.city) {
+                //     city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+
+                //     if (city_id == cityareas.city[a].city_id) {
+                //         city_str += '<option selected="selected" value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                //     } else {
+                //         city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                //     }
+                // }
+                $("#city_id").html(city_str);
+
+                $("#province_id").change(function(){
+                    var province_id = this.value;
+                    $.ajax({
+                            type: 'POST',
+                            url: "<{:U('app/datas/getCity')}>",
+                            data:{province_id: province_id},
+                            dataType: 'json',
+                            success: function(result){
+                                var city_str = ' <option value="0">请选择...</option>';
+                                for (var a in result) {
+                                    city_str += '<option value="' + result[a].city_id + '" lng="'+ result[a].lng +'" lat = "'+ result[a].lat +'">' + result[a].name + '</option>';                                                        
+                                }
+
+                                $("#city_id").html(city_str);
+                                $("#area_id").html('<option value="0">请选择...</option>');
+                            }
+                    });
+                });
+
+                
+                $("#city_id").change(function () {
+                    if ($("#city_id").val() > 0) {
+                        city_id = $("#city_id").val();
+                        $.ajax({
+                            type: 'POST',
+                            url: "<{:U('app/datas/twoarea')}>",
+                            data:{cid:city_id},
+                            dataType: 'json',
+                            success: function(result){
+                                var area_str = ' <option value="0">请选择...</option>';
+                                for (a in result) {
+                                    area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';                                                        }
+                                $("#area_id").html(area_str);
+                                $("#business_id").html('<option value="0">请选择...</option>');
+                            }
+                        });
+                        $("#area_id").html(area_str);
+                        $("#business_id").html('<option value="0">请选择...</option>');
+             
+                        $.ajax({
+                            type: 'POST',
+                            url: "<{:U('app/datas/getCityDetail')}>",
+                            data:{city_id: city_id},
+                            dataType: 'json',
+                            success: function(result){
+                                $('#map_panel_list').find('ul li a').attr('rel', '/wap/api/maps/lat/'+ result.lat +'/lng/'+  result.lng  +'.html');
+                            }
+                        });
+                        
+                    } else {
+                        $("#area_id").html('<option value="0">请选择...</option>');
+                        $("#business_id").html('<option value="0">请选择...</option>');
+                    }
+                });
+                // if (city_id > 0) {
+                //     var area_str = ' <option value="0">请选择...</option>';
+                //     $.ajax({
+                //         type: 'POST',
+                //         url: "<{:U('app/datas/twoarea')}>",
+                //         data:{cid:city_id},
+                //         dataType: 'json',
+                //         success: function(result){
+                //             for (a in result) {
+                //                 if (area_id == result[a].area_id) {
+                //                     area_str += '<option selected="selected" value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                //                 } else {
+                //                     area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                //                 }
+                //             }
+                //             $("#area_id").html(area_str);
+                //         }
+                //     });
+                // }
+                $("#area_id").change(function () {
+                    if ($("#area_id").val() > 0) {
+                        area_id = $("#area_id").val();
+                        $.ajax({
+                            type: 'POST',
+                            url: "<{:U('app/datas/tbusiness')}>",
+                            data:{bid:area_id},
+                            dataType: 'json',
+                            success: function(result) {
+                                var business_str = ' <option value="0">请选择...</option>';
+                                for (a in result) {
+                                    business_str += '<option value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+                                }
+                                $("#business_id").html(business_str);
+                            }
+                        });
+                    } else {
+                        $("#business_id").html('<option value="0">请选择...</option>');
+                    }
+                });
+                if (area_id > 0) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "<{:U('app/datas/tbusiness')}>",
+                        data:{bid:area_id},
+                        dataType: 'json',
+                        success: function(result){
+                            var business_str = ' <option value="0">请选择...</option>';
+                            for (a in result) {
+                                if (business_id == result[a].business_id) {
+                                    business_str += '<option selected="selected" value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+                                } else {
+                                    business_str += '<option value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+                                }
+                            }
+                            $("#business_id").html(business_str);
+                        }
+                    });
+                }
+                $("#business_id").change(function () {
+                    business_id = $(this).val();
+                });
+            });
+        </script>
+    </div>
+
+
+    <!--商家地图开始-->
+    <style>
+        .panel-list li em {float:inherit; margin-left:5px;}
+        #data_address_val{ border:none; padding:10px;idth: 100%; margin-left:5px;}
+    </style>
+    <div class="blank-10 bg"></div>
+   <input id="data_addr" type="hidden" name="data[addr]" value="<{$detail.addr|default=''}>" />
+    <input id="data_lng" type="hidden" name="data[lng]" value="<{$detail.lng|default=''}>" />
+    <input id="data_lat" type="hidden" name="data[lat]" value="<{$detail.lat|default=''}>" />
+    <div class="panel-list" id="map_panel_list">
+        <ul>
+            <li>
+                <a title="选择坐标" rel="<{:U('wap/api/maps',array('lat'=>$lat,'lng'=>$lng))}>" onclick="showWindow('90%','90%',this.rel,this.title)">
+                    详细地址：<em id="data_address" class="text-dot">点击选择</em><i class="iconfont icon-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--商家地图结束-->
+    <div class="row">
+        <div class="line">
+            <span class="x3">公司或个体名称：</span>
+            <span class="x9">
+			<input type="text" class="text-input" name="data[names]"  />
+		</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">手机：</span>
+            <span class="x9">
+			<input type="text" class="text-input" name="data[tel]"  />
+		</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="line">
+            <span class="x3">联系人：</span>
+            <span class="x9">
+			<input type="text" class="text-input" name="data[contact]" />
+		</span>
+        </div>
+    </div>
+    <div class="blank-10 upload_wx" ></div>
+    <div class="Upload-img-box upload_wx" style="mix-height: 50px;">
+        <div id="fileToUpload_wsxkz" style="width: 40%; float:left;">上传卫生许可证</div><label style="color:#ff0000; float:left; line-height:40px;">餐饮食品必须上传</label><div style="clear:both;"></div>
+        <div class="Upload-img">
+            <div class="list-img loading2" style="display:none;"><img src=""></div>
+            <div class="list-img jq_photo_wsxkz" style="display:none;"></div>
+        </div>
+    </div>
+    <script>
+        var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+        var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+            pick: '#fileToUpload_wsxkz',
+            resize: true,
+            compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading2").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shop_audit,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading2").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[weisheng]" value="' + resporse.url + '" />';
+            $(".jq_photo_wsxkz").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    <div class="blank-10"></div>
+    <div class="Upload-img-box">
+        <input type="hidden" name="data[yingye]" value="" />
+        <div id="fileToUpload_yyzz">上传营业执照</div>
+        <div class="Upload-img">
+            <div class="list-img loading1" style="display:none;"><img src=""></div>
+            <div class="list-img jq_photo_yyzz" style="display:none;"></div>
+        </div>
+    </div>
+    <div class="blank-10"></div>
+    <script>
+        var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+        var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+            pick: '#fileToUpload_yyzz',
+            resize: true,
+            compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading1").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shop_audit,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading1").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[yingye]" value="' + resporse.url + '" />';
+            $(".jq_photo_yyzz").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    <div class="Upload-img-box">
+        <div id="WWW_HATUDOU_COM">上传<label class="pes_type">个体户</label>身份证正面</div>（必须是本人手持身份证）
+        <div class="Upload-img">
+            <div class="list-img loading" style="display:none;"><img src=""></div>
+            <div class="list-img jq_photo_www_hatudou_com" style="display:none;"></div>
+        </div>
+    </div>
+    <script>
+        var width_shop_pic = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+        var height_shop_pic = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+            pick: '#WWW_HATUDOU_COM',
+            resize: true,
+            compress : {width:width_shop_pic,height:height_shop_pic,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+
+        //监听文件处理
+        uploader.on( 'WWW_HATUDOU_COM', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shop_pic,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            //    $(".loading_www_hatudou_com").hide();
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[pic]" value="' + resporse.url + '" />';
+            $(".jq_photo_www_hatudou_com").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+    <div class="Upload-img-box">
+        <div id="WWW_HATUDOU_CO">上传<label class="pes_type">个体户</label>身份证背面</div>（必须是本人手持身份证）
+        <div class="Upload-img">
+            <div class="list-img loading" style="display:none;"><img src=""></div>
+            <div class="list-img jq_photo_www_hatudou_co" style="display:none;"></div>
+        </div>
+    </div>
+    <script>
+        var width_shop_pic = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+        var height_shop_pic = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+            pick: '#WWW_HATUDOU_CO',
+            resize: true,
+            compress : {width:width_shop_pic,height:height_shop_pic,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+
+        //监听文件处理
+        uploader.on( 'WWW_HATUDOU_CO', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shop_pic,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            //    $(".loading_www_hatudou_com").hide();
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[picfan]" value="' + resporse.url + '" />';
+            $(".jq_photo_www_hatudou_co").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+    <div class="Upload-img-box">
+        <div id="WWW_HATUDOU_C">上传<label class="pes_type">个体户</label>身份证正面</div>
+        <div class="Upload-img">
+            <div class="list-img loading" style="display:none;"><img src=""></div>
+            <div class="list-img jq_photo_www_hatudou_c" style="display:none;"></div>
+        </div>
+    </div>
+    <script>
+        var width_shop_pic = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+        var height_shop_pic = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+            pick: '#WWW_HATUDOU_C',
+            resize: true,
+            compress : {width:width_shop_pic,height:height_shop_pic,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+
+        //监听文件处理
+        uploader.on( 'WWW_HATUDOU_C', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shop_pic,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            //    $(".loading_www_hatudou_com").hide();
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[frontcard]" value="' + resporse.url + '" />';
+            $(".jq_photo_www_hatudou_c").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+    <div class="Upload-img-box">
+        <div id="WWW_HATUDOU">上传<label class="pes_type">个体户</label>身份证背面</div>
+        <div class="Upload-img">
+            <div class="list-img loading" style="display:none;"><img src=""></div>
+            <div class="list-img jq_photo_www_hatudou" style="display:none;"></div>
+        </div>
+    </div>
+    <script>
+        var width_shop_pic = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+        var height_shop_pic = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+            pick: '#WWW_HATUDOU',
+            resize: true,
+            compress : {width:width_shop_pic,height:height_shop_pic,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+
+        //监听文件处理
+        uploader.on( 'WWW_HATUDOU', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shop_pic,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            //    $(".loading_www_hatudou_com").hide();
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[backcard]" value="' + resporse.url + '" />';
+            $(".jq_photo_www_hatudou").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+    <div class="row">
+        <div class="line">
+		<span class="x9">
+          	<!--<input type="checkbox" value="" id="checkbox"/><label >阅读并同意 <a href="/user/apply/artlist/id/999999" id="serverLicence">服务协议</a></label>-->
+          	<input type="checkbox" value="" id="checkbox"/><label >阅读并同意 <a id="xieyi" style="color: #004cff;">《商户入驻协议》</a></label>
+          </span>
+            <script>
+                $("#checkbox").click(function(){
+                    if($(this).is(":checked")){
+                        $("#submit").attr('disabled',false);
+                    }else{
+                        $("#submit").attr('disabled',true);
+                    }
+                });
+
+                $("#xieyi").click(function () {
+                    layer.open({
+                        type: 1,
+                        title:'<{$title}>',
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['80%', '400px'], //宽高
+                        content: '<div style="padding: 10px;"><{$content}></div>'
+                    })
+                });
+
+            </script>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="blank-30"></div>
+        <button  type="submit" class="button button-block button-big bg-dot" id="submit" disabled="true">
+          确认入驻
+        </button>
+        <div class="blank-30"></div>
+    </div>
+</form>
+
+
+
+
+<php>
+    $iscode = (is_weixin() == 1) ? 'weixin' : 'alipay' ;
+</php>
+
+<script>
+    $(document).ready(function(){
+        var name = $("#<{$iscode}>").attr("data-rel");
+        if(name == "<{$iscode}>"){
+            $("#<{$iscode}>").addClass("active");
+            $("#code").val(name);
+        }
+    });
+    $("#pay-method li").click(function(){
+        var code = $(this).attr("data-rel");
+        $("#code").val(code);
+        $("#pay-method li").each(function(){
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+    });
+
+</script>
+
+<include  file='public:footer'/>
+
+<script>
+    function setCookie(name,value)
+    {
+        var Days = 30;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);
+        document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    }
+    function getCookie(name)
+    {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
+
+    $(document).ready(function(){
+        var radio_type = getCookie('type');
+        if(getCookie('type')){
+            $("#type_radio").val(radio_type);
+            if(radio_type == 1){
+                $(".type_radio:eq(0)").attr("checked",'checked');
+                $("#price").text(shop_price);
+                $(".price").val(shop_price);
+                $("#serverLicence").attr("href","/user/apply/artlist/id/999998");
+            }else{
+                $(".type_radio:eq(1)").attr("checked",'checked');
+                $("#price").text(personal_price);
+                $(".price").val(personal_price);
+                $("#serverLicence").attr("href","/user/apply/artlist/id/999999");
+            }
+        }
+    });
+</script>

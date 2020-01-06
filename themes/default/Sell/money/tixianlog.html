@@ -1,0 +1,45 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">结算</a> > <a href="">提现申请</a> > <a>提现日志</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include  file='money:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>提现编号</td>
+            <td>提现资金</td>
+            <td>手续费</td>
+            <td>提现银行</td>
+            <td>银行账户</td>
+            <td>提现日期</td>
+            <td>状态</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var['cash_id']}></td>
+                <td><{:round($var['apply_money'],2)}>元</td>
+                <td><if condition="!empty($var['commission'])">手续费：&yen; <{:round($var['commission'],2)}>元<else/>手续费：无</if></td>
+                <td><{$var['bank_name']}></td>
+                <php>$bank_num = substr_replace($var['bank_num'],'**************',2,15);</php>
+                <td><{$bank_num}></td>
+                <td><{$var.addtime|date='Y-m-d H:i:s',###}></td>
+                <td><if condition="$var.status eq 0">
+                        未审核
+                        <elseif condition="$var.status eq 1" />
+                        <font color="green">通过</font>
+                        <else />
+                        <font color="red">拒绝</font>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+
+<include  file='public:footer'/>

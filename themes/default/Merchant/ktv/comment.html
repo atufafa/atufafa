@@ -1,0 +1,41 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">KTV</a> > <a>KTV点评</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include  file='ktv:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>订单ID</td>
+            <td>点评内容</td>
+            <td>点评时间</td>
+            <td>用户</td>
+
+            <td>用户评分</td>
+            <td>点评操作</td>
+            <td>点评回复</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.order_id}></td>
+                
+                <td><{:tu_msubstr($var['content'],0,26,true)}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$users[$var['user_id']]['nickname']}>(用户ID:<{$var.user_id}>)</td>
+                
+                <td><{$var.score}></td>
+                <td>
+                    <a mini="load"  h="550" w="600"  href="<{:U('ktv/reply',array('comment_id'=>$var['comment_id']))}>">查看点评</a>
+                    <!--<a class="radius3 sy_c1an" mini="confirm" href="<{:U('ktv/comment_delete',array('comment_id'=>$var['comment_id']))}>">删除点评</a>-->
+            </td>
+             <td class="td_dianping_10" colspan="2"><if condition="!empty($var['reply'])"><span style="color:#F00">商家回复：<{:tu_msubstr($var['reply'],0,26,true)}></span><else/><a mini="load" h="550" w="600"  class="td_btn" href="<{:U('ktv/reply',array('comment_id'=>$var['comment_id']))}>">点击回复</a></if></td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

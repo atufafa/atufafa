@@ -1,0 +1,78 @@
+<include file="public:header"/>
+<style>
+.input {font-size: 16px;}
+	.login-form{margin-top: 50px}
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{$backurl}>"><i class="iconfont icon-20151209tubiaolianxizhuanhuan19"></i></a>
+		</div>
+		<div class="top-title">
+			商城用户登录
+		</div>
+		<div class="top-share">
+			<a style="width: 100px" href="<{:U('passport/register')}>">注册新用户</a>
+		</div>
+	</header>
+	<div class="line">
+		<div class="blank-10"></div>
+		<form class="login-form" action="<{:U('passport/login')}>" method="post" target="x-frame">
+			<input type="hidden" name="backurl" value="<{$backurl}>">
+			<div class="form-group">
+				<div class="field field-icon">
+					<span class="iconfont icon-iconuser"></span>
+					<input id="account" name="account" type="text" class="input" placeholder="请输入账号">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="field field-icon">
+					<span class="iconfont icon-iconfontlock"></span>
+					<input id="password" type="password" name="password" class="input" placeholder="请输入密码">
+				</div>
+			</div>
+
+			<div class="blank-20"></div>
+			<div class="container">
+				<div class="form-button"><button class="button button-block button-big bg-dot" type="submit">点击登录</button></div>
+			</div>
+		</form>
+        <div class="blank-10"></div>
+        <div class="container login-open">
+        	<if condition="$is_weixin">
+            	<a href="<{:U('passport/wxlogin')}>"><div class="button button-block button-big bg-yellow text-center">微信快捷登录</div></a>
+            </if>
+        </div>
+
+		<div class="blank-20"></div>
+		<div class="container login-open">
+			<a style="color:#333" href="<{:U('passport/forget')}>">忘记密码？点击这里找回！</a></h5>
+			<if condition="$CONFIG['connect']['openoff'] eq 1">
+			<h5>用其他合作平台帐号登录<br/>
+			<div class="blank-10"></div>
+			<p>
+                <if condition="!empty($CONFIG['connect']['qq_app_id'])">
+                    <a href="<{:U('passport/qqlogin')}>"><div class="txt radius-circle bg-blue"><i class="iconfont icon-87"></i></div></a>  
+                </if>
+                <if condition="!empty($CONFIG['connect']['wb_app_id'])">    
+                    <a href="<{:U('passport/wblogin')}>"><div class="txt radius-circle bg-dot"><i class="iconfont icon-weibo4"></i></div></a>
+                </if>
+			</p>
+			</if>
+		</div>
+		<div class="blank-40"></div>
+	</div>
+<include file="public:footer"/>
+<div class="blank-10"></div>
+<div class="blank-10"></div>
+<h5 style="margin-bottom: 20px;margin-left: 10px"><span style="color: red">注意温馨提示：</span><br/>&nbsp;&nbsp;&nbsp;
+	1:我要做配送员或司机，必须点击右上角“注册新用户”申请成为新商城会员后才可以申请新的配送员、跑腿、司机、代理、配送管理员、城市合伙人。<br/>
+	&nbsp;&nbsp;&nbsp;2:以上必须是新商城会员才可以重新再次申请。</h5>
+<div class="blank-10"></div>
+
+
+
+
+
+
+
+

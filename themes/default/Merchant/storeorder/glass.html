@@ -1,0 +1,25 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">其他</a> > <a href="">外卖设置</a> > <a>确认订单</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include file="eleorder:nav"/> <!--引入菜单-->
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>已售杯子数</td>
+            <td>本月时间</td>
+        </tr>
+        <volist name="list" id="var">
+            <tr id="load">
+                <td><{$count}></td>
+                <td><{$var.create_time}></td>
+        </volist>
+    </table>
+
+
+    <{$page}>
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,585 @@
+<include file="public:header"/>
+<script src="/static/default/wap/js/layui.js"></script>
+<include file="./static/template/wap/mall/index.html"/>
+<link rel="stylesheet" href="/static/css/wap/mall/index.css" type="text/css"/>
+<php>
+
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    foreach ($areas  as $val) {
+       $area_ids[$val['area_id']] = $val['area_id'];
+    }
+    $bizs = D('Business')->where(array('area_id'=>array('IN',$area_ids)))->select();
+    $Area = D('Area')->find($area);
+    $business = D('Business')->find($business);
+</php>
+
+
+<script src="/static/default/wap/js/fontscroll.js"></script>
+<style>
+.top-fixed .top-title{width:80%;}
+.item-list h5 { height: inherit;}
+.is_renzheng{background: #33b095;padding: 0 3px;color: #fff !important;font-size: 12px;margin-right: 5px; height: 16px;line-height: 16px;margin-top: 3px;}
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+.cate-wrap li{box-sizing:border-box;width:20%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+.container {margin-top: 0rem;}
+.item-list img{position:relative;padding:0px; }
+.item-list li span.album{ font-size:12px; color:#FFF;margin-right: 1px;position:absolute;bottom:0;width:100%;height:20px;line-height:20px;text-align:center;background: rgba(0,0,0,0.3);}
+.tuiguang{background:#F63;padding: 0 3px;color: #fff !important;font-size: 12px;margin-right: 5px;height: 16px;line-height: 16px;margin-top: 3px;}
+
+.tudou_scroll{position:relative;height: 220px;}
+.tudou_scroll_box {width:auto;height: 30px;position:relative;background: rgba(138, 134, 134, 0.55);background-position: 5px;background-size: 50px auto;top: 4rem;position: absolute;border-radius: 1.08rem;}
+.tudou_scroll_box .tudou_scroll {padding-left:5px; height: 30px;line-height: 30px;overflow: Hidden; margin: 0 auto;}
+.tudou_scroll_box .tudou_scroll li {height: 30px;line-height: 30px;overflow: hidden;}
+.tudou_scroll_box .tudou_scroll img { border-radius:100%}
+.tudou_scroll_box .tudou_scroll li i {float: right;height: 30px;line-height: 30px;padding: 0 10px 0 20px;font-size: 12px;color: #999;}
+.tudou_scroll_box .tudou_scroll li a {font-size: 12px;color:#fff;}
+
+
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+            <a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+        </div>
+		<if condition="empty($keyword)">
+        	<div class="top-title  get-map-marker">商城首页</div>
+        </if>
+        
+		<div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+        <input name="keyword" placeholder="<{$keyword|default='输入商品的关键字'}>"  />
+        <button type="button" class="iconfont icon-search" id="sele"></button>
+        </div>
+        <if condition="empty($keyword)">
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+		</div>
+        </if>
+	</header>
+    
+   <script>
+		$(function(){
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+			var time = "3000";
+			$('#tudou_scroll').FontScroll({time:time,num:1});
+		});
+        $("input").focus(function(){
+            $(".top-signed").hide();
+        });
+	</script>
+    
+       <!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide" style="margin-top: 50px">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=77 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+    
+    
+    <if condition="$CONFIG['goods']['scroll_open']">
+        <div class="tudou_scroll_box">
+            <div id="tudou_scroll" class="tudou_scroll">
+                <ul>
+                <volist name="scroll" id="item">
+                  <li><img src="<{:config_img($item['user']['face'])}>" width=30px,hight=30px/>&nbsp;<a>最新订单<{:formatTime($item['create_time'])}>前来自会员【<{:tu_msubstr($item['user']['nickname'],0,6,false)}>】</a></li> 
+               </volist>
+               </ul>
+            </div>
+        </div>
+	</if>
+
+
+    <php>
+    $scroll_time = isset($CONFIG['goods']['scroll_time']) ? (int)$CONFIG['goods']['scroll_time'] : 5000;
+    </php>
+<div class="blank-10 bg" style="height: 3px;"></div>
+<style>
+    .boxs{width: 100%;height: 40px;border-bottom: thin solid #eee;}
+    #category {width:100%;display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;line-height: 40px;background-color: #fff}
+    #category li{display:inline-block;width:45px;height:30px;padding-left:10px;}
+    .cate-descs{display: block;}
+    .biaoti{height: 50px;}
+    .im{width:20%;height: 100%;text-align: center;float: left;}
+    .shop_logo{width: 40px;height: 40px;border-radius: 4px;border: 1px solid #e0e0e0}
+    .tite{width: 40%;height: 100%;float: left}
+    .tite .spa1{font-size: 15px;font-family: "Microsoft Yahei", "微软雅黑"}
+    .tite .spa2{color: #9c9c9c;}
+    .genduo{width: 40%;height: 100%;float: right}
+    .genduo span{float: right;line-height: 50px;font-size: 16px;color: #9c9c9c;}
+    /*div{border: 1px solid red}*/
+    .bd{margin-top: 5px}
+    .imgs-img{width: 118px;height: 80px;}
+    .div_div{width: 33.3%;}
+</style>
+
+
+<script>
+    TouchSlide({
+        slideCell: "#tudou-slide-lif",
+        titCell: ".hds ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+    TouchSlide({
+        slideCell: "#tudou-slide-zhong",
+        titCell: ".hds ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+    TouchSlide({
+        slideCell: "#tudou-slide-rifg",
+        titCell: ".hds ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+</script>
+
+<style>
+    .box-z{width: 100%;height: 90px;padding: 2% 0px 2% 0px}
+    .lf{width: 45%;border: 1px solid #fff;height: 100%;float: left;margin-left: 2%;background-image:url("<?php  echo $config['goods']['goods_zuo_background'];?>");background-size:100% 70px;border-radius: 5px;}
+    .huiyua{width: 60%;margin-left: 20%;background-color: #fff8ee;border-radius: 5px;font-size: 12px;}
+    .dui{margin-top: 1px;width:110px;float: right;color:#fff8ee}
+    .duihuan{float: right;background-color: #ed00b9;color: #fff;border-radius: 5px;margin-right: 3px;}
+    .ri{width: 45%;border: 1px solid #fff;height: 100%;float: right;margin-right: 2%;background-image:url("<?php  echo $config['goods']['goods_you_background'];?>");background-size:100% 70px;border-radius: 5px;}
+    /*轮播*/
+    .scrollDiv{width: 33.3%;height:180px; overflow:hidden; display: block;}
+    .scrollDiv ul{ width: 33%;text-align: center;min-width: 114px;height: 180px;}
+    .scrollDiv li{ width: 100%;padding-bottom: 2px;background-image:url("<?php  echo $config['goods']['goods_lun_background'];?>");background-size:100% 155px;margin-left:3px;text-align: center;min-height:155px;float:left;transition: 0.5s all; -webkit-transition: 0.5s all; -moz-transition: 0.5s all; -o-transition: 0.5s all}
+    .scrollDiv li img{margin-top: 10px;border-radius:10px;margin-left: 15%;width:80px;height:80px;margin-right:10px;float:left;}
+    /*轮播结束*/
+    .tuan{color: #fff}
+    .te{color: #fff}
+    .xain{color: #fff}
+    .qian{background-color: red;color: #fff;border-radius: 50%;padding: 0px 5px;float: right;margin-right: 15%}
+    .p{line-height: 20px;margin-bottom: 0px}
+
+</style>
+
+<!--style="background-color: #ef0006"-->
+
+<div class="blank-10 bg"></div>
+<if condition="$config['goods']['is_open'] eq 1">
+<div class="bargain-activity" style="background-color: #ef0006">
+    <div class="activity-header text-center box-z" >
+        <div class="lf">
+            <div class="huiyua">
+                会员专享
+            </div>
+            <div class="dui">
+                <span style="float: right;margin-right: 15px;"> 会员兑积分</span>
+            </div>
+            <a href="<{:U('user/information/buy')}>">
+                <div class="duihuan">
+                    立即兑换
+                </div>
+            </a>
+        </div>
+        <div class="ri">
+            <div class="huiyua">
+                会员专享
+            </div>
+            <div class="dui">
+                <span style="float: right;margin-right: 15px;"> 分享抢红包</span>
+            </div>
+            <a href="<{:U('mall/share')}>">
+                <div class="duihuan">
+                    立即分享
+                </div>
+            </a>
+        </div>
+    </div>
+    <?php if(!empty($eletaun) || !empty($elespecial) || !empty($elespike)){?>
+    <div class="goods-list " style="text-align: center;width: 100%">
+        <!--团购 -->
+            <div class="scrollDiv" id="scrollDiv1" style="float: left">
+                <span class="tuan">限量团购</span>
+                <ul style="margin-top: 0px;">
+            <!--判断是否存在团购商品-->
+                    <if condition="!empty($eletaun)">
+                    <foreach name="eletaun" item="item">
+                        <li>
+                            <a href="<{:U('mallactivity/groupbuy')}>">
+                                <div class="goodimg">
+                                    <img src="<{:config_img($item['photo'])}>"/>
+                                    <p class="p"><{:tu_msubstr($item['title'],0,7)}></p>
+                                    <p class="p">
+                                        <span style="color: red;font-size: 16px;">&yen;<{$item['mall_price']}></span>
+                                        <!--<del style="color: #9c9c9c">&yen;<{$item['price']}></del>-->
+                                    </p>
+                                    <p class="p">
+                                        <span style="color: red;float: left;margin-left: 13%;">折:<{:round($item['price']/$item['mall_price'],1)}></span>
+                                        <span class="qian">抢</span>
+                                    </p>
+                                </div></a>
+                          </li>
+                    </foreach>
+            <!--不存在就显示默认图片-->
+                        <else/>
+                        <li>
+                            <div class="goodimg">
+                                <img src="<{:config_img($item['photo'])}>"/>
+                            </div>
+                        </li>
+                    </if>
+                </ul>
+            </div>
+
+
+        <!--天天特价 -->
+            <div class="scrollDiv" id="scrollDiv2" style="float: left">
+                <span class="te">天天特价</span>
+                <ul style="margin-top: 0px;">
+            <!--判断是否存在天天特价活动商品-->
+                    <if condition="!empty($elespecial)">
+                    <foreach name="elespecial" item="item">
+                        <li>
+                            <a href="<{:U('mallactivity/mallspecial')}>">
+                                <div class="goodimg">
+                                    <img src="<{:config_img($item['photo'])}>">
+                                    <p class="p"><{:tu_msubstr($item['title'],0,7)}></p>
+                                    <p class="p">
+                                        <span style="color: red;font-size: 16px;">&yen;<{$item['mall_price']}></span>
+                                        <!--<del style="color: #9c9c9c">&yen;<{$item['price']}></del>-->
+                                    </p>
+                                    <p class="p">
+
+                                        <span style="color: red;float: left;margin-left: 13%;">折:<{:round($item['price']/$item['mall_price'],1)}></span>
+                                        <span class="qian">抢</span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    </foreach>
+            <!--不存在就显示默认图片-->
+                    <else/>
+                        <li>
+                            <div class="goodimg">
+                                <img src="<{:config_img($item['photo'])}>">
+                            </div>
+                        </li>
+                    </if>
+                </ul>
+            </div>
+
+
+        <!--限时抢购 -->
+            <div class="scrollDiv" id="scrollDiv3" >
+                <span class="xain">限时抢购</span>
+                <ul style="margin-top: 0px;">
+                <!--判断是否存在抢购商品-->
+                    <if condition="!empty($elespike)">
+                    <foreach name="elespike" item="item">
+                        <li>
+                            <a href="<{:U('mallactivity/limited')}>">
+                                <div class="goodimg">
+                                    <img src="<{:config_img($item['photo'])}>">
+                                    <p class="p"><{:tu_msubstr($item['title'],0,7)}></p>
+                                    <p class="p">
+                                        <span style="color: red;font-size: 16px;">&yen;<{$item['mall_price']}></span>
+                                        <!--<del style="color: #9c9c9c">&yen;<{$item['price']}></del>-->
+                                    </p>
+                                    <p class="p">
+                                        <span style="color: red;float: left;margin-left: 13%;">折:<{:round($item['price']/$item['mall_price'],1)}></span>
+                                        <span class="qian">抢</span>
+                                    </p>
+                                </div></a>
+                        </li>
+                    </foreach>
+                <!--不存在就显示默认图片-->
+                        <else/>
+                        <li>
+                            <div class="goodimg">
+                                <img src="<{:config_img($item['photo'])}>">
+                            </div>
+                        </li>
+                    </if>
+                </ul>
+            </div>
+
+    </div>
+    <?php }?>
+</div>
+</if>
+    <?php $adshop=D('Ad')->where(array('site_id'=>86))->find();
+    $shops=D('Shop')->where(array('shop_id'=>$adshop['shop_id']))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <?php $qiang=D('Ad')->where(array('site_id'=>array('IN','86,87,88')))->select()?>
+    <if condition="!empty($qiang)">
+    <div style="width: 100%;height: 110px;background-color: #f7f7f7;text-align: center;margin:2px 0 2px 0; ">
+        <div id="tudou-slide-lif" class="div_div" style="float: left;">
+            <div class="hds" style="display: none"><ul></ul></div>
+            <div class="bd">
+                <ul>
+                    <calldata mdl="Ad" where=" closed=0 AND site_id=86 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                        <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img class="imgs-img" src="<{:config_img($item['photo'])}>" />
+                            <span style="background-color: red;color: #fff;margin-top: 1px;border-radius: 5px;font-size: 12px;margin-right: 5px;">转转抢</span><span style="color: red">￥0</span>
+                        </a></li>
+                    </calldata>
+                </ul>
+            </div>
+        </div>
+
+        <div id="tudou-slide-zhong" class="div_div" style="float: left">
+            <div class="hds" style="display: none"><ul></ul></div>
+            <div class="bd">
+                <ul>
+                    <calldata mdl="Ad" where=" closed=0 AND site_id=87 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                        <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img class="imgs-img" src="<{:config_img($item['photo'])}>" />
+                            <span style="background-color: red;color: #fff;margin-top: 1px;border-radius: 5px;font-size: 12px;margin-right: 5px;">转转抢</span><span style="color: red">￥0</span>
+                        </a></li>
+                    </calldata>
+                </ul>
+            </div>
+        </div>
+
+        <div id="tudou-slide-rifg" class="div_div" style="float: right">
+            <div class="hds" style="display: none"><ul></ul></div>
+            <div class="bd">
+                <ul>
+                    <calldata mdl="Ad" where=" closed=0 AND site_id=88 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                        <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img class="imgs-img" src="<{:config_img($item['photo'])}>" />
+                            <span style="background-color: red;color: #fff;margin-top: 1px;border-radius: 5px;font-size: 12px;margin-right: 5px;">转转抢</span><span style="color: red">￥0</span>
+                        </a></li>
+                    </calldata>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="blank-10 bg"></div></if>
+
+
+<!--滚动导航栏-->
+<div class="boxs">
+    <ul id="category">
+        <li class="lis">
+            <a class="click_parent_id" id="hot_click">
+                <span class="cate-descs">热门</span>
+            </a>
+        </li>
+        <volist name="goodscate" id="item">
+            <li class="lis">
+                <a class="icons2" parent_id="<{$item.cate_id}>">
+                    <span class="cate-descs"><{:tu_msubstr($item['cate_name'],0,4,false)}></span>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+
+
+<!--    <if condition="empty($cat) && empty($cate_id)  && empty($business_id) && empty($order) && empty($keyword)">-->
+<!--        <ul class="cate-wrap bbOnepx">-->
+<!--            <php>$a = 0;</php>-->
+<!--            <volist name="goodscates" id="item">-->
+<!--                <eq name="item.parent_id" value="0">-->
+<!--                    <php>$a++;</php>    -->
+<!--                    <if condition="$a lt 11"> -->
+<!--                        <li>-->
+<!--                            <a class="icon2" href="<{:U('mall/index',array('cat'=>$item['cate_id']))}>" tongji_tag="m_home_job_new">-->
+<!--                                <span class="cate-img" id="job"><img src="<{:config_img($item['photo'])}>" /></span>-->
+<!--                                <span class="cate-desc"><{:tu_msubstr($item['cate_name'],0,4,false)}></span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                    </if>-->
+<!--                </eq>-->
+<!--            </volist>-->
+<!--        </ul>-->
+<!--    </if>-->
+
+       <if condition="!empty($cat)">
+    	<ul class="cate-wrap bbOnepx">
+            <php>$a = 0;</php>
+            <volist name="goodscates" id="item">
+                <eq name="item.parent_id" value="$cat">
+                    <php>$a++;</php>    
+                    <if condition="$a lt 11"> 
+                        <li>
+                            <a class="icon2" href="<{:U('mall/index',array('cate_id'=>$item['cate_id']))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="<{:config_img($item['photo'])}>" /></span>
+                                <span class="cate-desc" <eq name="item['cate_id']" value="$cate_id">style="color:#F00"</eq> ><{:tu_msubstr($item['cate_name'],0,4,false)}></span>
+                            </a>
+                        </li>
+                    </if>
+                </eq>
+            </volist>
+        </ul>
+    </if>   
+        
+    
+
+
+
+
+
+
+<!--end-->    
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div>
+
+<!--	<div class="item-list" id="item-list">-->
+<!--		<ul></ul>-->
+<!--	</div>-->
+<style>
+    /*显示列表*/
+    .goods-box{ background: #F2F2F2;}
+    .goods { margin:auto; overflow:hidden;}
+    .goods h2 {height:50px; line-height:50px;font-size: 16px;font-weight: normal;color:#999; text-align:center;  }
+    .goods ul { width:50%; float: left; text-align: center; overflow:hidden;}
+    .goods ul li {margin:auto;margin-bottom:5px; background:#FFF; overflow:hidden;padding-bottom:2%;border: 1px solid #9c9c9c50 }
+    .goods ul li .index_pro{ width:100%; overflow:hidden; margin:auto;}
+    .goods ul li .products_kuang { width:100%; margin:auto;overflow: hidden; position:relative;}
+    .goods ul li .products_kuang img{ display:block;width:100%; margin:auto;width: 174px;height: 150px;margin-top: 5px}
+    .goods ul li .goods_name { width:93%; margin:auto;text-align:left;height: 38px; overflow: hidden; color:#666; font-size:14px;line-height: 18px; -webkit-line-clamp: 2; -webkit-box-orient: vertical;display: -webkit-box; margin-top:8px; margin-bottom:8px;}
+    .goods ul li .price {width:100%; margin:auto; position:relative; border-top:1px solid #eeeeee }
+    .goods ul li .price .price_pro{  width:93%; margin:auto;  display: block;font-size:16px; color: #F23015; height:40px; line-height:40px;text-align:left;}
+    .goods ul li .btns{ position:absolute; display:block;right:5px;height:25px;width:25px;background: #f23; border-radius:50%; bottom:8px;}
+    .goods ul li .btns img{ display:block; width:25px;height:25px; }
+    .boxs{width: 100%;height: 40px;border-bottom: thin solid #eee;}
+    #category {width:100%;display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;line-height: 40px;background-color: #fff}
+    #category li{display:inline-block;width:45px;height:30px;padding-left:10px;}
+    .cate-descs{display: block;}
+    .pingtuan{background-color: #e7564a;color: #fff;padding: 1px;border-radius: 5px;font-size: 12px;}
+    .fs{font-size: 12px;}
+    .tui{font-size: 12px;color: rgb(255, 87, 6);background-color: rgba(255, 87, 6, 0.08);}
+    .text-gray{font-size: 12px;}
+    ul{margin-bottom: 1px}
+</style>
+<style>
+    .boxs_guangao{width: 100%;border-bottom: thin solid #eee;max-height: 152px;}
+    .category {width:100%;display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;line-height: 40px;background-color: #fff;border-bottom: 2px solid #f0efed;margin-bottom: 10px;}
+    .category li{display:inline-block;width:121px;height:143px;margin: 2px;}
+    .cate-descs{display: block;}
+    .imgs{width:121px;height: 100px;}
+    .biaoti{width: 100%;height: 50px;}
+    .im{width:20%;height: 100%;text-align: center;float: left;}
+    .shop_logo{width: 40px;height: 40px;border-radius: 4px;border: 1px solid #e0e0e0}
+    .tite{width: 40%;height: 100%;float: left}
+    .tite .spa1{font-size: 15px;font-family: "Microsoft Yahei", "微软雅黑"}
+    .tite .spa2{color: #9c9c9c;}
+    .genduo{width: 40%;height: 100%;float: right}
+    .genduo span{float: right;line-height: 50px;font-size: 16px;color: #9c9c9c;}
+    /*div{border: 1px solid red}*/
+    .mone{height: 42px;line-height: 42px;text-align: center}
+    .mon_span{color: red;font-size: 16px;margin-right: 5px;}
+</style>
+
+
+<script>
+    timer=3000;
+    index=1;
+    //滚动函数
+    function scroll() {
+
+        var speed=600;
+        var _this=$('#scrollDiv'+index).eq(0).find("ul:first");
+        var line=$('#scrollDiv'+index).eq(0).find("ul li").size();
+        var lineH=_this.find("li:first").height() + 20, //获取行高
+            line=line?parseInt(line,10):parseInt(this.height()/lineH,10), //每次滚动的行数，默认为一屏，即父容器高度
+            speed=speed?parseInt(speed,10):500; //卷动速度，数值越大，速度越慢（毫秒）
+        if(line==0) line=1;
+        var upHeight=0-line*lineH/3;
+       
+        _this.animate({
+            marginTop:-150
+        },speed,function(){
+            _this.find("li:first").appendTo(_this);
+            _this.css({marginTop:0});
+        });
+        index++;
+        if(index>=4){
+            index=1;
+        }
+    }
+
+    //Shawphy:自动播放
+    var autoPlay = function(){
+        if(timer)timerID = window.setInterval(scroll,timer);
+    };
+
+    var autoStop = function(){
+        if(timer)window.clearInterval(timerID);
+    };
+    autoPlay();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!--<div class="mall-cart">-->
+		<!--<a href="<{:U('mall/cart')}>">-->
+		<!--<div class="round radius-circle"><div class="badge-corner"><i class="iconfont icon-yunzhi2gouwuche"></i><span class="badge bg-red"><{$cartnum}></span></div></div>-->
+		<!--</a>-->
+	<!--</div>-->
+<div id="hot_goods" class="flow-default"></div>
+    <script>
+        $(document).ready(function () {
+			showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+            //loaddata('<{$nextpage}>', $("#item-list ul"), true);
+        });
+    </script>
+<script src="/static/default/wap/js/layui.js"></script>
+<script src="/static/js/wap/mall/index.js" type="text/javascript"></script>
+<include  file='public:footer'/>    

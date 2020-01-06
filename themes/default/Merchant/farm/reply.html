@@ -1,0 +1,32 @@
+<div class="tuan_content">
+    <div class="tabnr_change show">
+    <form method="post"  action="<{:U('farm/reply',array('order_id'=>$detail['order_id']))}>"  target="x-frame">
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                 <td style="padding-top: 10px;" align="right" >订单编号:</td>
+                    <td class="tl" style="padding-top: 10px;">
+                         <input type="text" value="<{$detail['order_id']}>" tyle="margin-left:10px;" disabled="disabled" readonly="readonly">
+                    </td>
+                </tr>
+                <td style="padding-top: 10px;" align="right">请输入电子券：</td>
+                    <td class="tl" style="padding-top: 10px;">
+                       <input type="text" name="farm_juan" onkeyup="value=value.replace(/[^\d]/g,'')">
+                    </td>
+                </tr>
+            <tr>
+                <td></td>
+                <td class="tl">
+                    <if condition="!empty($detail['reply'])">
+                        <else/>
+                        <input style="margin-top: 10px;" type="submit" class="radius3 sjgl_an tuan_topbt" value="确认"  />
+                    </if>
+                    
+                </td>
+            </tr>
+            
+        </table>
+    </form>
+    
+    
+</div>
+</div>

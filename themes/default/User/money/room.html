@@ -1,0 +1,85 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			卖房返利充值
+		</div>
+	</header>
+
+<style>
+	ul{padding-left:0px;}
+</style>
+
+<ul id="shangjia_tab">
+	<li class="x6"><a href="<{:U('money/room')}>" class="on">返利充值</a></li>
+    <li class="x6"><a href="<{:U('cash/room')}>">充值日志</a></li>
+    </li>
+</ul>
+
+
+<if condition="!empty($CONFIG[life][room])">
+	<div class="blank-10 bg"></div>
+    <div class="container" style="margin-top:2.2rem;">
+        <p>
+            <if condition="!empty($CONFIG[life][room])">
+            以商家输入的现价，按<a style="color:#F00"><{$CONFIG[life][room]}>% </a>进行返利给平台
+            </if>
+            <hr/>
+        </p>
+    </div>
+</if>
+<div style="padding: 10px;">
+	该信息出售房屋现价为：<span style="color: red;">&yen;<{$list['num2']}></span><br/><br/>
+	按百分比应该返利给平台：<span style="color: red;">&yen;<{$list['num2']*($CONFIG[life][room]/100)}></span>
+</div>
+<div class="blank-10 bg"></div>
+
+<form method="post" action="<{:U('money/moneyroom',array('life_id'=>$list['life_id']))}>">
+<div class="line padding">
+    <span class="x3">充值金额：</span>
+	<span class="x9">
+		<input readonly="readonly" class="text-input" type="text" name="money" value="<{$list['num2']*($CONFIG[life][room]/100)}>"  />
+	</span>
+</div>
+
+<ul id="pay-method" class="pay-method">
+	<foreach name="payment" item="var">
+	<if condition="$var['code'] neq 'money'">
+	<li data-rel="<{$var.code}>" class="media media-x payment">
+		<a class="float-left"  href="javascript:;">
+			<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+		</a>
+		<div class="media-body">
+			<div class="line">
+				<div class="x10">
+				<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+				</div>
+				<div class="x2">
+					<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+				</div>
+			</div>
+		</div>
+	</li>
+	</if>
+	</foreach>
+</ul>
+<input id="code" type="hidden" name="code" value="" />
+<script>
+	$("#pay-method li").click(function(){
+		var code = $(this).attr("data-rel");
+		$("#code").val(code);
+		$("#pay-method li").each(function(){
+			$(this).removeClass("active");
+		});
+		$(this).addClass("active");
+	});
+</script>
+
+<div class="blank-30"></div>
+<div class="container"><button type="submit" class="button button-block button-big bg-dot">提交充值</button></div>
+<div class="blank-30"></div>
+
+</form>
+<include file="public:footer"/>

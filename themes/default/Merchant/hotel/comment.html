@@ -1,0 +1,79 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">酒店</a> > <a>酒店点评</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('hotel/comment')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+            开始时间：<input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+            结束时间：<input type="text" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+            订单编号：<input type="text" name="keyword" value="<{$keyword}>" class="radius3 tuan_topser" />
+            状态：<select name="st" class="seleFl w80">
+                        <option value="999">请选择</option>
+                        <option <eq name="st" value="-1">selected="selected"</eq>  value="-1">已取消</option>
+                        <option <eq name="st" value="0">selected="selected"</eq>  value="0">待处理</option>
+                        <option <eq name="st" value="1">selected="selected"</eq>  value="1">已付款</option>
+                        <option <eq name="st" value="3">selected="selected"</eq>  value="3">正在退款</option>
+                        <option <eq name="st" value="4">selected="selected"</eq>  value="4">已退款</option>
+                        <option <eq name="st" value="2">selected="selected"</eq>  value="2">已完成</option>
+                    </select>
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli"><a href="<{:U('hotel/room')}>">酒店房间</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('hotel/index')}>">酒店订单</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('hotel/set_hotel')}>">酒店设置</a></li>
+            <li class="tuanfabu_tabli  on"><a href="<{:U('hotel/set_hotel')}>">酒店点评</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>订单ID</td>
+            <td>房间名称</td>
+            <td>房间图片</td>
+            <td>房间类型</td>
+            <td>点评内容</td>
+            <td>点评时间</td>
+            <td>入住人员</td>
+            <td>预订时间</td>
+            <td>支付方式</td>
+            <td>用户评分</td>
+            <td>点评操作</td>
+            <td>点评回复</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.order_id}></td>
+                <td><{$rooms[$var['room_id']]['title']}></td>
+                <td style="height:60px;"><img src="<{:config_img($rooms[$var['room_id']]['photo'])}>"  style="width:60px;  margin: 0px auto;" /></td>
+                <td><{$roomtype[$rooms[$var['room_id']]['type']]}></td>
+                <!-- <td><{$var.content}></td> -->
+                <td><{:tu_msubstr($var['content'],0,26,true)}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                
+                <td><{$var.account}></td>
+                <td><{$order[$var['order_id']]['create_time']|date='Y-m-d H:i:s',###}></td>
+                <td><if condition="$order[$var['order_id']]['online_pay'] eq 1">在线支付<else/>到店付</if></td>
+                <td><{$var.score}></td>
+                <td>
+                    <a mini="load" h="550" w="600"  href="<{:U('hotel/reply',array('comment_id'=>$var['comment_id']))}>">
+                    查看点评</a>
+                   <!--<a class="radius3 sy_c1an" mini="confirm" href="<{:U('hotel/comment_delete',array('comment_id'=>$var['comment_id']))}>">删除点评</a>-->
+            </td>
+             <td class="td_dianping_10" colspan="2"><if condition="!empty($var['reply'])"><span style="color:#F00">商家回复：<{:tu_msubstr($var['reply'],0,26,true)}></span><else/><a mini="load" h="550" w="600"  class="td_btn" href="<{:U('hotel/reply',array('comment_id'=>$var['comment_id']))}>">点击回复</a></if></td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

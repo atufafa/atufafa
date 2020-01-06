@@ -1,0 +1,38 @@
+<div class="tuan_content">
+    <div class="tabnr_change show">
+    <form method="post"  action="<{:U('hotel/reply',array('comment_id'=>$detail['comment_id']))}>"  target="x-frame">
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                 <td style="padding-top: 10px;" align="right">用户点评：</td>
+                    <td class="tl" style="padding-top: 10px;">
+                        <textarea placeholder="<{$detail.content}>" readonly cols="50" rows="10"></textarea>
+
+                    </td>
+                </tr>
+                <td style="padding-top: 10px;" align="right">回复：</td>
+                    <td class="tl" style="padding-top: 10px;">
+                        <if condition="!empty($detail['reply'])">
+                        <textarea placeholder="<{$detail.reply}>" cols="50" rows="10"></textarea>
+                        <else/>
+                        <textarea name="reply" cols="50" rows="10"></textarea>
+                        </if>
+
+                    </td>
+                </tr>
+            <tr>
+                <td></td>
+                <td class="tl">
+                    <if condition="!empty($detail['reply'])">
+                        <else/>
+                        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认回复"  />
+                    </if>
+                    
+                </td>
+            </tr>
+            
+        </table>
+    </form>
+    
+    
+</div>
+</div>

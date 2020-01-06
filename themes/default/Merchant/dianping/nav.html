@@ -1,0 +1,38 @@
+<div class="tuanfabu_tab">
+   <ul>
+     <li class="tuanfabu_tabli tabli_change  <eq name="act" value="index">on</eq>"><a href="<{:U('dianping/index')}>">商家点评</a></li>
+     <if condition="$CONFIG['operation']['tuan']"> 
+     	<li class="tuanfabu_tabli tabli_change  <eq name="act" value="tuan">on</eq>"><a href="<{:U('dianping/tuan')}>">抢购点评</a></li>
+     </if>
+     <if condition="$CONFIG['operation']['mall']"> 
+         <li class="tuanfabu_tabli tabli_change  <eq name="act" value="mall">on</eq>"><a href="<{:U('dianping/mall')}>">商城点评</a></li>
+     </if>
+     <if condition="$CONFIG['operation']['ele']"> 
+     	<li class="tuanfabu_tabli tabli_change  <eq name="act" value="waimai">on</eq>"><a href="<{:U('dianping/waimai')}>">外卖点评</a></li>
+     </if>
+     <if condition="$CONFIG['operation']['booking']"> 
+        <li class="tuanfabu_tabli tabli_change  <eq name="act" value="booking">on</eq>"><a href="<{:U('dianping/booking')}>">订座点评</a></li>
+     </if>
+     <!--<if condition="$CONFIG['operation']['appoint']">-->
+         <!--<li class="tuanfabu_tabli tabli_change  <eq name="act" value="appoint">on</eq>"><a href="<{:U('dianping/appoint')}>">家政点评</a></li>-->
+     <!--</if>-->
+       <!--<if condition="$CONFIG['operation']['farm']">-->
+           <!--<li class="tuanfabu_tabli tabli_change  <eq name="act" value="farm">on</eq>"><a href="<{:U('dianping/farm')}>">农家乐点评</a></li>-->
+       <!--</if>-->
+       <!--<if condition="$CONFIG['operation']['edu']">-->
+           <!--<li class="tuanfabu_tabli tabli_change  <eq name="act" value="edu">on</eq>"><a href="<{:U('dianping/edu')}>">教育点评</a></li>-->
+       <!--</if>-->
+       <!--<if condition="$CONFIG['operation']['market']">-->
+           <!--<li class="tuanfabu_tabli tabli_change  <eq name="act" value="market">on</eq>"><a href="<{:U('dianping/market')}>">菜市场点评</a></li>-->
+       <!--</if>-->
+       <!--<if condition="$CONFIG['operation']['store']">-->
+           <!--<li class="tuanfabu_tabli tabli_change  <eq name="act" value="store">on</eq>"><a href="<{:U('dianping/store')}>">便利店点评</a></li>-->
+       <!--</if>-->
+       <!--<if condition="$CONFIG['operation']['hotels']">-->
+           <!--<li class="tuanfabu_tabli tabli_change  <eq name="act" value="hotels">on</eq>"><a href="<{:U('dianping/hotels')}>">酒店点评</a></li>-->
+       <!--</if>-->
+       <!--<if condition="$CONFIG['operation']['ktv']">-->
+           <!--<li class="tuanfabu_tabli tabli_change  <eq name="act" value="ktv">on</eq>"><a href="<{:U('dianping/ktv')}>">ktv点评</a></li>-->
+       <!--</if>-->
+   </ul>
+</div> 

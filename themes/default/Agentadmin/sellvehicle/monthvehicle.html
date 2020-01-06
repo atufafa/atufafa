@@ -1,0 +1,45 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">销售管理</a> > <a>卖房团队本月销售列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+
+        </div>
+    </div>
+
+    <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0" >
+        <tr style="background-color:#F9F9F9;">
+            <td width="10%">用户ID</td>
+            <td width="10%">商家ID</td>
+            <td width="10%">商家名称</td>
+            <td width="10%">商家联系电话</td>
+            <td width="10%">出售类型</td>
+            <td width="20%">商家地区</td>
+            <td width="10%">销售金额</td>
+            <td width="10%">销售订单数</td>
+    </table>
+    <foreach name="list" item="var">
+        <table class="dianping" width="100%" border="0" style="text-align: center;">
+            <tr class="tr_dianping_1">
+                <td width="10%">(ID:<{$var.user_id}>)</td>
+                <td width="10%">(ID:<{$var.shop_id}>)</td>
+                <td width="10%"><{$var.shop_name}></td>
+                <td width="10%"><{$var.mobile}></td>
+                <td><{$cates[$var['cate_id']]['cate_name']}></td>
+                <td><if condition="$var['business_type'] eq 1">个人<else/>企业</if></td>
+                <td width="20%">
+                    <{$var.addr}>
+                </td>
+                <td width="10%"><{$var.order_money}></td>
+                <td width="10%"><{$var.order_count}></td>
+            </tr>
+        </table>
+    </foreach>
+    <br/>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

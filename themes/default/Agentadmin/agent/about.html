@@ -1,0 +1,72 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">代理管理管理</a> > <a>代理文字资料</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">代理文字资料介绍自己的基本信息 ，修改，代理名称，地区，请联系管理员修改</div>
+        </div>
+    </div> 
+    <div class="tabnr_change  show">
+
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+           
+            <tr>
+                <td><p class="tuanfabu_t">联系人：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" readonly="readonly" value="<{$list.name}>" class="tuanfabu_int tuanfabu_intw2" />
+                </div></td>
+            </tr>
+            
+            <tr>
+                <td><p class="tuanfabu_t">营业执照：</p></td>
+                <td><div class="tuanfabu_nr" style="width: 100px;height: 80px;">
+               <img src="<{:config_img($list['photo_ying'])}>">
+                </div></td>
+            </tr>
+            
+
+            <tr>
+                <td><p class="tuanfabu_t">身份证正面:</p></td>
+                <td><div class="tuanfabu_nr" style="width: 100px;height: 80px;">
+               <img src="<{:config_img($list['photo_positive'])}>">
+               
+                </div></td>
+            </tr>
+
+
+            <tr>
+                <td><p class="tuanfabu_t">身份证背面：</p></td>
+                <td><div class="tuanfabu_nr" style="width: 100px;height: 80px;">
+               <img src="<{:config_img($list['photo_back'])}>">
+               
+                </div></td>
+            </tr>
+
+             <tr>
+                <td><p class="tuanfabu_t">手机：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text"  readonly="readonly" value="<{$list.mobile}>" class="tuanfabu_int tuanfabu_intw2" />
+              
+                </div></td>
+            </tr>
+           
+            <tr>
+                <td width="120"><p class="tuanfabu_t">代理地址：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text"  readonly="readonly"  value="<{$list.addr1}>" class="tuanfabu_int tuanfabu_intw3" />
+                </div></td>
+            </tr>
+
+        </table>
+
+        <div class="tuanfabu_an">
+        </div>
+
+    </div> 
+
+</div>
+<include  file='public:footer'/>

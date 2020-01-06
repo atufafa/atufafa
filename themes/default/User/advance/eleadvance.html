@@ -1,0 +1,116 @@
+
+<foreach name="list" item="order">
+    <li class="line ">
+        <dt><a class="x3">ID：<{$order.order_id}></a><a class="x9 text-right">下单日期：<{$order.create_time|date='Y-m-d,H:i:s',###}></a></dt>
+        <foreach name="products" item="product">
+            <if condition="$product['order_id'] eq $order['order_id']">
+                <dd class="zhong">
+                    <div class="x2">
+                        <a href="<{:U('eleorder/detail',array('order_id'=>$order['order_id']))}>">
+                            <img src="<{:config_img($eleproducts[$product['product_id']]['photo'])}>" style="width:90%;"></a>
+                    </div>
+                    <div class="x10">
+                        <p><{$eleproducts[$product['product_id']]['product_name']}></p>
+                        <p class="text-small">
+                            <span class="text-dot1 margin-right">小计：<span class="text-dot">￥<{$eleproducts[$product['product_id']]['price']}> x <{$product.num}> = <{$product['total_price']}> 元</span></span>
+                            <br/><span class="text-dot1 margin-right">预定时间：<span class="text-dot">￥<{$order.yuyuetime|date='Y-m-d,H:i:s',###}></span></span>
+                            <if condition="$order['type'] eq 4">
+                        <p style="color: red">到店自取</p>
+            </if>
+            </p>
+            </div>
+            </dd>
+            </if>
+        </foreach>
+        <if condition="!empty($order['fruit'])">
+            <dd class="zhong">
+                <div class="x2">
+                    <a href="<{:U('eleorder/detail',array('order_id'=>$order['order_id']))}>">
+                        <img src="/static/default/wap/img/guoz.jpg" style="width:90%;"></a>
+                </div>
+                <div class="x10">
+                    <p>果汁</p>
+                    <p class="text-small">
+                        <span class="text-dot1 margin-right">赠送果汁：<span class="text-dot">￥0 x <{$order.fruit}> = 0 元</span></span>
+                    </p>
+                </div>
+            </dd>
+        </if>
+        <dt>
+            <div class="x12 text-small">
+             <span class="margin-right">
+             	<if condition="!empty($order['total_price'])">
+                    应付总费用：&yen;<{$order['need_pay']}>元<if condition="$order['type'] neq 4">(含配送费)</if>
+                 </if>
+             	 <if condition="!empty($order['new_money'])">
+                    - 新单立减：&yen;<{$order['new_money']}>元
+                 </if>
+                 <if condition="!empty($order['logistics_full_money'])">
+                    - 免配送费：&yen;<{$order['logistics_full_money']}>元
+                 </if>
+                 <if condition="!empty($order['reduce_coupun_money'])">
+                   - 优惠劵抵扣费用：&yen;<{$order['reduce_coupun_money']}>元
+                 </if>
+                  <if condition="!empty($order['full_reduce_price'])">
+                   - 满减优惠：&yen;<{$order['full_reduce_price']}>元
+                 </if>
+                 <if condition="!empty($order['tableware_price'])">
+                    + 餐具费：&yen;<{$order['tableware_price']}> 元
+                 </if>
+             </span>
+                <span>= 实际支付：<a  class="text-dot">&yen;<{$order['need_pay']}>元</a></span>
+            </div>
+        </dt>
+
+
+
+        <dl>
+            <p class="text-right padding-top">
+
+                <eq name="order.is_daofu" value="0">
+
+
+                    <!--如果不是到付-->
+
+                    <eq name="order.status" value="0">
+                        <a class="button button-small border-dot" href="javascript:void(0);"><{$cfg[$order['status']]}></a>
+                        <php>
+                            $Delivery = D('Delivery')->where(array('id' =>$order['delivery_order']['delivery_id']))->find();
+                            if($order['delivery_order']['status'] == 2){
+                            $status = '配送中';
+                            }elseif($order['delivery_order']['status'] == 8){
+                            $status = '已完成';
+                            }elseif($order['delivery_order']['status'] == 1 || $order['delivery_order']['status'] == 0 ){
+                            $status = '未配送';
+                            }
+                        </php>
+
+
+                        <if condition="!empty($order['delivery_order'])">
+                            <a id="is_pei<{$order.order_id}>" class="button button-small border-yellow">配送信息</a>
+                            <script type="text/javascript">
+                                $('#is_pei<{$order.order_id}>').mouseover(function(){
+                                    var status = '<{$status}>';
+                                    var n = '<{$Delivery.name}>';
+                                    var m = '<{$Delivery.mobile}>';
+                                    layer.tips('配送状态：'+status+'<br>配送员姓名：'+n+'<br>电话：'+m+'',$(this),{
+                                        tips: [2, '#7a7a7a']
+                                    });
+                                })
+                            </script>
+                        </if>
+                    </eq>
+
+                    <else/>
+                    <!--如果是货到付款-->
+                    <span class="button button-small border-yellow" >餐到付款</span>&nbsp;
+                    <span class="button button-small bg-dot" ><{$cfg[$order['status']]}></span>
+                </eq>
+                <a class="order_detail button button-small border-yellow" href="<{:U('eleorder/detail',array('order_id'=>$order['order_id']))}>">详情</a>
+            </p>
+
+        </dl>
+    </li>
+
+    <div class="blank-10 bg"></div>
+</foreach>

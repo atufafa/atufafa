@@ -1,0 +1,128 @@
+<include  file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		公司信息认证
+	</div>
+</header>
+<style>
+#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+</style>
+    <form class="fabu-form" method="post"  target="x-frame" action="<{:U('usersaux/life_edit',array('user_id'=>$detail['user_id']))}>">
+    <div class="blank-10"></div>
+    <div class="Upload-img-box">
+       <div  id="fileToUpload">上传营业执照</div>
+       <div class="Upload-img">
+            <div class="list-img loading">
+                <img src="<{:config_img($detail['ying_photo'])}>">
+                <input type="hidden" name="ying_photo" value="<{$detail.ying_photo}>"/>
+            </div>
+            <div class="list-img jq_photo" style="display:none;"></div>
+      </div>
+    </div>
+        <script>
+            var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';                     
+            var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';  
+            var uploader = WebUploader.create({                 
+                auto: true,                             
+                swf: '/static/default/webuploader/Uploader.swf',                             
+                server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',                             
+                pick: '#fileToUpload',                             
+                resize: true,    
+                compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪       
+            });
+            uploader.on( 'beforeFileQueued', function( file ) {
+                $(".loading").show();
+                if(file.size > 1024000){
+                    uploader.option( 'compress', {
+                        width:width_shopphoto,
+                        quality:60
+                    });
+                }
+            });
+            uploader.on( 'uploadSuccess', function( file,resporse) {
+                $(".loading").hide();
+                var str = '<img src="'+resporse.url+'"><input type="hidden" name="ying_photo" value="' + resporse.url + '" />';
+                $(".jq_photo").show().html(str);
+            });
+            uploader.on( 'uploadError', function( file ) {
+                alert('上传出错');
+            });
+    
+            $(document).ready(function () {
+                $(document).on("click", ".photo img", function () {
+                    $(this).parent().remove();
+                });
+            });
+        </script>
+    
+    
+    
+    <div class="blank-10 bg"></div>
+    <div class="Upload-img-box">
+        <div  id="fileToUploads">上传法人手持证件照</div>
+        <div class="Upload-img">
+           <div class="list-img loadings">
+                <img src="<{:config_img($detail['fa_photo'])}>">
+                <input type="hidden" name="fa_photo" value="<{$detail.fa_photo}>"/>
+            </div>
+           <div class="list-img jq_photos" style="display:none;"></div>
+        </div>  
+    </div>
+        <script>
+            var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';                     
+            var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';  
+            var uploader = WebUploader.create({                 
+                auto: true,                             
+                swf: '/static/default/webuploader/Uploader.swf',                             
+                server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',                             
+                pick: '#fileToUploads',                             
+                resize: true,    
+                compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪       
+            });
+            uploader.on( 'beforeFileQueued', function( file ) {
+                $(".loadings").show();
+                if(file.size > 1024000){
+                    uploader.option( 'compress', {
+                        width:width_shopphoto,
+                        quality:60
+                    });
+                }
+            });
+            uploader.on( 'uploadSuccess', function( file,resporse) {
+                $(".loadings").hide();
+                var str = '<img src="'+resporse.url+'"><input type="hidden" name="fa_photo" value="' + resporse.url + '" />';
+                $(".jq_photos").show().html(str);
+            });
+            uploader.on( 'uploadError', function( file ) {
+                alert('上传出错');
+            });
+    
+            $(document).ready(function () {
+                $(document).on("click", ".photo img", function () {
+                    $(this).parent().remove();
+                });
+            });
+        </script>
+    
+    
+    
+    <div class="blank-10 bg"></div>
+     <div class="row">
+        <div class="line">
+            <span><font>上传须知：</font><font color="red">提交认证需要交付押金￥<{$money}>,如出现举报信息并核实将扣除部分押金并奖励举报用户,如3个月内无异常,可申请退还押金</font></span>
+        </div>
+    </div>
+    <input type="hidden" name="money" value="200">
+        <div class="container">
+            <div class="blank-30"></div>
+            <button  type="submit" class="button button-block button-big bg-dot">立即认证</button>
+            <div class="blank-30"></div>
+        </div>
+    </form>
+<include  file='public:footer'/>

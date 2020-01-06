@@ -1,0 +1,183 @@
+<include file='public:header'/>
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css">
+<script src="/static/default/wap/other/webuploader.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+       返利充值
+    </div>
+</header>
+
+<style>
+    ul{padding-left:0px;}
+</style>
+
+<ul id="shangjia_tab">
+    <li class="x6"><a href="<{:U('money/rebate')}>" class="on">返利充值</a></li>
+    <li class="x6"><a href="<{:U('money/rebatelog')}>">充值日志</a></li>
+</ul>
+
+
+<if condition="!empty($CONFIG[decorate][percentile])">
+    <div class="blank-10 bg"></div>
+    <div class="container" style="margin-top:2.2rem;">
+        <p>
+           以商家输入的现价，按<a style="color:#F00"><{$CONFIG[decorate][percentile]}>% </a>进行返利给平台
+        </p>
+    </div>
+</if>
+<div class="blank-10 bg"></div>
+
+<form method="post" action="<{:U('money/rebate')}>" target="x-frame">
+    <div class="line padding">
+        <span class="x4">返利预约信息ID：</span>
+        <span class="x7">
+            <select name="life_id" style="width: 100%;background-color: #fff;padding: 2px">
+                <option value="0">==请选择==</option>
+                <foreach name="life" item="var">
+                        <option value="<{$var.id}>">ID:<{$var.id}>--预约人ID:<{$var.user_id}></option>
+                 </foreach>
+            </select>
+        </span>
+    </div>
+    
+    <div class="line padding">
+        <span class="x4">充值金额：</span>
+        <span class="x7">
+		<input style="border: 1px solid #eee" class="text-input" type="text" name="money"/>
+	    </span>
+    </div>
+    <div class="blank-10 bg"></div>
+    <div class="Upload-img-box">
+        <div  id="fileToUpload">合同照片</div>
+        <div class="Upload-img">
+            <div class="list-img loading" style="display:none;"><img src=""></div>
+            <div class="list-img jq_photo" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+        var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+            pick: '#fileToUpload',
+            resize: true,
+            compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shopphoto,
+                    quality:60
+                });
+            }
+        });
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="card_photo" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+    <div class="blank-10 bg"></div>
+    <div class="Upload-img-box">
+        <div  id="fileToUploads">上传发票</div>
+        <div class="Upload-img">
+            <div class="list-img loadinga" style="display:none;"><img src=""></div>
+            <div class="list-img jq_photoa" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+        var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: '/static/default/webuploader/Uploader.swf',
+            server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+            pick: '#fileToUploads',
+            resize: true,
+            compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loadinga").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shopphoto,
+                    quality:60
+                });
+            }
+        });
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loadinga").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="jia_photo" value="' + resporse.url + '" />';
+            $(".jq_photoa").show().html(str);
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    <div class="blank-10 bg"></div>
+    <div class="line padding" style="text-align: center">
+       <textarea cols="30" rows="5" placeholder="如需要，请填写备注" name="remarks"></textarea>
+    </div>
+    <ul id="pay-method" class="pay-method">
+        <foreach name="payment" item="var">
+            <if condition="$var['code'] neq 'money'">
+                <li data-rel="<{$var.code}>" class="media media-x payment">
+                    <a class="float-left"  href="javascript:;">
+                        <img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+                    </a>
+                    <div class="media-body">
+                        <div class="line">
+                            <div class="x10">
+                                <{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+                            </div>
+                            <div class="x2">
+                                <span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </if>
+        </foreach>
+    </ul>
+    <input id="code" type="hidden" name="code" value="" />
+    <script>
+        $("#pay-method li").click(function(){
+            var code = $(this).attr("data-rel");
+            $("#code").val(code);
+            $("#pay-method li").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass("active");
+        });
+    </script>
+
+    <div class="blank-30"></div>
+    <div class="container"><button type="submit" class="button button-block button-big bg-dot">提交充值</button></div>
+    <div class="blank-30"></div>
+
+</form>
+<include file="public:footer"/>

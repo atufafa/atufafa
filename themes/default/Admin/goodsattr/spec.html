@@ -1,0 +1,127 @@
+<include file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商品</li>
+        <li class="li2">商品规格</li>
+    </ul>
+</div>
+<form target="x-frame" action="<{:U('Goodsattr/addEditSpec',array('uid'=>$uid))}>" method="post" >
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px" style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#fff;">
+
+                <tr>
+                    <td align="right" class="lfTdBt"> 规格名称</td>
+                    <td class="rgTdBt">
+                        <input type="text" id="name" name="name" value="<{$spec.name}>" class="scAddTextName w160"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" class="lfTdBt">所属商品类型</td>
+                    <td class="rgTdBt">
+                        <select name="type_id" id="type_id">
+                            <option value="">请选择</option>
+                            <volist name="goodsTypeList" id="vo">
+                                <option value="<{$vo[id]}>" <if condition="$vo[id] eq $spec[type_id]">selected="selected"</if>><{$vo[name]}></option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">能否进行检索：</td>
+                    <td class="rgTdBt">
+                        <input type="radio" value="0" name="search_index" <if condition="$spec[search_index] eq 0">checked="checked"</if>  .>不需要检索
+                        <input type="radio" value="1" name="search_index" <if condition="($spec[search_index] eq 1) or ($spec[search_index] eq NULL)">checked="checked"</if>  />关键字检索
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">规格项：</td>
+                    <td class="rgTdBt">
+                        <div class="listBox clfx" style="width: 740px;">
+                            <div class="main-jsgl">
+                                <div class="jsglNr">
+                                    <div class="tableBox">
+                                        <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="none"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                                            <tr>
+                                                <td colspan="5">
+                                                    <a href="javascript:void(0);" id="jq_action_add" class="remberBtn" >新增一行</a>
+                                                </td>
+                                            </tr>
+                                            <if condition="$uid neq ''">
+                                            <else/>
+                                                <tr id="menu_action_1">
+                                                <td><input type="text" name="new[1][item]" value="" class="manageInput w100"></td>
+                                                <td style="display:none;"><input type="text" name="new[1][spec_id]" value="" class="manageInput w100"></td>
+                                                <td><a href="javascript:void(0);" onclick="$('#menu_action_1').remove();" class="remberBtn">移除</a></td>
+                                                </tr>
+                                            </if>
+                                            <tbody id="jq_action_list">
+                                            <foreach name="items" item="var">
+                                                <tr>
+                                                    <td><input type="text" name="data[<{$var.id}>][item]" value="<{$var.item}>"  class="manageInput w100"/></td>
+                                                    <td style="display: none;"><input type="text" name="data[<{$var.id}>][spec_id]" value="<{$var.spec_id}>" class="manageInput w100" /></td>
+                                                    <td>
+                                                        <{:BA('Goodsattr/delGoodsSpecType',array("id"=>$var['id'],"uid"=>$uid),'删除','act','remberBtn')}>
+                                                    </td>
+                                                </tr>
+                                            </foreach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <style>
+                    .tableBox table, .tableBox table tr, .tableBox table tr td{
+                        border: none;
+                    }
+                    .tableBox table tr td a{
+                        color: #fff !important;
+                    }
+                    .tableBox table tr td .submitbtns{
+                        font: normal 14px/14px 'Microsoft Yahei';
+                        display: inline-block;
+                        margin-left: 5px;
+                        margin-top: 5px;
+                        -moz-border-radius: 3px;
+                        -webkit-border-radius: 3px;
+                        border-radius: 3px;
+                        background: #ff5a00;
+                        color: #fff;
+                        padding:0px 10px;
+                        height: 30px;
+                        line-height:20px;
+                        border: none;
+                        width: 60px;
+                    }
+
+                </style>
+                <script>
+                    $(document).ready(function (e) {
+                        var action_num = <?php if($uid) { echo 0; } else { echo 1;}?>;
+                        $("#jq_action_add").click(function () {
+                            action_num++;
+                            var html = '<tr id="menu_action_' + action_num + '"> <td><input type="text" name="new[' + action_num + '][item]" value=""  class="manageInput w100"/></td><td style="display:none;"><input type="text" name="new[' + action_num + '][spec_id]" value="<{$var.spec_id}>" class="manageInput w100" /></td><td><a href="javascript:void(0);" onclick="$(\'#menu_action_' + action_num + '\').remove();" class="remberBtn" >移除</a></td> </tr>';
+                            $("#jq_action_list").append(html);
+                        });
+                    });
+                </script>
+
+
+
+
+            </table>
+        </div>
+        <div class="smtQr">
+            <input type="hidden" name="id" value="<{$spec.id}>">
+            <input type="submit" value="确认保存" class="smtQrIpt"/>
+        </div>
+    </div>
+</form>
+<include file='public:footer'/>
+

@@ -1,0 +1,80 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        充值广告积分
+    </div>
+
+</header>
+<div class="password_input">
+    <if condition="!empty($CONFIG[cash][return_recharge_addshopintegral])">
+        当前充值比例：<a style="color:#F00;font-size: 16px;">&yen;&nbsp;&nbsp<{$CONFIG[cash][return_recharge_addshopintegral]}>  ：<{$CONFIG[cash][return_recharge_jifen]}>&nbsp;&nbsp;积分
+        当前最低充值：<{$CONFIG[cash][return_recharge_money]}>元</a>
+    </if>
+</div>
+<div class="blank-40 bg"></div>
+<form  class="fabu-form" id="ajaxForm"  method="post" action="<{:U('index/pay2')}>" >
+
+    <div class="row">
+        <div class="line">
+            <span class="x3">充值金额：</span>
+            <input type="number" name="money"   >元
+        </div>
+    </div>
+
+    <div class="blank-10 bg"></div>
+
+
+    <ul id="pay-method" class="pay-method">
+        <foreach name="payment" item="var">
+            <li data-rel="<{$var.code}>" id="<{$var.code}>" class="media media-x payment">
+                <a class="float-left"  href="javascript:;">
+                    <img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+                </a>
+                <div class="media-body">
+                    <div class="line">
+                        <div class="x10">
+                            <{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+                        </div>
+                        <div class="x2">
+                            <span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </foreach>
+    </ul>
+    <input id="code" type="hidden" name="code" value="" />
+
+
+    <div class="container">
+        <div class="blank-10"></div>
+        <button type="submit" class="button button-block button-big bg-red" id="apply-submit">确认充值</button></div>
+    <div class="blank-10"></div>
+</form>
+
+<script>
+    $(document).ready(function(){
+        var name = $("#<{$CONFIG['pay']['auto']}>").attr("data-rel");//获取默认支付方式的ID
+        if(name == "<{$CONFIG['pay']['auto']}>"){//如果是真
+            $("#<{$CONFIG['pay']['auto']}>").addClass("active");//给他选中
+            $("#code").val(name);//给他添加val值
+        }
+    });
+    //下面就是用户点击选择支付方式时候切换以前的默认不管他
+    $(document).ready(function(){
+        $("#pay-method li").click(function(){
+            var code = $(this).attr("data-rel");
+            $("#code").val(code);
+            $("#pay-method li").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass("active");
+        });
+    });
+</script>
+<include file="public:footer"/>
+

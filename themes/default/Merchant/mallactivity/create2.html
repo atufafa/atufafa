@@ -1,0 +1,134 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<style>
+    .sel{width: 150px;padding: 5px}
+</style>
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">活动管理</a> > <a href="">活动</a> > <a>参与活动</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+  <div class="radius5 tuan_top">
+    <div class="tuan_top_t">
+      <div class="left tuan_topser_l">商家发布的活动要在后台审核之后才能显示在前台</div>
+    </div>
+  </div>
+  <div class="tabnr_change  show">
+    <form method="post"  action="<{:U('mallactivity/create')}>"  target="x-frame">
+      
+      <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+              <td width="120"><p class="tuanfabu_t">活动商品：</p></td>
+              <td><div class="tuanfabu_nr">
+                  <select id="product_id" name="data[goods_id]" class="tuanfabu_int tuanfabu_intw2">
+                      <foreach name="goods" item="var">
+                          <option value="<{$var.goods_id}>"  <eq name="var.goods_id" value="$detail.goods_id">selected="selected"</eq> ><{$var.title}></option>
+                      </foreach>
+                  </select>
+              </div></td>
+          </tr>
+        <tr>
+          <td width="120"><p class="tuanfabu_t">活动类型：</p></td>
+          <td><div class="tuanfabu_nr">
+              <select id="cate_id" name="data[type_id]" class="tuanfabu_int tuanfabu_intw2">
+                <foreach name="type" item="var">
+                  <option value="<{$var.type_id}>"  <eq name="var.type_id" value="$detail.type_id">selected="selected"</eq> ><{$var.type_name}></option>
+                </foreach>
+              </select>
+            </div></td>
+        </tr>
+        <tr>
+          <td width="120"><p class="tuanfabu_t">价格：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[price]" id="text" value="<{$detail.price|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+              <code>填写参加活动的价格，注意<span style="color: red">限时秒杀，价格小数点后一位必须为8</span></code>
+            </div></td>
+        </tr>
+
+          <tr id="tr5" >
+              <td width="120"><p class="tuanfabu_t">开售时间：</p></td>
+              <td><div class="tuanfabu_nr">
+                  <select class="sel" name="data[time_id]">
+                      <option value="0">==请选择==</option>
+                     <foreach name="time" item="var">
+                         <option value="<{$var.time_id}>"><{$var.time_name}></option>
+                     </foreach>
+                  </select>
+              </div></td>
+          </tr>
+
+          <tr id="tr2" >
+              <td width="120"><p class="tuanfabu_t">数量：</p></td>
+              <td><div class="tuanfabu_nr">
+                  <input type="text" name="data[num]" value="<{$detail.num|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+              </div></td>
+          </tr>
+        <if condition="$SHOP['is_manage'] eq 1">
+          <tr>
+              <td width="120"><p class="tuanfabu_t">抢购数量</p></td>
+              <td>
+                  <div class="tuanfabu_nr">
+                      <input type="text" name="data[num2]" value="<{$detail.num2|default=''}>" class="tuanfabu_int tuanfabu_intw2">
+                      <eode>注意这是虚假数字，实际已数量为准，建议仅使用天天特价</eode>
+                  </div>
+              </td>
+          </tr>
+        </if>
+
+        <tr>
+          <td width="120"><p class="tuanfabu_t">活动结束时间：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[end_time]" value="<{$detail.end_time|default=''}>" onfocus="WdatePicker();" class="tuanfabu_int tuanfabu_intw2" />
+              <code>结束时间</code>
+            </div></td>
+        </tr>
+
+      </table>
+        <script>
+            //下拉列表框选择事件
+            var texts;
+            $("select#cate_id").change(function(){
+                //var options=$("select#test option:selected"); //可以获取到选中的option
+                var options=$(this).children("option:selected"); //也可以获取到选中的option
+                texts=options.val();
+                   if(texts ==2){
+                        $("#tr2").show();
+                        $("#tr4").hide();
+                        $("#tr5").hide();
+                       $("#tr6").hide();
+                   }else if(texts==3){
+                       $("#tr2").show();
+                       $("#tr4").hide();
+                       $("#tr5").hide();
+                       $("#tr6").hide();
+                   }else if(texts==1){
+                       $("#tr2").show();
+                       $("#tr4").show();
+                       $("#tr5").show();
+                       $("#tr6").show();
+                   }
+            });
+
+
+            //单选框选择事件
+            $(function(){
+                $(".end_type").click(function(){
+                    var val=$('input:radio[name="end_type"]:checked').val();
+                    if(val==1){
+                        $("#tr3").hide();
+                        $("#tr2").show();
+                    }else{
+                        $("#tr2").hide();
+                        $("#tr3").show();
+                    }
+                });
+            });
+        </script>
+      <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认参与" />
+      </div>
+    </form>
+  </div>
+</div>
+<include  file='public:footer'/>

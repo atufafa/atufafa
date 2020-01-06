@@ -1,0 +1,65 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">信息</li>
+        <li class="li2">返利管理</li>
+        <li class="li2 li3">用户返利列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right"></div>
+            <div class="clear"></div>
+            <div class="right">
+                <form method="post" action="<{:U('discount/buy')}>">
+                    <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  /><input type="submit" value="   搜索"  class="inptButton" />
+                </form>
+            </div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>会员ID</td>
+                        <td>会员昵称</td>
+                        <td>购买金额</td>
+                        <td>状态</td>
+                        <td>购买时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td>
+                                ID:(<{$var.user_id}>)<br/>
+                            </td>
+                            <td><{$user[$var['user_id']]['nickname']}></td>
+                            <td><{$var.money}></td>
+                            <td>
+                                <eq name="var.is_pay" value="1">已支付<else/>未支付</eq>
+                            </td>
+                            <td>
+                               <{$var.create_time|date='Y-m-d',###}>
+                            </td>
+                            <td>
+                                <{:BA('discount/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+

@@ -1,0 +1,8 @@
+<div class="tuanfabu_tab">
+    <ul>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'goods') AND ($act eq 'tuan_list')">on</if>"><a href="<{:U('goods/tuan_list')}>">全部订单</a></li>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'goods') AND ($act eq 'tuan_over')">on</if>"><a href="<{:U('goods/tuan_over')}>">待发货</a></li>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'goods') AND ($act eq 'tuan_complete')">on</if>"><a href="<{:U('goods/tuan_complete')}>">待确认</a></li>
+        <li class="tuanfabu_tabli <if condition="($ctl eq 'goods') AND ($act eq 'tuan_ok')">on</if>"><a href="<{:U('goods/tuan_ok')}>">已完成</a></li>
+    </ul>
+</div>

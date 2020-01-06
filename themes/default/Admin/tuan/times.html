@@ -1,0 +1,63 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">团购</li>
+        <li class="li2 li3">团购列表</li>
+    </ul>
+</div>
+<style>
+    .seleK{height: 30px;}
+    .seleK label {margin-bottom: 10px;}
+    .main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+    .seleK .text{height: 28px; width:120px !important;}
+    .seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+    .main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+    .inptText{width: 120px; height: 28px; line-height: 30px;}
+    .inptButton{height: 30px;line-height:24px;background:rgb(0, 153, 204); width:70px;text-align: center;border-radius: 3px;}
+    .main-jsgl .jsglNr .selectNr .left a, .piliangcaozuo {height: 30px;line-height: 30px;}
+</style>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('tuan/addtime','','添加抢购时间')}>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>抢购时间</td>
+                        <td>创建时间</td>
+                        <td>状态</td>
+                        <td>操作</td>
+
+                    </tr>
+                    <volist name="list" id="var" key="index">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td><{$var.times}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><eq name="var.colse" value="1">已停用<else/>正在使用中</eq></td>
+                            <td>
+                                <{:BA('tuan/edittime',array("id"=>$var["id"]),'编辑','','remberBtn')}>
+                                <{:BA('tuan/deltime',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                                <eq name="var.colse" value="1">
+                                    <{:BA('tuan/qiyong',array("id"=>$var["id"]),'启用','act','remberBtn')}>
+                                <else/>
+                                    <{:BA('tuan/deltime',array("id"=>$var["id"]),'停用','act','remberBtn')}>
+                                </eq>
+                            </td>
+                        </tr>
+                    </volist>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+

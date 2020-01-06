@@ -1,0 +1,176 @@
+<style>
+.lims{height: 110px;margin-bottom: 2%;border-bottom: 1px solid #dddddd}
+.lim_div1{width: 30%;float: left}
+/*div{border: 1px solid red}*/
+.lim_img{width: 100%;height: 98%;border-radius: 5px;}
+.lim_div2{width: 65%;float: right}
+.xainshi{background-color: red;color: #fff;border-radius: 5px;}
+.xianlian{font-size: 12px;color: red}
+.limp{line-height: 20px;margin-bottom: 0px;}
+.limspan{font-size: 18px;color: red}
+.limdel{font-size: 12px;color: #dddddd}
+.liji{float: right;margin-right: 2px;background-color: red;color: #fff;border-radius: 20px;padding: 2px;}
+.t{background-color: red;color: #fff;margin-left: 2px;padding: 2px;border-radius: 5px;}
+</style>
+
+
+<foreach name="list" item="var">
+    <if condition="$shop[$var['shop_id']]['is_open'] eq 1">
+    <li class="lims">
+        <div class="lim_div1">
+            <img class="lim_img" src="<{:config_img($goods[$var['product_id']]['photo'])}>">
+        </div>
+        <div class="lim_div2">
+            <p class="limp"><span class="xainshi">限时抢购</span>
+                <b><{:tu_msubstr($goods[$var['product_id']]['product_name'],0,25,ture)}></b>
+            </p>
+            <p class="limp">
+             <input type="hidden" id="end" class="end"  data-id="<{$var.id}>"  value="<{$var.spike_time|date='Y-m-d H:i:s',###}>">
+                <span class="xianlian p" id="p" start_time="<{$var.create_time}>"><{$var.spike_time|date="H:i:s",###}></span>
+            <div style="width: 50%;height: 10px;" class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo<{$var.id}>">
+                <div style="height: 10px;line-height: 10px;" class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
+            </div>
+            </p>
+            <p class="limp" style="margin-top: 5px;">
+               <span class="limspan" onclick(this);>&yen<{:round($goods[$var['product_id']]['price'],2)}></span> <del class="limdel">&yen<{:round($goods[$var['product_id']]['cost_price'],2)}></del>
+               <a href="<{:U('ele/details',array('product_id'=>$var['product_id']))}>">
+                <span class="liji">立即抢购</span>
+               </a>
+            </p>
+        </div>
+    </li>
+
+    </if>
+</foreach>
+
+<script>
+    function progress(id,rate){
+        layui.use('element', function(){
+            var $ = layui.jquery
+                ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+            //触发事件
+            var active = {
+                loading: function(othis,id,rate){
+                    var DISABLED = 'layui-btn-disabled';
+                    if(othis.hasClass(DISABLED)) return;
+
+                    //模拟loading
+                    var n = 0, timer = setInterval(function(){
+                        n = n + Math.random()*10|0;
+                        if(n>100){
+                            n = 100;
+                            clearInterval(timer);
+                            othis.removeClass(DISABLED);
+                        }
+                        element.progress('demo'+id,rate);
+                    }, 300+Math.random()*1000);
+
+                    othis.addClass(DISABLED);
+                }
+            };
+            var othis = $(this);
+            active.loading(othis,id,rate);
+        });
+    }
+</script>
+
+<script>
+    //时间为一位数时显示格式为："0X"
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    //显示浏览器现在的时间
+    function formatTime(timeVal) {
+        var datePara = new Date(timeVal);//定义日期对象
+        var yyyy = datePara.getFullYear();//通过日期对象的getFullYear()方法返回年
+        var MM = datePara.getMonth() + 1;//通过日期对象的getMonth()方法返回月
+        var dd = datePara.getDate();//通过日期对象的getDate()方法返回日
+        var hh = datePara.getHours();//通过日期对象的getHours方法返回时
+        var mm = datePara.getMinutes();//通过日期对象的getMinutes方法返回分
+        var ss = datePara.getSeconds();//通过日期对象的getSeconds方法返回秒
+        // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09
+        MM = checkTime(MM);
+        dd = checkTime(dd);
+        hh = checkTime(hh);
+        mm = checkTime(mm);
+        ss = checkTime(ss);
+
+        //用于保存星期（getDay()方法得到星期编号）
+        var day;
+        if (datePara.getDay() == 0) day = "星期日 "
+        if (datePara.getDay() == 1) day = "星期一 "
+        if (datePara.getDay() == 2) day = "星期二 "
+        if (datePara.getDay() == 3) day = "星期三 "
+        if (datePara.getDay() == 4) day = "星期四 "
+        if (datePara.getDay() == 5) day = "星期五 "
+        if (datePara.getDay() == 6) day = "星期六 "
+
+        //document.getElementById('start').value = yyyy + "-" + MM + "-" + dd + " " + hh + ":" + mm + ":" + ss + " " + day;
+        //setTimeout('formatTime()', 1000);//每一秒中重新加载formatTime()方法
+        return yyyy + "-" + MM + "-" + dd + " " + hh + ":" + mm + ":" + ss; //+ " " + day;
+    }
+
+    //服务器现在的时间（这里只是测试，就用浏览器时间代替）
+    var startTime = '';
+    //活动截止时间endTime（以服务器时间为标准，即给定的时间）
+    var end = '';
+    var endTime = '';
+    //活动截止时间（以浏览器时间为标准）
+    var browserEndTime = '';
+    //距离活动结束还剩余的时间（以浏览器为标准）
+    var plus = '';
+    function for_setTimer(){
+        var times=$.each($('.end'),function (index,obj) {
+            setTimer($(obj));
+        });
+    }
+    //倒计时
+    function setTimer(obj) {
+        if (!plus) {
+            //服务器现在的时间（这里只是测试，就用浏览器时间代替）
+            startTime = new Date();
+            //活动截止时间endTime（预先给定的值）
+            end=obj.val();
+            //end = document.getElementById("end").value;
+            //end=document.getElementsByClassName("end").valueOf();
+            endTime = new Date(end);
+            //活动截止时间与当前时间的时间差
+            plus = endTime - startTime;
+
+        }
+        else {
+            //距离活动结束还剩余的时间，第二次以后就不需要再计算，直接自减即可
+            plus -= 1000;
+            //更新当前时间(getTime()获取时间转化成毫秒后的数值)
+            startTime = new Date(startTime.getTime() + 1000);
+
+        }
+        start_time=obj.next().attr('start_time');
+        rate=((startTime-start_time)/(endTime-start_time)).toFixed(2)+'%';
+        var activity_id=obj.data('id');
+        progress(activity_id,rate);
+        var day = parseInt(plus / 1000 / 60 / 60 / 24);
+        var hour = parseInt(plus / 1000 / 60 / 60) - day * 24;
+        var minute = parseInt(plus / 1000 / 60) - parseInt(plus / 1000 / 60 / 60) * 60;
+        var second = parseInt(plus / 1000) - parseInt(plus / 1000 / 60) * 60;
+
+        // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09
+        day = checkTime(day);
+        hour = checkTime(hour);
+        minute = checkTime(minute);
+        second = checkTime(second);
+        //+ day + "天"
+        //document.getElementById("p").innerHTML = "距离结束，还剩"+"day"+"天"+"<span class='t'>"+ hour + "</span>" +"<span class='t'>"+ minute + "</span>" +"<span class='t'>"+ second + "</span>";
+        obj.next().html("距离结束，还剩" + "<span class='t'>"+ hour + "</span>" +"<span class='t'>"+ minute + "</span>" +"<span class='t'>"+ second + "</span>");
+        if (plus <= 1) {
+            clearInterval(id);
+        }
+    }
+    //每秒循环一次，刷新活动截止时间与当前时间的时间差
+    var id = setInterval(for_setTimer, 1000);
+
+</script>

@@ -1,0 +1,32 @@
+<include file='public:header'/>
+<script src="/static/default/wap/js/dialog.js"></script>
+<link href="/static/default/wap/css/dianping.css" rel="stylesheet">
+<style>
+    .coupon-list .shop{overflow:hidden;height:40px;line-height:40px;border-bottom:thin solid #eee;font-size:14px;padding:0 10px;background:#FAFAFA;font-weight:700}
+    .coupon-list .shop span{float:right;font-weight:400}
+    .coupon-list .item{border-bottom:thin solid #eee;display:block;overflow:hidden;padding:10px;position:relative}
+    .coupon-list .item .pic{border-radius:5.5rem;width:2.3rem;height:2.3rem;margin-top:.1rem}
+    .coupon-list .item h3{height:20px;line-height:20px;overflow:hidden;font-size:14px}
+    .coupon-list .item .intro{line-height:20px;color:#999;margin:5px 0;overflow:hidden;font-size:12px}
+    .coupon-list .item .info{line-height:20px;height:20px;color:#999;padding:5px 0;border-top:thin dotted #eee;font-size:12px}
+    .coupon-list .item .info7 img{width:60px;height:60px;padding:.34rem}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="<{:U('dianping/dplist')}>"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title"><{$show[0].grade_name}>点评</div>
+    <div class="top-share">
+        <a href="#" id="share-btn"></a>
+    </div>
+</header>
+<style>
+    #coupon-list{margin-top: 2rem;}
+</style>
+<div id="coupon-list" class="coupon-list2"></div>
+<script>
+    $(document).ready(function () {
+        loaddata('<{:U("dianping/dpshowloading",array("grade_id"=>$show[0]["grade_id"],"p"=>"0000"))}>', $("#coupon-list"), true);
+    });
+</script>
+<include file='public:footer'/>

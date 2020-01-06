@@ -1,0 +1,51 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">积分商城管理</a> > <a href="">积分管理</a> > <a>入驻列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include  file='integralmall:nav'/>
+
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>ID</td>
+            <td>使用时间</td>
+            <td>购买价格</td>
+            <td>可上传商品数量</td>
+            <td>每增一件商品价格</td>
+            <td>开始时间</td>
+            <td>结束时间</td>
+            <td>审核状态</td>
+            <td>使用状态</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.id}></td>
+                <td><{$var.time}></td>
+                <td>￥<{$var.money}></td>
+                <td><{$var.num}>件</td>
+                <td>￥<{$var.goods_money}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$var.end_time|date='Y-m-d H:i:s',###}></td>
+                <td><if condition="$var['shenhe'] eq 0"><span style="color:red;">待审核</span><else/>已审核</if></td>
+                <td>
+                    <?php  $s=time();
+                    if($s>$var['end_time']){
+                    echo 使用期限已结束;
+                    }else{
+                    echo 正在使用中 ;
+                    } ;?></td>
+
+                <td>
+                    <a class="radius3 sy_c1an" mini="confirm" href="<{:U('integralmall/del',array('id'=>$var['id']))}>">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

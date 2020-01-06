@@ -1,0 +1,20 @@
+/*点击分享弹出*/
+.fu{text-align: center;width: 100%}
+.fudong1{overflow: hidden;width: 80%;height: 120px;border: 1px solid #999;margin-left: 10%;margin-top: 10%;word-break: break-word}
+.fudong1 p{margin-top: 20px;}
+.fuzhi{position: relative;top:40px;background: #fff;font-size: 16px;font-weight: bold}
+.fu_btn{width: 80%;padding: 2px;background: red;margin-top: 10px;border: 0;border-radius: 10px;color: #fff;font-size: 16px;}
+.jiu5{margin-top: 20px;font-size: 16px;}
+.huode{font-size: 18px;color: red;}
+.fenxians{color: #f60}
+
+/*更多分享列表样式一*/
+.jinx{width: 96%;margin-left: 2%;min-height: 140px;}
+.div1{background: #fe8443;width: 100%;padding: 5px;color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px;}
+.div2{border: 1px solid #ebebc5;width: 100%;height: 100px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;}
+.cha a{float: right;color: #fff}
+.div3{margin-left: 15px;}
+.dain{background: red;color: #fff;border-radius: 5px;float: right;padding: 2px;}
+.img_photo{border-radius: 5px;}
+
+/*更多分享列表样式*/

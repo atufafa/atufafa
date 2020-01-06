@@ -1,0 +1,75 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">家政</a> > <a href="<{:U('appoint/index')}>">家政优惠卡</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('appoint/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            用户昵称：
+            <input type="text" name="keyword" value="<{$keyword}>" class="radius3 tuan_topser" />
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('appoint/card_create')}>">添加优惠卡+</a></div>
+        </div>
+    </div>
+    </form>
+    <include  file='appoint:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+          <td>ID</td>  
+          <td>兑换状态</td>
+          <td>标题</td>
+          <td>卡号</td>
+
+          <td>面值</td>
+          <td>满多少使用</td>
+          <td>开始时间</td>
+          <td>过期日期</td>
+          <td>创建时间</td>
+
+          <td>使用状态</td>
+          <td>操作</td>
+        </tr>
+        	<foreach name="list" item="var">
+             <td class="card_id"><{$var.card_id}></td>
+             <td>
+                <if condition="$var['user_id'] neq 0">
+                    兑换用户:<{$var.account}>(ID:<{$var.user_id}>)
+                  <else />
+                    未兑换
+                  </if>
+
+              </td>
+
+             <td><{$var.title}></td>
+             <td><{$var.cardNumber}></td>
+             <td><{:round($var['cardMoney'],2)}></td>
+
+             <td><{:round($var['fullMoney'],2)}></td>
+             <td><{$var.bg_date}></td>
+             <td><{$var.end_date}></td>
+             <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+
+             <td>
+                <if condition="($var['state'] neq 0) AND ($var['used_time'] neq 0)">
+                  使用于:<{$var.used_time|date='Y-m-d H:i:s',###}>
+                <else />
+                  未使用
+                </if>
+            </td>
+
+           </if>
+             <td>
+                <a class="radius3 sjgl_an tuan_topbt" mini="confirm" href="<{:U('appoint/card_delete',array('card_id'=>$var['card_id']))}>">删除</a>
+             </td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+
+<include file='public:footer'/>

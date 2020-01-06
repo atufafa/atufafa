@@ -1,0 +1,32 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">乡村管理</a> > <a>我的乡村成员列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+
+        </div>
+    </div>
+    <include file='rural:nav'/>
+    <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0" >
+        <tr style="background-color:#F9F9F9;">
+            <td width="10%">ID</td>
+            <td width="40%">成员ID</td>
+            <td width="40%">成员名称</td>
+    </table>
+    <foreach name="list" item="var">
+        <table class="dianping" width="100%" border="0" style="text-align: center;">
+            <tr class="tr_dianping_1">
+                <td width="10%">(ID:<{$var.join_id}>)</td>
+                <td width="40%">(ID:<{$var.user_id}>)</td>
+                <td width="40%"><{:substr_replace($user[$var['user_id']]['nickname'],'****',3,4);}></td>
+            </tr>
+        </table>
+    </foreach>
+    <br/>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

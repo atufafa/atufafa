@@ -1,0 +1,47 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的预约信息列表
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+
+<div class="list-media-x" id="list-media">
+<div class="blank-10 bg"></div>
+	<ul>
+<foreach name="lists" item="var">   
+<li class="line ">        
+      <dd class="zhong">
+         <div class="12">
+            <p class="text-small">信息ID：<{$var.life_id}></p>
+            <p class="text-small">标题：<{$titie[$var['life_id']]['title']}></p>
+            <p class="text-small">预约商家ID：<{$var.sell_user_id}></p>
+            <p class="text-small">预约商家昵称：<{$user[$var['sell_user_id']][nickname]}></p>
+            <p class="text-small">预约时间：<{$var.time}></p>
+            <span style="color: red">小提示：交易成功后，可上传发票等相应证据,平台根据成交金额进行不等的返利！！！</span>
+            <a style="float: right;margin-right: 5%;" href="<{:U('rebate/rebate',array('life_id'=>$var['life_id']))}>"><button style="background-color: red;padding: 2px;width: 120px;font-size: 16px;color: #fff;border: 0;border-radius: 5px;">上传收据返利</button></a><br/>
+         
+         </div>
+      </dd>
+       
+    </li>
+    <div class="blank-10"></div>
+    <div class="blank-10 bg"></div>
+   </foreach>  
+	</ul>
+</div>
+	
+<!-- <script>
+    $(document).ready(function () {
+        loaddata('<{:U("rebate/load")}>',$("#list-media ul"), true);
+    });
+</script> -->
+
+<include file="public:footer"/>

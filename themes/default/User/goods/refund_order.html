@@ -1,0 +1,38 @@
+<include file="public:header"/>
+
+<style>
+	ul{padding-left: 0px}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			售后单列表
+		</div>
+	<div class="top-signed">
+
+	</div>
+</header>
+
+
+<ul id="shangjia_tab">
+	
+    <li style="width:14.2857142857%;"><a href="<{:LinkTo('goods/refundorder',array('aready'=>8))}>" <eq name='aready' value='8'>class="on"</eq>>退款售后</a></li>
+</ul>
+
+
+
+<div class="list-media-x" id="list-media">
+<div class="blank-10 bg"></div>
+	<ul></ul>
+</div>	
+
+
+<script>
+	$(document).ready(function () {
+		loaddata('<{:U("goods/refundloaddata",array("aready"=>$aready,"t"=>$nowtime,"p"=>"0000"))}>', $("#list-media ul"), true);
+	});
+</script>
+
+<include  file='public:footer'/>

@@ -1,0 +1,127 @@
+<include file="public:header"/>
+<script type="text/javascript" src="/static/default/wap/js/layui.js"></script>
+<link href="/static/css/wap/ele/huod2.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/static/js/wap/ele/huod2.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <if condition="empty($keyword)">
+        <div class="top-title  get-map-marker">限时抢购</div>
+    </if>
+    <div id="allmap" style="display:none;"></div>
+</header>
+<!--广告位开始-->
+<div id="tudou-slide" class="tudou-slide">
+    <div class="hd"><ul></ul></div>
+    <div class="bd">
+        <ul>
+            <calldata mdl="Ad" where=" closed=0 AND site_id=1 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+            </calldata>
+        </ul>
+    </div>
+</div>
+
+<!--广告位END-->
+<style>
+.goods-box{ background: #F2F2F2;background-image: url("<?php echo $config['home']['home_time_background'];?>");background-size:100% 100%;}
+#tudou-slide{margin-top: 40px;}
+.load_box{width: 100%;height: auto}
+.load{width: 96%;margin-left: 2%}
+</style>
+<if condition="!empty($ad)">
+    <div class="goods-box">
+        <div class="goods">
+            <div style="height: 40px;line-height: 40px">
+                <label style="margin-left: 5%"><span style="font-size: 24px;color: #fff">限时抢购</span></label>
+                <label style="float: right;margin-right: 5%"><span id="genduo" style="width: 200px;height: 40px;border-radius: 15px;color: red;background-color: #fff;padding: 5px">查看更多></span></label>
+            </div>
+            <!--滚动导航栏-->
+            <div class="boxs">
+                <ul id="category">
+                    <foreach name="ad" item="var">
+                        <a href="<{:U('wap/ad/eleclick',array('ad_id'=>$var['ad_id'],'aready'=>2))}>">
+                            <li class="lis">
+                                <input type="hidden" class="times" value="<{$var.end_date}>">
+                                <div class="ends">距离结束:11:00:00</div>
+                                <div class="tupian">
+                                    <div class="yuan"><b class="b">￥<{$ele[$var['goods_id']]['mall_price']}></b><span class="jiage">抢</span></div>
+                                    <img style="width: 100%;height: 100px;" src="<{:config_img($ele[$var['goods_id']]['photo'])}>"/>
+                                </div>
+                                <p class="biao"><b><{:tu_msubstr($ele[$var['goods_id']]['title'],0,7,ture)}></b></p>
+                            </li>
+                        </a>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+    </div>
+</if>
+
+<div class="blank-10 bg"></div>
+<div class="load_box">
+    <div class="load">
+         <ul id="shop-list" class="shop-list"></ul>
+    </div>
+</div>
+
+<div class="blank-10 bg"></div>
+<h3 style="text-align: center">猜你喜欢</h3>
+<div class="load_boxs">
+    <div class="loads">
+        <ul id="shop-lis" class="shop-lists"></ul>
+    </div>
+</div>
+<script>
+    TouchSlide({
+        slideCell: "#tudou-slide",
+        titCell: ".hd ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        loaddata('<{$nextpage}>', $("#shop-list"), false);
+        loaddata('<{$likepage}>', $("#shop-lis"), true);
+    });
+
+    $("#genduo").click(function () {
+        layer.open({
+            title: '限时抢购商品', //不显示标题
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['350px', '500px'], //宽高
+            content: '<foreach name="ads" item="var">' +
+                '    <li class="lims" style="margin: 6px">' +
+                '        <div class="lim_div1">' +
+                '            <img class="lim_img" src="<{:config_img($eles[$var[\'goods_id\']][\'photo\'])}>">' +
+                '        </div>' +
+                '        <div class="lim_div2">' +
+                '            <p class="limp"><span class="xainshi">限时抢购</span>' +
+                '                <b><{:tu_msubstr($ele[$var[\'goods_id\']][\'title\'],0,25,ture)}></b>' +
+                '            </p>' +
+                '            <p class="limp">' +
+                '             <input type="hidden" id="end" class="times"   value="<{$var.end_date}>">' +
+                '                <span class="xianlian p" id="p" start_time="<{$var.create_time}>"><{$var.spike_time|date="H:i:s",###}></span>' +
+                '            <p class="limp" style="margin-top: 5px;">' +
+                '               <span class="limspan" onclick(this);>&yen<{:round($eles[$var[\'goods_id\']][\'mall_price\'],2)}></span> ' +
+                '              <a href="<{:U(\'wap/ad/eleclick\',array(\'ad_id\'=>$var[\'ad_id\'],\'aready\'=>2))}>">' +
+                '                <span class="liji">立即抢购</span>' +
+                '               </a>' +
+                '            </p>' +
+                '        </div>' +
+                '    </li>' +
+                '</foreach>'
+        })
+    })
+
+</script>
+
+
+
+<include file="public:footer" />

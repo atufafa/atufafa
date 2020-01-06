@@ -1,0 +1,230 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">外卖</a> > <a>确认订单（未付款的订单默认不显示，货到付款除外）</a></li>
+    </ul>
+</div>
+<style>
+    .p_span{color: red}
+</style>
+<div class="tuan_content">
+    <form method="post" action="<{:U('eleorder/whole')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            开始时间：<input type="text" placeholder="开始时间"  class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            结束时间：<input type="text"  placeholder="结束时间" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            订单编号：<input type="text" placeholder="输入订单号" name="keyword" value="<{$keyword}>"  class="radius3 tuan_topser" />
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+        </div>
+    </div>
+    </form>
+     <include file="eleorder:nav"/> <!--引入菜单-->
+
+
+<div class="blank-20"></div>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="320">详情</td>
+            <td>单价</td>
+            <td>数量</td>
+            <td>总价</td>
+            <td>买家姓名</td>
+            <td>订单状态</td>
+            <td>实付金额</td>
+            <td>订单留言</td>
+     </table>
+     <div class="blank-10"></div>
+        <form  target="x-frame" method="post">
+                
+        <foreach name="list" item="var"> 
+                     
+          <table  class="tuan_table1"  width="100%" border="0">
+          <tr class="tr_left_2" <eq name="var.is_daofu" value="1">style="background:#FFEAD2;"<else/>style="background:#EAF8FF;"</eq> >
+            <td class="left10" colspan="5">
+                订单编号：<span class="mallorder_jg"><{$var.order_id}></span>
+                        <span class="td_top_1">交易时间：<{$var.create_time|date='Y-m-d H:i:s',###}>
+                            <!-- <if condition="$var['type'] eq 4"><span style="color: red">到店自取</span></if> -->
+                        <span class="td_top_1">
+                        <if condition="!empty($var['addr_id'])">
+                        收货地址：
+                        <if condition="$areas[$addrs[$var['addr_id']]['area_id']]['area_name'] neq null"><{$areas[$addrs[$var['addr_id']]['area_id']]['area_name']}>、</if>
+                        <if condition="$business[$addrs[$var['addr_id']]['business_id']]['business_name'] neq null"><{$business[$addrs[$var['addr_id']]['business_id']]['business_name']}>、</if>
+                        <{$addrs[$var['addr_id']]['addr']}>
+                        <{$addrs[$var['addr_id']]['name']}>
+                        <{$addrs[$var['addr_id']]['mobile']}>
+                        </if>
+               </span>
+                 <if condition="$var.is_yuyue eq 1">
+                  <span style="color: red">用户预约</span>
+              </if>
+                 <if condition="$var.yuyuetime neq 0">
+                  <span style="color: red">预约时间：<{$var.yuyuetime|date='Y-m-d H:i:s',###}></span>
+              </if>
+
+                <if condition="$var['type'] eq 4">
+                     <span style="color: red">到店自取</span>
+                </if>
+            </td>
+          </tr>
+          <tr>
+            <td class="td_left_1"> 
+            
+            <foreach name="goods" item="good">
+            <if condition="$good['order_id'] eq $var['order_id']"> 
+            <table  class="tuan_table2" width="100%" border="0">
+              <tr class="tr_left_1">
+              
+                <td class="left1">
+                <!--商品展示开始-->
+                <div class="index__production___yfP3y" >
+                	<a class="index__pic___TScfk" ><img src="<{:config_img($products[$good['product_id']]['photo'])}>" ></a>
+                <div class="index__infos___A6XLq" >
+                    <p ><a><span><{$products[$good['product_id']]['product_name']}></span></a></p>
+                    <if condition="!empty($good['spec'])">
+                        口味：<span style="color:red"><{$spec[$good['spec']]['item']}></span>
+                    </if>
+                </div>
+                </div>
+               <!--商品展示END-->
+                
+                </td>
+                <td class="left2">&yen;<{$products[$good['product_id']]['price']}></td>
+                <td class="left3"><{$good['num']}></td>
+                <td class="left4">&yen;<{$good['total_price']}></td>
+                <td class="left5"></td>
+              </tr>
+             
+            </table>
+            </if>
+            </foreach>
+                <if condition="!empty($var['fruit'])">
+                    <table  class="tuan_table2" width="100%" border="0">
+                        <tr class="tr_left_1">
+
+                            <td class="left1">
+                                <!--商品展示开始-->
+                                <div class="index__production___yfP3y" >
+                                    <a class="index__pic___TScfk" ><img src="/static/default/wap/img/guoz.jpg" ></a>
+                                    <div class="index__infos___A6XLq" >
+                                        <p ><a><span>赠送果汁</span></a></p>
+                                    </div>
+                                </div>
+                                <!--商品展示END-->
+                            </td>
+                            <td class="left2">&yen;0</td>
+                            <td class="left3"><{$var['fruit']}></td>
+                            <td class="left4">&yen;0</td>
+                            <td class="left5"></td>
+                        </tr>
+                    </table>
+                </if>
+
+            
+            </td>
+            <td class="left6" width="9%">
+                <{$users[$var['user_id']]['account']}><br/>
+                <a class="href"  href="<{:U('eleorder/detail',array('order_id'=>$var['order_id'],'type'=>wait))}>">订单详情</a><br/>
+                <if condition="$var['status'] eq 1 && $var['type']!=4">
+                    <a class="href"   mini='confirm' href="<{:U('eleorder/queren',array('order_id'=>$var['order_id']))}>"> 确认接单</a>
+                </if>
+                <if condition="$var['status'] eq 1 && $var['type'] eq 4">
+                    <a class="href"  mini='confirm' href="<{:U('eleorder/queren2',array('order_id'=>$var['order_id']))}>"> 确认接单</a>
+                </if>
+
+                <if condition="$var['status'] eq 9 && $var['type'] eq 4">
+                    <a class="href"  mini='confirm' href="<{:U('eleorder/quer',array('order_id'=>$var['order_id']))}>"> 用户已取餐</a>
+                </if>
+
+
+                <if condition="$var['status'] eq 10 || $var['status'] eq 9 && $var['type'] neq 4">
+                        <input type="hidden" value="<{$var.pei_time|date='Y-m-d H:i:s',###}>" class="times">
+                        <p></p>
+                </if>
+
+            </td>
+            <td class="left7" width="8%">
+                <eq name="var.is_daofu" value="1"><span style="color:#FF0000;">货到付款</span><br/></eq>
+                 <{$types[$var['status']]}>
+                <br/>
+                <if condition="$var['shop_time'] eq null && $var['status'] eq 10">
+                    <a class="href" mini='confirm' style="background-color: red;color: #fff;border-radius: 3px;padding: 1px 12px 1px 14px;" href="<{:U('eleorder/chaozhi',array('order_id'=>$var['order_id']))}>">炒制完成</a><br/>
+                </if>
+                <php>$is_ele_pei = D('Shop')->where('shop_id ='.$var['shop_id'])->getField('is_ele_pei');</php>
+                <eq name="is_ele_pei" value="1">
+                	<span style="color:#09C;">配送员配送<br/></span>
+                <else/>
+                	<span>商家配送<br/></span>
+                </eq>
+                <eq name="var.is_print" value="1">已打印<br/></eq> 
+            </td>
+            <td class="left8"width="10%">
+            	<eq name="var.is_daofu" value="0"><span>结算价：&yen;<{$var['settlement_price']}></span><br/></eq>
+                <span>总费用（含配）：&yen;<{$var['need_pay']}></span><br/>
+                <if condition="!empty($var['new_money'])">
+                   <span>-新单立减：&yen; <{$var['new_money']}></span><br/>
+                </if>
+                <if condition="!empty($var['logistics_full_money'])">
+                   <span>-免配送费：&yen; <{$var['logistics_full_money']}></span><br/>
+                </if>
+                <if condition="!empty($var['reduce_coupun_money'])">
+                   <span>-优惠劵抵扣：&yen; <{$var['reduce_coupun_money']}></span><br/>
+                </if>
+                <if condition="!empty($var['full_reduce_price'])">
+                   <span>-满减优惠：&yen; <{$var['full_reduce_price']}></span><br/>
+                </if>
+                <if condition="!empty($var['tableware_price'])">
+                   <span>+餐具费用：&yen; <{$var['tableware_price']}></span><br/>
+                </if>
+                <if condition="!empty($var['logistics'])">
+                   <span>+配送费用：&yen; <{$var['logistics']}></span><br/>
+                </if>
+                <if condition="!empty($var['need_pay'])">
+                   <span>=实际支付：&yen; <{$var['need_pay']}></span><br/>
+                </if>
+            </td>
+            <td class="left9"width="9%"><{$var['message']}></td>
+          </tr>
+         
+        </table>
+        <br/>
+        </foreach>
+
+
+    <{$page}>
+</div>
+<script>
+    $(function(){
+        setInterval(function(){
+            $(".times").each(function(){
+                var obj = $(this);
+                var shijian=obj.attr('value');
+                var end_str = (shijian).replace(/-/g,"/");
+                var endTime = new Date(end_str);
+                var nowTime = new Date();
+                var nMS=endTime.getTime() - nowTime.getTime() ;
+                var myD=Math.floor(nMS/(1000 * 60 * 60 * 24)); //天
+                var myH=Math.floor(nMS/(1000*60*60)) % 24; //小时
+                var myM=Math.floor(nMS/(1000*60)) % 60; //分钟
+                var myS=Math.floor(nMS/1000) % 60; //秒
+                var myMS=Math.floor(nMS/100) % 10; //拆分秒
+                myH = myH < 10 ? '0'+myH : myH;
+                myM = myM < 10 ? '0'+myM : myM;
+                myS = myS < 10 ? '0'+myS : myS;
+                if(myM>= 0){
+                    //var str = myD+"天"+myH+"小时"+myM+"分"+myS+"."+myMS+"秒";
+                    var str='交付时间：'+
+                        '<span class="p_span">'+myH+'</span>\n' +
+                        '<span class="p_span2">:</span>\n' +
+                        '<span class="p_span">'+myM+'</span>\n' +
+                        '<span class="p_span2">:</span>\n' +
+                        '<span class="p_span">'+myS+'</span>\n'
+                }else{
+                    var str='您已超时';
+                }
+                obj.next().html(str);
+            });
+        }, 1000); //每个0.1秒执行一次
+    });
+</script>
+<include  file='public:footer'/>

@@ -1,0 +1,43 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">管理等级</a> > <a href="">等级管理</a> > <a>等级列表</a></li>
+    </ul>
+
+</div>
+
+<div class="tuan_content">
+    <include  file='money:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>等级ID</td>
+            <td>等级名称</td>
+            <td>招商分成比例</td>
+            <td>跑单分成比例</td>
+            <td>购买需要费用</td>
+            <td>等级说明</td>
+            <td>购买说明</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr <if condition="$var['dj_id'] eq $SHOPGRADE['dj_id']">style="background-color:#FDE1E1;" </if> >
+                <td><{$var.dj_id}></td>
+                <td><{$var.name}></td>
+                <td><{$var.recruit}>%</td>
+                <td><{$var.fencheng}>%</td>
+                <td> &yen; <{:round($var['price'],2)}>元</td>
+                <td><{$var.content}></td>
+                <td>
+                    <php>
+                    $new_shop_grade= D('Deliveryadmin')->find($var['grade_id']);
+                    $old_shop_grade= D('Deliveryadmin')->find($SHOPGRADE['dj_id']);
+                    </php>
+                    
+                    <a mini="confirm"  href="<{:U('money/pay_permission',array('dj_id'=>$var['dj_id'],'user_id'=>$SHOP['user_id']))}>">购买权限</a>
+                                  
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

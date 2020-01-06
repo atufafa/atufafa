@@ -1,0 +1,67 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">我的管理</a> > <a>文字资料</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">文字资料基本信息 ，如果您重新编辑后，需要再次审核，请慎重,修改请联系管理员修改</div>
+        </div>
+    </div> 
+    <include  file='shop:nav'/>
+    <div class="tabnr_change  show">
+    
+   
+    
+   
+    	
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+           
+            
+            <tr>
+                <td><p class="tuanfabu_t">联系人：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" readonly="readonly" value="<{$list.personname}>" class="tuanfabu_int tuanfabu_intw2" />
+               
+                </div></td>
+            </tr>
+            
+            <tr>
+                <td><p class="tuanfabu_t">手机：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" readonly="readonly" value="<{$list.persontel}>" class="tuanfabu_int tuanfabu_intw2" />
+
+                </div></td>
+            </tr>
+            
+             <tr>
+                <td><p class="tuanfabu_t">营业执照</p></td>
+                <td><div class="tuanfabu_nr" style="width: 100px;height: 80px;">
+               <img style="width: 100px;height: 80px;" src="<{:config_img($list['businessphoto'])}>" />
+                </div></td>
+            </tr>
+           
+
+            <tr>
+                <td><p class="tuanfabu_t">联系地址：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" readonly="readonly" value="<{$list.address}>" class="tuanfabu_int tuanfabu_intw2" />
+               
+                </div></td>
+            </tr>
+
+            <tr>
+                <td><p class="tuanfabu_t">申请时间：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" readonly="readonly" value="<{$list.times}>" class="tuanfabu_int tuanfabu_intw2" />
+               
+                </div></td>
+            </tr>
+        </table>
+       
+    </div> 
+   
+</div>
+<include  file='public:footer'/>

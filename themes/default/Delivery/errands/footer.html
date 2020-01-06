@@ -1,0 +1,170 @@
+    <footer class="foot-fixed">
+    <a class="foot-item   <if condition="($act eq 'index') AND ($ctl eq 'index')">active</if>" href="<{:U('vehicle/vehicleindex')}>">		
+    	<span class="iconfont icon-shouye"></span>		
+        	<span class="foot-label">首页</span>		
+            </a>
+            		
+            <if condition="$open_running eq '1' ">
+            
+            <a class="foot-item  <if condition="($ctl eq 'lists') AND ($act neq 'express')">active</if>" href="<{:U('vehicle/index',array('aready'=>2))}>">		
+            <span class="iconfont icon-waimai1"></span><span class="foot-label">配送</span></a>		
+            
+            <a class="foot-item <eq name="ctl" value="running">active</eq>" href="<{:U('vehicle/index',array('aready'=>1))}>">			
+            <span class="iconfont icon-trlogonline"></span><span class="foot-label">跑腿</span></a>	
+             
+            <a class="foot-item <eq name="act" value="money">active</eq>" href="<{:U('mess/vehicle')}>">			
+            <span class="iconfont icon-dongtai1"></span><span class="foot-label">通知</span></a>
+            
+            <else/>
+            
+            
+            <a class="foot-item <eq name="ctl" value="scraped">active</eq>" href="<{:U('lists/scraped')}>">		
+            <span class="iconfont icon-fabu"></span><span class="foot-label">抢新单</span></a>		
+            
+            <a class="foot-item <eq name="ctl" value="distribution">active</eq>" href="<{:U('lists/distribution')}>">			
+            <span class="iconfont icon-fabu"></span><span class="foot-label">配送中</span></a>	
+            
+            <a class="foot-item <eq name="ctl" value="finished">active</eq>" href="<{:U('lists/finished')}>">			
+            <span class="iconfont icon-fabu"></span><span class="foot-label">已完成</span></a>
+            	
+            </if>
+            	
+            
+            <a class="foot-item <eq name="act" value="set">active</eq>" href="<{:U('setting/vehicle')}>">			
+            <span class="iconfont icon-guanli"></span><span class="foot-label">设置</span></a>
+          
+            
+            </footer>	
+        <iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+        
+        
+  <script src="/static/default/wap/js/jquery.timers-1.2.js"></script>        
+  <script type="text/javascript" language="javascript">
+	  $(document).ready(function(){
+		$('<audio id="btnMp3"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+		function showReminds(){
+		   var id = "{$DELIVERY['id']}";
+		   var uid = "{$DELIVERY['user_id']}";
+		   $.post('<{:U("app/api/driver")}>',{id:id,uid:uid},function(result){
+			  if(result.code == '1'){
+				 layer.msg(result.msg,{
+					 time: 3000,
+					 btn: ['我知道了']
+				});
+				$('#btnMp3')[0].play();
+			  }else{
+				 layer.msg(result.msg,{icon:6});
+			  }
+		  },'json');
+		}
+
+		$('body').everyTime('1das','B',function(){
+			showReminds()//执行函数
+		},5);
+	})
+</script>
+   
+   
+
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.11&key=0fcfaddc38b1da7ecd90b637d4e8e2ac"></script>
+    <script type="text/javascript">
+        var map = new AMap.Map('container', {
+            resizeEnable: true
+        });
+        AMap.plugin('AMap.Geolocation', function() {
+            var geolocation = new AMap.Geolocation({
+                enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                timeout: 10000,          //超过10秒后停止定位，默认：5s
+                buttonPosition:'RB',    //定位按钮的停靠位置
+                buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+
+            });
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition(function(status,result){
+                if(status=='complete'){
+                    onComplete(result)
+                }else{
+                    onError(result)
+                }
+                // onComplete(result)
+            });
+        });
+        //解析定位结果
+        function onComplete(data) {
+            var str = [];
+            str.push('定位结果：' + data.position);
+            // alert(data.position);
+            var dpos = String(data.position);
+            // var dpos = 1;
+            $.post("<{:U('index/dingwei')}>",{lat:dpos},function(result){
+            },'json');
+
+            str.push('定位类别：' + data.location_type);
+            if(data.accuracy){
+                str.push('精度：' + data.accuracy + ' 米');
+            }//如为IP精确定位结果则没有精度信息
+            str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
+            // document.getElementById('result').innerHTML = str.join('<br>');
+        }
+        //解析定位错误信息
+        function onError(data) {
+            alert('定位失败');
+            // document.getElementById('status').innerHTML='定位失败'
+            // document.getElementById('result').innerHTML = '失败原因排查信息:'+data.message;
+        }
+</script>
+
+
+
+<script>
+// doLocation();
+//获取距离
+function initLocation(){
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r) {
+	 	if(this.getStatus() === 0) {
+			//console.log(r.address);
+	  		var address = r.address.province + r.address.city + r.address.district + r.address.street;
+	  		$.post("/delivery/index/dingwei.html",{lat:r.point.lat,lon:r.point.lng,address:address,type:'browser'},function(response){
+	  			$("span[attr-ctrl='distance']").each(function(){   
+  					var lat = $(this).attr("attr-lat");
+  					var lon = $(this).attr("attr-lon");
+  					d = getGreatCircleDistance(lat,lon,response.lat,response.lon);
+  					$(this).html(d);
+	  			});
+	  		});
+		}else {
+	    	layer.msg('定位失败，原因：' + this.getStatus(),2000,2);
+		}        
+	},{enableHighAccuracy: true});
+}
+function doLocation(){
+	var script = document.createElement("script");
+	script.src ="https://api.map.baidu.com/api?v=2.0&ak=Nkuq7ST56HZOy4bO9ZQNZTxpXnCgOW0A&callback=initLocation";
+	document.body.appendChild(script);
+}
+
+//计算距离
+var EARTH_RADIUS = 6378137.0; 
+var PI = Math.PI;
+function getRad(d){
+    return d*PI/180.0;
+}
+//定为换算
+function getGreatCircleDistance(lat1,lng1,lat2,lng2){
+    var radLat1 = getRad(lat1);
+    var radLat2 = getRad(lat2);
+    var a = radLat1 - radLat2;
+    var b = getRad(lng1) - getRad(lng2);
+    var s = 2*Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+    s = s*EARTH_RADIUS;
+    s = Math.round(s*10000)/10000000.0;
+    s = s.toFixed(2) + 'KM';
+    return s;
+}
+</script>
+
+
+      </body>
+   </html>

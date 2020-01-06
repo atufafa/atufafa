@@ -1,0 +1,100 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">频道</li>
+        <li class="li2">押金管理</li>
+        <li class="li2 li3">押金管理列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top: none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('life/life_refund')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <label>
+                            <span>用户ID</span>
+                            <input type="text" name="userid" value="<{$usreid}>" class="inptText" />
+                        </label>
+                        <label>
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">编号</td>
+                        <td>会员ID</td>
+                        <td>会员昵称</td>
+                        <td>申请金额</td>
+                        <td>押金类型</td>
+                        <td>是否处理</td>
+                        <td>处理时间</td>
+                        <td>创建时间</td>
+                        <td>打款时间</td>
+                        <td>状态</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.handel_id}></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td style="color:#F00">&yen;<{:round($var['money'],2)}>元</td>
+                            <td>
+                                <if condition="$var['type'] eq 1">
+                                    发布信息认证押金
+                                    <elseif  condition="$var['type'] eq 0"/>
+                                    商户入驻押金
+                                    <elseif condition="$var['type'] eq 2"/>
+                                    注册配送员押金
+                                    <elseif condition="$var['type'] eq 3"/>
+                                    申请配送管理员押金
+                                    <elseif condition="$var['type'] eq 4"/>
+                                    代理押金
+                                    <elseif condition="$var['type'] eq 5"/>
+                                    司机配送押金
+                                </if>
+                            </td>
+                            <td>
+                                <if condition="$var['is_getpay'] eq 1">
+                                    <span style="color: red">已处理</span>
+                                <else/> 
+                                    未处理
+                                </if>
+                            </td>
+                            <td>
+                                 <if condition="$var['make_time'] lt 1">
+                                    暂未处理
+                                <else/> 
+                                    <{$var.make_time|date='Y-m-d H:i',###}>
+                                </if>
+                            </td>
+                            <td><{$var.create_time|date='Y-m-d H:i',###}></td>
+                            <td><{$var.time|date='Y-m-d H:i',###}></td>
+                            <td>
+                                <if condition="($var.audit eq 0) or ($var.audit eq '')">未审核<else/>已审核</if>
+                            </td>
+                            <td>
+                                <{:BA('life/edits',array("handel_id"=>$var["handel_id"]),'打款编辑','','remberBtn')}>
+                                <{:BA('life/lifeRefundDel',array("handel_id"=>$var["handel_id"]),'删除','act','remberBtn')}>
+                                <if condition="($var.audit eq 0) or ($var.audit eq '')">
+                                    <{:BA('life/lifeRefundAudit',array("handel_id"=>$var["handel_id"]),'审核','act','remberBtn')}>
+                                </if>
+                                <{:BA('life/lifeRefundGetMoney',array("handel_id"=>$var["handel_id"]),'确认打款','act','remberBtn')}>
+
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

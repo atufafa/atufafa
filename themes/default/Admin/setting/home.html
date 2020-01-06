@@ -1,0 +1,356 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">首页设置</li>
+    </ul>
+</div>
+<style>
+    .lfTdBt {width:150px;}
+    .attention {height: inherit;}
+</style>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是首页相关的信息</p>
+</div>
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/home')}>" method="post">
+        <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+            <tr>
+                <td class="lfTdBt">是否开启首页活动</td>
+                <td class="rgTdBt">
+                    <label><input type="radio" name="data[is_open]" <eq name="CONFIG.home.is_open" value="1">checked="checked"</eq> value="1" />开启</label>
+                    <label><input type="radio" name="data[is_open]"  <eq name="CONFIG.home.is_open" value="0">checked="checked"</eq>  value="0" />关闭</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="lfTdBt">是否开启首页预约活动</td>
+                <td class="rgTdBt">
+                    <label><input type="radio" name="data[yuyue]" <eq name="CONFIG.home.yuyue" value="1">checked="checked"</eq> value="1" />开启</label>
+                    <label><input type="radio" name="data[yuyue]"  <eq name="CONFIG.home.yuyue" value="0">checked="checked"</eq>  value="0" />关闭</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="lfTdBt">最外层背景图片：</td>
+                <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[home_huod_background]" value="<{$CONFIG.home.home_huod_background}>" id="ds" />
+                        <div id="fil" >上传背景图片</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="ps" width="120" height="80"  src="<{:config_img($CONFIG[home][home_huod_background])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                    </div>
+                    <script>
+                        var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                        var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                        var uploader = WebUploader.create({
+                            auto: true,
+                            swf: '/static/default/webuploader/Uploader.swf',
+                            server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                            pick: '#fil',
+                            resize: true,
+                            compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                        });
+                        uploader.on( 'uploadSuccess', function( file,resporse) {
+                            $("#ds").val(resporse.url);
+                            $("#ps").attr('src',resporse.url).show();
+                        });
+                        uploader.on( 'uploadError', function( file ) {
+                            alert('上传出错');
+                        });
+                    </script>
+                    <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="lfTdBt">预约背景图片：</td>
+                <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[home_yuyue_background]" value="<{$CONFIG.home.home_yuyue_background}>" id="dsyu" />
+                        <div id="fils" >上传背景图片</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="psyu" width="120" height="80"  src="<{:config_img($CONFIG[home][home_yuyue_background])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                    </div>
+                    <script>
+                        var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                        var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                        var uploader = WebUploader.create({
+                            auto: true,
+                            swf: '/static/default/webuploader/Uploader.swf',
+                            server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                            pick: '#fils',
+                            resize: true,
+                            compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                        });
+                        uploader.on( 'uploadSuccess', function( file,resporse) {
+                            $("#dsyu").val(resporse.url);
+                            $("#psyu").attr('src',resporse.url).show();
+                        });
+                        uploader.on( 'uploadError', function( file ) {
+                            alert('上传出错');
+                        });
+                    </script>
+                    <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                </td>
+            </tr>
+
+             <tr>
+            <td class="lfTdBt">首页左背景图片：</td>
+            <td class="rgTdBt">
+                <div style="width: 300px;height: 100px; float: left;">
+                    <input type="hidden" name="data[home_zuo_background]" value="<{$CONFIG.home.home_zuo_background}>" id="data_phot" />
+                    <div id="fileToUploa" >上传背景图片</div>
+                </div>
+                <div style="width: 300px;height: 100px; float: left;">
+                    <img id="photo_im" width="120" height="80"  src="<{:config_img($CONFIG[home][home_zuo_background])}>" />
+                    <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                    建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                </div>
+                <script>
+                    var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                    var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                    var uploader = WebUploader.create({
+                        auto: true,
+                        swf: '/static/default/webuploader/Uploader.swf',
+                        server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                        pick: '#fileToUploa',
+                        resize: true,
+                        compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                    });
+                    uploader.on( 'uploadSuccess', function( file,resporse) {
+                        $("#data_phot").val(resporse.url);
+                        $("#photo_im").attr('src',resporse.url).show();
+                    });
+                    uploader.on( 'uploadError', function( file ) {
+                        alert('上传出错');
+                    });
+                </script>
+                <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="lfTdBt">首页右背景图片：</td>
+            <td class="rgTdBt">
+                <div style="width: 300px;height: 100px; float: left;">
+                    <input type="hidden" name="data[home_you_background]" value="<{$CONFIG.home.home_you_background}>" id="data_pho" />
+                    <div id="fileToUplo" >上传五折卡卡片背景图片</div>
+                </div>
+                <div style="width: 300px;height: 100px; float: left;">
+                    <img id="photo_i" width="120" height="80"  src="<{:config_img($CONFIG[home][home_you_background])}>" />
+                    <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                    建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                </div>
+                <script>
+                    var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                    var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                    var uploader = WebUploader.create({
+                        auto: true,
+                        swf: '/static/default/webuploader/Uploader.swf',
+                        server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                        pick: '#fileToUplo',
+                        resize: true,
+                        compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                    });
+                    uploader.on( 'uploadSuccess', function( file,resporse) {
+                        $("#data_pho").val(resporse.url);
+                        $("#photo_i").attr('src',resporse.url).show();
+                    });
+                    uploader.on( 'uploadError', function( file ) {
+                        alert('上传出错');
+                    });
+                </script>
+                <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="lfTdBt">首页图片轮播背景图片：</td>
+            <td class="rgTdBt">
+                <div style="width: 300px;height: 100px; float: left;">
+                    <input type="hidden" name="data[home_lun_background]" value="<{$CONFIG.home.home_lun_background}>" id="data_ph" />
+                    <div id="fileToUpl" >上传五折卡卡片背景图片</div>
+                </div>
+                <div style="width: 300px;height: 100px; float: left;">
+                    <img id="photo" width="120" height="80"  src="<{:config_img($CONFIG[home][home_lun_background])}>" />
+                    <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                    建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                </div>
+                <script>
+                    var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                    var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                    var uploader = WebUploader.create({
+                        auto: true,
+                        swf: '/static/default/webuploader/Uploader.swf',
+                        server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                        pick: '#fileToUpl',
+                        resize: true,
+                        compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                    });
+                    uploader.on( 'uploadSuccess', function( file,resporse) {
+                        $("#data_ph").val(resporse.url);
+                        $("#photo").attr('src',resporse.url).show();
+                    });
+                    uploader.on( 'uploadError', function( file ) {
+                        alert('上传出错');
+                    });
+                </script>
+                <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="lfTdBt">优惠券背景图片：</td>
+            <td class="rgTdBt">
+                <div style="width: 300px;height: 100px; float: left;">
+                    <input type="hidden" name="data[home_youhui_background]" value="<{$CONFIG.home.home_youhui_background}>" id="data_p" />
+                    <div id="fileToUp" >上传背景图片</div>
+                </div>
+                <div style="width: 300px;height: 100px; float: left;">
+                    <img id="phot" width="120" height="80"  src="<{:config_img($CONFIG[home][home_youhui_background])}>" />
+                    <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                    建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                </div>
+                <script>
+                    var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                    var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                    var uploader = WebUploader.create({
+                        auto: true,
+                        swf: '/static/default/webuploader/Uploader.swf',
+                        server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                        pick: '#fileToUp',
+                        resize: true,
+                        compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                    });
+                    uploader.on( 'uploadSuccess', function( file,resporse) {
+                        $("#data_p").val(resporse.url);
+                        $("#phot").attr('src',resporse.url).show();
+                    });
+                    uploader.on( 'uploadError', function( file ) {
+                        alert('上传出错');
+                    });
+                </script>
+                <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="lfTdBt">购物卷背景图片：</td>
+            <td class="rgTdBt">
+                <div style="width: 300px;height: 100px; float: left;">
+                    <input type="hidden" name="data[home_shopping_background]" value="<{$CONFIG.home.home_shopping_background}>" id="datas" />
+                    <div id="fileToU" >上传背景图片</div>
+                </div>
+                <div style="width: 300px;height: 100px; float: left;">
+                    <img id="pho" width="120" height="80"  src="<{:config_img($CONFIG[home][home_shopping_background])}>" />
+                    <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                    建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                </div>
+                <script>
+                    var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                    var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                    var uploader = WebUploader.create({
+                        auto: true,
+                        swf: '/static/default/webuploader/Uploader.swf',
+                        server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                        pick: '#fileToU',
+                        resize: true,
+                        compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                    });
+                    uploader.on( 'uploadSuccess', function( file,resporse) {
+                        $("#datas").val(resporse.url);
+                        $("#pho").attr('src',resporse.url).show();
+                    });
+                    uploader.on( 'uploadError', function( file ) {
+                        alert('上传出错');
+                    });
+                </script>
+                <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+            </td>
+        </tr>
+
+            <tr>
+                <td class="lfTdBt">限时抢购背景图片：</td>
+                <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[home_time_background]" value="<{$CONFIG.home.home_time_background}>" id="dat" />
+                        <div id="fileTo" >上传背景图片</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="ph" width="120" height="80"  src="<{:config_img($CONFIG[home][home_time_background])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                    </div>
+                    <script>
+                        var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                        var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                        var uploader = WebUploader.create({
+                            auto: true,
+                            swf: '/static/default/webuploader/Uploader.swf',
+                            server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                            pick: '#fileTo',
+                            resize: true,
+                            compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                        });
+                        uploader.on( 'uploadSuccess', function( file,resporse) {
+                            $("#dat").val(resporse.url);
+                            $("#ph").attr('src',resporse.url).show();
+                        });
+                        uploader.on( 'uploadError', function( file ) {
+                            alert('上传出错');
+                        });
+                    </script>
+                    <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="lfTdBt">限量团购背景图片：</td>
+                <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[home_tuan_background]" value="<{$CONFIG.home.home_tuan_background}>" id="da" />
+                        <div id="fileT" >上传背景图片</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="p" width="120" height="80"  src="<{:config_img($CONFIG[home][home_tuan_background])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.zhe_card_background.thumb}>
+                    </div>
+                    <script>
+                        var width_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],0)}>';
+                        var height_zhe_card_background = '<{:thumbSize($CONFIG[attachs][zhe_card_background][thumb],1)}>';
+                        var uploader = WebUploader.create({
+                            auto: true,
+                            swf: '/static/default/webuploader/Uploader.swf',
+                            server: '<{:U("app/upload/uploadify",array("model"=>"zhe_card_background"))}>',
+                            pick: '#fileT',
+                            resize: true,
+                            compress : {width:width_zhe_card_background,height:height_zhe_card_background,quality:80,allowMagnify:false,crop:true}
+                        });
+                        uploader.on( 'uploadSuccess', function( file,resporse) {
+                            $("#da").val(resporse.url);
+                            $("#p").attr('src',resporse.url).show();
+                        });
+                        uploader.on( 'uploadError', function( file ) {
+                            alert('上传出错');
+                        });
+                    </script>
+                    <code> 背景图，建议自己百度找素材，请按照提示的尺寸PC处理下再上传才能保证美观性！</code>
+                </td>
+            </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,493 @@
+<include  file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('wap/index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		商家入驻
+	</div>
+</header>
+<style>
+#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+  .type_c{width:100%; height:30px; padding:10px;}
+.type_c p{width:25%; float:left; text-align:center;}
+  .type_c p input{width:15px; height:15px;}
+</style>
+<form class="fabu-form" method="post" id="ajaxForm" action="<{:U('apply/index')}>">
+
+<div class="blank-10"></div>
+  <div style="clear:both;"></div>
+<div class="Upload-img-box">
+   <div  id="fileToUpload">上传店铺外观清晰图</div>
+   <div class="Upload-img">
+   <div class="list-img loading" style="display:none;"><img src=""></div>
+   <div class="list-img jq_photo" style="display:none;"></div>
+  </div>
+</div>
+    <script>
+    	var shop_price = '<{$CONFIG['shop']['shop_apply_prrice']}>';
+    	var personal_price = '<{$CONFIG['shop']['personal_apply_prrice']}>';
+
+		$('input:radio[class=type_radio]:nth(1)').attr('checked',true);
+    	var width = '<{:thumbSize($CONFIG[attachs][shopphoto][thumb],0)}>';                     
+		var height = '<{:thumbSize($CONFIG[attachs][shopphoto][thumb],1)}>';  
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"shopphoto"))}>',                             
+			pick: '#fileToUpload',                             
+			resize: true,    
+			compress : {width:width,height:height,quality:60,allowMagnify: false,crop: true}//裁剪       
+        });
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[photo]" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+		
+    </script>
+
+    
+<div class="blank-10"></div>
+<div class="Upload-img-box">
+   <div  id="fileToUpload2">上传LOGO(选填)</div>
+   <div class="Upload-img">
+   <div class="list-img loading_2" style="display:none;"><img src=""></div>
+   <div class="list-img jq_photo_2" style="display:none;"></div>
+  </div>
+</div>
+    <script>
+    	var width2 = '<{:thumbSize($CONFIG[attachs][shopphoto][thumb],0)}>';
+		var height2 = '<{:thumbSize($CONFIG[attachs][shopphoto][thumb],1)}>';
+        var uploader = WebUploader.create({
+			auto: true,
+			swf: '/static/default/webuploader/Uploader.swf',
+			server: '<{:U("app/upload/uploadify",array("model"=>"shopphoto"))}>',
+			pick: '#fileToUpload2',
+			resize: true,
+			compress : {width:width2,height:height2,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading_2").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[logo]" value="' + resporse.url + '" />';
+            $(".jq_photo_2").show().html(str);
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+<div class="blank-10 bg"></div>
+
+    <input type="hidden" name="data[business_type]" value="<{$list[business_type]}>">
+    <div class="row">
+        <div class="line">
+            <span class="x3">入驻类型</span>
+            <span class="x9">
+			<span><eq name='list.business_type' value='1'>个人<else/>企业</eq></span>
+		</span>
+        </div>
+    </div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">店铺名称</span>
+		<span class="x9">
+			<input type="text" id="type_radi" class="text-input" placeholder="" name="data[shop_name]" value="<{$list[shop_name]}>"/>
+		</span>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="line">
+		<span class="x3">地址</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[addr]" value="<{$list[addr]}>"/>
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">手机</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[tel]" value="<{$list[tel]}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">联系人</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[contact]" value="<{$list[contact]}>"/>
+		</span>
+	</div>
+</div>
+
+
+
+
+    <div class="blank-10 bg"></div>    
+    <div class="row">
+        <div class="line">
+            <span class="x12">
+                <textarea rows="5" name="details" class="text-area" placeholder="请输入店铺简短介绍，建议不超过100字"></textarea>
+            </span>
+        </div>
+    </div>
+    
+    
+
+      	
+    
+<!-- </form>
+      
+      
+<form class="fabu-form" method="post"  target="x-frame" action="<{:U('audit/index')}>">  -->
+      
+     <div class="blank-10 bg" id="line3" ></div>
+<div class="blank-10"></div>
+
+    <script>
+    	var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';
+		var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+        var uploader = WebUploader.create({
+			auto: true,
+			swf: '/static/default/webuploader/Uploader.swf',
+			server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',
+			pick: '#fileToUpload_3',
+			resize: true,
+			compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading4").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shop_audit,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading4").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[yingye]" value="' + resporse.url + '" />';
+            $(".jq_photo_3").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+<div class="blank-10"  id="line4"  ></div>
+
+    <script>
+    	var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';                     
+		var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';  
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',                             
+			pick: '#fileToUpload_5',                             
+			resize: true,    
+			compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪       
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_shop_audit,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[weisheng]" value="' + resporse.url + '" />';
+            $(".jq_photo_5").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    <if condition="$list['business_type'] eq 2">
+    <div id="part_1" >
+<div class="blank-10 bg border-top"></div>
+<div class="row">
+	<div class="line">
+		<span class="x3">企业名称：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[name]" value="<{$detail.name|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">注册号：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[zhucehao]" value="<{$detail.zhucehao|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">营业地址：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[address]" value="<{$detail.addr|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">营业期限：</span>
+		<span class="x9">
+         <input type="text" class="text-input line-input datepicker" id="svctime" name="data[end_date]" size="30"   value="<{$detail['end_date']}>" placeholder="选择营业期限" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">组织机构代码证：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[zuzhidaima]" value="<{$detail.zuzhidaima|default=''}>" />
+		</span>
+	</div>
+</div>
+        </div>
+    </if>
+
+<div class="blank-10 upload_wx" ></div>
+    <if condition="!empty($yin['weisheng'])">
+    <div class="Upload-img-box upload_wx" style="mix-height: 50px;">
+        <div style="width: 40%; float:left;">卫生许可证</div>
+        <div class="Upload-img">
+            <div class="list-img jq_photo_wsxkz"><img src="<{:config_img($yin['weisheng'])}>"></div>
+        </div>
+    </div>
+    </if>
+
+    <div class="blank-10"></div>
+    <div class="Upload-img-box">
+        <div>营业执照</div>
+        <div class="Upload-img">
+            <div class="list-img jq_photo_yyzz"><img src="<{:config_img($yin['yingye'])}>"></div>
+        </div>
+    </div>
+    <div class="blank-10"></div>
+
+<div class="Upload-img-box">
+   <div >手持身份证正面</div>
+   <div class="Upload-img">
+   <div class="list-img jq_photo_www_hatudou_com"><img src="<{:config_img($yin['pic'])}>"></div>
+  </div>
+</div>
+</div>
+
+
+
+    <div class="Upload-img-box">
+        <div>手持身份证背面</div>
+        <div class="Upload-img">
+            <div class="list-img jq_photo_www_hatudou_co"><img src="<{:config_img($yin['picfan'])}>"></div>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="Upload-img-box">
+        <div>身份证正面</div>
+        <div class="Upload-img">
+            <div class="list-img jq_photo_www_hatudou_c"><img src="<{:config_img($yin['frontcard'])}>"></div>
+        </div>
+    </div>
+    </div>
+
+    <div class="Upload-img-box">
+        <div>身份证背面</div>
+        <div class="Upload-img">
+            <div class="list-img jq_photo_www_hatudou"><img src="<{:config_img($yin['backcard'])}>"></div>
+        </div>
+    </div>
+    </div>
+
+
+<div class="row">
+	<div class="line">
+		<span class="x3"><label class="pes_type">法人</label>姓名：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[user_name]" value="<{$detail.user_name|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3"><label class="pes_type">法人</label>手机：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[mobile]" value="<{$detail.mobile|default=''}>" />
+		</span>
+	</div>
+</div>
+
+    <!--如果开启付款-->
+    <if condition="$CONFIG['shop']['shop_apply_prrice'] gt 0">
+        <div class="blank-10 bg"></div>
+        <ul id="pay-method" class="pay-method">
+            <foreach name="payment" item="var">
+                <li data-rel="<{$var.code}>"  id="<{$var.code}>" class="media media-x payment">
+                    <a class="float-left"  href="javascript:;">
+                        <img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+                    </a>
+                    <div class="media-body">
+                        <div class="line">
+                            <div class="x10">
+                                <{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+                            </div>
+                            <div class="x2">
+                                <span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </foreach>
+        </ul>
+        <input id="code" type="hidden" name="code" value="" />
+    </if>
+  
+  <div class="row">
+	<div class="line">
+		<span class="x9">
+          	<input type="checkbox" value="" id="checkbox"/><label >阅读并同意 <a href="/user/apply/artlist/id/999999" id="serverLicence">服务协议</a></label>
+          </span>
+      <script>
+      	$("#checkbox").click(function(){
+        	if($(this).is(":checked")){
+           	 $("#submit").attr('disabled',false);
+            }else{
+             $("#submit").attr('disabled',true);
+            }
+        })
+      </script>
+	</div>
+</div>
+  
+<div class="container">
+	<input type="hidden" value="<if condition='$list[business_type] eq 2'> <{$cate['price']}><else/> <{$cate['personal_price']}></if>" name="data[price]" class="price"/>
+	<input type="hidden" value="<if condition='$list[business_type] eq 2'><{$cate['handle']}><else/> <{$cate['personal_handle']}></if>" name="data[handle]" class="handle"/>
+
+	<div class="blank-30"></div>
+		<button  type="submit" class="button button-block button-big bg-dot" id="submit" disabled="true">
+            入驻费<span >
+            <if condition="$list['business_type'] eq 2">
+                <{$cate['price']}>
+            <else/>
+            <{$cate['personal_price']}></span>元
+            </if>
+			保证金<span >
+            <if condition="$list['business_type'] eq 2">
+            <{$cate['handle']}>
+            <else/>
+                <{$cate['personal_handle']}>
+            </if>
+        </span>元
+		</button>
+		<div class="blank-30"></div>
+	</div>
+</form>
+
+  
+  
+  
+<php>
+    $iscode = (is_weixin() == 1) ? 'weixin' : 'alipay' ;
+</php>
+
+<script>        
+	$(document).ready(function(){
+		var name = $("#<{$iscode}>").attr("data-rel");
+		if(name == "<{$iscode}>"){
+			 $("#<{$iscode}>").addClass("active");
+			 $("#code").val(name);
+		 }
+	});
+    $("#pay-method li").click(function(){
+    	var code = $(this).attr("data-rel");
+    	$("#code").val(code);
+    	$("#pay-method li").each(function(){
+    			$(this).removeClass("active");
+    		});
+    	$(this).addClass("active");
+    });
+//   $("#tupian3").hide();
+//  $("#tupian4").hide();
+</script>
+
+<include  file='public:footer'/>
+
+<script>
+function setCookie(name,value)
+{
+	var Days = 30;
+	var exp = new Date();
+	exp.setTime(exp.getTime() + Days*24*60*60*1000);
+	document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+function getCookie(name)
+{
+	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	if(arr=document.cookie.match(reg))
+	return unescape(arr[2]);
+	else
+	return null;
+}
+
+// $(document).ready(function(){
+// 	var radio_type = getCookie('type');
+// 	if(getCookie('type')){
+// 		$("#type_radio").val(radio_type);
+// 		if(radio_type == 1){
+// 			$(".type_radio:eq(0)").attr("checked",'checked');
+// 			$("#price").text(shop_price);
+// 			$(".price").val(shop_price);
+// 			$("#serverLicence").attr("href","/user/apply/artlist/id/999998");
+// 		}else{
+// 			$(".type_radio:eq(1)").attr("checked",'checked');
+// 			$("#price").text(personal_price);
+// 			$(".price").val(personal_price);
+// 			$("#serverLicence").attr("href","/user/apply/artlist/id/999999");
+// 		}
+// 	}
+// });
+</script>

@@ -1,0 +1,230 @@
+<include file="public:header"/>
+<style>
+.tuan_table {border: 1px solid #ccc;}
+</style>
+<div class="content_right">  
+<div class="tgdd">
+<php>
+  $need_pay = D('Paymentlogs')->where(array('type'=>goods,'oeder_id'=>$detail['oeder_id']))->find();
+  $addarres = D('Paddress')->find($detail['address_id']);
+</php>
+    <form  class="fabu-form" method="post"   target="x-frame" action="<{:U('Order/sub_refund')}>">
+	<table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+    	<tbody><tr>
+            <td colspan="4">
+            	<div class="mallorder_tBox">
+                    <span class="mallorder_t">订单编号：<span class="mallorder_jg"><{$detail.order_id}></span></span>
+                    <if condition="!empty($detail['express_price'])">
+                    	<span class="mallorder_t">+ 配送费用：<span class="mallorder_jg">¥ <{:round($detail['express_price'],2)}> 元</span></span>
+                    </if>
+                    <if condition="!empty($detail['use_integral'])">
+                    	<span class="mallorder_t">- 积分抵现：<span class="mallorder_jg">¥ <{:deduction($detail['use_integral'])}>元</span></span>
+                    </if>
+                    <if condition="!empty($detail['mobile_fan'])">
+                    	<span class="mallorder_t">- 手机下单立减： <span class="mallorder_jg">¥ <{:round($detail['mobile_fan'],2)}> 元</span></span>
+                    </if>
+                    <if condition="!empty($detail['coupon_price'])">
+                        <span class="mallorder_t">- 优惠劵抵用<span class="mallorder_jg">¥<{:round($detail['coupon_price'],2)}>元</span></span>
+                    </if>
+                    <span class="mallorder_t">= 订单金额：<span class="mallorder_jg">¥ <{:round($detail['need_pay'],2)}> 元</span></span>
+                 </div>
+            </td>
+        </tr>
+       <tr style="background-color:#F9F9F9;">
+            <th width="340">详情</th>
+            <th>优惠价</th>
+            <th>数量</th>
+            <th>单价</th>
+        </tr>
+     	<foreach name="ordergoods" item="item">
+        <tr>
+            <td>
+          <div class="mallorder_xq"><img width="60" src="<{:config_img($goods[$item['goods_id']]['photo'])}>">
+          <p><{$goods[$item['goods_id']]['title']}></p>
+          <p><{$item.key_name}></p>
+          </div>
+            </td>
+            <td><span class="mallorder_jg">￥<{:round($item['price'],2)}></span></td>
+            <td><{$item.num}></td>
+            <td><span class="mallorder_jg"><{:round($item['total_price'],2)}> 元</span></td>
+        </tr>  
+        </foreach> 
+        <tr>
+            <td colspan="4"><div class="con_ri">
+            <php>
+            $daofu_price = $detail['need_pay'] + $detail['express_price'];
+            </php>
+            <if condition="$detail['is_daofu'] ==1">
+            	货到付款<span class="mallorder_jg"> &yen; <{:round($daofu_price,2)}> 元</span>
+            <else/>
+            	实际支付:<span class="mallorder_jg"> &yen; <{:round($detail['need_pay'],2)}> 元</span>
+            </if>
+            </div></td>
+        </tr>        
+        <tr>
+            <td colspan="4" style="background-color:;">
+            	<div class="mallorder_tBox">
+                	<p class="">收货姓名：<{$addarres['xm']}></p>
+                    <p class="">手机号码：<{$addarres.tel}></p>
+                    <p class="">配送地址：<{$addarres['area_str']}><{$addarres['info']}></p>
+                </div>
+            </td>
+        </tr>        
+                 <tr>
+            <td colspan="4" style="background-color:;">
+            	<input id="order_id" type="hidden" name="data[order_id]" value="<{$detail['order_id']}>" />
+    <input id="order_goods_id" type="hidden" name="data[order_goods_id]" value="<{$ordergoods[0]['id']}>" />
+                 <div class="mallorder_tBox">              
+            <p class="tuanfabu_t">上传凭证：</p>
+                    <div style="width: 120px;height: 50px;float: left; ">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <div id="fileToUpload" >上传凭证</div>
+                    </div>
+                    <div style="width: 100px;height: 100px; float: left;">
+                        <img id="photo_img" width="80" height="80"  src="<{:config_img($detail['photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>"></a>
+                        建议尺寸<{$CONFIG.attachs.shoplogo.thumb}>
+                    </div>
+                        <script>                                            
+                            var width_shoplogo = '<{:thumbSize($CONFIG[attachs][shoplogo][thumb],0)}>';
+                            var height_shoplogo = '<{:thumbSize($CONFIG[attachs][shoplogo][thumb],1)}>';
+                            var uploader = WebUploader.create({
+                                auto: true,                             
+                                swf: '/static/default/webuploader/Uploader.swf',
+                                server: '<{:U("app/upload/uploadify",array("model"=>"shoplogo"))}>',
+                                pick: '#fileToUpload',                             
+                                resize: true,  
+                                compress : {width: width_shoplogo,height: height_shoplogo,quality: 80,allowMagnify: false,crop: true}                       
+                            });                                                 
+                            uploader.on( 'uploadSuccess', function( file,resporse) {                             
+                                $("#data_photo").val(resporse.url);                             
+                                $("#photo_img").attr('src',resporse.url).show();                         
+                            });                                                
+                            uploader.on( 'uploadError', function( file ) {                             
+                                alert('上传出错');                         
+                            });                     
+                        </script>
+                    
+                    <div class="mallorder_tBox">
+                           <textarea name="data[remark]"  style="margin-left: 50px;resize:none" rows="5" cols="50" placeholder="退款说明"></textarea>
+                    </div>
+                    <div class="mallorder_tBox">
+                            <p style="margin: 10px 0px ; float: right;"><button  type="submit" class="button button-block button-big bg-dot">确认退款</button></p>
+                    </div>
+                    <div >
+                        <span style="margin-left: 50px;">申请类型：</span>
+                        <span>
+                            <select name="data[type]" id="type" class="text-select">
+                                <option value="">请选择</option>
+                                <option value="1">仅退款</option>
+                                <option value="2">退货退款</option>
+                                <option value="3">换货</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div>
+                        <span style="margin-left: 270px;">货物状态：</span>
+                        <span>
+                            <select name="data[received]" id="received" class="text-select">
+                                <option value="">请选择</option>
+                                <option value="1">已收到货</option>
+                                <option value="0">未收到货</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div>
+                        <span style="margin-left: 270px;">申请原因：</span>
+                        <span>
+                            <select name="data[reason_id]" id="reason_id" class="text-select">
+                                <option value="">请选择</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div>
+                            <span style="margin-left: 270px;">申请数量：</span>
+                            <span >
+                                <select name="data[num]">
+                                   <option value="">请选择</option>
+                                   <foreach name="ordergoods" item="goodss">
+                                     
+                                    <php>
+                                            for ($i = 1; $i <= $goodss['num']; $i++) {
+                                                echo '<option value="' . $i . '">' . $i . '件</option>';
+                                        }
+                                    </php>
+                                     <!-- <option value="<{$goodss.num}>"><{$goodss.num}></option> -->
+                                   </foreach> 
+                                </select>
+                            </span>
+                    </div>
+                    <div class="row">
+                        <div class="line">
+                            <span style="margin-left: 270px;">退款金额：</span>
+                            <span class="x9">
+                                <input id='money' type="text" class="text-input" name="data[money]" value=""/>
+                            </span>
+                        </div>
+                        <div class="line">
+                            <span style="margin-left: 270px;"></span>
+                            <span class="x3">
+                                最多可申请 &yen; <span id="refund_max_money"></span> 元
+                            </span>
+                        </div>
+                    </div>
+                </div>    
+            </td>
+        </tr>
+ </tbody></table>
+ </form>
+</div>
+</div>
+
+    
+<script>
+    $(document).ready(function() {
+        
+        $("#received").change(function() {
+            $("#reason_id").html('');
+            var received = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: "<{:U('user/goods/refund_reason')}>",
+                data:{'received':received}, 
+                dataType:'text',
+                success: function(result){
+                    $("#reason_id").append(result);
+                }
+            });
+        });
+
+
+        $('#received').change(function() {
+            //alert($(this).val())
+            var order_goods_id = $('#order_goods_id').val();
+            // var num = $(this).val();
+            // console.log(order_goods_id);
+            $.ajax({
+                type: 'POST',
+                url: "<{:U('user/goods/refund_max_money')}>",
+                data:{'order_goods_id':order_goods_id, 'num':1}, 
+                dataType:'text',
+                success: function(result){
+                    $("#refund_max_money").html(result);
+                }
+            });
+
+        });
+
+        $("#money").blur(function(){
+          var money = $('#money').val();
+          var max_money = $('#refund_max_money').html();
+          if(parseInt(money) > parseInt(max_money)){
+            alert('退款金额最高可填￥'+max_money);
+          }
+        });
+
+    });
+</script>
+
+<include file="public:footer"/>
+

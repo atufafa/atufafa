@@ -1,0 +1,30 @@
+<include  file='public:header'/>
+<php>print_r($str);</php>
+<div class="mainBt">
+    <ul>
+        <li class="li1">抢购</li>
+        <li class="li2">抢购时间配置</li>
+        <li class="li2 li3">编辑抢购时间</li>
+    </ul>
+</div>
+<form  target="x-frame" action="<{:U('tuan/edittime',array('id'=>$dateil['id']))}>" method="post">
+    <div class="mainScAdd ">
+
+        <div class="tableBox">
+
+
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td  class="lfTdBt">抢购时间：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="text"  name="times" value="<{$dateil['times']}>"  class="scAddTextName sj" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>

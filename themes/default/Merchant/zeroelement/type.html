@@ -1,0 +1,36 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城类型</a> > <a>类型列表</a></li>
+    </ul>
+</div>
+
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('zeroelement/addtype')}>">添加类型+</a></div>
+        </div>
+    </div>
+    <include  file='goods:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>ID</td>
+            <td>类型名</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="goodsTypeList" item="var">
+            <tr>
+                <td><{$var.id}></td>
+                <td><{$var.name}></td>
+                <td>
+                    <if condition="$var.shop_id heq $shopid">
+                        <{:BACELL('zeroelement/addtype',array('id'=>$var['id']),'编辑','','remberBtn')}>
+                        <{:BACELL('zeroelement/deltypes',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$show}>
+</div>
+<include  file='public:footer'/>

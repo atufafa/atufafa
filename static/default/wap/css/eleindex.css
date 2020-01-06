@@ -1,0 +1,42 @@
+.box-z{width: 100%;height: 70px;}
+.lf{width: 45%;border: 1px solid #fff;height: 100%;float: left;margin-left: 2%;background-image:url("<?php  echo $config['ele']['ele_zuo_photo'];?>");background-size:100% 70px;border-radius: 5px;}
+.huiyua{width: 60%;margin-left: 20%;background-color: #fff8ee;border-radius: 5px;font-size: 12px;}
+.dui{margin-top: 1px;width:110px;float: right;color:#fff8ee}
+.duihuan{float: right;background-color: #ed00b9;color: #fff;border-radius: 5px;margin-right: 3px;}
+.ri{width: 45%;border: 1px solid #fff;height: 100%;float: right;margin-right: 2%;background-image:url("<?php  echo $config['ele']['ele_you_photo'];?>");background-size:100% 70px;border-radius: 5px;}
+/*轮播*/
+.scrollDiv{width: 33.3%;height:180px; overflow:hidden; display: block;}
+.scrollDiv ul{ width: 33%;text-align: center;min-width: 114px;height: 180px;}
+.scrollDiv li{ width: 100%;padding-bottom: 2px;background-image:url("<?php  echo $config['ele']['ele_goods_photo'];?>");background-size:100% 155px;margin-left:3px;text-align: center;min-height:155px;float:left;transition: 0.5s all; -webkit-transition: 0.5s all; -moz-transition: 0.5s all; -o-transition: 0.5s all}
+.scrollDiv li img{margin-top: 10px;border-radius:10px;margin-left: 15%;width:80px;height:80px;margin-right:10px;float:left;}
+/*轮播结束*/
+.tuan{color: #fff}
+.te{color: #fff}
+.xain{color: #fff}
+.qian{background-color: red;color: #fff;border-radius: 50%;padding: 0px 5px;float: right;margin-right: 15%}
+.p{line-height: 20px}
+
+
+/*按钮样式*/
+.div1{width: 33.3%;float: left;height: 100%;text-align: center}
+.div2{width: 33.3%;float: left;height: 100%}
+.div3{width: 33.3%;float: right;height: 100%}
+.div1_div1{width: 80%;height: 80%;margin: 5px 10px;border-bottom-left-radius: 20px;border-top-left-radius: 20px;border-bottom-right-radius: 20px;border-top-right-radius: 20px;
+    background-image:url("<?php  echo $config['ele']['ele_zreo_photo'];?>");background-size:100% 80%; }
+.div2_div2{width: 80%;height: 80%;margin: 5px 10px;border-bottom-left-radius: 20px;border-top-left-radius: 20px;border-bottom-right-radius: 20px;border-top-right-radius: 20px;
+    background-image:url("<?php  echo $config['ele']['ele_heat_photo'];?>");background-size:100% 80%;}
+.div3_div3{width: 80%;height: 80%;margin: 5px 10px;border-bottom-left-radius: 20px;border-top-left-radius: 20px;border-bottom-right-radius: 20px;border-top-right-radius: 20px;
+    background-image:url("<?php  echo $config['ele']['ele_reduce_photo'];?>");background-size:100% 80%; }
+.div_span{line-height: 36px;color: #fff;font-size: 16px}
+
+/*平台广告位开始*/
+.eleDiv{width:100%;height:80px; overflow:hidden; display: block;}
+.eleDiv ul{ width:100%;height: 80px;}
+.eleDiv li{ width: 100%;height:100%;float:left;transition: 0.5s all; -webkit-transition: 0.5s all; -moz-transition: 0.5s all; -o-transition: 0.5s all}
+/*平台广告位结束*/
+.title_div{width: 100%;height: 50%;line-height: 40px;border-bottom: 1px solid #efeaea}
+.code_div{width: 100%;height: 50%;overflow: hidden}
+.lfspan{font-size: 18px;margin-left: 2%;}
+.rispan{float: right;font-size: 16px;}
+
+.collar_box{width: 100%;}

@@ -1,0 +1,100 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <if condition="empty($keyword)">
+        <div class="top-title  get-map-marker">天天特价</div>
+    </if>
+    <div id="allmap" style="display:none;"></div>
+</header>
+<!--广告位开始-->
+<div id="tudou-slide" class="tudou-slide">
+    <div class="hd"><ul></ul></div>
+    <div class="bd">
+        <ul>
+            <calldata mdl="Ad" where=" closed=0 AND site_id=1 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+            </calldata>
+        </ul>
+    </div>
+</div>
+<script>
+    TouchSlide({
+        slideCell: "#tudou-slide",
+        titCell: ".hd ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+</script>
+<!--广告位END-->
+<style>
+    #tudou-slide{margin-top: 40px;}
+    .xainshi_box{width: 100%;}
+    .daojishi{width: 100%;height:70px;background-image:url("<?php  echo $config['store']['store_special_photo'];?>");background-size:100% 100%;text-align: center}
+    .tim{width: 20px;height: 20px;color: #fff;margin-right: 10px;}
+    .bgn{font-size: 18px;color: #fff;}
+    .p1{margin-bottom: 0px;}
+    .qian{color: #fff}
+    .time1{background-color: #fff;color: red;margin-left: 2px;padding: 2px;font-weight:900;border-radius: 5px;}
+    .lab{font-size: 18px;color: #fff;margin-left: 5px;}
+    .load_box{width: 100%;height: auto;background-color: #d60e0e;}
+    .load{width: 96%;margin-left: 2%;background-color: #fff;border:2px solid #ffd27d;border-radius: 5px;margin-bottom: 10px;background-color: #ec2b48;}
+
+    /*时间*/
+    .time_box{width: 100%;height: 60px;background-color: #d60e0e}
+    .time_ul{width: 100%;height: 100%;displey:-webkit-flex; display: flex; -webkit-flex-flow:row nowrap;flex-flow:row nowrap; overflow-x: auto; list-style: none;}
+    .time_li{width: 20%;height: 100%;margin-left: 10px; display: inline-block; text-align: center;color: #fff;font-weight: 200;padding: 2px}
+</style>
+<div class="blank-10 bg"></div>
+<!--<div class="xainshi_box">-->
+<!--    <div class="daojishi">-->
+<!--        <p class="p1">-->
+<!--            <span ><img class="tim" src="/static/default/wap/img/times.png"></span>-->
+<!--            <span class="bgn">23:00 &nbsp;正在疯抢</span>-->
+<!--        </p>-->
+<!--        <p class="p1">-->
+<!--            <span class="qian">距离结束</span>&nbsp;<span class="time1">00</span><label class="lab">:</label><span class="time1">00</span><label class="lab">:</label><span class="time1">00</span>-->
+<!--        </p>-->
+<!--    </div>-->
+<!--</div>-->
+<?php $ss=date("m".月."d".号,time());
+      $hourtime = date("m".月."d".号, strtotime("+1 day"));
+?>
+<div class="time_box">
+    <ul class="time_ul">
+        <foreach name="times" item="var">
+            <li class="time_li">
+                <p><{$ss}></p>
+                 <span><{$var.time_name}></span>
+            </li>
+
+        </foreach>
+    </ul>
+</div>
+
+<div class="load_box">
+    <div class="load">
+        <ul id="shop-list" class="shop-list"></ul>
+    </div>
+</div>
+<h3 style="text-align: center">猜你喜欢</h3>
+<div class="load_boxs" style="min-height: 200px">
+    <div class="loads">
+        <ul id="shop-li" class="shop-lists"></ul>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        loaddata('<{$nextpag}>', $("#shop-list"), false);
+        loaddata('<{$telikepag}>', $("#shop-li"), true);
+    });
+</script>
+
+
+
+<include file="public:footer" />

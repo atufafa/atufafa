@@ -1,0 +1,75 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">家政</a> > <a>新建优惠卡</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">添加新的优惠卡</div>
+        </div>
+    </div> 
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('appoint/card_create')}>"  target="x-frame">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            
+             
+                
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">优惠卡名称：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[title]" value="" class="tuanfabu_int tuanfabu_intw2" />
+                             <code>输入发放优惠卡的名称</code>
+                        </div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">优惠卡面值：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[cardMoney]" value="" class="tuanfabu_int tuanfabu_intw2" />
+                            <code>当前优惠卡可以抵扣的金额，建议填写5-50元，单笔订单超过这个面值时候可用</code>
+                        </div></td>
+                </tr>
+                
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">满多少使用：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[fullMoney]" value="" class="tuanfabu_int tuanfabu_intw2" />元
+                            <code>必须大于优惠卡面值，比如满100使用，这里的面值就应该是100以内</code>
+                        </div></td>
+                </tr>
+                
+                  <tr>
+                	<td width="120"><p class="tuanfabu_t">添加张数：</p></td>
+					<td><div class="tuanfabu_nr">                                
+                    	<input name="data[num]" value="" type="text" class="tuanfabu_int tuanfabu_intw2" />
+                        <code>请输入添加的张数，如果您要给独立会员添加，请添加后编辑优惠卡绑定会员即可</code>
+                    </div> </td>
+                 </tr>
+                
+              
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">开始日期：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[bg_date]" value="" onfocus="WdatePicker();" class="tuanfabu_int tuanfabu_intw2" />
+                            <code>优惠卡到这个时间才能使用这个</code>
+                        </div></td>
+                </tr>
+
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">过期日期：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[end_date]" value="<{$detail.end_date|default=''}>" onfocus="WdatePicker();" class="tuanfabu_int tuanfabu_intw2" />
+                            <code>超过这个日期后这个优惠卡无法使用</code>
+                        </div></td>
+                </tr>
+         
+            </table>
+            <div class="tuanfabu_an">
+                <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认添加" />
+            </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,32 @@
+<include  file='public:header'/>
+<style>
+    .lfTdBt { width: 200px;}
+    .profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">分类信息</li>
+        <li class="li2 li3">功能设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>配置分类信息的基本设置</p>
+</div>
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/decorate')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" >商家返利百分比：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[percentile]" value="<{$CONFIG.decorate.percentile}>" class="scAddTextName w80" />%
+                        <code>这里填写是关于装修商家，审核通过后按百分比返利给平台</code><br/>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

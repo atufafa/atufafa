@@ -1,0 +1,59 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">红包管理</li>
+        <li class="li2 li3">添加红包配置</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form target="x-frame" action="<{:U('buy/addsetting')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">购买时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[buy_time]" value="<{$detail.buy_time|default=''}>" class="manageInput w210" />
+                     <code>这里是填写商家发放引流红包和订单红包的购买期限</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">唯一标识：</td>
+                    <td class="rgTdBt"><input type="number" name="data[identification]" value="<{$detail.identification|default=''}>" class="manageInput w210" />
+                        <code>这里是区分年/月的唯一标识，如果是“月”请填“1”，如果是“年”请填“2”</span></code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">购买数字时间：</td>
+                    <td class="rgTdBt"><input type="number" name="data[num]" value="<{$detail.num|default=''}>" class="manageInput w210" />
+                        <code>这里是填写商家购买的时间，必须对应上唯一标识，如果是购买时间为“3月”，那么这就填“3”，如果是购买时间为“一年”，那么这就填“1”</code>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">购买价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[buy_money]" value="<{$detail.buy_money|default=''}>" class="manageInput w210" />
+                        <code>这里是填写当前购买时间的期限</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">折扣比例：</td>
+                    <td class="rgTdBt"><input type="text" name="data[discount]" value="0" class="manageInput w210" />%
+                        <code>选填，如果需要折扣就填写，否则不填</code>
+                    </td>
+                </tr>
+
+            </table>
+            <div style="margin-left:140px;margin-top:20px">
+                <input type="submit" value="确认添加" class="smtQrIpt" />
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<include  file='public:footer'/>
+

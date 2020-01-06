@@ -1,0 +1,35 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商家红包</a> > <a>广告点击日志</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli "><a href="<{:U('wide/index')}>">购买广告位</a></li>
+            <li class="tuanfabu_tabli "><a href="<{:U('wide/buy')}>">购买广告位记录</a></li>
+            <li class="tuanfabu_tabli "><a href="<{:U('wide/buylog')}>">广告点击日志</a></li>
+            <!--<li class="tuanfabu_tabli on"><a href="<{:U('wide/list_bit')}>">广告位列表</a></li>-->
+        </ul>
+    </div>
+
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>广告位置ID</td>
+            <td>广告位置名称</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.site_id}></td>
+                <td><{$var.site_name}></td>
+            </tr>
+        </foreach>
+
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

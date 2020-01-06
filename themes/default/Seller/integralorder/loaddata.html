@@ -1,0 +1,76 @@
+	<foreach name="list" item="var">
+		<li class="line ">
+		<dt><a class="x4">订单ID：<{$var.order_id}></a><a class="x8 text-right">下单日期：<{$var.create_time|date='m-d,i:s',###}></a></dt>
+			<foreach name="goods" item="good">
+				<eq name="good.order_id" value="$var.order_id"> <!--循环商品开始-->
+					<dd class="zhong">
+						<div class="x2">
+							<img src="<{:config_img($products[$good['goods_id']]['photo'])}>"  style="width:90%;">
+						</div>
+						<div class="10">
+							<p class="text-gray">名称：<{$products[$good['goods_id']]['title']}></p>
+							<p class="text-gray">单价：<{:round($good['price'],2)}> * <{$good['num']}> = <{:round($good['total_price'],2)}></p>
+							<p class="text-gray"><if condition="$order['status'] neq 0  && $order['is_daofu'] neq 0"><{$goodtypes[$good['status']]}></if></p>
+						</div>
+					</dd>
+				</eq>
+			</foreach>
+			<dt>
+				<div class="x12">
+					<if condition="!empty($var['need_pay'])">
+						<p class="text-small">总价：<{:round($var['total_price'],2)}>
+							<if condition="!empty($var['use_integral'])">
+								- 积分抵现：<{:round($var['use_integral']/100,2)}>元（消耗<{$var['use_integral']}>积分）
+							</if>
+							<if condition="!empty($var['mobile_fan'])">
+								-手机优惠：<{:round($var['mobile_fan'],2)}>元
+							</if>
+							<if condition="!empty($var['coupon_price'])">
+								- 优惠劵抵扣：<{:round($var['coupon_price'],2)}>元
+							</if>
+							<if condition="!empty($var['express_price'])">
+								+运费：<{:round($var['express_price'],2)}>元
+							</if>
+
+							=实付金额：<a class="text-dot"><{:round($var['need_pay'],2)}></a>元 <eq name="var.is_change" value="1">[改]</eq>
+						</p>
+						<else/>
+						<p class="text-small">该订单还未支付</p>
+					</if>
+				</div>
+			</dt>
+
+			<dl>
+			<p class="text-right padding-top x12">
+				<if condition="$var['status'] eq 0">
+					<a class="button button-little bg-gray">待付款</a>
+				<elseif condition="$var['status'] eq 1"/>
+				<php>
+                  $rtc = D('TuanCode')-> where('order_id ='.$var['order_id']) -> find();
+				</php>
+                    <eq name="rtc.is_used" value="1">
+                    <if condition="$dianping[$var['order_id']]['order_id'] eq null">
+                        <a class="button button-little bg-gray">待评价</a>
+                    </if>
+                    <else/>
+                    	<a class="button button-little bg-gray">未消费</a>
+                    </eq>
+				</eq>
+				<elseif condition="$var['status'] eq 3"/>
+					<a class="button button-little bg-gray">正在退款</a>
+				<elseif condition="$var['status'] eq 4"/>
+					<a class="button button-little bg-gray"> 已退款</a>
+				<elseif condition="$var['status'] eq -1"/>
+					<a class="button button-little bg-blue">到店付</a>
+                <elseif condition="$var['status'] eq 8"/>
+					<a class="button button-little bg-blue">已完成</a>
+				</if>
+				<eq name="var.is_mobile" value="1">
+					<a class="button button-little bg-blue">手机订单</a>
+				</eq>
+				<a href="<{:u('integralorder/detail',array('order_id'=>$var['order_id']))}>" class="button button-little bg-dot">详情</a>
+			</p>
+		</dl>
+		</li>
+		<div class="blank-10 bg"></div>
+	</foreach>

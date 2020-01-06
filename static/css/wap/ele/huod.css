@@ -1,0 +1,17 @@
+/*显示列表*/
+.goods-box{ background: #F2F2F2;background-image: url("<?php echo $config['ele']['ele_limited_photo'];?>");background-size:100% 100%;}
+.goods { margin:auto; overflow:hidden;}
+.goods ul { width:50%; float: left; text-align: center; overflow:hidden;background-image: url("/static/default/wap/img/bj.png");background-size:100% 100%;}
+.goods ul li {margin:auto;margin-bottom:5px; background:#FFF; overflow:hidden;padding-bottom:2%;border: 1px solid #9c9c9c50;margin: 0px 2px 0px 2px}
+.goods ul li .products_kuang img{ display:block;width:100%; margin:auto;width: 174px;height: 150px;margin-top: 5px}
+.boxs{width: 100%;height: 40px;border-bottom: thin solid #eee;}
+#category {width:100%;display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;line-height: 40px;background-color: #fff}
+#category li{display:inline-block;width:33.2%;height:180px;border-radius: 5px;background-image: url("/static/default/wap/img/b.png");background-size: 100% 100%}
+.cate-descs{display: block;}
+ul{margin-bottom: 1px}
+.ends{width: 100%;text-align: center;line-height: 28px;color: #fff}
+.tupian{width: 90%;height: 100px;margin-left: 5%;position: relative}
+.yuan{line-height: 28px;margin-top: 70%;position: absolute;background-color: red;border-bottom-right-radius: 10px;border-top-right-radius: 10px;}
+.b{color: #fff;font-size: 16px}
+.jiage{background-color: #fff;color: red;margin-left: 5px;border-radius: 5px;margin-right: 5px;}
+.biao{margin-top: 13px;color: #fff;}

@@ -1,0 +1,63 @@
+<include  file='public:header'/>  
+
+<link href="/static/default/wap/css/dianping.css">
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1)"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			投诉列表
+		</div>
+        <div class="top-ping">
+		</div>
+	</header>
+    
+<style>
+	
+.box{width: 96%;height: 170px;margin-left: 2%;background-color:#ffffff;margin-top: 55px;margin-bottom: 30px;}
+body{background-color: #F0F0F0;}
+.lf{width: 50%;height: 150px;float: left;}
+.ri{width: 50%;height: 150px;float: right;}
+.la{float: left;width: 70px;font-size: 14px;margin-left: 5px;}
+.in{float: right;width: 90px;border: 0px;}
+.div1{margin-top: 10px;margin-bottom: 15px;}
+.tex{width: 90%;margin-left: 10%;height: 65px;}
+.img{width: 100px;height: 100px;float: right;margin-right: 10%}
+.div2{width: 100%;height: auto;}
+.ins{width: 155px;border: 0px; float: left;margin-top: 10px;margin-left: 3%;}
+.div3{width: 100%;height: auto;}
+
+
+</style> 
+ <foreach name="list" item="var">
+	<div class="box">
+		<div class="lf">
+			 <div class="div1">
+			 	<label class="la">用户ID号:</label>
+			 	<input type="text" class="in" readonly="readonly" value="ID:<{$var.user_id}>">
+			 </div>
+			 <div class="div1">
+			 	<label class="la">订单编号:</label>
+			 	<input type="text" class="in" readonly="readonly" value="ID:<{$var.running_id}>">
+			 </div>
+			 <div class="div1">
+			 	<label class="la">投诉内容:</label>
+			 	<textarea class="tex" readonly="readonly"><{$var.content}></textarea>
+			 </div>
+		</div>
+		<div class="ri">
+			<div class="div2">
+				<img class="img" src="<{:config_img($var['photo'])}>">
+			</div>
+			<div>
+				<input type="text" class="ins" value="<{$var.time}>" readonly="readonly">
+			</div>
+		</div>
+		<!-- <div class="div3">
+			<span>您于<{$var.time}>日被用户投诉，平台扣除您50元作为处罚！</span>
+		</div> -->
+
+	</div>
+</foreach>
+<include  file='errands:footer'/>   

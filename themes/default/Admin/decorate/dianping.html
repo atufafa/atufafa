@@ -1,0 +1,77 @@
+<include  file='public:header'/>
+
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">外卖</li>
+        <li class="li2"> 外卖点评</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里可以编辑评价哦，以及删除评价避免恶意评价。</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form action="<{:U('decorate/index')}>" >
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <span>商家</span>
+                        <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                        <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text" />
+                        <a  href="<{:U('shop/select')}>" mini='select' w='800' h='600' class="sumit lt ">选择商家</a>
+
+                        <span>用户</span>
+                        <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                        <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text" />
+                        <a  href="<{:U('user/select')}>" mini='select' w='800' h='600' class="sumit lt ">选择用户</a>
+                    </div>
+
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td>装修商家ID</td>
+                    <td>用户</td>
+                    <td>评分</td>
+                    <td>图片</td>
+                    <td>创建时间</td>
+                    <td>创建IP</td>
+                    <td>内容</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><{$var.shop_id}><br/><{$shops[$var['shop_id']]['shop_name']}></td>
+                        <td><{$users[$var['user_id']]['account']}>(ID:<{$var.user_id}>)</td>
+
+                        <td><{$var.score}></td>
+                        <td>
+                            <img style="padding:2px; height:80px; width:80px;" src="<{:config_img($var['photos'])}>"/>
+                        </td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.create_ip}>(来自<{$var.create_ip_area}>)</td>
+                        <td><{$var.contents}></td>
+                        <td>
+                            <{:BA('decorate/deldp',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>

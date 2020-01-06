@@ -1,0 +1,45 @@
+
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form target="x-frame" action="<{:U('cityagent/create')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                <tr>
+                    <td class="lfTdBt"><?php echo ($level==2)?'合伙人等级名称':'代理等级名称';?>：<input type="hidden" name="level" value="<{$level}>"></td>
+                    <td class="rgTdBt"><input type="text" name="data[agent_name]" value="<{$detail.agent_name|default=''}>" class="manageInput" />
+                    <code><?php echo ($level==2)?'合伙人等级名称':'代理等级名称';?></code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt"><?php echo ($level==2)?'合伙人等级金额':'代理等级金额';?>：</td>
+                    <td class="rgTdBt"><input type="text" name="data[price]" value="<{$detail.price|default=''}>" class="manageInput" />
+                    <code><?php echo ($level==2)?'合伙人等级金额':'代理等级金额';?></code>
+                    </td>
+                </tr>
+
+                 <tr>
+                    <td class="lfTdBt">招商分成比率：</td>
+                    <td class="rgTdBt"><input type="text" name="data[recruit]" value="<{$detail.recruit|default=''}>" class="manageInput" />%
+                        <code>分成比率</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">代理分佣比率：</td>
+                    <td class="rgTdBt"><input type="text" name="data[rate]" value="<{$detail.rate|default=''}>" class="manageInput" />%
+                        <code>分佣比率</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">排序：</td>
+                    <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default=''}>" class="manageInput" />
+                        <code>数字越小越高</code>
+                    </td>
+                </tr>
+
+            </table>
+
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+
+        </form>
+    </div>
+</div>    

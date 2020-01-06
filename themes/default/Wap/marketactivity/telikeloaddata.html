@@ -1,0 +1,16 @@
+
+<foreach name="list" item="var">
+    <li class="likdiv">
+        <a href="<{:U('market/details',array('product_id'=>$var['product_id']))}>">
+            <div>
+                <div>
+                    <img class="lik_img" src="<{:config_img($var['photo'])}>">
+                </div>
+                <div>
+                    <b class="teile"><{:tu_msubstr($var['product_name'],0,10,ture)}></b>
+                    <p>  <span class="limspan">&yen<{:round($var['price'],2)}></span> <del class="limdel">&yen<{:round($var['cost_price'],2)}></del></p>
+                </div>
+            </div>
+        </a>
+    </li>
+</foreach>

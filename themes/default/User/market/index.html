@@ -1,0 +1,187 @@
+<include file="public:header"/>
+<!--<meta http-equiv="refresh" content="20">-->
+<style>
+ul {padding-left: 0px;}
+.voice{width: 20px;height: 20px}
+</style>
+<?php $tus=D('Users')->where(['user_id'=>$user])->find();?>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		<span id="open" style="float: right;margin-left: 27px;height: 30px;line-height: 30px;display: none">
+			<if condition="$tus['is_voice_pay'] eq 0">
+			<img id="voice" class="voice pay" src="/static/wai/open_voice1.png">
+			<span id="colse2" class="pay">关</span>
+		<else/>
+			<img id="voice" class="voice pay" src="/static/wai/colse_voice.png">
+			<span id="colse2" class="pay">开</span>
+		</if>
+		</span>
+	</div>
+		<div class="top-title" style="width: 38%">
+			我的菜市场
+		</div>
+	<div class="top-signed" style="right: 15%">
+		<if condition="$tus['is_voice_weigh'] eq 0">
+			<img id="voice2"  class="voice cheng" src="/static/wai/open_voice1.png">
+			<span id="colse1" class="cheng">关</span>
+			<else/>
+			<img id="voice2"  class="voice cheng" src="/static/wai/colse_voice.png">
+			<span id="colse1" class="cheng">开</span>
+		</if>
+	</div>
+</header>
+
+<script src="/static/default/wap/js/jquery.timers-1.2.js"></script>
+<script type="text/javascript" language="javascript">
+	//默认开启声音
+	$(document).ready(function () {
+        var user_id = "<{$user}>";
+        $.ajax({
+            url:'<{:U("market/open")}>',
+            type:'POST',
+            data:{user_id:user_id},
+            success:function(res){
+                if(res.code==1){
+                    document.getElementById("voice2").src='/static/wai/opens.gif'
+                    $("#colse1").html('关');
+                }
+            }
+        });
+    });
+
+	//称重提醒
+	$(document).ready(function () {
+        $('<audio id="chat_audit_mp3_9"><source src="/static/default/mp3/6.mp3" type="audio/mpeg"></audio>').appendTo('body');
+        $('<audio id="chat_audit_mp3_10"><source src="/static/default/mp3/5.mp3" type="audio/mpeg"></audio>').appendTo('body');
+        function showRemi(){
+            var user_id = "<{$user}>";
+            $.post('<{:U("app/api/weigh2")}>',{user_id:user_id},function(result){
+                if(result.status == '2') {
+                    layer.msg(result.message, {icon: 6});
+                    $('#chat_audit_mp3_9')[0].play();
+                }else{
+
+				}
+            },'json')
+        };
+        function showRemis(){
+            var user_id = "<{$user}>";
+            $.post('<{:U("app/api/weigh")}>',{user_id:user_id},function(result){
+                if(result.status == '1') {
+                    layer.msg(result.message, {icon: 6});
+                    $('#chat_audit_mp3_10')[0].play();
+                }else{
+
+                }
+            },'json')
+        };
+        showRemi();
+        showRemis();
+    });
+	//支付提醒
+    $(document).ready(function(){
+        $('<audio id="chat_audit_mp3_10"><source src="/static/default/mp3/5.mp3" type="audio/mpeg"></audio>').appendTo('body');
+        function showReminds(){
+            var user_id = "<{$user}>";
+            $.post('<{:U("app/api/weigh")}>',{user_id:user_id},function(result){
+                if(result.status == '1'){
+                    $("#open").show();
+                    document.getElementById('voice').src='/static/wai/opens.gif';
+                    layer.msg(result.message, {icon: 6});
+                    $('#chat_audit_mp3_10')[0].play();
+                }else{
+                    $("#open").hide();
+				}
+
+            },'json');
+        };
+        $('body').everyTime('1.5das','B',function(){
+            showReminds()//执行函数
+        },5);
+    });
+    $(document).ready(function(){
+        $('<audio id="chat_audit_mp3_9"><source src="/static/default/mp3/6.mp3" type="audio/mpeg"></audio>').appendTo('body');
+        function showRemind(){
+            var user_id = "<{$user}>";
+            $.post('<{:U("app/api/weigh2")}>',{user_id:user_id},function(result){
+                if(result.status == '2') {
+                    document.getElementById('voice2').src='/static/wai/opens.gif';
+                    layer.msg(result.message, {icon: 6});
+                    $('#chat_audit_mp3_9')[0].play();
+                }else{
+                    document.getElementById('voice2').src='/static/wai/colse_voice.png';
+				}
+            },'json');
+        };
+        $('body').everyTime('1das','B',function(){
+            showRemind()//执行函数
+        },5);
+    });
+
+	//点击关闭称重声音提醒
+	$(".cheng").click(function () {
+        var user_id = "<{$user}>";
+        $.ajax({
+			url:'<{:U("market/weigh")}>',
+			type:'POST',
+			data:{user_id:user_id},
+            success:function(res){
+              if(res.code==1){
+                  document.getElementById("voice2").src='/static/wai/colse_voice.png'
+				  $("#colse1").html('开');
+			  }else if(res.code==2){
+                  document.getElementById("voice2").src='/static/wai/open_voice1.png'
+                  $("#colse1").html('关');
+			  }
+            }
+		});
+    });
+
+	//点击关闭支付声音提示
+    $(".pay").click(function () {
+        var user_id = "<{$user}>";
+        $.ajax({
+            url:'<{:U("market/payments")}>',
+            type:'POST',
+            data:{user_id:user_id},
+            success:function(res){
+                if(res.code==1){
+                    document.getElementById("voice").src='/static/wai/colse_voice.png'
+                    $("#colse2").html('开');
+                }else if(res.code==2){
+                    document.getElementById("voice").src='/static/wai/open_voice1.png'
+                    $("#colse2").html('关');
+                }
+            }
+        });
+    });
+
+
+</script>
+<!-- 筛选TAB -->
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width: 16.666666667%;"><a href="<{:LinkTo('market/index',array('aready'=>888))}>" <eq name='aready' value='888'>class="on"</eq>>待付款</a></li>
+        <li style="width: 16.666666667%;"><a href="<{:LinkTo('market/index',array('aready'=>1))}>" <eq name='aready' value='1'>class="on"</eq>>已付款</a></li>
+        <li style="width: 16.666666667%;"><a href="<{:LinkTo('market/index',array('aready'=>3))}>" <eq name='aready' value='3'>class="on"</eq>>待退款</a></li>
+        <li style="width: 16.666666667%;"><a href="<{:LinkTo('market/index',array('aready'=>4))}>" <eq name='aready' value='4'>class="on"</eq>>已退款</a></li>
+        <li style="width: 16.666666667%;"><a href="<{:LinkTo('market/index',array('aready'=>2))}>" <eq name='aready' value='2'>class="on"</eq>>配送中</a></li>
+        <li style="width: 16.666666667%;"><a href="<{:LinkTo('market/index',array('aready'=>8))}>" <eq name='aready' value='8'>class="on"</eq>>已完成</a></li>
+</ul>
+
+
+
+
+<div class="list-media-x" id="list-media">
+	<ul></ul>
+</div>	
+
+
+<script>
+	$(document).ready(function () {
+		loaddata('<{:U("market/loading",array("aready"=>$aready,"t"=>$nowtime,"p"=>"0000"))}>', $("#list-media ul"), true);
+	});
+</script>
+
+<include  file='public:footer'/>

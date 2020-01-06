@@ -1,0 +1,143 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商品属性</a> > <a>操作属性</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">这里可操作商品的属性</div>
+        </div>
+    </div>
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('zeroelement/addattr')}>"  target="x-frame">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">属性名称：</p></td>
+                    <td><div class="tuanfabu_nr"><input type="text" name="attr_name" value="<{$spec.attr_name}>" class="tuanfabu_int tuanfabu_intw2" /></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">所属商品类型：</p></td>
+                    <td><div class="tuanfabu_nr">
+                        <select name="type_id" id="type_id">
+                            <option value="">请选择</option>
+                            <volist name="goodsTypeList" id="vo">
+                                <option value="<{$vo[id]}>" <if condition="$vo[id] eq $spec[type_id]">selected="selected"</if>><{$vo[name]}></option>
+                            </volist>
+                        </select>
+                    </div></td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">该属性值的录入方式：</td>
+                    <td class="rgTdBt">
+                        <input type="radio" value="0" name="attr_input_type" <if condition="($spec[attr_input_type] eq 0) or ($spec[attr_input_type] eq NULL)">checked="checked"</if> />手工录入
+                        <input type="radio" value="1" name="attr_input_type" <if condition="$spec[attr_input_type] eq 1">checked="checked"</if>  />从下面的列表中选择（一行代表一个可选值）
+                        <input type="radio" value="2" name="attr_input_type" <if condition="$spec[attr_input_type] eq 2">checked="checked"</if>  />多行文本框
+                    </td>
+                </tr>
+                <tr id="type">
+                    <td class="lfTdBt">属性项：</td>
+                    <td><div class="tuanfabu_nr">
+
+                        <div class="listBox clfx" style="width: 740px;">
+                            <div class="main-jsgl">
+                                <div class="jsglNr">
+                                    <div class="tableBox">
+                                        <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="none"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                                            <tr><td colspan="5"><a href="javascript:void(0);" id="jq_action_add" class="remberBtn" >新增一行</a></td></tr>
+                                            <if condition="$uid neq ''">
+                                                <else/>
+                                                <tr id="menu_action_1">
+                                                    <td><input type="text" name="new[1][item]" value="" class="manageInput w100"></td>
+                                                    <td style="display:none;"><input type="text" name="new[1][spec_id]" value="" class="manageInput w100"></td>
+                                                    <td><a href="javascript:void(0);" onclick="$('#menu_action_1').remove();" class="remberBtn">移除</a></td>
+                                                </tr>
+                                            </if>
+                                            <tbody id="jq_action_list">
+                                            <foreach name="list_items" item="var" key="k">
+                                                <tr>
+                                                    <td><input type="text" name="data[<{$k+1}>][item]" value="<{$var}>"  class="manageInput w100"/></td>
+                                                    <td style="display: none;"></td>
+                                                    <td><a href="#" mini="act" class="remberBtn " onclick="delAttrs(this)">删除</a></td>
+                                                </tr>
+                                            </foreach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            function delAttrs(a){
+                                $(a).parent().parent().remove();
+                            }
+                        </script>
+                    </div></td>
+                </tr>
+                <link href="/themes/default/Admin/statics/css/land.css" rel="stylesheet" type="text/css" />
+                <style>
+                    .tableBox table, .tableBox table tr, .tableBox table tr td{
+                        border: none;
+                    }
+                    .tableBox table tr td a{
+                        color: #fff !important;
+                    }
+                    .tableBox table tr td .submitbtns{
+                        font: normal 14px/14px 'Microsoft Yahei';
+                        display: inline-block;
+                        margin-left: 5px;
+                        margin-top: 5px;
+                        -moz-border-radius: 3px;
+                        -webkit-border-radius: 3px;
+                        border-radius: 3px;
+                        background: #ff5a00;
+                        color: #fff;
+                        padding:0px 10px;
+                        height: 30px;
+                        line-height:20px;
+                        border: none;
+                        width: 60px;
+                    }
+
+                </style>
+                <script>
+                    $(document).ready(function (e) {
+                        var value  = $('input[name="attr_input_type"]:checked').val();
+                        if(value!=='1'){
+                            $("#type").hide();
+                            $("#type").html();
+                        }else{
+                            var action_num = '<?php if($uid) { echo 0; } else { echo 1;}?>';
+                            $("#jq_action_add").click(function () {
+                                action_num++;
+                                var html = '<tr id="menu_action_' + action_num + '"> <td><input type="text" name="new[' + action_num + '][item]" value="" class="manageInput w100"/></td><td style="display:none;"></td><td><a href="javascript:void(0);" onclick="$(\'#menu_action_' + action_num + '\').remove();" class="remberBtn" >移除</a></td> </tr>';
+                                $("#jq_action_list").append(html);
+                            });
+                        }
+                        $('input[type=radio][name=attr_input_type]').change(function() {
+                            if (this.value == '0') {
+                                $("#type").hide();
+                                $("#type").html();
+                            } else if (this.value == '1') {
+                                $("#type").show();
+                                var action_num ='1';
+                                $("#jq_action_add").click(function () {
+                                    action_num++;
+                                    var html = '<tr id="menu_action_' + action_num + '"> <td><input type="text" name="new[' + action_num + '][item]" value="" class="manageInput w100"/></td><td style="display:none;"></td><td><a href="javascript:void(0);" onclick="$(\'#menu_action_' + action_num + '\').remove();" class="remberBtn" >移除</a></td> </tr>';
+                                    $("#jq_action_list").append(html);
+                                });
+                            }
+                        });
+                    });
+                </script>
+            </table>
+            <div class="tuanfabu_an">
+                <input type="hidden" name="shop_id" value="<{$SHOP.shop_id}>">
+                <input type="hidden" name="attr_id" value="<{$spec.attr_id}>">
+                <input type="submit" value="确认保存" class="radius3 sjgl_an tuan_topbt"/>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

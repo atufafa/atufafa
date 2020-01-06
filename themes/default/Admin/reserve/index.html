@@ -1,0 +1,63 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">信息</li>
+        <li class="li2">预约信息管理</li>
+        <li class="li2 li3">预约信息列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right"></div>
+            <div class="clear"></div>
+             <div class="right">
+                <form method="post" action="<{:U('reserve/index')}>">
+                    <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  /><input type="submit" value="   搜索"  class="inptButton" />
+                </form>
+            </div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>预约卖房/卖车商家ID</td>
+                        <td>预约信息ID</td>
+                        <td>预约会员ID</td>
+                        <td>预约类型</td>
+                        <td>预约时间</td>
+                        <td>联系电话</td>
+                        <td>状态</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                             <td><{$var.sell_user_id}></td>
+                            <td><{$var.life_id}></td>
+                            <td><{$var.user_id}></td>
+                            <td><if condition="$var['type'] eq 1">卖房信息<elseif condition="$var['type'] eq 2"/>卖车信息<else/>装修服务</if></td>
+                            <td><{$var.time}></td>
+                            <td><{$var.tel}></td>
+                            <td><if condition="$var['is_pay'] eq 1">正常<else/>可删除</if></td>
+                            <td>
+                                <{:BA('reserve/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+

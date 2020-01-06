@@ -1,0 +1,21 @@
+<foreach name="list" item="var">
+<li class="line ">
+	<dd class="zhong">
+		<div class="12">
+        	<p class="text-small">日志ID：<{$var.log_id}></p>
+            <p class="text-small">红包类型：<{$types[$var['type']]}></p>
+            <p class="text-small">订单类型：<{$orderTypes[$var['orderType']]}></p>
+			<p class="text-small text-dot">领取单个金额：&yen;<{:round($var['money'],2)}>元</p>
+			<eq name="var.num" value="0">
+			 	<p class="text-small text-dot">领取总数金额：&yen;<{:round($var['money'],2)}>元</p>
+			<else/>
+				<p class="text-small text-dot">领取总数金额：&yen;<{:round($var['money'],2)*$var['num']}>元</p>
+			</eq>
+            <p class="text-small">领取备注：<{$var.intro}></p>
+			<p class="text-small">领取时间：<{$var.create_time|date='Y-m-d H:i:s',###}></p>
+			<p class="text-small">红包过期时间：<eq name="var.type" value="1"><span style="color: red">今日有效</span></else><{$envelope[$var[envelope_id]][use_time]}></eq></p>
+		</div>
+	</dd>
+</li>
+</foreach>        
+         

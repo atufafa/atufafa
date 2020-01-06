@@ -1,0 +1,10 @@
+<div class="tuanfabu_tab">
+    <ul>
+        <li class="tuanfabu_tabli tabli_change <eq name="ctl" value="marketactivity">on</eq>"><a href="<{:U('marketactivity/index')}>">活动列表</a></li>
+        <if condition="!empty($shopping)">
+        <li class="tuanfabu_tabli tabli_change <eq name="act" value="shopping">on</eq>" ><a href="<{:U('marketactivity/shopping')}>">免费购物券列表</a></li>
+        <li class="tuanfabu_tabli tabli_change <eq name="act" value="shoppinglist">on</eq>"><a href="<{:U('marketactivity/shoppinglist')}>">领取日志</a></li>
+        </if>
+    </ul>
+</div>
+

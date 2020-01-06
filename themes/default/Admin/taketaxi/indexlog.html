@@ -1,0 +1,57 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">打车</li>
+        <li class="li2">数据统计</li>
+        <li class="li2 li3">点击日志列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <h2 style="color: red;">总访问量：<{$count}></h2>
+            </div>
+            <div class="right">
+
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="log_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>用户ID</td>
+                        <td>操作IP</td>
+                        <td>创建时间</td>
+                        <td>说明</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="log_id[]" value="<{$var.log_id}>" /></td>
+                            <td><{$var.log_id}></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$var.get_ip}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.intro}></td>
+                            <td>
+                                <{:BA('taketaxi/del',array("log_id"=>$var["log_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('taketaxi/del','','批量删除','list','a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <include  file='public:footer'/>

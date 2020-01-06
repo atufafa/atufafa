@@ -1,0 +1,31 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城规格</a> > <a>规格列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include  file='classification:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td class="w50">ID</td>
+            <td>规格类型</td>
+            <td>规格名称</td>
+            <td>规格项</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="specList" item="list">
+            <tr>
+                <td><{$list.id}></td>
+                <td><{$goodsTypeList[$list[type_id]][name]}></td>
+                <td><{$list.name}></td>
+                <td><{$list.spec_item}></td>
+                <td>
+                    <a mini='confirm' href="<{:U('classification/reductionspecifications',array('id'=>$list['id']))}>">还原</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

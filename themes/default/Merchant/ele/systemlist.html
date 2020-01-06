@@ -1,0 +1,37 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">其他</a> > <a href="">外卖设置</a> > <a>申请列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli "><a href="<{:U('ele/system')}>">奖励申请</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('ele/systemlist')}>">申请列表</a></li>
+        </ul>
+    </div>
+    <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="25%">编号</td>
+            <td width="25%">申请时间</td>
+            <td width="25%">状态</td>
+            <td width="25%">理由</td>
+    </table>
+    <foreach name="list" item="var">
+        <table class="dianping" width="100%" border="0" style="text-align: center;">
+            <tr class="tr_dianping_1">
+                <td width="25%">(ID:<{$var.id}>)</td>
+                <td width="25%"><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td width="25%">
+                    <eq name="var.audit" value="0">审核中</eq>
+                    <eq name="var.audit" value="1">已审核</eq>
+                    <eq name="var.audit" value="2">已拒绝</eq>
+                    <eq name="var.audit" value="3">已奖励</eq>
+                <td width="25%"><{$var.refuse}></td>
+            </tr>
+        </table>
+    </foreach>
+    <br/>
+    <{$page}>
+</div>

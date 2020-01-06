@@ -1,0 +1,59 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">商品竞价</li>
+        <li class="li2 li3">竞价商品列表</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+
+    <div class="tableBox">
+        <form target="x-frame" action="<{:U('goodssetting/setting',array('goods_id'=>$detail['goods_id']))}>" method="post">
+        
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+               
+      		  <tr>
+               <td class="lfTdBt">开启商城竞价：</td>
+                 <td class="rgTdBt">
+                <input type="radio" name="data[status]" value="0" <if condition="$profit[status] eq 0">checked="checked"</if> />开启
+				<input type="radio" name="data[status]" value="1" <if condition="$profit[status] eq 1">checked="checked"</if> />不开启
+                  <code>开启后下面的设置才有效</code></code>
+                </td>
+              </tr>
+             
+ 			  <tr>
+                    <td  class="lfTdBt">竞价最低金额：</td>
+                    <td class="rgTdBt"><input type="text" name="data[min_price]" value="<{:round($profit['min_price'],2)}>" class="manageInput" />
+					<code>竞价最低金额：请不要乱填写</code>
+                    </td>
+              </tr> 
+              <tr>
+                    <td  class="lfTdBt">充值最低金额：</td>
+                    <td class="rgTdBt"><input type="text" name="data[min_money]" value="<{:round($profit['min_money'],2)}>" class="manageInput" />
+					<code>竞价充值最低金额：请不要乱填写</code>
+                    </td>
+               </tr> 
+               <tr>
+                    <td  class="lfTdBt">点击最高金额：</td>
+                    <td class="rgTdBt"><input type="text" name="data[max_price]" value="<{:round($profit['max_price'],2)}>" class="manageInput" />
+					<code>竞价点击最高金额：请不要乱填写</code>
+                    </td>
+               </tr> 
+               <tr>
+                    <td  class="lfTdBt">限制点击数：</td>
+                    <td class="rgTdBt"><input type="text" name="data[check_num]" value="<{:round($profit['check_num'],2)}>" class="manageInput" />
+          <code>限制点击数：请不要乱填写</code>
+                    </td>
+               </tr> 
+      
+    </table>
+
+    <div style="margin-left:140px;margin-top:20px">
+        <input type="submit" value="确认设置"  class="smtQrIpt"  />
+        <div>
+            </form>
+        </div>
+    </div>
+    <include  file='public:footer'/>       

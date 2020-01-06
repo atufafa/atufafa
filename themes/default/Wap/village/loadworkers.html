@@ -1,0 +1,6 @@
+<foreach name="list" item="item">
+	<li class="padding border-bottom" style="text-align: center"><img style="width: 120px;height: 120px" src="<{:config_img($item['photo'])}>" /><br/>
+		姓名:<{:tu_msubstr($item['name'],0,14,false)}> | 职务：<{$item.job}>
+		<a href="<{$service_url}>"><p><span style="background: #06c1ae;color: #fff;padding: 2%;border-radius: 15px">联系管理员</span></p></a>
+	</li>
+</foreach>

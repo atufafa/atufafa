@@ -1,0 +1,19 @@
+<style>
+    .likdiv{width: 50%;float: left;padding: 5px;border: 1px solid #dddddd;text-align: center;margin-bottom: 2%;height: 220px}
+    .lik_img{width: 100%;height: 120px;}
+</style>
+<foreach name="list" item="var">
+    <li class="likdiv">
+        <a href="<{:U('mall/detail',array('goods_id'=>$var['goods_id']))}>">
+            <div>
+                <div>
+                    <img class="lik_img" src="<{:config_img($var['photo'])}>">
+                </div>
+                <div>
+                    <b><{:tu_msubstr($var['title'],0,20,ture)}></b>
+                    <p>  <span class="limspan">&yen<{:round($var['mall_price'],2)}></span> <del class="limdel">&yen<{:round($var['price'],2)}></del></p>
+                </div>
+            </div>
+        </a>
+    </li>
+</foreach>

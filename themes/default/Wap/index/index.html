@@ -1,0 +1,927 @@
+<include file="public:header"/>
+<include file="index:ad"/><!--调用红包-->
+
+<include file="./static/template/wap/index/index.html"/>
+<link rel="stylesheet" href="/static/css/wap/index/index.css" type="text/css"/>
+<script src="/static/default/wap/js/lbnews.js" type="text/javascript"></script>
+<script src="/static/default/wap/js/jquery.flexslider-min.js" type="text/javascript"></script>
+<script src="/static/default/wap/js/layui.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/static/default/wap/css/edslider.css" type="text/css">
+<link rel="stylesheet" href="/static/default/wap/css/animate-custom.css" type="text/css">
+<style>
+.focus-banner-bottom{display:-webkit-box;height:3px}
+.focus-banner-bottom li{width:20%;display:block;-moz-box-flex:1;-webkit-box-flex:1;box-flex:1}
+.text-dot-1{color:#FF9900;}
+.text-dot-2{color:#87D140;}
+.text-dot-3{color:#20b4ff}
+.text-dot-4{color:#FF5F45}
+
+.home-follow-public-none{margin-top:50px}
+.home-follow-public{position:fixed;top:0;right:0;width:100%;background-color:rgba(0,0,0,.7);z-index:9999999}
+.home-follow-public .home-follow-public-Wrap{padding:12px 7px 12px 9px}
+.home-follow-public .dl{height:31px;display:block;color:#FFF;overflow:hidden;margin-right:32px}
+.home-follow-public .home-follow-public-close{position:absolute;right:7px;top:12px;width:32px;height:32px;float:right;background-image:url(/static/default/wap/img/downloadappclosebtn.png);background-repeat:no-repeat;background-position:50%;background-size:20px 20px}
+.home-follow-public .adLogo{float:left;height:31px;width:31px;margin-right:5px}
+.home-follow-public .adLogo img{width:100%;height:100%;display:block;border-radius:5px}
+.home-follow-public-bottom-view .fnt{display:block;overflow:hidden}
+.home-follow-public-bottom-view .tit{font-size:15px;font-weight:400;line-height:18px;height:18px;float:left;width:100%;vertical-align:text-top;overflow:hidden}
+.home-follow-public-bottom-view .char{font-size:12px;height:13px;line-height:13px;float:left}
+.home-follow-public i.iopen{float:right;border:1px solid #68b543;border-radius:3px;color:#68b543;margin-top:3px;font-style:normal;background:0 0;padding:0 8px;height:24px;line-height:24px;font-size:14px}
+#home-follow-public-wechat-share-tips{width:100%;height:100%;position:fixed;top:0;left:0;z-index:1000;background:url(share-tips.png) top right no-repeat rgba(0,0,0,.8);background-size:320px}
+.home-follow-public-btn-wxlogin{width:290px;height:44px;line-height:44px;background:#9AD222;border:none;border-radius:4px;color:#fff!important;font-size:16px;padding:0;text-align:center;margin:10px auto;display:block}
+.ljgz_img{width:100%; height:600px; text-align:center; z-index:100; display:none; position:fixed; top:0; left:0;}
+.ljgz_img img{width:200px; height:200px; margin-top:280px;}
+.mask{ position: fixed;top: 0;right: 0;bottom: 0;left: 0;overflow: hidden; outline: 0; -webkit-overflow-scrolling: touch; background-color: rgb(0, 0, ,0);   filter: alpha(opacity=60);  background-color: rgba(0, 0, 0, 0);z-index:99;display:none;}
+
+</style>
+
+<if condition="$CONFIG['weixin']['home_follow']">
+    <div id="home-follow-public" class="home-follow-public home-follow-public none" style="position:fixed;display:none;">
+        <div class="home-follow-public-Wrap home-follow-public-bottom-view">
+            <b id="home-follow-public-close" class="home-follow-public-close home-follow-public-close clkstat" onclick="closeDiv()"></b>
+            <a class="dl clkstat" id="dl2" > <i class="iopen">立即分享</i> <i class="adLogo">
+                <img src="__ROOT__<{$file}>"></i>
+               <span class="fnt">
+                   <span class="tit">欢迎进入<{$CONFIG['site']['sitename']}></span>
+                   <span class="char">邀请好友赚红包</span>
+               </span>
+            </a>
+        </div>
+    </div>
+	<div class="mask"></div>
+	<div class="ljgz_img"><img src="__ROOT__<{$file}>"/></div>
+</if>
+
+	<header class="top-fixed bg-yellow bg-inverse header">
+			<div class="top-local">
+				<a href="<{:U('city/index')}>" class="top-addr">
+					<i class="icon-daohang iconfont"></i><{:tu_msubstr($city_name,0,4,false)}></a>
+			</div>
+            <div class="top-search" style="display: none">
+                <form method="post" action="<{:U('all/index')}>">
+                    <input name="keyword" placeholder="<{$CONFIG[other][wap_search_title]|default='输入关键字'}>"  />
+                    <button type="submit" class="iconfont icon-search"></button> 
+                </form>
+            </div>
+            <div class="top-signed">
+                <a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+            </div>
+		</header>
+		
+		<div id="focus" class="focus">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=57 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li>
+							<a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a>
+						</li>
+					</calldata>
+				</ul>
+                <div class="focus-banner-bottom">
+                    <li class="bg-dot"></li>
+                    <li class="bg-mix"></li>
+                    <li class="bg-yellow"></li>
+                    <li class="bg-blue"></li>
+                    <li class="bg-gray"></li>
+                </div>
+			</div>
+		</div>
+        
+        <div id="jin-app-block-100" class="bg-white border-bottom cl">
+          <div class="jin-home-gz2 cl">
+                <a href="<{:U('sign/signed')}>" class="border-right">
+                    <h2 class="text-main">每日签到</h2>
+                    <span class="text-gray">赚金币赢大礼</span>
+                </a>
+              <!--href="<{:U('pinche/index')}>"-->
+                <a href="<{:U('index/dache')}>" class="border-right">
+                    <h2 class="text-blue">聚合打车</h2>
+                    <span class="text-gray">发现出行便利</span>
+                </a>
+                <a href="<{:U('user/running/vehicle')}>">
+                    <h2 class="text-dot">搬家拉货</h2>
+                    <span class="text-gray">同城搬家更方便</span>
+                </a>
+            </div>
+        </div>
+           
+        <div id="jin-app-block-102" class="bg-white border-bottom cl">
+          <div class="jin-home-kx cl"><span class="k-new bg-red text-white">早知道</span>
+            <div id="index-notice" style="height:22px;line-height:22px;overflow:hidden;"> 	   
+                <ul class="clear">
+                 	<li class="bd clear">
+                    	<a>今天：<{$today}></a>
+                    	<foreach name="news" item="item">
+                            <a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>">
+                                <dt><{:tu_msubstr($item['title'],0,20,false)}></dt>
+                            </a>
+                     	</foreach>
+                     </li>
+                </ul>     
+          </div>
+        </div>
+            
+        <div id="jin-app-block-103" class="bg-white mt10 border-top cl">
+          <div class="jin-home-gz3 cl"> 
+          		<calldata mdl="Ad" where=" closed=0 AND site_id=62 AND  city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="600" order="orderby asc">
+          		   <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>" class="border-right border-bottom">
+                       <img src="<{:config_img($item['photo'])}>" class="vertical-align-middle">
+                       <h2 class="text-dot-1"><{:tu_msubstr($item['title'],0,4,false)}></h2>
+                       <span class="text-gray"><{:tu_msubstr($item['code'],0,8,false)}></span>
+                   </a> 
+               </calldata>
+               <calldata mdl="Ad" where=" closed=0 AND site_id=63 AND  city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="600" order="orderby asc">
+          		   <a href="<{:U('life/index')}>" class="border-right border-bottom">
+                       <img src="<{:config_img($item['photo'])}>" class="vertical-align-middle">
+                       <h2 class="text-dot-2"><{:tu_msubstr($item['title'],0,4,false)}></h2>
+                       <span class="text-gray"><{:tu_msubstr($item['code'],0,8,false)}></span>
+                   </a> 
+               </calldata>
+               <calldata mdl="Ad" where=" closed=0 AND site_id=64 AND  city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="600" order="orderby asc">
+          		   <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>" class="border-right">
+                       <img src="<{:config_img($item['photo'])}>" class="vertical-align-middle">
+                       <h2 class="text-dot-3"><{:tu_msubstr($item['title'],0,4,false)}></h2>
+                       <span class="text-gray"><{:tu_msubstr($item['code'],0,8,false)}></span>
+                   </a> 
+               </calldata>
+               <calldata mdl="Ad" where=" closed=0 AND site_id=65 AND  city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="600" order="orderby asc">
+          		   <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>" class="border-right">
+                       <img src="<{:config_img($item['photo'])}>" class="vertical-align-middle">
+                       <h2 class="text-dot-4"><{:tu_msubstr($item['title'],0,4,false)}></h2>
+                       <span class="text-gray"><{:tu_msubstr($item['code'],0,8,false)}></span>
+                   </a> 
+               </calldata>
+            </div>
+        </div>
+    </div>
+
+        
+		<script type="text/javascript">
+			$(function(){
+				$("#search-btn").click(function(){
+					if($(".top-search").css("display")=='none'){
+						$(".top-search").hide();
+						$(".top-title").show(200);
+					}
+					else{
+						$(".top-search").show();
+						$(".top-title").hide(200);
+					}
+				});
+
+
+                var ajax = new XMLHttpRequest();
+                ajax.open('post','<{:U("index/setAdCookie")}>');
+                ajax.send();
+			});
+
+            $("input").focus(function(){
+                $(".top-signed").hide();
+            });
+			
+			$(window).scroll(function(){
+                if(($(".top-fixed").length > 0)) { 
+                    if(($(this).scrollTop() > 0) && ($(window).width() > 100)){
+                    $("header").removeClass("header");
+					$("#search-btn").addClass("search-btn");
+					$("#home-follow-public").addClass("home-follow-public-none");
+					$("#home-follow-public").show(200);
+                } else {
+					$("#home-follow-public").hide(200);
+                    $("header").addClass("header");
+					$("#search-btn").removeClass("search-btn");
+                }
+                };
+            });
+			
+			function closeDiv(){
+			  var p = $("#home-follow-public").css("display");
+				  if(typeof(p)=="undefined"||p==""||p=="block"){
+					$("#home-follow-public").css("display","none");
+				  }else{
+					$("#home-follow-public").css("display","block");
+				  }
+			 }
+			 
+			 $(document).ready(function (){
+				 $('.navigation_index_cate').flexslider({
+					directionNav: true,
+					pauseOnAction: false,
+				 });
+			 	$('.flexslider_cate').flexslider({
+					directionNav: true,
+					pauseOnAction: false,
+				});
+            });
+			TouchSlide({ slideCell:"#index-notice",autoPlay:true,effect:"leftLoop",interTime:3000});
+			TouchSlide({slideCell: "#focus",titCell: ".hd ul", mainCell: ".bd ul",effect: "left",autoPlay: true,autoPage: true, switchLoad: "_src",});
+		</script>
+
+	
+        <div id="index" class="page-center-box">
+        <if condition="$CONFIG[other][wap_navigation] eq 1">
+        <div class="banner_navigation">
+                <div class="navigation_index_cate"> 
+                    <ul class="slides">
+                        <volist name='nav' id='item'>
+                            <if condition="$i%10 eq 1">
+                                <li class="list">
+                                    <ul class="cate">
+                                        <li>
+                                            <a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>"><img src="<{:config_img($item['photo'])}>">
+                                                <p><{$item.nav_name}></p></a>
+                                        </li>
+                                        <elseif condition="$i%10 eq 0"/>        
+
+                                        <li>
+                                            <a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>"><img src="<{:config_img($item['photo'])}>">
+                                                <p><{$item.nav_name}></p></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <else/>
+                                <li>
+                                    <a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>"><img src="<{:config_img($item['photo'])}>">
+                                        <p><{$item.nav_name}></p></a>
+                                </li>
+                            </if>
+                        </volist>
+                    </ul>  
+                </div>
+            </div>
+        <else/>
+			
+			<div class="banner mb10">
+				<div class="flexslider_cate">
+					<ul class="slides">
+						<volist name='nav' id='item'>
+							<if condition="$i%10 eq 1">
+								<li class="list">
+									<ul class="cate">
+										<li>
+											<a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>">
+												<div class="iconfont <{$item.ioc}> <{$item.colour}>"></div>
+												<p>
+													<{$item.nav_name}>
+												</p>
+											</a>
+										</li>
+										<elseif condition="$i%10 eq 0" />
+										<li>
+											<a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>">
+												<div class="iconfont <{$item.ioc}> <{$item.colour}>"></div>
+												<p>
+													<{$item.nav_name}>
+												</p>
+											</a>
+										</li>
+									</ul>
+								</li>
+								<else/>
+								<li>
+									<a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>">
+										<div class="iconfont <{$item.ioc}> <{$item.colour}>"></div>
+										<p>
+											<{$item.nav_name}>
+										</p>
+									</a>
+								</li>
+							</if>
+						</volist>
+					</ul>
+				</div>
+                </if>
+			</div>
+
+<style>
+    .box-z{width: 100%;height: 90px;padding: 2% 0px 2% 0px}
+    .lf{width: 45%;border: 1px solid #fff;height: 100%;float: left;margin-left: 2%;background-image:url("<?php  echo $config['home']['home_zuo_background'];?>");background-size:100% 70px;border-radius: 5px;}
+    .huiyua{width: 60%;margin-left: 20%;background-color: #fff8ee;border-radius: 5px;font-size: 12px;}
+    .dui{margin-top: 1px;width:100%;float: right;color:#fff8ee}
+    .duihuan{float: right;background-color: #ed00b9;color: #fff;border-radius: 5px;margin-right: 3px;}
+    .ri{width: 45%;border: 1px solid #fff;height: 100%;float: right;margin-right: 2%;background-image:url("<?php  echo $config['home']['home_you_background'];?>");background-size:100% 70px;border-radius: 5px;}
+    /*轮播*/
+    .scrollDiv{width: 33.3%;height:174px; overflow:hidden; display: block;}
+    .scrollDiv ul{ width: 33%;text-align: center;min-width: 114px;height: 180px;}
+    .scrollDiv li{ width: 100%;padding-bottom: 2px;background-image:url("<?php  echo $config['home']['home_lun_background'];?>");background-size:100% 155px;margin-left:3px;text-align: center;min-height:155px;float:left;transition: 0.5s all; -webkit-transition: 0.5s all; -moz-transition: 0.5s all; -o-transition: 0.5s all}
+    .scrollDiv li img{margin-top: 10px;border-radius:10px;margin-left: 15%;width:80px;height:80px;margin-right:10px;float:left;}
+    /*轮播结束*/
+    .tuan{color: #fff}
+    .te{color: #fff}
+    .xain{color: #fff}
+    .qian{background-color: red;color: #fff;border-radius: 50%;padding: 0px 5px;float: right;margin-right: 15%}
+    .p{line-height: 20px;margin-bottom: 0px}
+
+
+    /*领取优惠卷*/
+    .collar_box{width: 100%;background-color: #ef0006;padding: 2%;}
+    .collar_div1{width: 100%;height: 100px;}
+    .collar_lf{width: 47%;border: 1px solid #fff;border-radius: 5px;height: 100%;float: left;background-image: url("<?php echo $config['home']['home_youhui_background']?>");background-size: 100% 100%}
+    .collar_ri{width: 47%;border: 1px solid #fff;border-radius: 5px;height: 100%;float: right;background-image: url("<?php echo $config['home']['home_shopping_background']?>");background-size: 100% 100%}
+    .collar_lf_div1{width: 60%;margin-left: 20%;background-color: #fff8ee;text-align: center;font-size: 12px;border-radius: 5px;}
+    .collar_lf_div2{width: 90%;float: right;text-align: center;color:  #fff8ee;margin-top: 20%;font-size: 14px}
+    .collar_lf_div3{width: 50%;float: right;margin-right: 2%;color: #fff;background-color: #ed00b9;border-radius: 5px;margin-top: 1%}
+
+    .huod{height: 100px;width: 96%;margin-left: 2%; background-image: url("<?php echo $config['home']['home_huod_background'] ?>");background-size: 100% 100%}
+    .yuyes{height: 100px;width: 100%;background-image: url("<?php echo $config['home']['home_yuyue_background']?>");background-size: 100% 100%}
+    .yuyuesh{width: 100%;text-align: center;background-color: #06c1ae;color: #fff;padding: 2px}
+    .lun{width: 25%;height: 80px;border: 1px solid #fff;position: absolute;margin: 3.5% 7%;background-color: #fff;border-radius: 5px}
+
+    .zhi{font-size: 12px;position: absolute;background-color: red;color: #fff;width: 14px;border-radius: 15px;margin-top: 3px;margin-left: 9px;height: 14px;}
+</style>
+
+<!--style="background-color: #ef0006"-->
+
+    <div class="blank-10 bg"></div>
+<if condition="$config['home']['is_open'] eq 1">
+    <div class="bargain-activity" style="background-color: #ef0006;padding-top: 2%">
+        <a href="<{:U('mallactivity/special')}>">
+            <div class="huod">
+                <div class="lun">
+                    <!--广告位开始-->
+                    <div id="tudou-slide" class="tudou-slide" style="width: 100%;height: 100%">
+                        <div class="hd" ><ul ></ul></div>
+                        <div class="bd">
+                            <ul>
+                                <calldata mdl="Ad" where=" closed=0 AND site_id=415 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,500" cache="7200" order="orderby asc">
+                                    <li><object><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img style="width: 100%;height: 80px" src="<{:config_img($item['photo'])}>" /></a></object></li>
+                                </calldata>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <script>
+            TouchSlide({
+                slideCell: "#tudou-slide",
+                titCell: ".hd ul",
+                mainCell: ".bd ul",
+                effect: "left",
+                autoPlay: true,
+                autoPage: true,
+                switchLoad: "_src",
+            });
+        </script>
+        <div class="activity-header text-center box-z" >
+            <div class="lf">
+                <div class="huiyua">
+                    会员专享
+                </div>
+                <div class="dui">
+                    <span style="float: right;margin-right: 15px;"> 会员兑商品</span>
+                </div>
+                <a href="<{:U('wap/membervip/explain')}>">
+                    <div class="duihuan">
+                        立即兑换
+                    </div>
+                </a>
+            </div>
+            <div class="ri">
+                <div class="huiyua">
+                    会员专享
+                </div>
+                <div class="dui">
+                    <span style="float: right;margin-right: 15px;"> 分享抢红包</span>
+                </div>
+                <a href="<{:U('mall/share')}>">
+                    <div class="duihuan">
+                        立即分享
+                    </div>
+                </a>
+            </div>
+        </div>
+    <?php if(!empty($eletaun) || !empty($elespecial) || !empty($elespike)){?>
+        <div class="goods-list " style="text-align: center;width: 100%">
+            <!--团购 -->
+                <div class="scrollDiv" id="scrollDiv1" style="float: left">
+                    <span class="tuan">限量团购</span>
+                    <ul style="margin-top: 0px;">
+                <!-- 判断是否存在团购商品-->
+                        <if condition="!empty($eletaun)">
+                        <foreach name="eletaun" item="item">
+                            <li>
+                                <a href="<{:U('mallactivity/groupbuy')}>">
+                                    <div class="goodimg">
+                                        <img src="<{:config_img($item['photo'])}>"/>
+                                        <p class="p"><{:tu_msubstr($item['title'],0,7)}></p>
+                                        <p class="p">
+                                            <span style="color: red;font-size: 16px;">&yen;<{$item['mall_price']}></span>
+                                            <!--<del style="color: #9c9c9c">&yen;<{$item['price']}></del>-->
+                                        </p>
+                                        <p class="p">
+                                            <span style="color: red;float: left;margin-left: 13%;">折:<{:round($item['price']/$item['mall_price'],1)}></span>
+                                            <span class="qian">抢</span>
+                                        </p>
+                                    </div></a>
+                            </li>
+                        </foreach>
+                    <!--不存在，就是显示默认图片-->
+                            <else/>
+                            <li>
+                                <div class="goodimg">
+                                    <img src="<{:config_img($item['photo'])}>"/>
+                                </div>
+                            </li>
+                        </if>
+                    </ul>
+                </div>
+
+
+            <!--天天特价 -->
+
+                <div class="scrollDiv" id="scrollDiv2" style="float: left">
+                    <span class="te">天天特价</span>
+                    <ul style="margin-top: 0px;">
+                        <!-- 判断是否存在平台天天特价-->
+                        <if condition="!empty($elespecial)">
+                        <foreach name="elespecial" item="item">
+                            <li>
+                                <a href="<{:U('mallactivity/special')}>">
+                                    <div class="goodimg">
+                                        <img src="<{:config_img($item['photo'])}>">
+                                        <p class="p"><{:tu_msubstr($item['title'],0,7)}></p>
+                                        <p class="p">
+                                            <span style="color: red;font-size: 16px;">&yen;<{$item['mall_price']}></span>
+                                            <!--<del style="color: #9c9c9c">&yen;<{$item['price']}></del>-->
+                                        </p>
+                                        <p class="p">
+                                            <span style="color: red;float: left;margin-left: 13%;">折:<{:round($item['price']/$item['mall_price'],1)}></span>
+                                            <span class="qian">抢</span>
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                        </foreach>
+                    <!-- 不存在平台天天特价，就显示商家的天天特价-->
+                        <elseif condition="!empty($shoptejia)"/>
+                            <foreach name="shoptejia" item="item">
+                                <li>
+                                    <a href="<{:U('mallactivity/mallspecial')}>">
+                                        <div class="goodimg">
+                                            <img src="<{:config_img($item['photo'])}>">
+                                            <p class="p"><{:tu_msubstr($item['title'],0,7)}></p>
+                                            <p class="p">
+                                                <span style="color: red;font-size: 16px;">&yen;<{$item['mall_price']}></span>
+                                                <!--<del style="color: #9c9c9c">&yen;<{$item['price']}></del>-->
+                                            </p>
+                                            <p class="p">
+                                                <span style="color: red;float: left;margin-left: 13%;">折:<{:round($item['price']/$item['mall_price'],1)}></span>
+                                                <span class="qian">抢</span>
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+                            </foreach>
+                    <!--如果都没有活动商品，就显示默认图片-->
+                        <else/>
+                            <li>
+                                <div class="goodimg">
+                                    <img src="<{:config_img($item['photo'])}>">
+                                </div>
+                            </li>
+                        </if>
+                    </ul>
+                </div>
+
+
+            <!--限时抢购 -->
+                <div class="scrollDiv" id="scrollDiv3" >
+                    <span class="xain">限时抢购</span>
+                    <ul style="margin-top: 0px;">
+                <!--判断是否显示抢购活动商品-->
+                        <if condition="!empty($elespike)">
+                        <foreach name="elespike" item="item">
+                            <li>
+                                <a href="<{:U('mallactivity/limited')}>">
+                                    <div class="goodimg">
+                                        <img src="<{:config_img($item['photo'])}>">
+                                        <p class="p"><{:tu_msubstr($item['title'],0,7)}></p>
+                                        <p class="p">
+                                            <span style="color: red;font-size: 16px;">&yen;<{$item['mall_price']}></span>
+                                            <!--<del style="color: #9c9c9c">&yen;<{$item['price']}></del>-->
+                                        </p>
+                                        <p class="p">
+                                            <span style="color: red;float: left;margin-left: 13%;">折:<{:round($item['price']/$item['mall_price'],1)}></span>
+                                            <span class="qian">抢</span>
+                                        </p>
+                                    </div></a>
+                            </li>
+                        </foreach>
+                    <!--如果不存在，就显示默认图片-->
+                            <else/>
+                            <li>
+                                <div class="goodimg">
+                                    <img src="<{:config_img($item['photo'])}>">
+                                </div>
+                            </li>
+                        </if>
+                    </ul>
+                </div>
+
+            <div id="position">
+                <input type="hidden"  value="0" >
+                <input type="hidden"  value="0" >
+                <input type="hidden"  value="0" >
+            </div>
+        </div>
+        <div class="blank-10 bg"></div>
+    <?php }?>
+
+    </div>
+<div class="collar_box">
+    <div class="collar_div1">
+        <div class="collar_lf">
+            <div class="collar_lf_div1">
+                <span><b>会员专享</b></span>
+            </div>
+            <div class="collar_lf_div2">
+                <span><b>会员领取优惠卷</b></span>
+            </div>
+            <a href="<{:U('coupon/index')}>">
+                <div class="collar_lf_div3">
+                    <span><b>立即领取</b></span>
+                </div></a>
+        </div>
+        <div class="collar_ri">
+            <div class="collar_lf_div1">
+                <span><b>会员专享</b></span>
+            </div>
+            <div class="collar_lf_div2">
+                <span><b>会员领取免赞购物卷</b></span>
+            </div>
+            <a href="<{:U('mallactivity/shopping')}>">
+                <div class="collar_lf_div3">
+                    <span><b>立即领取</b></span>
+                </div></a>
+        </div>
+    </div>
+</div>
+</if>
+
+<div style="background-color: #ef0006;height: 60px;line-height: 60px;text-align: center;font-size: 19px;font-weight: 700;color: #fff;">
+    <span style="border: 1px solid;padding: 10px;border-radius: 10px" onclick="location='<{:U('wap/index/hongbao')}>'">红&nbsp;包&nbsp;天&nbsp;天&nbsp;领</span>
+</div>
+
+<if condition="$config['home']['yuyue'] eq 1">
+    <div class="blank-10 bg"></div>
+    <a href="<{:U('mall/yuyue',array('aready'=>1))}>">
+        <div class="yuyes">
+        </div>
+    <div class="yuyuesh">查看更多预约商品 &nbsp;&nbsp;></div>
+    </a>
+</if>
+<?php $qiang2=D('Ad')->where(array('site_id'=>array('IN','412,413,414')))->select()?>
+<if condition="!empty($qiang2)">
+<div class="blank-10 bg"></div>
+<div style="width: 100%;background-color: #9c9c9c50;text-align: center">
+    <div id="tudou-slide-lif" class="div_div" style="float: left;">
+        <div class="hds" style="display: none"><ul></ul></div>
+        <div class="bd">
+            <ul>
+                <calldata mdl="Ad" where=" closed=0 AND site_id=412 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,50" cache="7200" order="orderby asc">
+                    <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img class="imgs-img" src="<{:config_img($item['photo'])}>" />
+                    <span style="background-color: red;color: #fff;border-radius: 5px;padding: 0px 3px 0px 3px">马上抢</span>
+                    </a></li>
+                </calldata>
+            </ul>
+        </div>
+    </div>
+
+    <div id="tudou-slide-zhong" class="div_div" style="float: left">
+        <div class="hds" style="display: none"><ul></ul></div>
+        <div class="bd">
+            <ul>
+                <calldata mdl="Ad" where=" closed=0 AND site_id=413 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,50" cache="7200" order="orderby asc">
+                    <li><a href="<{:U('wap/ad/zclick',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img class="imgs-img" src="<{:config_img($item['photo'])}>" />
+                        <span style="background-color: red;color: #fff;border-radius: 5px;padding: 0px 3px 0px 3px">马上抢</span>
+                    </a></li>
+                </calldata>
+            </ul>
+        </div>
+    </div>
+
+    <div id="tudou-slide-rifg" class="div_div" style="float: right">
+        <div class="hds" style="display: none"><ul></ul></div>
+        <div class="bd">
+            <ul>
+                <calldata mdl="Ad" where=" closed=0 AND site_id=414 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,50" cache="7200" order="orderby asc">
+                    <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img class="imgs-img" src="<{:config_img($item['photo'])}>" />
+                        <span style="background-color: red;color: #fff;border-radius: 5px;padding: 0px 3px 0px 3px">马上抢</span>
+                    </a></li>
+                </calldata>
+            </ul>
+        </div>
+    </div>
+</div>
+</if>
+<script>
+    TouchSlide({
+        slideCell: "#tudou-slide-lif",
+        titCell: ".hds ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+    TouchSlide({
+        slideCell: "#tudou-slide-zhong",
+        titCell: ".hds ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+    TouchSlide({
+        slideCell: "#tudou-slide-rifg",
+        titCell: ".hds ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+</script>
+
+   		<div class="blank-10 bg"></div>
+			<div class="tab index-tab" data-toggle="click">
+				<div class="tab-head">
+					<ul class="tab-nav line" style="width: 100%">
+                        <li class="x2 active"><a href="#tab-ele">点餐</a></li>
+                        <li class="x2"><a href="#tab-shop">商家</a></li>
+                        <li class="x2"><a href="#tab-tuan">抢购</a></li>
+                        <li class="x2"><span class="zhi">۞</span> <a href="#tab-live">直播</a></li>
+						<li class="x2"><a href="#tab-life">信息</a></li>
+						<li class="x2"><a href="#tab-news">资讯</a></li>
+					</ul>
+				</div>
+				<div class="tab-body">
+                  <div class="tab-panel active" id="tab-ele">
+						<ul class="index-tuan">
+							<volist name="ele" id="item" key="index">
+                            <php>
+                            	$Shop = D('Shop') -> where('shop_id='.$item['shop_id'])->find();
+                                $intro = tu_msubstr($item['intro'],0,30,false);
+                            </php>
+								<div class="container1" onclick="location='<{:U('ele/index')}>'">
+									<img class="x2" src="<{:config_img($Shop['photo'])}>">
+									<div class="des x10">
+                                        <h5><{:tu_msubstr($item['shop_name'],0,14,false)}>
+                                            <eq name="item.is_pay" value="1"> <span class="fu">付</span></eq>
+                                            <eq name="item.is_full" value="1"> <span class="fan">惠</span></eq>
+                                            <eq name="item.is_new" value="1"><span class="jian">减</span></eq>
+                                        </h5>				
+                                        <p class="des-addr">
+                                        <i class="mui-icon mui-icon-location"></i>
+                                        &yen;<{:round($item['since_money'],2)}>起送/配送费 &yen;<{:round($item['logistics'],2)}>/已售<{$item['sold_num']}>
+                                        </p>
+                                        <eq name="var.is_new" value="1">
+                                            <p class="des-addr">
+                                                <span class="man_money full_money">新单立减</span>
+                                                单笔满&yen;<{:round($item['full_money'],2)}>元减 &yen;<{:round($item['new_money'],2)}>元
+                                            </p>
+                                        </eq>
+                                        <if condition="!empty($item['logistics_full'])">
+                                            <p class="des-addr">
+                                                <span class="man_money logistics_full">免配送</span>
+                                                单笔满&yen;<{:round($item['logistics_full'],2)}>元免配送费
+                                            </p>
+                                        </if>
+                                        <eq name="item.is_full" value="1">
+                                            <p class="des-addr">
+                                                <span class="man_money order_price_full">满减</span>
+                                                <if condition="!empty($item['order_price_full_1'])">
+                                                    单笔满&yen;<{:round($item['order_price_full_1'],2)}>元减 &yen;<{:round($item['order_price_reduce_1'],2)}>元
+                                                </if>
+                                                <if condition="!empty($item['order_price_full_2'])">
+                                                    ，单笔满&yen;<{:round($item['order_price_full_2'],2)}>元减 &yen;<{:round($item['order_price_reduce_2'],2)}>元
+                                                </if>
+                                            </p>
+                                        </eq>
+                                        <if condition="!empty($item['radius'])">
+                                            <p class="des-addr"><i class="icon-motorcycle"></i> 配送半径：<{$item.radius}> KM</p>
+                                        </if>
+                                        
+									</div>
+								</div>
+							</volist>
+						</ul>
+						<div class="more" style="height: 38px;background-color: #06c1ae;color: #fff;text-align: center;line-height: 38px;font-size: 18px" onclick="location='<{:U('ele/index')}>'">查看更多外卖<i class="iconfont icon-angle-right"></i></div>
+					</div>
+                    
+                   
+                   
+                   <div class="tab-panel" id="tab-shop">
+						<ul class="index-tuan">
+							<volist name="shoplist" id="item" key="index">
+                                   <div class="container1" onclick="location='<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>'">
+                                    <img class="x2" src="<{:config_img($item['photo'])}>">	
+                                    <div class="des x10">
+                                    <php>
+                                        $business = D('Business') -> where('business_id ='.$item['business_id']) -> find();
+                                        $business_name = $business['business_name'];
+                                    </php>
+                                        <h5><{:tu_msubstr($item['shop_name'],0,10,false)}></h5>
+                                        <if condition="!empty($item['score'])">
+                                            <p class="intro"><span class="ui-starbar" style="margin-top:0.2rem;"><span style="width:<{:round($item['score']*2,2)}>%"></span></span></p>
+                                        <else/>
+                                            <p class="intro"> 暂无评价 </p>
+                                        </if>
+                                        <p class="intro">地址：<{:tu_msubstr($item['addr'],0,12,false)}></p>
+                                    </div>
+                                 </div>
+                            </volist>
+						</ul>
+                       <div class="more" style="height: 38px;background-color: #06c1ae;color: #fff;text-align: center;line-height: 38px;font-size: 18px" onclick="location='<{:U('shop/index')}>'">查看更多商家<i class="iconfont icon-angle-right"></i></div>
+					</div>
+                    
+                   
+                    <div class="tab-panel" id="tab-tuan">
+						<ul class="line index-tuan">
+							<volist name="tuanlist" id="item" key="index">
+                               <div class="container1" onclick="location='<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>'">
+                                <img class="x2" src="<{:config_img($item['photo'])}>">	
+                                <div class="des x10">
+                                    <h5><{:tu_msubstr($item['title'],0,10,false)}> </h5>
+                                    <p class="info">
+                                        <span class="text-dot">抢购价：￥ <em><{:round($item['tuan_price'],2)}></em></span> <del>¥ <{:round($item['price'],2)}></del>
+                                        <span class="text-little float-right badge bg-yellow margin-small-top padding-right">已售<{$item.sold_num}></span>
+                                    </p>
+                                    <p class="intro">简介：<{:tu_msubstr($item['intro'],0,12,false)}></p>
+                                </div>
+                             </div>
+                            </volist>
+						</ul>
+                        <div class="more" style="height: 38px;background-color: #06c1ae;color: #fff;text-align: center;line-height: 38px;font-size: 18px" onclick="location='<{:U('tuan/index')}>'">查看抢购信息<i class="iconfont icon-angle-right"></i></div>
+					</div>
+                    
+                    
+                     
+                     
+					<div class="tab-panel" id="tab-life">
+						<ul class="line index-tuan">
+                       
+							<volist name="life" id="item" key="index">
+								<div class="container1" onclick="location='<{:U('life/detail',array('life_id'=>$item['life_id']))}>'">
+									<img class="x2" src="<{:config_img($item['photo'])}>">
+									<div class="des x10">
+										<h5><{:tu_msubstr($item['title'],0,10,false)}></h5>
+										<p class="intro">地址：<{:tu_msubstr($item[ 'addr'],0,12,false)}></p>
+									</div>
+								</div>
+							</volist>
+						</ul>
+                        <div class="more" style="height: 38px;background-color: #06c1ae;color: #fff;text-align: center;line-height: 38px;font-size: 18px" onclick="location='<{:U('life/index')}>'">查看更多信息<i class="iconfont icon-angle-right"></i></div>
+					</div>
+                    
+                    
+					<div class="tab-panel" id="tab-news">
+						<ul class="index-tuan">
+							<volist name="news" id="item" key="index">
+								<div class="container1" onclick="location='<{:U('news/detail',array('article_id'=>$item['article_id']))}>'">
+									<img class="x2" src="<{:config_img($item['photo'])}>">
+									<div class="des x8">
+										<h5><{:tu_msubstr($item['title'],0,14,false)}></h5>
+										<p class="info"><span>作者：<{$item.source}></span></p>
+									</div>
+									<div class="des x2">
+										<div class="intro2">
+											<{$item.views}>
+										</div>
+									</div>
+								</div>
+							</volist>
+						</ul>
+                        <div class="more" style="height: 38px;background-color: #06c1ae;color: #fff;text-align: center;line-height: 38px;font-size: 18px" onclick="location='<{:U('news/index')}>'">查看更多资讯<i class="iconfont icon-angle-right"></i></div>
+					</div>
+                    
+                    
+                    <div class="tab-panel" id="tab-live">
+						<ul class="index-tuan">
+							<volist name="livelist" id="item" key="index">
+								<div class="container1" onclick="javascript:window.location.href='http://abcxzi.zgtianxin.net/wap/zhibo.php'">
+									<img class="x2" src="<{:config_img($item['photo'])}>">
+									<div class="des x8">
+										<h5><{:tu_msubstr($item['name'],0,14,false)}></h5>
+										<p class="info"><span>直播介绍：<{$item.intro}></span></p>
+									</div>
+									<div class="des x2">
+										<div class="intro2">
+											<{$item.views}>
+										</div>
+									</div>
+								</div>
+							</volist>
+						</ul>
+                        <div class="more" style="height: 38px;background-color: #06c1ae;color: #fff;text-align: center;line-height: 38px;font-size: 18px" onclick="javascript:window.location.href='http://abcxzi.zgtianxin.net/wap/zhibo.php'">查看更多直播<i class="iconfont icon-angle-right"></i></div>
+					</div>
+                   
+                    
+                    
+				</div>
+			</div>
+			<div class="blank-10"></div>
+
+			
+
+			<div class="blank-10 bg"></div>
+			
+            <div class="goods-box">
+            <div class="goods">
+                <!--滚动导航栏-->
+                <div class="boxs">
+                    <ul id="category">
+                        <li class="lis">
+                            <a class="icons2" id="hot_click">
+                                <span class="cate-descs">热门</span>
+                            </a>
+                        </li>
+                        <volist name="goodscates" id="item">
+                            <li class="lis">
+                                <a class="icons2" parent_id="<{$item.cate_id}>" >
+                                    <span class="cate-descs"><{:tu_msubstr($item['cate_name'],0,4,false)}></span>
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+              </div>
+              
+              </div>
+
+              
+
+
+
+<div class="dingbu2" style="display: none">
+    <span style="font-size: 36px;color: red" class="iconfonts icontop"></span>
+</div>
+
+<div id="hot_goods" class="flow-default"></div>
+
+
+
+
+<include file="public:footer" />
+<script src="/static/js/wap/index/index.js" type="text/javascript"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$CONFIG.site.title}>',
+        	link: "<{$CONFIG.site.description}>", 
+        	imgUrl: "<{:config_weixin_img($CONFIG['site']['logo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+     });
+     //分享给朋友
+     wx.onMenuShareAppMessage({
+            title: '<{$CONFIG.site.title}>',
+            desc: '<{$CONFIG.site.description}>',
+            link: "<{$CONFIG.site.host}>", 
+        	imgUrl: "<{:config_weixin_img($CONFIG['site']['logo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+      });
+});
+
+$(".iopen").click(function(){
+	$(".ljgz_img").show();
+	$(".mask").show();
+});
+
+$(".ljgz_img").click(function(){
+	$(this).hide();
+	$(".mask").hide();
+});
+
+</script>

@@ -1,0 +1,38 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">功能</li>
+        <li class="li2">车辆信息管理</li>
+        <li class="li2 li3">添加车辆类型</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+<div class="tableBox">
+        <form target="x-frame" action="<{:U('vehicle/vehicleadd')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                 <tr>
+                    <td class="lfTdBt">车辆类型：</td>
+                    <td class="rgTdBt"><input type="text" name="data[v_type]" value="<{$detail.v_type|default=''}>" class="manageInput w210" />
+                   </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">类型押金：</td>
+                    <td class="rgTdBt"><input type="text" name="data[v_price]" value="<{$detail.v_price|default=''}>" class="manageInput w210" />
+                   </td>
+                </tr>
+
+
+            </table>
+               <div style="margin-left:140px;margin-top:20px">
+                 <input type="submit" value="确认添加" class="smtQrIpt" />
+            </div> 
+
+        </form>
+
+</div>
+
+    </div>
+
+<include  file='public:footer'/>
+

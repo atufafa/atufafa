@@ -1,0 +1,133 @@
+<include file="public:header"/>
+<script src="/static/default/wap/js/clipboard.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title  get-map-marker">分享抢红包</div>
+    <div id="allmap" style="display:none;"></div>
+</header>
+<!--广告位开始-->
+<div id="tudou-slide" class="tudou-slide">
+    <div class="hd"><ul></ul></div>
+    <div class="bd">
+        <ul>
+            <calldata mdl="Ad" where=" closed=0 AND site_id=1 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+            </calldata>
+        </ul>
+    </div>
+    <div class="blank-10 bg"></div>
+</div>
+<script>
+    TouchSlide({
+        slideCell: "#tudou-slide",
+        titCell: ".hd ul",
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: true,
+        autoPage: true,
+        switchLoad: "_src",
+    });
+</script>
+
+<style>
+  .sharediv{width: 100%;}
+.sharediv2{width: 98%;margin-left: 1%;}
+.sharediv2 ul{width: 100%}
+.sharediv2 ul li{padding: 2px;height: 65px;border-bottom: 1px solid #dddddd}
+.tus{width: 60px;height: 60px;float: left;border-radius: 20px;}
+.twos{margin-left: 15px;line-height: 60px;}
+.fours{float: right;margin-right: 20px;margin-top: 15px;background-color: red;color: #fff;padding: 5px;border-radius: 20px}
+/*点击分享*/
+.fu{text-align: center;width: 100%}
+.fudong1{overflow: hidden;width: 80%;height: 120px;border: 1px solid #9c9c9c;margin-left: 10%;margin-top: 10%;word-break: break-word}
+.fudong1 p{margin-top: 20px;}
+.fuzhi{position: relative;top:40px;background: #fff;font-size: 16px;font-weight: bold}
+.fu_btn{width: 80%;padding: 2px;background: red;margin-top: 10px;border: 0;border-radius: 10px;color: #fff;font-size: 16px;}
+.jiu5{margin-top: 20px;font-size: 16px;}
+.huode{font-size: 18px;color: red;}
+.fenxians{color: #f60}
+
+
+
+</style>
+
+<div class="sharediv">
+    <div class="sharediv2">
+        <ul>
+            <foreach name="tuan" item="item">
+                 <li >
+                     <input type="hidden" class="product_id" value="<{$item['product_id']}>">
+                     <input type="hidden" class="shop_id" value="<{$item['shop_id']}>">
+                     <img class="tus" src="<{:config_img($shop[$item['shop_id']][logo])}>">
+                    <span class="twos"><{:tu_msubstr($shop[$item['shop_id']]['shop_name'],0,5)}></span>
+                    <div class="fours" onclick="fenxian(this)">分享抢红包</div>
+                 </li>
+             </foreach>
+        </ul>
+    </div>
+</div>
+
+
+<script>
+    //详细信息
+    function fenxian(l) {
+        var _this = $(l);
+        F = function (str) {
+            return _this.parent().find(str);
+        };
+        product_id = F('.product_id').val();
+        shop_id=F('.shop_id').val();
+        alert(product_id);
+        layer.open({
+            type: 1,
+            title: '',
+            skin: 'layui-layer-rim', //加上边框
+            area: ['80%', '380px'], //宽高
+            content: '<div class="fu">' +
+                '<div class="jiu5"><span ><a class="huode">恭喜您</a><br/><span class="fenxians">赶快分享好友购买，红包马上拿哦</span></span></div>' +
+                '<span class="fuzhi">口令成功复制</span> <div class="fudong1"><input type="hidden" id="product_id">' +
+                '<input type="hidden" id="shop_id"><p id="zhi">复制整段信息在浏览器打开，☞阿涂发发☜，即可参与【哇，这里有大牌超值红包任你抢，就差你帮我买一份了>>>】' +
+                '(未安装App的点这里：https://<?php echo $_SERVER['HTTP_HOST']?>/wap/store/details/product_id/<span class="goods_id"></span>.html?user_id=<?php echo $MEMBER['user_id'];?>))</p></div>' +
+                '<button  class="fu_btn" id="btn_btn" data-clipboard-target="#zhi">去粘贴分享</button>' +
+                '</div>'
+        });
+        $(".goods_id").text(product_id);
+        $("#product_id").val(product_id);
+        $("#shop_id").val(shop_id);
+
+        $("#btn_btn").click(function(){
+            let e = document.getElementById("zhi").innerText;
+            //实例化clipboard
+            var clipboard = new ClipboardJS('#btn_btn');
+
+            var product_id=document.getElementById('product_id').value;
+            var shop_id=document.getElementById('shop_id').value;
+            $.ajax({
+                url: '<{:U("store/fenxian")}>',
+                data:{product_id:product_id,shop_id:shop_id},
+                type: 'post',
+                success: function (data) {
+                    if (data.status == 'success') {
+
+                    } else {
+
+                    }
+                }
+            });
+            clipboard.on("success", function(e){
+                layer.msg("复制成功！");
+
+            });
+            clipboard.on("error", function(e){
+                layer.msg("复制失败！");
+            });
+        });
+    }
+</script>
+
+
+
+
+<include file="public:footer"/>

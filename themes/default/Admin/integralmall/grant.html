@@ -1,0 +1,30 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form target="x-frame" action="<{:U('integralmall/grant',array('id'=>$des['id']))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                        <tr>
+                            <td class="lfTdBt">奖励金额：</td>
+                            <td class="rgTdBt">
+                                <select name="fa_money" style="padding: 5px;">
+                                    <option value="0">==请选择==</option>
+                                        <option  value="<{$CONFIG[integral][money_one]}>"><{$CONFIG[integral][money_one]}>元</option>
+                                        <option  value="<{$CONFIG[integral][money_two]}>"><{$CONFIG[integral][money_two]}>元</option>
+                                        <option value="<{$CONFIG[integral][money_three]}>"><{$CONFIG[integral][money_three]}>元</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确定提交" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+

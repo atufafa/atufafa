@@ -1,0 +1,58 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">其他</a> > <a href="">外卖设置</a> > <a>奖励说明</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">商家在没有违规的情况下并且达到平台制定的销售量，可以申请奖励，<span style="color:red;">如果恶意申请将取消奖励资格</span></div>
+        </div>
+    </div>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli on"><a href="<{:U('ele/system')}>">奖励申请</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('ele/systemlist')}>">申请列表</a></li>
+        </ul>
+    </div>
+    <div class="tabnr_change show">
+        <style type="text/css">
+            .left{font-size: 16px;}
+            .tabl{width: 50%;height: 150px;text-align: center;}
+            .zi1{font-size: 18px;}
+            .zi{font-size: 16px;}
+            .div{margin-top: 200px;}
+            .btn{margin-top: 20px;margin-left: 10%;background-color: red;font-size: 16px;color: #fff}
+        </style>
+
+        <table class="tabl" border="1" >
+            <tr>
+                <td class="zi1" colspan="2">以下是每月的销售奖励</td>
+            </tr>
+            <tr>
+                <td class="zi">每月销量达<{$config['ele']['num']}>单</td>
+                <td class="zi">奖励<{$config['ele']['money']}>元</td>
+            </tr>
+            <tr>
+                <td class="zi">每月销量达<{$config['ele']['num2']}>单</td>
+                <td class="zi">奖励<{$config['ele']['money2']}>元</td>
+            </tr>
+            <tr>
+                <td class="zi">每月销量达<{$config['ele']['num3']}>单</td>
+                <td class="zi">奖励<{$config['ele']['money3']}>元</td>
+            </tr>
+        </table>
+
+        <form  method="post" target="x-frame"  action="<{:U('ele/system')}>">
+            <div class="div">
+                <label>
+                    申请说明
+                </label>
+                <label>  <textarea name="shuomin" cols="100" rows="5" placeholder="申请简要说明"></textarea></label>
+            </div>
+            <button class="btn">提交申请</button>
+        </form>
+    </div>
+</div>
+<include file='public:footer'/>

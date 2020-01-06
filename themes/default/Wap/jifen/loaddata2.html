@@ -1,0 +1,228 @@
+<style>
+    /*显示列表*/
+    .goods-box{ background: #F2F2F2;}
+    .goods_jifen { width:98%; margin:auto; overflow:hidden; }
+    .goods_jifen h2 {height:50px; line-height:50px;font-size: 16px;font-weight: normal;color:#999; text-align:center;  }
+    .goods_jifen ul { width:33%; float: left; text-align: center; overflow:hidden;}
+    .goods_jifen ul li { width:98%; margin:auto;margin-bottom:5px; background:#FFF; overflow:hidden;padding-bottom:2%; }
+    .goods_jifen ul li .index_pro{ width:100%; overflow:hidden; margin:auto;}
+    .goods_jifen ul li .products_kuang { width:100%; margin:auto;position:relative;}
+    .goods_jifen ul li .products_kuang img{ display: inline-block;width:100%; margin:auto;}
+    .goods_jifen ul li .goods_name { width:93%; margin:auto;text-align:left;height: 33px; overflow: hidden; color:#666; font-size:12px;line-height: 18px; -webkit-line-clamp: 2; -webkit-box-orient: vertical;display: -webkit-box; margin-top:15px; margin-bottom:8px;}
+    .goods_jifen ul li .price {width:100%; margin:auto; position:relative; border-top:1px solid #eeeeee }
+    .goods_jifen ul li .price .price_pro{  width:93%; margin:auto;  display: block;font-size:16px; color: #F23015; height:40px; line-height:40px;text-align:left;}
+    .goods_jifen ul li .btns{ position:absolute; display:block;right:5px;height:25px;width:25px;background: #f23; border-radius:50%; bottom:8px;}
+    .goods_jifen ul li .btns img{ display:block; width:25px;height:25px; }
+    /*.suxin{font-size: 12px;color: rgb(255, 87, 6);background-color: rgba(255, 87, 6, 0.08);}*/
+    .you{background-image: url("/static/default/wap/image/youhui.png");background-size:100% 100%;width: 65%;height: 50px;position: absolute;margin-left: 18%;top: 45%;color: #fff;text-align: center}
+    .qian{margin-top: 5px;color: #fff;position: absolute;left: 0;margin-left: 18px;}
+    .jif{font-size: 10px;color: #fff}
+</style>
+<style>
+    .boxs-img{width: 100%;height: 90px;border-bottom: 2px solid #9c9c9c}
+    #categorys {width:100%;display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;background-color: #fff}
+    #categorys li{display:inline-block;width:45px;height:30px;padding-left:10px;z-indent:2}
+</style>
+<!--滚动导航栏-->
+<div class="boxs-img">
+    <ul id="categorys">
+        <li >
+            <a class="icon2" tongji_tag="m_home_job_new">
+                <span class="cate-img"><img src="<{:config_img($item['photo'])}>" /></span>
+                <span class="cate-desc">热门</span>
+            </a>
+        </li>
+        <volist name="goodscates" id="item">
+            <eq name="item.parent_id" value="0">
+                <php>$b++;</php>
+                    <li>
+                        <a class="icon2" href="<{:U('jifen/index',array('cat'=>$item['cate_id']))}>" tongji_tag="m_home_job_new">
+                            <span class="cate-img" id="job"><img src="<{:config_img($item['photo'])}>" /></span>
+                            <span class="cate-desc"><{:tu_msubstr($item['cate_name'],0,4,false)}></span>
+                        </a>
+                    </li>
+            </eq>
+        </volist>
+    </ul>
+</div>
+<div class="blank-10 bg" ></div>
+<!--<div class="goods-box">-->
+<!--    <div class="goods">-->
+<!--        <div id="J_ItemList">-->
+<!--            <foreach name="list" item="item">-->
+<!--                <ul class="product single_item info" id="more_element_1">-->
+<!--                    <li>-->
+<!--                        <a href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">-->
+<!--                        </a><div class="index_pro"><a href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">-->
+<!--                        <div class="products_kuang">-->
+<!--                            <img src="<{:config_img($item['face_pic'])}>"></div>-->
+<!--                        <div class="goods_name"><{:tu_msubstr($item['title'],0,28,false)}></div>-->
+<!--                    </a><div class="price"><a href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">-->
+<!--                    </a><a href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" class="btns">-->
+<!--                        <img src="/static/default/wap/image/index_flow.png">-->
+<!--                    </a>-->
+<!--                        <span class="text-dot margin-right">积分：<{$item.integral}></span>-->
+<!--                        <del class="text-small text-gray">原价:&yen;<{$item.price}></del><br/>-->
+<!--                        <span class="margin-right">数量：<{$item.num}></span>-->
+<!--                        <span>已兑：<{$item.exchange_num}></span>-->
+<!--                        <span href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" class="price_pro">现价:&yen;<{$item['now_price']}>元</span>-->
+<!--                        <span>积分可抵扣:<{:round($item['integral']/100,2)}>元</span>-->
+<!--                    </div>-->
+<!--                    </div>-->
+
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </foreach>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item" key="index">
+                <?php   $goods = D('Integralgoodslist')->find($item['goods_id']);?>
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a href="<{:U('jifen/detail2',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+                        </a><div class="index_pro"><a href="<{:U('jifen/detail2',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+
+                        <div class="products_kuang">
+                            <img src="<{:config_img($item['photo'])}>">
+
+                        </div>
+                        <div class="you">
+                            <span class="qian">￥<{$item['use_integral']/100}></span><br/>
+                            <a class="jif">积分:<{$item['use_integral']}></a>
+                        </div>
+                        <div class="goods_name">
+                            <span><{:tu_msubstr($item['title'],0,11,false)}></span><br/>
+                            <span style="font-size: 18px;color: red;">&yen;<{:round($item['mall_price']/100,2)}></span><del>
+                            &yen;<{:round($item['price']/100,2)}></del>
+                        </div>
+                    </a><div class="price"><a href="<{:U('jifen/detail2',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+                    </a>
+                        <p class="info">
+                            <em>售: <?php  if(mb_strlen($item['exchange_sum'])==5){
+                                            echo  substr(($item['exchange_sum']/10000),0,1).'+万件';
+                                           }elseif(mb_strlen($item['exchange_sum'])==6){
+                                            echo substr(($item['exchange_sum']/10000),0,2).'+万件';
+                                           }else{
+                                            echo $item['exchange_sum'].'件';
+                                           }
+                                ?></em>
+                            <span style="font-size: 18px;background: red;color: #fff;border-radius: 50%;padding: 0 5px;">抢</span>
+
+                        </p>
+                    </div>
+                    </div>
+
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+<style>
+    .boxs_guangao{width: 100%;border-bottom: thin solid #eee;max-height: 152px;}
+    .category {width:100%;display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;line-height: 40px;background-color: #fff;border-bottom: 2px solid #f0efed;margin-bottom: 10px;}
+    .category li{display:inline-block;width:88px;height:143px;margin: 3px;}
+    .cate-descs{display: block;}
+    .imgss{width:88px;height: 100px;}
+    .biaoti{width: 100%;height: 50px;}
+    .im{width:20%;height: 100%;text-align: center;float: left;}
+    .shop_logo{width: 40px;height: 40px;border-radius: 4px;border: 1px solid #e0e0e0}
+    .tite{width: 40%;height: 100%;float: left}
+    .tite .spa1{font-size: 15px;font-family: "Microsoft Yahei", "微软雅黑"}
+    .tite .spa2{color: #9c9c9c;}
+    .genduo{width: 40%;height: 100%;float: right}
+    .genduo span{float: right;line-height: 50px;font-size: 16px;color: #9c9c9c;}
+    /*div{border: 1px solid red}*/
+    .mone{height: 42px;line-height: 42px;text-align: center}
+    .mon_span{color: red;font-size: 16px;margin-right: 5px;}
+</style>
+<!--积分商城板块一-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgss" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <div style="width: 100%;height: 20px;line-height: 20px;">
+                           <del>&yen;<{:round($goods_id[$item['goods_id']]['price']/100,2)}></del>
+                        </div>
+                        <div style="width: 100%;height: 21px;line-height: 21px;font-size: 14px;color: red">
+                            &yen;<{:round($goods_id[$item['goods_id']]['mall_price']/100,2)}>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>    <div class="blank-10 bg" style="height: 3px;"></div>
+
+
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="goods_one" id="item" key="index">
+                <?php   $goods = D('Integralgoodslist')->find($item['goods_id']);?>
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+                        </a><div class="index_pro"><a href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+
+                        <div class="products_kuang">
+                            <img src="<{:config_img($item['photo'])}>">
+
+                        </div>
+                        <div class="you">
+                            <span class="qian">￥<{$item['use_integral']/100}></span><br/>
+                            <a class="jif">积分:<{$item['use_integral']}></a>
+                        </div>
+                        <div class="goods_name">
+                            <span><{:tu_msubstr($item['title'],0,11,false)}></span><br/>
+                            <span style="font-size: 18px;color: red;">&yen;<{:round($item['mall_price']/100,2)}></span><del>
+                            &yen;<{:round($item['price']/100,2)}></del>
+                        </div>
+                    </a><div class="price"><a href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" title="<{$item.title}>">
+                    </a>
+                        <p class="info">
+                            <em>售: <?php  if(mb_strlen($item['exchange_sum'])==5){
+                                            echo  substr(($item['exchange_sum']/10000),0,1).'+万件';
+                                           }elseif(mb_strlen($item['exchange_sum'])==6){
+                                            echo substr(($item['exchange_sum']/10000),0,2).'+万件';
+                                           }else{
+                                            echo $item['exchange_sum'].'件';
+                                           }
+                                ?></em>
+                            <span style="font-size: 18px;background: red;color: #fff;border-radius: 50%;padding: 0 5px;">抢</span>
+
+                        </p>
+                    </div>
+                    </div>
+
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+

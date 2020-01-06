@@ -1,0 +1,28 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="">销售</a>><a>销售列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div style="margin-bottom: 20px;font-size: 16px;">仅显示每个配送员当日配送的订单数量</div>
+                        
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>会员ID</td>
+			<td>电话号码</td>
+            <td>每日配送订单数</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var['user_id']}></td>
+				<td><{$var['mobile']}></td>
+                <td><{$var.order_count}></td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include file='public:footer'/>

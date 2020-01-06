@@ -1,0 +1,712 @@
+<include file='public:header'/>
+<style>
+.sjgl_topli span.suxian{color:#ECEBEB; margin:0 10px;}
+.sjgl_topli {padding-right:0px;}
+.malls{background-color: red;width: 22px;height: 22px;border-radius: 10px;font-size: 15px;position: absolute;
+    text-align: center;line-height: 22px;margin-left: 5px;}
+</style>
+
+
+<script src="/static/default/wap/js/jquery.timers-1.2.js"></script>
+<script type="text/javascript" language="javascript">
+  $(document).ready(function(){
+	  
+    $('<audio id="chat_audit_mp3_1"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+	$('<audio id="chat_audit_mp3_2"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+	$('<audio id="chat_audit_mp3_3"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+	$('<audio id="chat_audit_mp3_4"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+	$('<audio id="chat_audit_mp3_5"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+	$('<audio id="chat_audit_mp3_6"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+	$('<audio id="chat_audit_mp3_7"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+    $('<audio id="chat_audit_mp3_8"><source src="/static/default/mp3/7.mp3" type="audio/mpeg"></audio>').appendTo('body');
+    function showReminds(){
+	   var shop_id = "<{$SHOP['shop_id']}>";
+       $.post('<{:U("app/api/reminds")}>',{shop_id:shop_id},function(result){
+          if(result.status == '1'){
+             layer.msg(result.message,{icon:6});
+             $('#chat_audit_mp3_1')[0].play();
+          }else if(result.status == '2'){
+			 layer.msg(result.message,{icon:6});
+             $('#chat_audit_mp3_2')[0].play();
+		  }else if(result.status == '3'){
+			 layer.msg(result.message,{icon:6});
+             $('#chat_audit_mp3_3')[0].play();
+		  }else if(result.status == '4'){
+			 layer.msg(result.message,{icon:6});
+             $('#chat_audit_mp3_4')[0].play();
+		  }else if(result.status == '5'){
+			 layer.msg(result.message,{icon:6});
+             $('#chat_audit_mp3_5')[0].play();
+		  }else if(result.status == '6'){
+			 layer.msg(result.message,{icon:6});
+             $('#chat_audit_mp3_6')[0].play();
+		  }else if(result.status == '7'){
+			 layer.msg(result.message,{icon:6});
+             $('#chat_audit_mp3_7')[0].play();
+		  }
+      },'json');
+	};
+	
+	$('body').everyTime('2das','B',function(){
+		showReminds()//执行函数
+	},5);
+      
+      function showRem(){
+          var shop_id = "<{$SHOP['shop_id']}>";
+          $.post('<{:U("app/api/shopwigh")}>',{shop_id:shop_id},function(result){
+              if(result.status == '1') {
+                  layer.msg(result.message, {icon: 6});
+                  $('#chat_audit_mp3_1')[0].play();
+              }
+          },'json');
+      };
+
+      $('body').everyTime('1.5das','B',function(){
+          showRem()//执行函数
+      },5);
+	
+  })
+</script>
+
+<script>
+    $('<audio id="chat_audit_mp3"><source src="/static/default/mp3/11.mp3" type="audio/mpeg"></audio>').appendTo('body');
+    function getDate(){
+        var shop_id = "<{$SHOP['shop_id']}>";
+        $.post('<{:U("app/api/shopovertime")}>',{shop_id:shop_id},function(result){
+            if(result.status == '1') {
+                layer.msg(result.message, {icon: 6});
+                $('#chat_audit_mp3')[0].play();
+            }
+        },'json');
+    };
+
+    setInterval(getDate, 30000);
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".leftMenu_a").click(function(){ 
+			$(".leftMenu_a").removeClass("on");
+			$(this).addClass("on");
+			$(".leftNav2").hide();
+			$(this).parent().find(".leftNav2").show();  
+		});
+		$(".leftNav2 li").click(function(){
+			$(".leftNav2 li a").removeClass('on');
+			$(this).find('a').addClass('on');
+		});
+	});
+</script>
+<div class="sjgl_top">
+    <div class="left sjgl_toplogo"><{$CONFIG.site.sitename}>商家后台<if condition="$SHOP['parent_id']">【分店版】</if></div>
+    <div class="right sjgl_top_r">
+        <ul>
+            <li class="left sjgl_topli sjgl_toplixl"><a>您好：<{$SHOP.shop_name}><if condition="$SHOP['parent_id']">【分店】</if> ID：<{$SHOP.shop_id}></a><span class="suxian">|</span></li>
+            
+            <if condition="!empty($SHOP['end_date']) and ($SHOP['end_date'] neq '0000-00-00')">
+            	<li class="left sjgl_topli sjgl_toplixl"><a>有效期至：<{$SHOP.end_date}></a><span class="suxian">|</span></li>
+            </if>
+            
+            <if condition="!empty($SHOPGRADE['grade_name'])">
+            	<li class="left sjgl_topli sjgl_toplixl"><a>店铺等级：<{$SHOPGRADE.grade_name}></a><span class="suxian">|</span></li>
+            <else/>
+            	<li class="left sjgl_topli"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<{$CONFIG.site.qq}>&site=qq&menu=yes">暂无等级</a><span class="suxian">|</span></li>
+            </if>
+            <!-- <li class="left sjgl_topli sjgl_toplixl"><a target="main_frm" href="<{:U('shop/grade')}>">查看等级权限</a><span class="suxian">|</span></li> -->
+            <li class="left sjgl_topli"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<{$CONFIG.site.qq}>&site=qq&menu=yes">联系客服</a><span class="suxian">|</span></li>
+            <li class="left sjgl_topli">
+                <a  target="main_frm" href="<{:U('message/index')}>">网站通知 
+                    <if condition="$msg_day gt 0">
+                        <i class="tongzhi"><{$msg_day}></i>
+                    </if>
+                </a><span class="suxian">|</span>
+            </li>
+            <li class="left sjgl_topli"><a target="_blank" href="<{:u('home/index/index')}>">网站首页</a><span class="suxian">|</span></li>
+            <li class="left sjgl_topli"><a href="<{:U('login/logout')}>"><em class="toptc"><img src="/Public/images/toptc_03.png" /></em>退出</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="sjglBox">
+    <div class="left sjgl_leftmenu">
+        <ul>
+            <li class="leftMenu_li"><a class="leftMenu_a on2" target="main_frm" href="<{:U('index/main')}>"><em>&nbsp;</em>首页</a></li>
+            <!--<li class="leftMenu_li"><a class="leftMenu_a on2" target="main_frm" href="<{:U('live/index')}>"><em>&nbsp;</em>直播管理</a></li>-->
+            
+            
+            <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a13" target="main_frm" href="<{:U('money/finance')}>"><em>&nbsp;</em>资金管理</a>
+            	<div class="leftNav2">
+                    <ul>  
+                   		 <li><a target="main_frm" href="<{:U('money/shopmoney')}>"><em>&nbsp;</em>商家资金</a></li>
+                         <li><a target="main_frm" href="<{:U('money/index')}>"><em>&nbsp;</em>资金记录</a></li>
+                         <li><a target="main_frm" href="<{:U('money/tixianlog')}>"><em>&nbsp;</em>提现申请</a></li>
+                         <li><a target="main_frm" href="<{:U('shopyouhui/index')}>"><em>&nbsp;</em>收银台设置</a></li>
+                    </ul>
+                </div>
+            </li>
+            
+             <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a13" target="main_frm" href="<{:U('envelope/index')}>"><em>&nbsp;</em>红包管理</a>
+            	<div class="leftNav2">
+                    <ul>  
+                   		 <li><a target="main_frm" href="<{:U('envelope/create')}>"><em>&nbsp;</em>添加红包</a></li>
+                         <li><a target="main_frm" href="<{:U('envelope/index')}>"><em>&nbsp;</em>红包列表</a></li>
+                         <li><a target="main_frm" href="<{:U('envelope/logs')}>"><em>&nbsp;</em>红包发放记录</a></li>
+                    </ul>
+                </div>
+            </li>
+            
+            
+            <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a2"  target="main_frm" href="<{:U('shop/about')}>"><em>&nbsp;</em>商家管理</a>
+                <div class="leftNav2">
+                    <ul>
+                        <li><a target="main_frm" href="<{:U('shop/about')}>"><em>&nbsp;</em>基本管理</a></li>
+                        <li><a target="main_frm" href="<{:U('shop/service')}>"><em>&nbsp;</em>其他设置</a></li>
+                        <li><a target="main_frm" href="<{:U('shop/image')}>"><em>&nbsp;</em>形象图</a></li>
+                        <li><a target="main_frm" href="<{:U('photo/index')}>"><em>&nbsp;</em>环境图</a></li>
+						<li><a target="main_frm" href="<{:U('audit/index')}>"><em>&nbsp;</em>认证管理</a></li>
+                        <if condition="empty($SHOP['parent_id'])">
+                    		<li><a target="main_frm" href="<{:U('branch/index')}>"><em>&nbsp;</em>分店设置</a></li>
+                        </if>
+                        
+                        <li><a target="main_frm" href="<{:U('worker/index')}>"><em>&nbsp;</em>员工管理</a></li>
+                        <li><a target="main_frm" href="<{:U('shop/grade')}>"><em>&nbsp;</em>商家等级</a></li>
+                        <li><a target="main_frm" href="<{:U('shopkuaidi/index')}>"><em>&nbsp;</em>商城运费模板</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <if condition="$CONFIG['operation']['jifen']">
+                <if condition="$SHOPGRADE['is_jifen']">
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a2"  target="main_frm" href="<{:U('integralmall/settled')}>"><em>&nbsp;</em>积分商城管理
+                        <span class="malls" id="jifen">0</span></a>
+                        <div class="leftNav2">
+                            <ul>
+                                <li><a target="main_frm" href="<{:U('integralmall/settled')}>"><em>&nbsp;</em>申请入驻积分商城</a></li>
+                                <li><a target="main_frm" href="<{:U('integralmall/goodsindex')}>"><em>&nbsp;</em>积分商城商品列表</a></li>
+                                <li><a target="main_frm" href="<{:U('integralmall/reward')}>"><em>&nbsp;</em>奖励制度</a></li>
+                                <li><a target="main_frm" href="<{:U('integralorder/whole_order')}>"><em>&nbsp;</em>全部订单</a></li>
+                                <li><a target="main_frm" href="<{:u('integralorder/confirm_order')}>"><em>&nbsp;</em>确认订单</a></li>
+                                <li><a target="main_frm" href="<{:u('integralorder/complete_order')}>"><em>&nbsp;</em>已完成订单</a></li>
+                                <li><a target="main_frm" href="<{:u('classification/specifications')}>"><em>&nbsp;</em>商品规格</a></li>
+                                <li><a target="main_frm" href="<{:u('classification/classification')}>"><em>&nbsp;</em>商品分类</a></li>
+                                <li><a target="main_frm" href="<{:u('classification/attribute')}>"><em>&nbsp;</em>商品属性</a></li>
+                                <li><a target="main_frm" href="<{:u('classification/type')}>"><em>&nbsp;</em>商品类型</a></li>
+                                <li><a target="main_frm" href="<{:u('unhealthy/index')}>"><em>&nbsp;</em>订单投诉</a></li>
+                                <li><a target="main_frm" href="<{:u('unhealthy/lists')}>"><em>&nbsp;</em>订单评价</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </if>
+            </if>
+
+			<if condition="$CONFIG['operation']['tuan']">
+                <if condition="$SHOPGRADE['is_tuan']">
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a3" target="main_frm" href="<{:U('tuan/index')}>"><em>&nbsp;</em>抢购管理
+                    <span class="malls" id="qian">0</span></a>
+                        <div class="leftNav2">
+                            <ul>
+                                <li><a target="main_frm" href="<{:U('tuan/index')}>"><em>&nbsp;</em>抢购商品列表</a></li>
+                                <li><a target="main_frm" href="<{:U('tuan/create')}>"><em>&nbsp;</em>添加抢购</a></li>
+                                <li><a target="main_frm" href="<{:U('tuan/order')}>"><em>&nbsp;</em>抢购订单列表</a></li>
+                                <li><a target="main_frm" href="<{:U('tuan/code')}>"><em>&nbsp;</em>抢购劵列表</a></li>
+                                <li><a target="main_frm" href="<{:U('tuan/used')}>"><em>&nbsp;</em>抢购劵核销</a></li>
+                                <li><a target="main_frm" href="<{:U('tuan/usedok')}>"><em>&nbsp;</em>抢购劵验证记录</a></li>
+                                <li><a target="main_frm" href="<{:U('rush/spec')}>"><em>&nbsp;</em>抢购商品规格</a></li>
+                                <li><a target="main_frm" href="<{:U('rush/complaint')}>"><em>&nbsp;</em>投诉列表</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </if>
+            </if>
+            <if condition="$CONFIG['operation']['edu']">
+            	<if condition="$SHOPGRADE['is_edu']">
+                   <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a9" target="main_frm" href="<{:U('edu/index')}>"><em>&nbsp;</em>教育频道
+                   <span class="malls" id="jiaoyu">0</span></a>
+                        <div class="leftNav2">
+                            <ul>
+                                <li><a class="on" target="main_frm" href="<{:U('edu/index')}>"><em>&nbsp;</em>课程订单</a></li>
+                                <li><a target="main_frm" href="<{:U('edu/course')}>"><em>&nbsp;</em>课程列表</a></li>
+                                <li><a target="main_frm" href="<{:U('edu/set_edu')}>"><em>&nbsp;</em>教育频道资料</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </if> 
+           </if> 
+           <if condition="$CONFIG['operation']['coupon']">
+                <if condition="$SHOPGRADE['is_coupon']">
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a10" target="main_frm" href="<{:U('coupon/index')}>"><em>&nbsp;</em>优惠劵管理</a>
+                        <div class="leftNav2">
+                            <ul>
+                                <li><a target="main_frm" href="<{:U('coupon/index')}>"><em>&nbsp;</em>优惠券管理</a></li>
+                                <li><a target="main_frm" href="<{:U('coupon/download')}>"><em>&nbsp;</em>优惠券下载列表</a></li>
+                                <li><a target="main_frm" href="<{:U('coupon/used')}>"><em>&nbsp;</em>优惠券核销</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </if>
+           </if>
+
+            <if condition="$CONFIG['operation']['decorate']">
+                <if condition="$SHOPGRADE['is_decorate']">
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a10" target="main_frm" href="<{:U('decorate/index')}>"><em>&nbsp;</em>装修服务管理</a>
+                        <div class="leftNav2">
+                            <ul>
+                                <li><a target="main_frm" href="<{:U('decorate/index')}>"><em>&nbsp;</em>服务介绍</a></li>
+                                <li><a target="main_frm" href="<{:U('decorate/yuyue')}>"><em>&nbsp;</em>预约列表</a></li>
+                                <li><a target="main_frm" href="<{:U('decorate/dianping')}>"><em>&nbsp;</em>装修点评</a></li>
+                                <li><a target="main_frm" href="<{:U('decorate/order')}>"><em>&nbsp;</em>成交订单</a></li>
+                                <li><a target="main_frm" href="<{:U('decorate/rebatelogs')}>"><em>&nbsp;</em>返利日志</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </if>
+            </if>
+           
+          <if condition="$CONFIG['operation']['ktv']">
+             <if condition="$SHOPGRADE['is_ktv']">
+                <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a9" target="main_frm" href="<{:U('ktv/index')}>"><em>&nbsp;</em>KTV管理
+                    <span class="malls" id="ktv">0</span></a>
+                 <div class="leftNav2">
+                    <ul>
+                      <li><a class="on" target="main_frm" href="<{:U('ktv/index')}>"><em>&nbsp;</em>KTV订单</a></li>
+                      <li><a target="main_frm" href="<{:U('ktv/room')}>"><em>&nbsp;</em>KTV套餐</a></li>
+                      <li><a target="main_frm" href="<{:U('ktv/set_ktv')}>"><em>&nbsp;</em>KTV资料</a></li>
+                    </ul>
+                  </div>
+               </li>
+            </if>
+          </if>     
+            
+		  <if condition="$CONFIG['operation']['mall']">
+              <if condition="$SHOPGRADE['is_mall']">
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a4" target="main_frm" href="<{:U('goods/index')}>"><em>&nbsp;</em>商城
+                    <span class="malls" id="shancheng">0</span></a>
+                        <div class="leftNav2">
+                            <ul>
+                            	<li><a target="main_frm" href="<{:U('goodsattr/index')}>"><em>&nbsp;</em>产品规格</a></li>
+                                <li><a target="main_frm" href="<{:U('goodsshopcate/index')}>"><em>&nbsp;</em>产品分类</a></li>
+                                <li><a target="main_frm" href="<{:U('goods/index')}>"><em>&nbsp;</em>出售中的商品</a></li>
+                                <li><a target="main_frm" href="<{:U('order/index')}>"><em>&nbsp;</em>全部订单列表</a></li>
+                                <eq name="SHOP.is_goods_pei" value="0">
+                                   <li><a target="main_frm" href="<{:U('order/wait')}>"><em>&nbsp;</em>已付款订单</a></li>
+                                   <li><a target="main_frm" href="<{:U('order/wait2')}>"><em>&nbsp;</em>货到付款订单</a></li>
+                                   <li><a target="main_frm" href="<{:U('order/picks')}>"><em>&nbsp;</em>捡货单管理</a></li>
+                                   <li><a target="main_frm" href="<{:u('order/delivery')}>"><em>&nbsp;</em>待确认订单</a></li>	
+                                 </eq>
+                                 <eq name="SHOP.is_goods_pei" value="1">
+                                    <li><a target="main_frm" href="<{:U('order/index')}>"><em>&nbsp;</em>全部订单【配】</a></li>
+                                    <li><a target="main_frm" href="<{:u('order/delivery')}>"><em>&nbsp;</em>确认订单【配】</a></li>
+                                    <li><a target="main_frm" href="<{:u('order/count')}>"><em>&nbsp;</em>订单统计【配】</a></li>
+                                 </eq>
+                                 <li><a target="main_frm" href="<{:U('order/goodsjingjia')}>"><em>&nbsp;</em>竞价信息列表</a></li>
+
+                                <li><a target="main_frm" href="<{:U('goods/tuan_index')}>"><em>&nbsp;</em>0元购商品列表</a></li>
+                                <li><a target="main_frm" href="<{:U('zeroelement/spec')}>"><em>&nbsp;</em>0元购规格</a></li>
+                                <li><a target="main_frm" href="<{:U('mallactivity/index')}>"><em>&nbsp;</em>活动列表【活动】</a></li>
+                                <li><a target="main_frm" href="<{:U('ad/index',array('type'=>4))}>"><em>&nbsp;</em>商城专属广告</a></a></li>
+                            </ul>
+                        </div>
+                    </li>
+            </if>
+		</if>
+
+        <if condition="$CONFIG['operation']['mall']">
+            <if condition="$SHOPGRADE['is_mall']">
+                <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a4" target="main_frm" href="<{:U('order/appointment')}>"><em>&nbsp;</em>商城预定订单
+                    <span class="malls" id="shanchengyu">0</span></a>
+            </if>
+        </if>
+
+        <if condition="$CONFIG['operation']['ele']">
+			<if condition="$SHOPGRADE['is_ele']">
+               <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a19" target="main_frm" href="<{:U('ele/index')}>"><em>&nbsp;</em>外卖
+                   <span class="malls" id="ele">0</span></a>
+                    <div class="leftNav2">
+                        <ul>
+                            <li><a target="main_frm" href="<{:U('elecate/index')}>"><em>&nbsp;</em>菜系分类</a></li>
+                            <li><a target="main_frm" href="<{:U('eleproduct/index')}>"><em>&nbsp;</em>菜单管理</a></li>
+                            <eq name="SHOP.is_ele_pei" value="0">
+                            <li><a class="on" target="main_frm" href="<{:U('ele/index')}>"><em>&nbsp;</em>营业设置</a></li>
+                            <li><a target="main_frm" href="<{:U('eleorder/index')}>"><em>&nbsp;</em>确认订单</a></li>
+                            <li><a target="main_frm" href="<{:U('eleorder/wait')}>"><em>&nbsp;</em>配送订单</a></li>
+                            <li><a target="main_frm" href="<{:U('eleorder/over')}>"><em>&nbsp;</em>完成订单</a></li>
+                            </eq>
+                            <eq name="SHOP.is_ele_pei" value="1">
+                                <li><a target="main_frm" href="<{:U('eleorder/wait')}>"><em>&nbsp;</em>等待处理【配】</a></li>
+                                <li><a target="main_frm" href="<{:U('eleorder/count')}>"><em>&nbsp;</em>订单统计【配】</a></li>
+                                <li><a target="main_frm" href="<{:U('eleorder/whole')}>"><em>&nbsp;</em>全部订单【配】</a></li>
+                            </eq>
+                            <li><a target="main_frm"  href="<{:U('ele/system')}>"><em>&nbsp;</em>奖励制度</a></li>
+                            <?php $ele=D('Ele')->where(['shop_id'=>$SHOP['shop_id']])->find();?>
+                                <?php if(!empty($ele) && $ele['is_guozi']==1){ ?>
+                                <li><a target="main_frm" href="<{:U('eleorder/glass')}>"><em>&nbsp;</em>杯子统计【杯】</a></li>
+                                <?php  } ?>
+                            <li><a target="main_frm" href="<{:U('ad/index',array('type'=>1))}>"><em>&nbsp;</em>外卖广告</a></a></li>
+                        </ul>
+                    </div>
+                </li>
+            </if> 
+         </if>
+
+
+            <if condition="$CONFIG['operation']['ele']">
+                <if condition="$SHOPGRADE['is_ele']">
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a19" target="main_frm" href="<{:U('eleorder/yuyue')}>"><em>&nbsp;</em>外卖预定单
+                        <span class="malls" id="eleyu">0</span></a>
+                    </li>
+                </if>
+            </if>
+
+
+         <if condition="$CONFIG['operation']['market']">
+         	<if condition="$SHOPGRADE['is_market']">
+               <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a19" target="main_frm" href="<{:U('market/index')}>"><em>&nbsp;</em>菜市场
+               <span class="malls" id="market">0</span></a>
+                    <div class="leftNav2">
+                        <ul>
+                            <li><a target="main_frm" href="<{:U('marketcate/index')}>"><em>&nbsp;</em>商品分类</a></li>
+                            <li><a target="main_frm" href="<{:U('marketproduct/index')}>"><em>&nbsp;</em>商品管理</a></li>
+                            <eq name="SHOP.is_market_pei" value="0">
+                            <li><a class="on" target="main_frm" href="<{:U('market/index')}>"><em>&nbsp;</em>营业设置</a></li>
+                            <li><a target="main_frm" href="<{:U('marketorder/index')}>"><em>&nbsp;</em>确认订单</a></li>
+                            <li><a target="main_frm" href="<{:U('marketorder/wait')}>"><em>&nbsp;</em>配送订单</a></li>
+                            <li><a target="main_frm" href="<{:U('marketorder/over')}>"><em>&nbsp;</em>完成订单</a></li>
+                            </eq>
+                            <eq name="SHOP.is_market_pei" value="1">
+                                <li><a target="main_frm" href="<{:U('marketorder/wait')}>"><em>&nbsp;</em>等待处理【配】</a></li>
+                                <li><a target="main_frm" href="<{:U('marketorder/count')}>"><em>&nbsp;</em>订单统计【配】</a></li>
+                                <li><a target="main_frm" href="<{:U('marketorder/whole')}>"><em>&nbsp;</em>全部订单【配】</a></li>
+                            </eq>
+                            <li><a target="main_frm" href="<{:U('marketactivity/index')}>"><em>&nbsp;</em>菜市场活动【活动】</a></li>
+                            <li><a target="main_frm" href="<{:U('ad/index',array('type'=>2))}>"><em>&nbsp;</em>菜市场广告</a></a></li>
+                        </ul>
+                    </div>
+                </li>
+         </if>  
+        </if>
+
+            <if condition="$CONFIG['operation']['market']">
+                <if condition="$SHOPGRADE['is_market']">
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a19" target="main_frm" href="<{:U('marketorder/yuyue')}>"><em>&nbsp;</em>菜市场预定单
+                        <span class="malls" id="marketyu">0</span></a>
+                    </li>
+                </if>
+            </if>
+
+
+
+
+
+
+
+         
+        <if condition="$CONFIG['operation']['store']">
+        	<if condition="$SHOPGRADE['is_store']">
+               <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a19" target="main_frm" href="<{:U('store/index')}>"><em>&nbsp;</em>便利店
+               <span class="malls" id="store">0</span></a>
+                    <div class="leftNav2">
+                        <ul>
+                            <li><a target="main_frm" href="<{:U('storecate/index')}>"><em>&nbsp;</em>商品分类</a></li>
+                            <li><a target="main_frm" href="<{:U('storeproduct/index')}>"><em>&nbsp;</em>商品管理</a></li>
+                            <eq name="SHOP.is_store_pei" value="0">
+                            <li><a class="on" target="main_frm" href="<{:U('store/index')}>"><em>&nbsp;</em>营业设置</a></li>
+                            <li><a target="main_frm" href="<{:U('storeorder/index')}>"><em>&nbsp;</em>确认订单</a></li>
+                            <li><a target="main_frm" href="<{:U('storeorder/wait')}>"><em>&nbsp;</em>配送订单</a></li>
+                            <li><a target="main_frm" href="<{:U('storeorder/over')}>"><em>&nbsp;</em>完成订单</a></li>
+                            </eq>
+                            <eq name="SHOP.is_store_pei" value="1">
+                                <li><a target="main_frm" href="<{:U('storeorder/wait')}>"><em>&nbsp;</em>等待处理【配】</a></li>
+                                <li><a target="main_frm" href="<{:U('storeorder/count')}>"><em>&nbsp;</em>订单统计【配】</a></li>
+                                <li><a target="main_frm" href="<{:U('storeorder/whole')}>"><em>&nbsp;</em>全部订单【配】</a></li>
+                            </eq>
+                            <li><a target="main_frm" href="<{:U('storeactivity/index')}>"><em>&nbsp;</em>便利店活动【活动】</a></li>
+                            <?php $sle=D('Store')->where(['shop_id'=>$SHOP['shop_id']])->find();?>
+                            <?php if(!empty($sle) && $sle['is_guozi']==1){ ?>
+                                <li><a target="main_frm" href="<{:U('storeorder/glass')}>"><em>&nbsp;</em>杯子统计【杯】</a></li>
+                            <?php  } ?>
+                            <li><a target="main_frm" href="<{:U('ad/index',array('type'=>3))}>"><em>&nbsp;</em>便利店广告</a></a></li>
+                        </ul>
+                    </div>
+                </li>
+         </if>  
+         </if>
+
+            <if condition="$CONFIG['operation']['store']">
+                <if condition="$SHOPGRADE['is_store']">
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a19" target="main_frm" href="<{:U('storeorder/yuyue')}>"><em>&nbsp;</em>便利店预定单
+                        <span class="malls" id="storeyu">0</span></a>
+                    </li>
+                </if>
+            </if>
+             
+            
+         <if condition="$CONFIG['operation']['hotels']">
+             <if condition="$SHOPGRADE['is_hotel']">
+                 <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a9" target="main_frm" href="<{:U('hotel/index')}>"><em>&nbsp;</em>酒店
+                 <span class="malls" id="jiudian">0</span></a>
+                      <div class="leftNav2">
+                          <ul>
+                              <li><a class="on" target="main_frm" href="<{:U('hotel/index')}>"><em>&nbsp;</em>酒店订单</a></li>
+                              <li><a target="main_frm" href="<{:U('hotel/comment')}>"><em>&nbsp;</em>酒店点评</a></li>
+                              <li><a target="main_frm" href="<{:U('hotel/room')}>"><em>&nbsp;</em>酒店房间</a></li>
+                              <li><a target="main_frm" href="<{:U('hotel/set_hotel')}>"><em>&nbsp;</em>酒店资料</a></li>
+                          </ul>
+                      </div>
+                  </li>
+               </if>
+          </if>
+
+
+                <if condition="$SHOPGRADE['is_zhe']">
+                 <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('zhe/index')}>"><em>&nbsp;</em>五折卡管理</a>
+                    <div class="leftNav2">
+                      <ul>
+                        <li><a target="main_frm" href="<{:U('zhe/index')}>"><em>&nbsp;</em>五折卡列表</a></li>
+                        <li><a target="main_frm" href="<{:U('zhe/order')}>"><em>&nbsp;</em>五折卡订单</a></li>
+                        <li><a target="main_frm" href="<{:U('zhe/yuyue')}>"><em>&nbsp;</em>五折卡预约列表</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                </if>
+         
+            
+          <if condition="$CONFIG['operation']['booking']">   
+               <if condition="$SHOPGRADE['is_booking']"> 
+                 <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a11" target="main_frm" href="<{:U('booking/index')}>"><em>&nbsp;</em>订座管理</a>
+                    <div class="leftNav2">
+                        <ul>
+                            <li><a class="on" target="main_frm" href="<{:U('booking/index')}>"><em>&nbsp;</em>预订列表</a></li>
+                            <li><a target="main_frm" href="<{:U('booking/cate')}>"><em>&nbsp;</em>菜品分类</a></li>
+                            <li><a target="main_frm" href="<{:U('booking/menu')}>"><em>&nbsp;</em>菜品配置</a></li>
+                            <li><a target="main_frm" href="<{:U('booking/room')}>"><em>&nbsp;</em>包间配置</a></li>
+                            <li><a target="main_frm" href="<{:U('booking/set_booking')}>"><em>&nbsp;</em>预订资料</a></li>
+                        </ul>
+                    </div>
+                </li>
+               </if>
+           </if>
+           
+           <if condition="$CONFIG['operation']['appoint']"> 
+               <if condition="$SHOPGRADE['is_appoint']"> 
+                   <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a9" target="main_frm" href="<{:U('appoint/index')}>"><em>&nbsp;</em>新版家政
+                       <span class="malls" id="jiazhen">0</span></a>
+                        <div class="leftNav2">
+                            <ul>
+                                <li><a class="on" target="main_frm" href="<{:U('appoint/order')}>"><em>&nbsp;</em>家政订单</a></li>
+                                <li><a target="main_frm" href="<{:U('appoint/index')}>"><em>&nbsp;</em>家政列表</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </if>
+            </if>
+            
+            
+            <if condition="$CONFIG['operation']['cloud']"> 
+                <if condition="$SHOPGRADE['is_cloud']"> 
+                    <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a10" target="main_frm" href="<{:U('cloud/index')}>"><em>&nbsp;</em>抢购管理</a>
+                        <div class="leftNav2">
+                            <ul>
+                                <li><a target="main_frm" href="<{:U('cloud/index')}>"><em>&nbsp;</em>抢购管理</a></li>
+                                <li><a target="main_frm" href="<{:U('cloud/order')}>"><em>&nbsp;</em>抢购支付列表</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </if>
+            </if>
+           
+           <if condition="$CONFIG['operation']['farm']">
+               <if condition="$SHOPGRADE['is_farm']"> 
+                   <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a9" target="main_frm" href="<{:U('farm/index')}>"><em>&nbsp;</em>农家乐
+                       <span class="malls" id="njiale">0</span></a>
+                        <div class="leftNav2">
+                            <ul>
+                                <li><a class="on" target="main_frm" href="<{:U('farm/index')}>"><em>&nbsp;</em>农家乐订单</a></li>
+                                <li><a target="main_frm" href="<{:U('farm/fram_dianp')}>"><em>&nbsp;</em>农家乐点评</a></li>
+                                <li><a target="main_frm" href="<{:U('farm/package')}>"><em>&nbsp;</em>农家乐套餐</a></li>
+                                <li><a target="main_frm" href="<{:U('farm/set_farm')}>"><em>&nbsp;</em>农家乐资料</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </if>
+            </if> 
+
+          <if condition="$ding['is_biz'] neq 0"><!--如果后台开通黄页-->
+              <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a11" target="main_frm" href="<{:U('pois/index')}>"><em>&nbsp;</em>黄页管理</a>
+                    <div class="leftNav2">
+                        <ul>
+                            <li><a target="main_frm" href="<{:U('pois/index')}>"><em>&nbsp;</em>黄页列表</a></li>
+                            <li><a target="main_frm" href="<{:U('pois/me')}>"><em>&nbsp;</em>我的黄页</a></li>
+                            <li><a target="main_frm" href="<{:U('pois/create')}>"><em>&nbsp;</em>黄页生成</a></li>
+                            <li><a target="main_frm" href="<{:U('pois/stick')}>"><em>&nbsp;</em>我的包年</a></li>
+                            <li><a target="main_frm" href="<{:U('pois/word')}>"><em>&nbsp;</em>购买包年</a></li>
+                       </ul>
+                    </div>
+                </li>
+           </if>
+   
+
+           <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a5" target="main_frm" href="<{:U('fans/index')}>"><em>&nbsp;</em>粉丝</a>
+            	<div class="leftNav2">
+                    <ul>
+                        <li><a class="on"  target="main_frm" href="<{:U('fans/index')}>"><em>&nbsp;</em>粉丝列表</a></li>
+                        <li><a target="main_frm" href="<{:U('news/index')}>"><em>&nbsp;</em>推送文章</a></li>
+                    </ul>
+                </div>
+            </li>
+            
+             <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a10" target="main_frm" href="<{:U('weixin/index')}>"><em>&nbsp;</em>营销管理</a>
+            	<div class="leftNav2">
+                    <ul>
+                        <li><a target="main_frm" href="<{:U('weixin/index')}>"><em>&nbsp;</em>微信设置</a></li>
+                        
+                    </ul>
+                </div>
+            </li>
+
+             <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('dianping/index')}>"><em>&nbsp;</em>评价管理</a>
+            	<div class="leftNav2">
+                    <ul>  
+                        <li><a target="main_frm" href="<{:U('dianping/index')}>"><em>&nbsp;</em>商家评价</a></li>
+                        <if condition="$CONFIG['operation']['tuan']"> 
+                        	<li><a target="main_frm" href="<{:U('dianping/tuan')}>"><em>&nbsp;</em>团购评价</a></li>
+                        </if>
+                        <if condition="$CONFIG['operation']['mall']"> 
+                        	<li><a target="main_frm" href="<{:U('dianping/mall')}>"><em>&nbsp;</em>商城评价价</a></li>
+						</if>
+                        <if condition="$CONFIG['operation']['ele']"> 
+                        	<li><a target="main_frm" href="<{:U('dianping/waimai')}>"><em>&nbsp;</em>外卖点评</a></li>
+                        </if>
+						<if condition="$CONFIG['operation']['booking']"> 
+                        	<li><a target="main_frm" href="<{:U('dianping/booking')}>"><em>&nbsp;</em>订座评价</a></li>
+						</if>
+                    </ul>
+                </div>
+            </li>
+
+
+             <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('tous/index')}>"><em>&nbsp;</em>投诉管理</a>
+              <div class="leftNav2">
+                    <ul>  
+                        <li><a target="main_frm" href="<{:U('tous/index')}>"><em>&nbsp;</em>投诉列表</a></li>
+                        <if condition="$CONFIG['operation']['jifen']">
+                            <li><a target="main_frm" href="<{:U('tous/integral')}>"><em>&nbsp;</em>积分商城投诉列表</a></li>
+                        </if>
+                        <if condition="$CONFIG['operation']['mall']">
+                            <if condition="$SHOPGRADE['is_mall']">
+                                <li><a target="main_frm" href="<{:U('tous/tszero')}>"><em>&nbsp;</em>0元购投诉列表</a></li>
+                            </if>
+                        </if>
+                    </ul>
+                </div>
+            </li>
+
+
+			<if condition="$CONFIG['operation']['huodong']"> 
+                <if condition="$SHOPGRADE['is_huodong']">  
+                 <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('activity/index')}>"><em>&nbsp;</em>活动管理</a>
+                    <div class="leftNav2">
+                      <ul>
+                        <li><a target="main_frm" href="<{:U('activity/index')}>"><em>&nbsp;</em>活动管理</a></li>
+                        <li><a target="main_frm" href="<{:U('activity/sign')}>"><em>&nbsp;</em>报名管理</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                </if>
+            </if>
+            
+
+            <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('refund/index')}>"><em>&nbsp;</em>退款管理</a>
+              <div class="leftNav2">
+                    <ul>
+                        <li><a target="main_frm" href="<{:U('refund/index')}>" class="on"><em>&nbsp;</em>订单列表</a><li>
+                       <li><a target="main_frm" href="<{:U('refund/refund_edit')}>"><em>&nbsp;</em>待审核订单</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('rural/index')}>"><em>&nbsp;</em>乡村管理</a>
+                <div class="leftNav2">
+                    <ul>
+                        <li><a target="main_frm" href="<{:U('rural/index')}>"><em>&nbsp;</em>我的乡村管理</a></li>
+                        <li><a target="main_frm" href="<{:U('rural/bbs')}>"><em>&nbsp;</em>贴吧列表</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('wide/index')}>"><em>&nbsp;</em>广告位管理</a>
+                <div class="leftNav2">
+                    <ul>
+                        <li><a target="main_frm" href="<{:U('wide/index')}>" ><em>&nbsp;</em>购买广告位</a></li>
+                        <li><a target="main_frm" href="<{:U('wide/buy')}>"><em>&nbsp;</em>购买广告位列表</a></li>
+                        <li><a target="main_frm" href="<{:U('wide/buylog')}>"><em>&nbsp;</em>广告位点击日志</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('work/index')}>"><em>&nbsp;</em>其他</a>
+            	<div class="leftNav2">
+                    <ul>
+                        <li><a target="main_frm" href="<{:U('breaks/index')}>"><em>&nbsp;</em>优惠买单订单</a></li>
+                        <li><a class="on" target="main_frm" href="<{:U('work/index')}>"><em>&nbsp;</em>人才招聘</a></li>
+                        <li><a target="main_frm" href="<{:U('yuyue/index')}>"><em>&nbsp;</em>预约列表</a></li>
+                        <li><a target="main_frm" href="<{:U('yuyue/used')}>"><em>&nbsp;</em>消费确认</a></li>
+                    </ul>
+                </div>
+            </li>
+            
+            <li class="leftMenu_li"><a class="leftMenu_a leftMenu_a12" target="main_frm" href="<{:U('applydelivery/index')}>"><em>&nbsp;</em>申请自配权限管理</a>
+              <div class="leftNav2">
+                    <ul>
+                        <li><a target="main_frm" href="<{:U('applydelivery/index')}>" class="on"><em>&nbsp;</em>申请自配权限</a><li>
+                      
+                    </ul>
+                </div>
+            </li>
+                    
+        </ul>
+    </div>
+
+    <div id="sjgl_right" style="padding-left:205px; height:100%;">
+        <div class="sjgl_main" style="height:1000px;">
+        <iframe src="<{:U('index/main')}>" marginheight="0" marginwidth="0" frameborder="0" width="100%" height=100% id="main_frm" name="main_frm"></iframe>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        function showReminds(){
+            var shop_id = "<{$SHOP['shop_id']}>";
+            $.post('<{:U("app/api/shoporder")}>',{shop_id:shop_id},function(result){
+                if(result.status == '1'){
+                    $('#jiazhen').html(result.count.jiazhen);
+                    $('#jiaoyu').html(result.count.jiaoyu);
+                    $('#ktv').html(result.count.ktv);
+                    $('#jiudian').html(result.count.jiudian);
+                    $('#njiale').html(result.count.njiale);
+                    $('#qian').html(result.count.qian);
+                    $('#shancheng').html(result.count.shancheng);
+                    $('#ele').html(result.count.ele);
+                    $('#market').html(result.count.market);
+                    $('#store').html(result.count.store);
+                    $('#jifen').html(result.count.jifen);
+                    $('#lingyuan').html(result.count.linyuan);
+                    $('#shanchengyu').html(result.count.shancheng);
+                    $('#eleyu').html(result.count.eleyu);
+                    $('#storeyu').html(result.count.storeyu);
+                    $('#marketyu').html(result.count.marketyu);
+                }
+            },'json');
+        };
+
+        $('body').everyTime('2das','B',function(){
+            showReminds()//执行函数
+        },5);
+        showReminds()
+    })
+</script>
+<include file='public:footer'/>

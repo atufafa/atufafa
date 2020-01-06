@@ -1,0 +1,51 @@
+<include file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        奖励说明
+    </div>
+</header>
+
+<style>
+    ul{padding-left:0px;}
+    th{padding: 3px}
+</style>
+
+<ul id="shangjia_tab">
+    <li class="x6"><a href="<{:U('reward/index')}>" class="on">奖励管理</a></li>
+    <li class="x6"><a href="<{:U('reward/rewardlog')}>" >奖励日志</a></li>
+</ul>
+<div style="margin-top: 45px;">
+    <span style="margin-left: 40%">每日跑单奖励</span>
+    <table border="1" style="width: 100%">
+        <thead>
+            <th><{$CONFIG['delivery']['one_num']}>单奖励</th>
+            <th><{$CONFIG['delivery']['two_num']}>单奖励</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>一公里内,每单奖励:<{$CONFIG['delivery']['one_money1']}>元<br/>
+                一公里外,每单奖励:<{$CONFIG['delivery']['one_money2']}>元</td>
+            <td>一公里内,每单奖励:<{$CONFIG['delivery']['two_money1']}>元<br/>
+                一公里外,每单奖励:<{$CONFIG['delivery']['two_money2']}>元</td>
+        </tr>
+        </tbody>
+    </table>
+    <table border="1" style="width: 100%">
+        <thead>
+        <th><{$CONFIG['delivery']['three_num']}>单奖励</th>
+        <th><{$CONFIG['delivery']['four_num']}>单奖励</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>一公里内,每单奖励:<{$CONFIG['delivery']['three_money1']}>元<br/>
+                一公里外,每单奖励:<{$CONFIG['delivery']['three_money2']}>元</td>
+            <td>一公里内,每单奖励:<{$CONFIG['delivery']['four_money1']}>元<br/>
+                一公里外,每单奖励:<{$CONFIG['delivery']['four_money2']}>元</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<include  file='public:footer'/>

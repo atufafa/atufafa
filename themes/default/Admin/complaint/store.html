@@ -1,0 +1,76 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">投诉</li>
+        <li class="li2">投诉列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div style="font-size: 16px;color: red">如果是恶意投诉，直接删除，如果是真的投诉，核实后点击审核按钮，并进行惩罚</div>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form  method="post" action="<{:U('complaint/store')}>">
+                    <div class="seleHidden" id="seleHidden">
+
+                        <span>关键字:</span>
+                        <input type="text"  name="keyword" value="<{$keyword|default=''}>" class="inptText" /><input type="submit" value="搜索"  class="inptButton" />
+                    </div>
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="right"></div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">编号</td>
+                        <td>订单编号</td>
+                        <td>用户ID</td>
+                        <td>商家ID</td>
+                        <td>投诉内容</td>
+                        <td>图片证明</td>
+                        <td>投诉时间</td>
+                        <td>惩罚金额</td>
+                        <td>状态</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td>(ID)<{$var.order_id}></td>
+                            <td>(ID)<{$var.user_id}></td>
+                            <td>(ID)<{$var.shop_id}></td>
+                            <td><{$var.content}></td>
+                            <td><img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['photo'])}>" /></td>
+                            <td><{$var.time}></td>
+                            <td>￥<{$var.money}></td>
+                            <td><eq name="var.stu" value="0">未惩罚<else/>已惩罚</eq><br/>
+                                <eq name="var.status" value="0">未审核<else/>已审核</eq>
+                            </td>
+                            <td>
+                                <{:BA('complaint/del',array("id"=>$var["id"],'type'=>2,'p'=>$p),'删除','act','remberBtn')}>
+                                <if condition="$var.status eq 0">
+                                    <{:BA('complaint/shenghe',array("id"=>$var["id"],'type'=>2,'p'=>$p),'审核','act','remberBtn')}>
+                                </if>
+                                <if condition="$var.stu eq 0 && $var.status eq 1">
+                                    <{:BA('complaint/fakuan',array("id"=>$var["id"],'type'=>2),'惩罚','load','remberBtn',400,250)}>
+                                </if>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

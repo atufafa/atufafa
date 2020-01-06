@@ -1,0 +1,96 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">押金管理</li>
+        <li class="li2 li3">押金管理列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top: none;">
+                <div class="right">
+                    <form class="search_form" method="post" action="<{:U('deposit/index')}>">
+                        <div class="seleHidden" id="seleHidden">
+                            <label>
+                                <span>用户ID</span>
+                                <input type="text" name="userid" value="<{$usreid}>" class="inptText" />
+                            </label>
+                            <label>
+                                <input type="submit" value="   搜索"  class="inptButton" />
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">编号</td>
+                        <td>会员ID</td>
+                        <td>会员昵称</td>
+                        <td>押金金额</td>
+                        <td>当前押金金额</td>
+                        <td>押金类型</td>
+                        <td>申请时间</td>
+                        <td>惩罚金额</td>
+                        <td>状态</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.deposit_id}></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td style="color:#F00">&yen;<{:round($var['money'],2)}>元</td>
+                            <td style="color:#F00">&yen;<{:round($var['nowmoney'],2)}>元</td>
+                            <td>
+                            <if condition="$var['type'] eq 1">
+                                    发布信息认证押金
+                                <elseif  condition="$var['type'] eq 0"/>
+                                    商户入驻押金
+                                <elseif condition="$var['type'] eq 2"/>
+                                    注册配送员押金
+                                <elseif condition="$var['type'] eq 3"/>
+                                    申请配送管理员押金
+                                <elseif condition="$var['type'] eq 4"/>
+                                    代理押金
+                                <elseif condition="$var['type'] eq 5"/>
+                                    司机配送押金
+                                <elseif condition="$var['type'] eq 6"/>
+                                卖房认证公司押金
+                                <elseif condition="$var['type'] eq 7"/>
+                                卖车认证公司押金
+                                <elseif condition="$var['type'] eq 8"/>
+                                五折卡保证金
+                                <elseif condition="$var['type'] eq 9"/>
+                                发布信息押金
+                                </if>
+                            </td>
+                            <td>
+                                <{$var.create_time|date='Y-m-d H:i',###}>
+                            </td>
+                            <td style="color:#F00">&yen;<{:round($var['koumoney'],2)}>元</td>
+                            <td> <if condition="$var['shenghe'] eq 1">
+                                已申请退还押金
+                                <else/>
+                                未申请退还押金
+                            </if></td>
+                            <td>
+                                <if condition="$var['shenghe'] eq 1">
+                                    已申请退还押金
+                                    <else/>
+                                    <{:BA('deposit/koufei',array("deposit_id"=>$var["deposit_id"]),'惩罚扣除押金','load','remberBtn',400,250)}>
+                                </if>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

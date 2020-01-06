@@ -1,0 +1,116 @@
+
+<foreach name="list" item="order">
+
+
+
+
+    <li class="line">
+        <dt>
+
+
+            <a class="x3">订单ID：<{$order.order_id}></a>
+
+
+            <a class="x9 text-right">下单时间：<{$order.create_time|date='Y-m-d H:i:s',###}></span> </a>
+        </dt>
+
+
+        <foreach name="goods" item="good">
+            <if condition="$good['order_id'] eq $order['order_id']">
+                <dd class="zhong">
+                    <div class="x4">
+                        <img src="<{:config_img($products[$good['goods_id']]['photo'])}>" width="70" height="70">
+                    </div>
+                    <div class="x8">
+                        <p><a><{$products[$good['goods_id']]['title']}> </a></p>
+
+                        <p class="text-small">
+                            <span class="text-dot1 margin-right">小计：<span class="text-dot">&yen;<{:round($good['price'],2)}> x <{$good.num}> = &yen;<{:round($good['total_price'],2)}> 元</span></span>
+                        </p>
+                        <if condition="!empty($good[key_name])">
+                            <p class="text-small">
+                                <span class="text-dot1 margin-right">规格：<span class="text-dot"><{$good.key_name}></span></span>
+                            </p>
+                        </if>
+                        <p class="text-small">
+		                     <span class="text-dot1 margin-right">预约发货时间：<span class="text-dot"><{$order['yuyue_time']}></span>
+                        </p>
+
+                        <php> $pcl_totle = $good[num]*$products[$good['goods_id']]['use_integral']; </php>
+                        <if condition="$order['status'] gt 0">
+                            <if condition="$order['can_use_integral'] gt 0">
+                                <p class="text-small">
+	                   <span class="text-dot1 margin-right">使用积分：<span class="text-dot"><{$pcl_totle}> 抵现：&yen;
+                       <{:deduction($pcl_totle)}>
+                       元</span></span>
+                                </p>
+                            </if>
+                        </if>
+                        <if condition="$order['status'] eq 0">
+                            <if condition="$order['can_use_integral'] gt 0">
+                                <p class="text-small">
+	                   <span class="text-dot1 margin-right">使用积分：<span class="text-dot"><{$pcl_totle}> 抵现：&yen;
+                       <{:deduction($pcl_totle)}>
+                       元</span></span>
+                                </p>
+                            </if>
+                        </if>
+                    </div>
+                </dd>
+            </if>
+        </foreach>
+        <php>
+            $addarres = D('Paddress')->find($order['address_id']);
+        </php>
+
+        <dt>
+            <div class="x12">
+             <span class="margin-right">
+             <php>
+             $daofu_price = $order['need_pay'] + $order['express_price'];
+             </php>
+
+             <eq name="order.is_daofu" value="1">
+             总金额：&yen;<{:round($daofu_price,2)}>元
+               <if condition="!empty($order['express_price'])">
+                    【含】配送费用：<{:round($order['express_price'],2)}>
+                </if>
+
+            （到付）
+             <else/>
+             实际支付：
+             <eq name="order.status" value="0">
+             未支付
+             <else/>
+             <a class="text-dot">&yen;<{:round($order['total_price'],2)}>
+                 <if condition="!empty($order['express_price'])">
+                     + 配送费： &yen;<{:round($order['express_price'],2)}>元
+                 </if>
+
+                 <if condition="!empty($order['coupon_price'])">
+                   - 优惠劵抵用&yen;<{:round($order['coupon_price'],2)}>元
+                 </if>
+
+                 <if condition="!empty($order['use_integral'])">
+                   - 积分抵扣&yen;<{:deduction($order['use_integral'])}>元
+                 </if>
+                  <if condition="!empty($order['mobile_fan'])">
+                   - 手机下单立减&yen;<{:round($order['mobile_fan'],2)}>元
+                 </if>
+
+              = &yen;<{:round($order['need_pay'],2)}></a> 元
+                 <if condition="$order['is_change']"><b class="text-yellow">[改]</b></if> </em>
+             </eq>
+             </eq></span>
+            </div>
+        </dt>
+        <dl>
+            <p class="text-right padding-top x12">
+                <a  class="button button-small border-blue"  href="<{:U('goods/detail',array('order_id'=>$order['order_id']))}>">详情</a>
+            </p>
+        </dl>
+    </li>
+    <div class="blank-10 bg"></div>
+
+
+</foreach>

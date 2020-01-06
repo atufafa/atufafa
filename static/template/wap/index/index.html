@@ -1,0 +1,142 @@
+<script id="template_hot_goods" type="text/html">
+    <div class="goods-box">
+        <div class="blank-10 bg" style="height: 3px;"></div>
+        <div class="goods">
+            <div style="width: 100%">
+                {{each data.goods as item}}
+                    <ul class="product single_item info" id="more_element_1">
+                        <li style="padding: 2%">
+                            <a href="/wap/mall/detail/goods_id/{{item.goods_id}}" title="{{item.title}}">
+                                <div class="index_pro">
+                                        <div>
+                                            <img style="height: 130px;width: 100%" src="{{item.photo}}" class="img-responsive img-thumbnail">
+                                        </div>
+                                        <div class="goods_name">
+                                            <div style="width: 100%;">
+                                                {{if item.is_pintuan == 1 }}
+                                                    <span class="pingtuan">抢红包</span>
+                                                {{/if}}
+                                                <span class="fs">{{item.title.substring(0,11)}}</span><br/>
+                                                {{if item.is_vs5 == 1 }}<span class="tui">免运费</span>{{/if}}
+                                                {{if item.is_vs8 == 1 }}<span class="tui">48小时发货</span>{{/if}}
+                                                {{if item.is_vs9 == 1 }}<span class="tui">退货包运费</span>{{/if}}
+                                            </div>
+                                        </div>
+
+                                    <div class="price">
+                                        <a href="/wap/mall/detail/goods_id/{{item.goods_id}}" class="btns">
+                                            <img src="/static/default/wap/image/index_flow.png">
+                                        </a>
+                                        <span  class="price_pro"> ￥
+                                            {{item.mall_price}}元
+                                             <span class="text-gray" id="yishou">已抢
+                                                 {{ if item.sold_num.length==5}}
+                                                    {{item.sold_num/10000}}万件
+                                                 {{else if item.sold_num.length==6}}
+                                                    {{item.sold_num/10000}}+万件
+                                                 {{else}}
+                                                    {{item.sold_num}}件
+                                                 {{/if}}
+                                             </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <div class="boxs_guangao">
+        {{if data.ad1.shop_id }}
+            <div class="biaoti">
+                <div class="im">
+                    <img class="shop_logo" src="{{data.ad1.logo}}" />
+                </div>
+                <div class="tite">
+                    <span class="spa1">{{data.ad1.shop_name}}</span><br/>
+                    <span class="spa2">{{data.ad1.introduce}}</span>
+                </div>
+                <div class="genduo">
+                    <a href="../../wap/ad/click?ad_id={{data.ad1.ad_id}}"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+                </div>
+            </div>
+        {{/if}}
+        <ul class="category">
+            {{each data.ad2 as item}}
+                <li class="li">
+                    <a href="../../wap/mall/detail/goods_id/{{item.goods_id}}">
+                        <img class="imgs" src="{{item.photo}}" />
+                        <div class="mone">
+                            <span class="mon_span" >&yen;{{item.mall_price || 0}}</span><del style="color: #9999">&yen;{{item.price || 0}}</del>
+                        </div>
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{if data.ad3.link_url}}
+    <div class="join">
+        <ul>
+            <a class="button button-block button-big bg-yellow text-center" href="{{data.ad3.link_url}}">查看更多商品 <i class="iconfont icon-angle-right"></i></a>
+        </ul>
+    </div>
+    {{/if}}
+    <div class="blank-10 bg" style="height: 3px;"></div>
+</script>
+
+<script id="template_category_goods" type="text/html">
+    <div class="goods-box">
+        <div class="blank-10 bg" style="height: 3px;"></div>
+        <div class="goods">
+            <div style="width: 100%">
+                {{each data as item}}
+                <ul class="product single_item info" id="more_element_1">
+                    <a href="/wap/mall/detail/goods_id/{{item.goods_id}}" title="{{item.title}}"></a>
+                    <li style="padding: 2%">
+                        <div class="index_pro">
+                            <a href="/wap/mall/detail/goods_id/{{item.goods_id}}" title="{{item.title}}">
+                            <div>
+                                <img style="height: 130px;width: 100%" src="{{item.photo}}" class="img-responsive img-thumbnail">
+                            </div>
+                            </a>
+                            <div class="goods_name">
+                                <div style="width: 100%;">
+                                    {{if item.is_pintuan == 1 }}
+                                    <span class="pingtuan">抢红包</span>
+                                    {{/if}}
+                                    <span class="fs">{{item.title.substring(0,11)}}</span><br/>
+                                    {{if item.is_vs5 == 1 }}<span class="tui">免运费</span>{{/if}}
+                                    {{if item.is_vs8 == 1 }}<span class="tui">48小时发货</span>{{/if}}
+                                    {{if item.is_vs9 == 1 }}<span class="tui">退货包运费</span>{{/if}}
+                                </div>
+                            </div>
+                            </a>
+                            <div class="price">
+                                <a href="/wap/mall/detail/goods_id/{{item.goods_id}}" title="{{item.title}}"></a>
+                                <a href="/wap/mall/detail/goods_id/{{item.goods_id}}" class="btns">
+                                    <img src="/static/default/wap/image/index_flow.png">
+                                </a>
+                                <span href="/wap/mall/detail/goods_id/{{item.goods_id}}" class="price_pro"> ￥
+                                        {{item.mall_price}}元
+                                         <span class="text-gray" id="yishou">已抢
+                                             {{ if item.sold_num.length==5}}
+                                                {{item.sold_num/10000}}万件
+                                             {{else if item.sold_num.length==6}}
+                                                {{item.sold_num/10000}}+万件
+                                             {{else}}
+                                                {{item.sold_num}}件
+                                             {{/if}}
+                                         </span>
+                                    </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,38 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">分成管理</a> > <a>余额日志</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>编号</td>
+            <td>配送员(ID)</td>
+            <td>订单（ID）</td>
+            <td>分成金额</td>
+            <td>分成类型</td>
+            <td>说明</td>
+            <td>日期</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var['id']}></td>
+                <td><{$var['d_id']}></td>
+                <td><{$var['order_id']}></td>
+                <td> &yen<{:round($var['money'],2)}> 元</td>
+                <td><if condition="$var.order_type eq 1">外卖<elseif condition="$var.order_type eq 2"/>
+                    便利店<elseif condition="$var.order_type eq 3"/>菜市场</if></td>
+                <td><{$var.explain}></td>
+                <td><{$var.time}></td>
+
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+
+<include  file='public:footer'/>

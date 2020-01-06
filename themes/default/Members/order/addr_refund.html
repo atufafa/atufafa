@@ -1,0 +1,39 @@
+<include file="public:header"/>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.raty.min.js"></script>
+<div class="content_right">
+<div class="tgdd">
+    <div class="tgdd_t password_t">
+        <div class="mytitle">退款单物流资料填写</div>
+    </div>
+    <form  target="x-frame" action="<{:u('members/order/addr_refund',array('refund_id'=>$refund['refund_id']))}>" method="post">
+        <div class="addAddress_nr">
+            <ul>
+                <li>
+                        <div class="left"><span>快递公司：</span></div>
+                        <div class="lef">
+                            <span id="jq_star" style="float:left;"></span>
+                           <select name="express_cp" id="type" class="text-select">
+                                <option value="">请选择</option>
+                                <option value="1">中通快递</option>
+                                <option value="2">圆通快递</option>
+                                <option value="3">顺丰快递</option>
+                            </select>  
+                        </div>
+                    </li>
+                
+                <li>
+                    <div class="left"><span>快递单号：</span></div>
+                    <div class="lef">
+                        <input type="text" style="line-height: 32px;width: 257px;height: 32px;border: 1px solid #e3e3e3;" class="text-input" name="express_no" >
+                    </div>
+                </li>
+                <li>
+                 
+                </li>
+            </ul>
+            <div class="addAddress_bcqx addAddress_bcqx2"><input class="bc" type="submit" value="确认提交" /></div>
+        </div>
+    </form>
+</div>
+</div>
+<include file="public:footer"/>

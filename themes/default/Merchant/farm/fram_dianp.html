@@ -1,0 +1,64 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">农家乐</a> > <a>农家乐订单</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('farm/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+            <!-- 预约时间：<input type="text" class="radius3 tuan_topser"  name="gotime" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/> -->
+            <!-- 订单编号：<input type="text" name="keyword" value="<{$keyword}>" class="radius3 tuan_topser" /> -->
+            <!-- <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/> -->
+            </div>
+        </div>
+    </div>
+    </form>
+    <include  file='farm:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>订单ID</td>
+            <td>套餐</td>
+            <td>订单价格</td>
+            <td>结算价格</td>
+            <td>点评用户</td>
+            <td>电话</td>
+            <td>预订时间</td>
+            <td>点评内容</td>
+            <td>评论操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.comment_id}></td>
+                <td><{$var.title}></td>
+                <td><{$var.amount}></td>
+                <td><{$var.jiesuan_price}></td>
+                <!-- <td><{$var.name}></td> -->
+                <td><{$var.nickname}></td>
+                <td><{$var.phone}></td>
+                
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td>
+                    <if condition="!empty($var['reply'])">
+                        <a mini="load"  h="550" w="600"  href="<{:U('farm/reply_comment',array('comment_id'=>$var['comment_id']))}>">点击查看
+                        </a>
+                        
+                    <else/>
+                        <a mini="load" h="550" w="600" href="<{:U('farm/reply_comment',array('comment_id'=>$var['comment_id']))}>">点击回复
+                        </a>
+                    </if>
+                </td>
+                <td>
+                    <!-- <a class="radius3 sy_c1an" href="<{:U('farm/detail',array('order_id'=>$var['order_id']))}>">查看</a> -->
+                </td>
+              
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

@@ -1,0 +1,19 @@
+<foreach name="list" item="item">
+    <li class="line tuan-card">
+        <div class="x8">
+            <div class="card-l">
+                <p>名称：<span class="text-green">会员专享兑换卷</span></p>
+                <p>兑换值：<span class="text-red">￥<{$item['money']}></span></p>
+                <p>使用时间：<span class="text-green"><{$item.create_time|date='Y-m-d H:i:s',###}></span></p>
+            </div>
+        </div>
+        <div class="x4">
+            <div class="card-r">
+                <a href="<{:U('membervip/del',array('log_id'=>$item['log_id']))}>">
+                    <p>删除</p>
+                </a>
+            </div>
+        </div>
+    </li>
+    <div class="blank-10 bg"></div>
+</foreach>

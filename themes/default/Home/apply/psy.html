@@ -1,0 +1,57 @@
+<include  file='public:header'/>
+<include  file='public:top'/>
+<script src="/static/default/wap/js/jquery.js"></script>
+<script src="/static/default/wap/js/base.js"></script>
+<script src="/static/default/wap/other/layer.js"></script>
+<script src="/static/default/wap/js/jquery.form.js"></script>
+<script src="/static/default/wap/other/roll.js"></script>
+<script src="/static/default/wap/js/public.js"></script>
+
+<div style="text-align:center">
+	<table width="100%">
+		<tr><td style="padding-top: 5px;"><{$logs.code}>充值</td></tr>
+		<tr><td style="padding-top: 5px;">支付编号:<{$logs.log_id}></td></tr>
+		<tr><td style="padding-top: 5px;">支付金额:<{:round($logs['need_pay'],2)}>元</td></tr>
+	</table>
+	<div class="blank-50"></div>
+	<div class="container">
+	<{$button}>
+	</div>
+	<div class="blank-20"></div>
+</div>
+<include file='public:footer'/>   
+
+
+<script src="/static/default/wap/js/app.js"></script>
+<script type="text/javascript">
+	function wxpay(){
+       var out_trade_no = "<{$logs['log_id']}>";
+        $.ajax({
+            type:'post',
+            url: "<{:U('app/pay/order')}>", //(method path)
+            dataType:'json',
+            data: {log_id: out_trade_no},
+            async: true,
+            timeout: 200000,
+            success: function(data){
+                //成功回访
+                pay(data);
+            }
+        });
+    }
+    function pay(data){
+        var order = data;
+        payType(order, "WEIXIN", "payResult");
+    }
+    function payResult(r) {
+        if(r == 0){
+            setTimeout(function(){alert('支付成功');}, 2000);
+            window.location.href="<{:U('wap/payment/yes',array('log_id'=>$logs['log_id']))}>";
+        }else{
+            setTimeout(function(){alert('支付失败请刷新后再试');}, 2000);
+        }
+    }
+	//变色龙支付完成
+</script>  
+
+ 

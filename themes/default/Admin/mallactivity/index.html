@@ -1,0 +1,50 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">活动类型</li>
+        <li class="li2 li3">类型列标</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('mallactivity/addtype','','添加配送员级别')}>
+            </div>
+            <div class="right"></div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>活动名称</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.type_id}></td>
+                            <td><{$var.type_name}></td>
+                            <td>
+                                <{:BA('mallactivity/edittype',array("type_id"=>$var["type_id"]),'编辑','','remberBtn')}>
+                                <{:BA('mallactivity/deltype',array("type_id"=>$var["type_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+

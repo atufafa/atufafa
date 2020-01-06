@@ -1,0 +1,640 @@
+<!--<foreach name="shops" item="var">-->
+<!--    <div class="tuan-shop">-->
+<!--        <div class="shop-con">-->
+<!--            <div class="shop-name"><a title="<{$var.shop_name}>" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>"><{$var.shop_name}></a></div>-->
+<!--            <div class="shop-tags">  -->
+<!--                &lt;!&ndash;暂时可以不用开始&ndash;&gt;-->
+<!--                <if condition="$var['is_renzheng'] eq 1"> <span class="z">证</span>  </if>-->
+<!--                &lt;!&ndash;暂时可以不用结束&ndash;&gt;     -->
+<!--                <div class="shop-local"><span class="mui-icon mui-icon-location"></span><{$var.d}></div>-->
+<!--            </div>-->
+<!--        </div>		-->
+<!--        <div class="main-tuan">-->
+<!--		<ul>		-->
+<!--        <foreach name="list" item="item">	-->
+<!--        <eq name="item.shop_id" value="$var['shop_id']">	-->
+<!--            <li>-->
+<!--                <a class="line" href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>" >-->
+<!--                    <div class="container">-->
+<!--                        <img class="x4" src="<{:config_img($item['photo'])}>" />	-->
+<!--                        <div class="des x8">-->
+<!--                            <h5><{:tu_msubstr($item['title'],0,28,false)}></h5>-->
+<!--                            <p class="intro"><em class="clock_ico"></em><{:tu_msubstr($item['intro'],0,42,false)}></p>-->
+<!--                            <p class="info">-->
+<!--                                <span class="text-gray">库存：<{$item.num}></span> -->
+<!--                                <if condition="$item['use_integral']">-->
+<!--                                	<span class="text-gray margin-left">积分抵扣：&yen;<{:deduction($item['use_integral'])}> 元</span>-->
+<!--                                </if>-->
+<!--                                <if condition="$item['xiangou']">-->
+<!--                                	<span class="text-little float-right badge bg-dot margin-small-top padding-right">限购<{$item.xiangou}></span>-->
+<!--                                </if>-->
+<!--                            </p>-->
+<!--                            <p class="info">-->
+<!--                                <span>抢购价：&yen; <em><{:round($item['tuan_price']/100,2)}></em></span> <del>&yen; <{:round($item['price']/100,2)}></del>-->
+<!--                                <if condition="$item['sold_num']">-->
+<!--                                	<span class="text-little float-right badge bg-yellow margin-small-top padding-right">已售<{$item.sold_num}></span>-->
+<!--                                </if>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </li>		-->
+<!--        </eq>		-->
+<!--       </foreach>-->
+<!--		</ul>		-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</foreach>-->
+
+
+<style>
+    /*显示列表*/
+    .goods-box{ background: #F2F2F2;}
+    .goods_jifen { width:98%; margin:auto; overflow:hidden;text-align: center}
+    .goods_jifen h2 {height:50px; line-height:50px;font-size: 16px;font-weight: normal;color:#999; text-align:center;  }
+    .goods_jifen ul { width:24.5%; float: left;overflow:hidden;margin: 0.9px;text-align: center}
+    .goods_jifen ul li { width:98%; margin:auto;margin-bottom:5px; background:#FFF; overflow:hidden;padding-bottom:2%;height: 156px}
+    .goods_jifen ul li .index_pro{ width:100%; overflow:hidden; margin:auto;}
+    .goods_jifen ul li .products_kuang { width:100%; margin:auto;position:relative;}
+    .goods_jifen ul li .products_kuang img{ display: inline-block;width:100%; margin:auto;width: 88.22px;height: 88.22px; max-width: 88.22px;max-height: 88.22px;}
+    .goods_jifen ul li .goods_name { width:93%; margin:auto;text-align:center;overflow: hidden; color:#666; font-size:12px;line-height: 18px; -webkit-line-clamp: 2; -webkit-box-orient: vertical;display: -webkit-box; margin-top:15px; margin-bottom:8px;}
+    .goods_jifen ul li .price {width:100%; margin:auto; position:relative; border-top:1px solid #eeeeee }
+    .goods_jifen ul li .price .price_pro{  width:93%; margin:auto;  display: block;font-size:16px; color: #F23015; height:40px; line-height:40px;text-align:left;}
+    .goods_jifen ul li .btns{ position:absolute; display:block;right:5px;height:25px;width:25px;background: #f23; border-radius:50%; bottom:8px;}
+    .goods_jifen ul li .btns img{ display:block; width:25px;height:25px; }
+    .qian{color: #fff;background: red;border-radius: 5px;padding: 0px 3px 0px 3px}
+</style>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price'],2)}></span><del>
+                                &yen;<{:round($item['price'],2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+<style>
+    .boxs_guangao{width: 100%;border-bottom: thin solid #eee;max-height: 152px;}
+    .category {width:100%;display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;line-height: 40px;background-color: #fff;border-bottom: 2px solid #f0efed;margin-bottom: 10px;}
+    .category li{display:inline-block;width:121px;height:143px;margin: 2px;}
+    .cate-descs{display: block;}
+    .imgs{width:121px;height: 100px;}
+    .biaoti{width: 100%;height: 50px;}
+    .im{width:20%;height: 100%;text-align: center;float: left;}
+    .shop_logo{width: 40px;height: 40px;border-radius: 4px;border: 1px solid #e0e0e0}
+    .tite{width: 40%;height: 100%;float: left}
+    .tite .spa1{font-size: 15px;font-family: "Microsoft Yahei", "微软雅黑"}
+    .tite .spa2{color: #9c9c9c;}
+    .genduo{width: 40%;height: 100%;float: right}
+    .genduo span{float: right;line-height: 50px;font-size: 16px;color: #9c9c9c;}
+    /*div{border: 1px solid red}*/
+    .mone{height: 42px;line-height: 20px;text-align: center}
+    .mon_span{color: red;font-size: 16px;margin-right: 5px;}
+</style>
+<!--广告位开始  板块一-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price'],2)}></span><del>&yen;
+                        <{:round($goods_id[$item['goods_id']]['price'],2)}></del><br/>
+                      </div>
+                  </a>
+          </li>
+        </volist>
+    </ul>
+</div>
+ <!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price'],2)}></span><del>
+                                &yen;<{:round($item['price'],2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<!--广告位开始  板块二-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price'],2)}></span><del>&yen;<{:round($goods_id[$item['goods_id']]['price'],2)}></del><br/>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+<!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price'],2)}></span><del>
+                                &yen;<{:round($item['price']/100,2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<!--广告位开始  板块三-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price']/100,2)}></span><del>&yen;<{:round($goods_id[$item['goods_id']]['price']/100,2)}></del><br/>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+<!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price']/100,2)}></span><del>
+                                &yen;<{:round($item['price']/100,2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<!--广告位开始  板块四-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price']/100,2)}></span><del>&yen;<{:round($goods_id[$item['goods_id']]['price']/100,2)}></del><br/>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+<!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price']/100,2)}></span><del>
+                                &yen;<{:round($item['price']/100,2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<!--广告位开始  板块五-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price']/100,2)}></span><del>&yen;<{:round($goods_id[$item['goods_id']]['price']/100,2)}></del><br/>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+<!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price']/100,2)}></span><del>
+                                &yen;<{:round($item['price']/100,2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<!--广告位开始  板块六-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price']/100,2)}></span><del>&yen;<{:round($goods_id[$item['goods_id']]['price']/100,2)}></del><br/>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+<!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price']/100,2)}></span><del>
+                                &yen;<{:round($item['price']/100,2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<!--广告位开始  板块七-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price']/100,2)}></span><del>&yen;<{:round($goods_id[$item['goods_id']]['price']/100,2)}></del><br/>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+<!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price']/100,2)}></span><del>
+                                &yen;<{:round($item['price']/100,2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<!--广告位开始  板块八-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price']/100,2)}></span><del>&yen;<{:round($goods_id[$item['goods_id']]['price']/100,2)}></del><br/>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+<!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price']/100,2)}></span><del>
+                                &yen;<{:round($item['price']/100,2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<!--广告位开始  板块九-->
+<div class="boxs_guangao">
+    <?php $shops=D('Shop')->where(array('shop_id'=>104))->find()?>
+    <if condition="!empty($shops)">
+        <div class="biaoti">
+            <div class="im">
+                <img class="shop_logo" src="<{:config_img($shops['logo'])}>" />
+            </div>
+            <div class="tite">
+                <span class="spa1"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span><br/>
+                <span class="spa2"><{:tu_msubstr($shops['shop_name'],0,10,false)}></span>
+            </div>
+            <div class="genduo">
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><span>查看更多<i class="iconfont icon-angle-right"></i></span></a>
+            </div>
+        </div>
+    </if>
+    <ul class="category">
+        <volist name="imgs" id="item">
+            <li class="li">
+                <?php $goods_id=D('Goods')->where(array('goods_id'=>$item['goods_id'],'closed'=>0))->getField('goods_id,mall_price,price');?>
+                <a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>">
+                    <img class="imgs" src="<{:config_img($item['photo'])}>" />
+                    <div class="mone">
+                        <span class="mon_span">&yen;<{:round($goods_id[$item['goods_id']]['tuan_price']/100,2)}></span><del>&yen;<{:round($goods_id[$item['goods_id']]['price']/100,2)}></del><br/>
+                    </div>
+                </a>
+            </li>
+        </volist>
+    </ul>
+</div>
+<!--结束-->    <div class="blank-10 bg" style="height: 3px;"></div>
+<div class="blank-10 bg" ></div>
+<div class="goods-box">
+    <div class="goods_jifen">
+        <div id="J_ItemList">
+            <volist name="list" id="item">
+                <ul class="product single_item info" id="more_element_1">
+                    <li>
+                        <a  href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                            <div class="products_kuang">
+                                <img src="<{:config_img($item['photo'])}>">
+                            </div>
+                            <div class="goods_name">
+                                <span style="font-size: 18px;color: red;">&yen;<{:round($item['tuan_price']/100,2)}></span><del>
+                                &yen;<{:round($item['price']/100,2)}></del><br/>
+                                <if condition="$item['xiangou']">
+                                    <span class="text-little  badge bg-dot margin-small-top">限购<{$item.xiangou}></span>
+                                </if>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </volist>
+        </div>
+    </div>
+</div>

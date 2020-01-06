@@ -1,0 +1,8 @@
+<foreach name="list" item="item">
+   <div class="x12" style="background-color: #fff;padding: 5px">
+        <p class="text-gray" style="font-size:12px;">奖励时间：<{$item.create_time|date="Y-m-d H:i:s",###}></p>
+       <p class="text-gray" style="font-size:12px;">奖励金额：<font style="color: red">￥<{$item.money}></font></p>
+       <p class="text-gray" style="font-size:12px;">奖励备注：<{$item.info}></p>
+       <div class="blank-10 bg"></div>
+    </div>
+</foreach>

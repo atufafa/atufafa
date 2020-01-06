@@ -1,0 +1,147 @@
+<include  file='public:header'/>
+<style>
+    .lfTdBt { width: 200px;}
+    .profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基础功能设置</li>
+        <li class="li2 立li3">退款设置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>以后有关退款需要配置的，都尽量在这里写！ </p>
+    <form  target="x-frame" action="<{:U('setting/complaint')}>" method="post">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr><td class="rgTdBt  profit" colspan = "2" style="height: 40px;">下面填写是关于所有退款有效时间,不填默认随时都可以退款，退款时间到了，发起退款，扣除费用不填的默认不退款</td></tr>
+                <tr>
+                    <td class="lfTdBt">商城退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[goods_time]" value="<{$CONFIG.complaint.goods_time}>" class="manageInput  w80" />小时
+                        <code>建议填写48，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[goods_money]" value="<{$CONFIG.complaint.goods_money}>" class="manageInput  w80" >元
+                        <code>超时退款有效时间退款扣除费用</code>  <code style="color: red">属于商城类别，不建议填写</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">外卖退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[ele_time]" value="<{$CONFIG.complaint.ele_time}>" class="manageInput  w80" />分钟
+                        <code>建议填写1-3，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[ele_money]" value="<{$CONFIG.complaint.ele_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">菜市场退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[market_time]" value="<{$CONFIG.complaint.market_time}>" class="manageInput  w80"/>分钟
+                        <code>建议填写1-3，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[market_money]" value="<{$CONFIG.complaint.market_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">便利店退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[store_time]" value="<{$CONFIG.complaint.store_time}>" class="manageInput  w80" />分钟
+                        <code>建议填写1-3，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[store_money]" value="<{$CONFIG.complaint.store_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">酒店退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[hotels_time]" value="<{$CONFIG.complaint.hotels_time}>" class="manageInput  w80" />小时
+                        <code>建议填写1-2，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[hotels_money]" value="<{$CONFIG.complaint.hotels_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">家政退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[appoint_time]" value="<{$CONFIG.complaint.appoint_time}>" class="manageInput  w80" />分钟
+                        <code>建议填写5-10，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[appoint_money]" value="<{$CONFIG.complaint.appoint_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">教育退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[edu_time]" value="<{$CONFIG.complaint.edu_time}>" class="manageInput  w80" />小时
+                        <code>建议填写48，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[edu_money]" value="<{$CONFIG.complaint.edu_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">KTV退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[ktv_time]" value="<{$CONFIG.complaint.ktv_time}>" class="manageInput  w80" />小时
+                        <code>建议填写1-2，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[ktv_money]" value="<{$CONFIG.complaint.ktv_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">农家乐退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[farm_time]" value="<{$CONFIG.complaint.farm_time}>" class="manageInput  w80" />小时
+                        <code>建议填写1-2，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[farm_money]" value="<{$CONFIG.complaint.farm_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">订座退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[booking_time]" value="<{$CONFIG.complaint.booking_time}>" class="manageInput  w80" />小时
+                        <code>建议填写1-2，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[booking_money]" value="<{$CONFIG.complaint.booking_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">在线抢购退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[rush_time]" value="<{$CONFIG.complaint.rush_time}>" class="manageInput  w80" />小时
+                        <code>建议填写48，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[rush_money]" value="<{$CONFIG.complaint.rush_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>
+                        <code style="color: red">属于商城类别，不建议填写</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">积分商城退款有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[jifen_time]" value="<{$CONFIG.complaint.jifen_time}>" class="manageInput  w80" />小时
+                        <code>建议填写48，这里是用户下单后，在规定时间内退全款</code>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="data[jifen_money]" value="<{$CONFIG.complaint.jifen_money}>" class="manageInput w80"/>元
+                        <code>超时退款有效时间退款扣除费用</code>  <code style="color: red">属于商城类别，不建议填写</code>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </form>
+</div>
+<include  file='public:footer'/>

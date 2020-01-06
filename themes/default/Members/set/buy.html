@@ -1,0 +1,82 @@
+<include file="public:header"/>
+<script src="/static/default/wap/js/jquery.form.js"></script>
+<script src="/static/default/wap/js/public.js"></script>
+<div class="content_right">
+	<div class="tgdd">
+		<include file="set:levelnav"/>
+		<?php if(!empty($rank_id)){?>
+		<form method="post" class="fabu-form" id="ajaxForm" action="<{:U('set/pay')}>" >
+			<div class="password_nr">
+				<div class="password_input">
+					<foreach name="rankss" item="var">
+						<div class="line">
+							<span class="text-gray">升级等级【<{$var.rank_name}>】需要费用</span>
+							<span class="text-dot">&yen;<{:round($var['price'],2)}>元</span>
+						</div>
+					</foreach>
+				</div>
+				<div class="password_input">
+					<div class="line">
+						<span class="x4">选择等级：</span>
+						<span class="x8">
+						   <select name="rank_id" id="rank_id" class="text-select">
+							   <option value="0">请选择会员等级</option>
+							   <foreach name="rankss" item="var"><option value="<{$var.rank_id}>" <eq name="var.rank_id" value="$MEMBER.rank_id">selected="selected"</eq> ><{$var.rank_name}></option></foreach>
+						  </select>
+                		</span>
+					</div>
+				</div>
+				<div class="password_input">
+					<div class="line">
+						<span class="x4">需要付款金额：</span><span class="x8"><span class="rank-price text-dot text-big">请选择等级</span><input type="hidden" name="price"  id="rank-price" value="0">
+					</div>
+				</div>
+				<div class="password_input">
+					<div class="left">支付方式</div>
+					<div class="lef">
+						<foreach name="payment" item="var">
+							<eq name="var.is_open" value="1">
+								<if condition="$var['code'] neq 'weixin' ">
+									<dd><label><em><input class="pay_int" value="<{$var.code}>" name="code" type="radio" /></em><img src="__PUBLIC__/images/<{$var.logo}>" /></label></dd>
+								</if>
+							</eq>
+						</foreach>
+					</div>
+				</div>
+				<div class="password_subm">
+					<input class="submit" type="submit" value="确认信息" />
+				</div>
+			</div>
+		</form>
+		<?php } else {?>
+		<div class="password_nr">
+		会员等级已经达到最高
+		</div>
+		<?php }?>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+    $('.password_input .lef dd').click(function(){
+        $('.password_input .lef dd').removeClass('current');
+        $(this).addClass('current');
+
+    });
+</script>
+<script>
+    $(function(){
+        $("#rank_id").on("change",function(){
+            var rank_id = $("#rank_id").val();
+            $.post('<{:U("set/getprice")}>',{rank_id:rank_id},function(result){
+                if(result.code == '1'){
+                    $("#rank-price").val(result.price);
+                    $(".rank-price").html(result.price);
+                }
+                if(result.code == '0'){
+                    layer.msg(result.msg,{icon:2});
+                }
+            },'json');
+        });
+    });
+</script>
+<include file="public:footer"/>

@@ -1,0 +1,105 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">信息</li>
+        <li class="li2">返利管理</li>
+        <li class="li2 li3">用户返利列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right"></div>
+            <div class="clear"></div>
+            <div class="right">
+                <form method="post" action="<{:U('discount/index')}>">
+                    <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  /><input type="submit" value="   搜索"  class="inptButton" />
+                </form>
+            </div>
+        </div>
+
+        <div class="selectNr selectNr2">
+
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>商家ID</td>
+                        <td>信息ID</td>
+                        <td>会员ID</td>
+                        <td>预约时间</td>
+                        <td>发票/收据图片</td>
+                        <td>物品图片</td>
+                        <td>购买类型</td>
+                        <td>成交金额</td>
+                        <td>返利说明</td>
+                        <td>提交返利时间</td>
+                        <td>商家审核状态</td>
+                        <td>商家拒绝理由</td>
+                        <td>商家返利状态</td>
+                        <td>状态</td>
+                        <td>是否返利成功</td>
+                        <td>拒绝理由</td>
+                        <td>返利金额</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td>
+                                ID:(<{$var.shop_id}>)<br/>
+                                昵称：<{$user[$var[shop_id]][nickname]}><br/>联系电话：<{$user[$var[shop_id]][mobile]}>
+                            </td>
+                            <td><{$var.life_id}></td>
+                            <td>
+                                ID:(<{$var.user_id}>)<br/>
+                                昵称：<{$user[$var[user_id]][nickname]}><br/>
+                                联系电话：<{$user[$var[user_id]][mobile]}>
+                            </td>
+                            <td><{$var.onetime}></td>
+                            <td>
+                                <img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['evidencephoto'])}>" />
+                            </td>
+                            <td>
+                                <img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['goodsphoto'])}>" />
+                            </td>
+                            <td>装修服务</td>
+                            <td>
+                                <{$var.money}>
+                            </td>
+                            <td><{$var.explain}></td>
+                            <td><{$var.time}></td>
+                            <td><if condition="$var['shop_state'] eq 0">等待商家审核<elseif condition="$var['shop_state'] eq 1"/>
+                                <font style="color: green">商家已审核通过<br/>等待返利平台</font><elseif condition="$var['shop_state'] eq 2"/>
+                                <font style="color: red">商家已拒绝</font></if></td>
+                            <td><{$var.shop_reason}></td>
+                            <td><if condition="$var['is_pay'] eq 0"><font style="color: red">未返利</font>
+                                <elseif condition="$var['is_pay'] eq 1"/><font style="color: green">已返利</font></if></td>
+                            <td><if condition="$var['state'] eq 0">待审核<elseif condition="$var['state'] eq 1"/>已审核
+                                <elseif condition="$var['state'] eq 2"/>已拒绝<elseif condition="$var['state'] eq 3"/>已打款至用户余额</if></td>
+                            <td><eq name="var.confirm" value="0">未返利</eq><eq name="var.confirm" value="1">已返利</eq></td>
+                            <td><{$var.reason}></td>
+                            <td><{$var.flmonry}></td>
+                            <td>
+                                <eq name="var.state" value="0"> <{:BA('discount/shenhe',array("id"=>$var["id"]),'审核','act','remberBtn')}></eq>
+                                <if condition="$var.state eq 0"><{:BA('discount/refuse',array("id"=>$var["id"]),'拒绝','load','remberBtn',400,250)}></if>
+                                <{:BA('discount/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                                <eq name="var.state" value="1">
+                                    <{:BA('discount/confirm',array("id"=>$var["id"]),'确认返利','load','remberBtn',400,250)}></eq>
+                                </eq>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+

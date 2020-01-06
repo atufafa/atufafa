@@ -1,0 +1,93 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">装修服务</a></li>
+    </ul>
+</div>
+<if condition="empty($list)">
+<div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('decorate/create')}>">发布装修信息+</a></div>
+</if>
+<div class="tuan_content">
+    <include file='decorate:nav'/><!--引入导航-->
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>编号</td>
+            <td>公司名称</td>
+            <td>形象图片</td>
+            <td>是否审核</td>
+            <td>承接类型</td>
+            <td>承接价位</td>
+            <td>服务区域</td>
+            <td>创建时间</td>
+            <td>预览人数</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.id}></td>
+                <td style="max-width: 300px"><{$var.title}></td>
+                <td style="height: 80px;"><img src="<{:config_img($var['photo'])}>"  style="width: 80px;  margin: 0px auto;" /></td>
+                <td><eq name="var.audit" value="0">等待审核<else/>正常</eq></td>
+                <td><{$var.type}></td>
+                <td><{$var.money}></td>
+                <td><{$var.region}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$var.views}></td>
+                <td>
+                    <a class="radius3 sjgl_an tuan_topbt" href="<{:U('decorate/edit',array('id'=>$var['id']))}>">编辑</a>
+                    <eq name="var.is_tui" value="0">
+                        <a class="radius3 sjgl_an tuan_topbt" onclick="goodsTop(<{$var.id}>)"  rel="<{$var['id']}>">付费推广</a>
+                        <else/>
+                        <a class="radius3 sjgl_an tuan_topbt" onclick="goodsTop(<{$var.id}>)"  rel="<{$var['id']}>">再次出价</a>
+                        <a class="radius3 sjgl_an tuan_topbt"  mini='confirm' href="<{:U('decorate/update_top',array('id'=>$var['id']))}>">取消付费推广</a>
+                    </eq>
+                    <a class="radius3 sjgl_an tuan_topbt" mini='confirm' href="<{:U('decorate/del',array('id'=>$var['id']))}>">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<style>
+    .layui-layer-page .layui-layer-content{ padding:20px;}
+    .layui-layer-page .layui-layer-content input[type='text']{ width:100%; height:36px; border:1px solid #ccc; background:#fff; margin-bottom:10px; text-indent:10px; font-size:14px;}
+    .layui-layer-page .layui-layer-content input[type='button']{ width:100%; height:40px; border:none; background:#33b095; color:#fff; font-size:16px;}
+    .layui-layer-page .layui-layer-content p{ line-height:28px; color:#999;}
+    .layui-layer-page .layui-layer-content .check_box{ overflow:hidden; margin-bottom:5px;}
+    .layui-layer-page .layui-layer-content .check_box label{ display:block; float:left; margin-right:20px; margin-bottom:10px;}
+</style>
+<script>
+    function goodsTop(id){
+        layer.open({
+            type: 1,
+            title:'请填写竞价信息',
+            skin: 'layui-layer-rim',
+            area: ['360px', 'auto'],
+            content: '<div class="check_box"><label><input type="text" name="check_price" value="" id="check_price"><span>此处填写商品推广竞价，出价后会根据此价格进行商品排行</span></label><label><input type="button" class="button-pinche-top" value="确认推广"><p>付费推广成功后不可取消，将在手机端首页按照竞价大小排序，请慎重操作</p>',
+        });
+        $(document).on('click','.button-pinche-top',function(){
+            var url = "<{:U('decorate/goods_top')}>";
+            var goods_id = id;
+            var check_price = $("#check_price").val();
+            var check_price_money = $("#check_price_money").val();
+            var end_time = $("#inputData").val();
+            layer.confirm('您确认要推广此商品吗？', {
+                btn: ['是的','不了']
+            }, function(){
+                $.post(url,{goods_id:goods_id,check_price:check_price,check_price_money:check_price_money},function(data){
+                    if(data.status == 'error'){
+                        layer.msg(data.msg);
+                    }else{
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        },1000)
+                    }
+                },'json')
+            });
+        })
+
+    }
+</script>
+<include  file='public:footer'/>

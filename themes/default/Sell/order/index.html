@@ -1,0 +1,41 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">成交订单管理</a> > <a>订单列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <include  file='dianping:nav'/>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="10%">订单编号</td>
+            <td width="10%">预约信息编号ID</td>
+            <td width="10%">会员ID</td>
+            <td width="10%">会员名称</td>
+            <td width="10%">联系电话</td>
+            <td width="20%">订单时间</td>
+            <td width="20%">返利平台</td>
+    </table>
+    <foreach name="list" item="var">
+    <table class="dianping" width="100%" border="0">
+      <tr class="tr_dianping_1">
+        <td width="10%"><{$var.id}></td>
+        <td width="10%">ID:<{$var.life_id}></td>
+        <td width="10%">ID:<{$var.user_id}></td>
+         <td width="10%"><{$user[$var[user_id]][nickname]}></td>
+        <td width="10%"><{$user[$var[user_id]][mobile]}></td>
+        <td width="20%"><{$var.onetime}></td>
+        <td width="20%"><eq name="SHOP.type" value="2">
+                 <a  href="<{$CONFIG.site.host}>/user/money/vehicle/life_id/<{$var.life_id}>"><button style="font-size: 16px;color: red;border: 0;border-radius: 5px;padding: 5px;">点击返利平台</button></a>
+                    </eq>
+                    <eq name="SHOP.type" value="1">
+                <a href="<{$CONFIG.site.host}>/user/money/room/life_id/<{$var.life_id}>"><button style="font-size: 16px;color: red;border: 0;border-radius: 5px;padding: 5px;">点击返利平台</button></a>
+   </eq>
+</td>
+      </tr>
+    </table>
+    </foreach>
+    <br/>
+   <{$page}>
+</div>
+<include  file='public:footer'/>

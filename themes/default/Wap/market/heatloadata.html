@@ -1,0 +1,23 @@
+<style>
+    .heat_div2 ul{width: 100%}
+    .heat_div2 ul li{width: 33%;float: left;padding: 1%;padding-bottom: 2%;text-align: center;min-height: 193px;border: 1px solid #dddddd}
+    .liimgs{width: 50%;height: 100px}
+    .prices{font-size: 14px;color: red}
+    .dels{font-size: 12px;color: #dddddd;margin-left: 5px}
+    .yue{font-size: 14px;color: #999999}
+    .div1{width: 50%;float: right;text-align: center}
+</style>
+
+<foreach name="list" item="var">
+    <li style="padding: 2%;margin-bottom: 2%;border: 1px solid #99999950">
+        <a href="<{:U('market/details',array('product_id'=>$var['product_id']))}>">
+            <img class="liimgs" src="<{:config_img($var['photo'])}>"/>
+            <div class="div1">
+                 <h4><{:tu_msubstr($var['product_name'],0,20,true)}></h4>
+                <span class="prices"><{$var['price']}></span><del class="dels">￥<{$var['cost_price']}></del>
+                <span class="prices"> <?php $discount = round(10 / ($var['cost_price']/$var['price']), 1); echo $discount;?>折</span><br/>
+                <span class="yue">月售：<{$var.sold_num}>份</span>
+            </div>
+        </a>
+    </li>
+</foreach>

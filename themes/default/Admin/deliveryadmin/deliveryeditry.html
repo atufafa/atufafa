@@ -1,0 +1,37 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">频道</li>
+        <li class="li2">配送员管理列表</li>
+        <li class="li2 li3">修改荣誉列表</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+<div class="tableBox">
+        <form target="x-frame" action="<{:U('deliveryadmin/deliveryeditry',array('id'=>$detail['ry_id']))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                   <tr>
+                    <td class="lfTdBt">荣誉名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[ry_name]" value="<{$detail.ry_name|default=''}>" class="manageInput w210" />
+                   </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">荣誉价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[ry_price]" value="<{$detail.ry_price|default=''}>" class="manageInput w210" />
+                   </td>
+                </tr>
+
+            </table>
+               <div style="margin-left:140px;margin-top:20px">
+                 <input type="submit" value="确认编辑" class="smtQrIpt" />
+            </div> 
+
+        </form>
+
+</div>
+
+    </div>
+
+<include  file='public:footer'/>
+

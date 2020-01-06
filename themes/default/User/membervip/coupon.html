@@ -1,0 +1,29 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+       会员专享兑换券
+    </div>
+    <div class="top-signed">
+
+    </div>
+</header>
+
+<div class="list-media" id="list-media">
+    <ul></ul>
+</div>
+<div style="width: 100%;height: auto;text-align: center">日志</div>
+<div class="list-media" id="list-med" style="border-top: 1px solid #99999950">
+    <ul></ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        loaddata('<{:U("membervip/couponloading",array("t"=>$nowtime,"p"=>"0000","aready"=>$aready))}>', $("#list-media ul"), true);
+        loaddata('<{:U("membervip/losloading",array("t"=>$nowtime,"p"=>"0000","aready"=>$aready))}>', $("#list-med ul"), true);
+    });
+</script>
+
+<include  file='public:footer'/>

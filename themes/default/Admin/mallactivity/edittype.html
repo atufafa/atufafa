@@ -1,0 +1,31 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">活动类型</li>
+        <li class="li2 li3">编辑活动类型</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form target="x-frame" action="<{:U('mallactivity/edittype',array('type_id'=>$detail['type_id']))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">配送员级别：</td>
+                    <td class="rgTdBt"><input type="text" name="data[type_name]" value="<{$detail.type_name|default=''}>" class="manageInput w210" />
+                    </td>
+                </tr>
+
+            </table>
+            <div style="margin-left:140px;margin-top:20px">
+                <input type="submit" value="确认编辑" class="smtQrIpt" />
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<include  file='public:footer'/>
+

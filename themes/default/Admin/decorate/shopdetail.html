@@ -1,0 +1,63 @@
+<include  file='public:header'/>
+<style>
+    .seleK{height: 30px;}
+    .seleK label {margin-bottom: 10px;}
+    .main-jsgl .jsglNr .selectNr .left a, .piliangcaozuo, .main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px;}
+    .seleK .text{height: 28px; width:120px !important;}
+    .seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+    .main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+    .inptText{width: 120px; height: 28px; line-height: 30px;}
+    .inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">装修</li>
+        <li class="li2">装修商家管理</li>
+        <li class="li2 li3">商家列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div><span style="color: red;font-size: 16px">审核前，请务必核实该公司的注册信息</span></div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>商家名称</td>
+                        <td>公司名称</td>
+                        <td>营业执照</td>
+                        <td>企业类型</td>
+                        <td>公司地址</td>
+                        <td>申请时间</td>
+                        <td>状态</td>
+                        <td>驳回理由</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td>(ID:<{$var.shop_id}>)<{$shop[$var['shop_id']]['shop_name']}></td>
+                            <td><{$var.shop_name}></td>
+                            <td><img style="padding:2px; height:60px; width:60px;" src="<{:config_img($var['photo'])}>" /></td>
+                            <td><{$var['type']}></td>
+                            <td><{$var['address']}></td>
+                            <td><{$var.create_time | date='Y-m-d',###}></td>
+                            <td><if condition="$var['audit'] eq 0">未审核<elseif condition="$var['audit'] eq 1"/>已审核
+                                <elseif condition="$var['audit'] eq 3"/>已驳回</if></td>
+                            <td><{$var.reject}></td>
+                            <td>
+                                <{:BA('decorate/edit',array("id"=>$var["id"]),'查看详细信息','','remberBtn')}>
+                                <eq name="var.audit" value="0"> <{:BA('decorate/audit1',array("id"=>$var["id"]),'审核','act','remberBtn')}>
+                                    <{:BA('decorate/reject',array("id"=>$var["id"]),'驳回重填','load','remberBtn',400,500)}></eq>
+                                <{:BA('decorate/dels',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

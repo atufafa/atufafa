@@ -1,0 +1,65 @@
+<style>
+    .lims{height: 110px;margin-bottom: 2%;border-bottom: 1px solid #dddddd}
+    .lim_div1{width: 30%;float: left}
+    /*div{border: 1px solid red}*/
+    .lim_img{width: 100%;height: 100px;border-radius: 5px;}
+    .lim_div2{width: 65%;float: right}
+    .xainshi{background-color: red;color: #fff;border-radius: 5px;font-size: 10px;}
+    .xianlian{font-size: 12px;margin-left: 5px;float: right;color: red}
+    .limp{line-height: 20px;margin-bottom: 0px;}
+    .limspan{font-size: 18px;color: red;margin-left: 25px}
+    .limdel{font-size: 12px;color: #dddddd}
+    .liji{float: right;margin-right: 2px;background-color: red;color: #fff;border-radius: 20px;padding: 2px;}
+
+    .tbox{width:68%;float: left; height:20px; background:url(/static/default/wap/image/bak.png) no-repeat;}
+    .tbox div{width:0px; height:20px; background:url(/static/default/wap/image/pro.png) no-repeat; text-align:center;
+        font-family:Tahoma; font-size:12px; color: #fff}
+</style>
+<link rel="stylesheet" href="/static/default/wap/css/layui.css"  media="all">
+<script src="/static/default/wap/js/layui.js"></script>
+<script type="text/javascript" src="/static/default/wap/js/lay/modules/element.js"></script>
+<foreach name="list" item="var">
+        <li class="lims">
+            <div class="lim_div1">
+                <img class="lim_img" src="<{:config_img($goods[$var['goods_id']]['photo'])}>">
+            </div>
+            <div class="lim_div2">
+                <p class="limp"><span class="xainshi">限量团购</span>
+                    <b><{:tu_msubstr($goods[$var['goods_id']]['title'],0,25,ture)}></b>
+                </p>
+                <p class="limp">
+<!--                    <if condition="!empty($var['num'])"><span class="xianlian">限量<{$var['num']}>份</span>&nbsp</if>-->
+                <input type="hidden" class="nums" data-id="<{$var.id}>" start_time="<{$var['num']}>" value="<{$var['num']}>">
+                <div style="height: 20px;line-height: 20px;">
+                    <div class="tbox">
+                        <input type="hidden" class="num"   value="<{$var['num']}>"  da="<{$var['mai_num']}>">
+                        <div class="tiao"></div>
+                    </div>
+                <span class="xianlian">已抢：<{$var['mai_num']}>份</span>
+                    </div>
+                </div>
+                </p>
+                <p class="limp" style="margin-top: 5px;">
+                    <span class="limspan">&yen<{:round($goods[$var['goods_id']]['mall_price'],2)}></span> <del class="limdel">&yen<{:round($goods[$var['goods_id']]['price'],2)}></del>
+                    <a href="<{:U('mall/detail',array('goods_id'=>$var['goods_id']))}>">
+                        <span class="liji">立即抢购</span>
+                    </a>
+                </p>
+            </div>
+        </li>
+</foreach>
+<script>
+    $(function () {
+        $(".num").each(function () {
+            var obj = $(this);
+            var counts = obj.attr('value');
+            var mai = obj.attr('da');
+            var i=(counts-mai);
+            if(i>0){
+                obj.next().css("width",i+"%").html(i+"%");
+            }else{
+                obj.next().css("width 100%").html("100%");
+            }
+        });
+    });
+</script>

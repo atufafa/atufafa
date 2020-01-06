@@ -1,0 +1,288 @@
+<include file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">系统</li>
+        <li class="li2">配送费管理</li>
+        <li class="li2 li3">外、菜、便配送费</li>
+    </ul>
+</div>
+<style>
+    .lfTdBt{width:160px;}
+    .profit{text-align: center;color: #333;font-weight: bold; background: #F5F5FB;}
+    .sogn{width:160px; margin:5px 0;height: 30px;}
+</style>
+<p class="attention">
+    <span>注意：</span>这个设置和外卖、菜市场、便利店配送费有关系，以后关于配送费配置就尽量写在这。
+</p>
+<form target="x-frame" action="<{:U('setting/freight')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px" style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#fff;">
+                <tr>
+                    <td class="rgTdBt profit" colspan="2"> 下面是外卖的配置</td>
+                </tr>
+                    <tr>
+                        <td class="lfTdBt">
+                            专送配送费
+                        </td>
+                        <td class="rgTdBt">
+                            <input type="text" name="data[price_1]" value="<{$CONFIG.freight.price_1}>" class="manageInput w80"/>元
+                            <input type="text" name="data[distance_1]" value="<{$CONFIG.freight.distance_1}>" class="manageInput w80" />公里数
+                            <code>第一阶段</code>
+                            <input type="text" name="data[price_2]" value="<{$CONFIG.freight.price_2}>" class="manageInput w80"/>元
+                            <input type="text" name="data[distance_2]" value="<{$CONFIG.freight.distance_2}>" class="manageInput w80" />公里数
+                            <code>第二阶段</code>
+                            <input type="text" name="data[price_3]" value="<{$CONFIG.freight.price_3}>" class="manageInput w80"/>元
+                            <input type="text" name="data[distance_3]" value="<{$CONFIG.freight.distance_3}>" class="manageInput w80"/>公里数
+                            <code>第三阶段</code>
+                            <input type="text" name="data[price_4]" value="<{$CONFIG.freight.price_4}>" class="manageInput w80"/>元
+                            <input type="text" name="data[distance_4]" value="<{$CONFIG.freight.distance_4}>" class="manageInput w80"/>公里数
+                            <code>第四阶段</code>
+                            <input type="text" name="data[price_5]" value="<{$CONFIG.freight.price_5}>" class="manageInput w80" />元
+                            <input type="text" name="data[distance_5]" value="<{$CONFIG.freight.distance_5}>" class="manageInput w80"/>公里数
+                            <code>第五阶段</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lfTdBt">
+                            专送外卖扣差价
+                        </td>
+                        <td class="rgTdBt">
+                            <input type="text" name="data[chajia]" value="<{$CONFIG.freight.chajia}>" class="manageInput w80"/>元
+                            <input type="text" value="<{$CONFIG.freight.distance_1}>" class="manageInput w80" />公里数
+                            <code>第一阶段</code>
+                            <input type="text" name="data[chajia2]" value="<{$CONFIG.freight.chajia2}>" class="manageInput w80"/>元
+                            <input type="text"  value="<{$CONFIG.freight.distance_2}>" class="manageInput w80"/>公里数
+                            <code>第二阶段</code>
+                            <input type="text" name="data[chajia3]" value="<{$CONFIG.freight.chajia3}>" class="manageInput w80"/>元
+                            <input type="text" value="<{$CONFIG.freight.distance_3}>" class="manageInput w80"/>公里数
+                            <code>第三阶段</code>
+                            <input type="text" name="data[chajia4]" value="<{$CONFIG.freight.chajia4}>" class="manageInput w80"/>元
+                            <input type="text"  value="<{$CONFIG.freight.distance_4}>" class="manageInput w80"/>公里数
+                            <code>第四阶段</code>
+                            <input type="text" name="data[chajia5]" value="<{$CONFIG.freight.chajia5}>" class="manageInput w80" />元
+                            <input type="text"  value="<{$CONFIG.freight.distance_5}>" class="manageInput w80"/>公里数
+                            <code>第五阶段</code><br>
+                            <code>请填写数字，建议填写1-2，以可以不填写</code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="lfTdBt">
+                            直达配送费
+                        </td>
+                        <td class="rgTdBt">
+                            <input type="text" name="data[zdprice_1]" value="<{$CONFIG.freight.zdprice_1}>" class="manageInput w80" />元
+                            <input type="text" name="data[zddistance_1]" value="<{$CONFIG.freight.zddistance_1}>" class="manageInput w80"/>公里数
+                            <code>第一阶段</code>
+                            <input type="text" name="data[zdprice_2]" value="<{$CONFIG.freight.zdprice_2}>" class="manageInput w80"/>元
+                            <input type="text" name="data[zddistance_2]" value="<{$CONFIG.freight.zddistance_2}>" class="manageInput w80"/>公里数
+                            <code>第二阶段</code>
+                            <input type="text" name="data[zdprice_3]" value="<{$CONFIG.freight.zdprice_3}>" class="manageInput w80">元
+                            <input type="text" name="data[zddistance_3]" value="<{$CONFIG.freight.zddistance_3}>" class="manageInput w80"/>公里数
+                            <code>第三阶段</code>
+                            <input type="text" name="data[zdprice_4]" value="<{$CONFIG.freight.zdprice_4}>" class="manageInput w80"/>元
+                            <input type="text" name="data[zddistance_4]" value="<{$CONFIG.freight.zddistance_4}>" class="manageInput w80"/>公里数
+                            <code>第四阶段</code>
+                            <input type="text" name="data[zdprice_5]" value="<{$CONFIG.freight.zdprice_5}>" class="manageInput w80"/>元
+                            <input type="text" name="data[zddistance_5]" value="<{$CONFIG.freight.zddistance_5}>" class="manageInput w80"/>公里数
+                            <code>第五阶段</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lfTdBt">
+                            直达外卖扣差价
+                        </td>
+                        <td class="rgTdBt">
+                            <input type="text" name="data[zdchajia]" value="<{$CONFIG.freight.zdchajia}>" class="manageInput w80" />元
+                            <input type="text"  value="<{$CONFIG.freight.zddistance_1}>" class="manageInput w80"/>公里数
+                            <code>第一阶段</code>
+                            <input type="text" name="data[zdchajia2]" value="<{$CONFIG.freight.zdchajia2}>" class="manageInput w80"/>元
+                            <input type="text"  value="<{$CONFIG.freight.zddistance_2}>" class="manageInput w80"/>公里数
+                            <code>第二阶段</code>
+                            <input type="text" name="data[zdchajia3]" value="<{$CONFIG.freight.zdchajia3}>" class="manageInput w80">元
+                            <input type="text"  value="<{$CONFIG.freight.zddistance_3}>" class="manageInput w80"/>公里数
+                            <code>第三阶段</code>
+                            <input type="text" name="data[zdchajia4]" value="<{$CONFIG.freight.zdchajia4}>" class="manageInput w80"/>元
+                            <input type="text"  value="<{$CONFIG.freight.zddistance_4}>" class="manageInput w80"/>公里数
+                            <code>第四阶段</code>
+                            <input type="text" name="data[zdchajia5]" value="<{$CONFIG.freight.zdchajia5}>" class="manageInput w80"/>元
+                            <input type="text"  value="<{$CONFIG.freight.zddistance_5}>" class="manageInput w80"/>公里数
+                            <code>第五阶段</code><br>
+                            <code>请填写数字，建议填写1-2，以可以不填写</code>
+                        </td>
+                    </tr>
+
+                <tr >
+                    <td class="lfTdBt">增加配送费</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[ele_num]" value="<{$CONFIG.freight.ele_num}>" class="manageInput w80">份
+                        <input type="text" name="data[num_money]" value="<{$CONFIG.freight.num_money}>" class="manageInput w80">元
+                        <code>这里是当用户购买的商品数量大于多少时，每份的配送费加多少，建议0.5-1</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">
+                        外卖配送半径
+                    </td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[radius]"  class="manageInput w80" value="<{$CONFIG.freight.radius}>" />
+                        <code>单位为KM，超过距离范围不显示，请填写数字，建议填写1-5，以可以不填写</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">配送距离与时间</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[one_time]" value="<{$CONFIG.freight.one_time}>" class="manageInput w80"/>分钟
+                        <input type="text" name="data[start_distance]" value="<{$CONFIG.freight.start_distance}>" class="manageInput w80"/>KM
+                        <code>这里填写的是，最低起步距离与配送时间，建议距离填写2，配送分钟15分钟</code><br/>
+                        <input type="text" name="data[strat_jia]" value="<{$CONFIG.freight.strat_jia}>" class="manageInput w80"/>分钟
+                        <code>这里填写的是，每超过一公里加多少配送分钟数，建议填写5</code>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="rgTdBt profit" colspan="2"> 下面是菜市场的配置</td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">
+                        配送员最低起步价：
+                    </td>
+                    <td class="rgTdBt">
+                        专送配送：<input type="text" name="data[market_money]" value="<{$CONFIG.freight.market_money}>" class="manageInput w80"/>元
+                        <input type="text" name="data[market_distance]" value="<{$CONFIG.freight.market_distance}>" class="manageInput w80"/>公里数
+                        <code>填写最低公里数</code>
+                        <input type="text" name="data[market_jiaja]" value="<{$CONFIG.freight.market_jiaja}>" class="manageInput w80"/>加价钱数
+                        <code>超过最低公里数后，每公里加价多少钱!</code><br/>
+                        直达配送：<input type="text" name="data[zdmarket_money]" value="<{$CONFIG.freight.zdmarket_money}>" class="manageInput w80"/>元
+                        <input type="text" name="data[zdmarket_distance]" value="<{$CONFIG.freight.zdmarket_distance}>" class="manageInput w80"/>公里数
+                        <code>填写最低公里数</code>
+                        <input type="text" name="data[zdmarket_jiaja]" value="<{$CONFIG.freight.zdmarket_jiaja}>" class="manageInput w80"/>加价钱数
+                        <code>超过最低公里数后，每公里加价多少钱!</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">
+                        菜市场订单扣差价
+                    </td>
+                    <td class="rgTdBt">
+                        专送配送：<input type="text" name="data[market_chajia]"  class="manageInput w80" value="<{$CONFIG.freight.market_chajia}>" />元
+                        <input type="text" value="<{$CONFIG.freight.market_distance}>" class="manageInput w80"/>公里数
+                       <code>最低公里数内</code>
+                        <input type="text" name="data[market_jia]" value="<{$CONFIG.freight.market_jia}>" class="manageInput w80">
+                        <code><span style="color: red">这是超出最低公里数后，每公里扣除的差价</span></code> <br/>
+                        直达配送：<input type="text" name="data[zdmarket_chajia]"  class="manageInput w80" value="<{$CONFIG.freight.zdmarket_chajia}>" />元
+                        <input type="text"  value="<{$CONFIG.freight.zdmarket_distance}>" class="manageInput w80"/>公里数
+                        <code>最低公里数内</code>
+                        <input type="text" name="data[zdmarket_jia]" value="<{$CONFIG.freight.zdmarket_jia}>" class="manageInput w80">
+                        <code><span style="color: red">这是超出最低公里数后，每公里扣除的差价</span></code><br/>
+                    </td>
+                </tr>
+
+                <tr >
+                    <td class="lfTdBt">增加配送费</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[market_num]" value="<{$CONFIG.freight.market_num}>" class="manageInput w80">斤
+                        <input type="text" name="data[market_moneys]" value="<{$CONFIG.freight.market_moneys}>" class="manageInput w80">元
+                        <code>这里是当用户购买的商品数量大于多少时，每斤的配送费加多少，建议0.5-1</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="rgTdBt profit" colspan="2"> 下面是便利店的配置</td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">
+                        配送员最低起步价：
+                    </td>
+                    <td class="rgTdBt">
+                        专送配送：<input type="text" name="data[store_money]" value="<{$CONFIG.freight.store_money}>" class="manageInput w80"/>元
+                        <input type="text" name="data[store_distance]" value="<{$CONFIG.freight.store_distance}>" class="manageInput w80"/>公里数
+                        <code>填写最低公里数</code>
+                        <input type="text" name="data[store_jiaja]" value="<{$CONFIG.freight.store_jiaja}>" class="manageInput w80"/>加价钱数
+                        <code>超过最低公里数后，每公里加价多少钱!</code><br/>
+                        直达配送：<input type="text" name="data[zdstore_money]" value="<{$CONFIG.freight.zdstore_money}>" class="manageInput w80"/>元
+                        <input type="text" name="data[zdstore_distance]" value="<{$CONFIG.freight.zdstore_distance}>" class="manageInput w80"/>公里数
+                        <code>填写最低公里数</code>
+                        <input type="text" name="data[zdstore_jiaja]" value="<{$CONFIG.freight.zdstore_jiaja}>" class="manageInput w80"/>加价钱数
+                        <code>超过最低公里数后，每公里加价多少钱!</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">
+                        便利店订单扣差价
+                    </td>
+                    <td class="rgTdBt">
+                        专送配送：<input type="text" name="data[store_chajia]"  class="manageInput w80" value="<{$CONFIG.freight.store_chajia}>" />元
+                        <input type="text" value="<{$CONFIG.freight.store_distance}>" class="manageInput w80"/>公里数
+                        <code>最低公里数内</code>
+                        <input type="text" name="data[store_jia]" value="<{$CONFIG.freight.store_jia}>" class="manageInput w80">
+                        <code><span style="color: red">超过最低公里数后，每公里扣除多少钱</span></code><br/>
+                        直达配送：<input type="text" name="data[zdstore_chajia]"  class="manageInput w80" value="<{$CONFIG.freight.zdstore_chajia}>" />元
+                        <input type="text"  value="<{$CONFIG.freight.zdstore_distance}>" class="manageInput w80"/>公里数
+                        <code>最低公里数内</code>
+                        <input type="text" name="data[zdstore_jia]" value="<{$CONFIG.freight.zdstore_jia}>" class="manageInput w80">
+                        <code><span style="color: red">超过最低公里数后，每公里扣除多少钱</span></code>
+                    </td>
+                </tr>
+
+                <tr >
+                    <td class="lfTdBt">增加配送费</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[store_num]" value="<{$CONFIG.freight.store_num}>" class="manageInput w80">份
+                        <input type="text" name="data[store_moneys]" value="<{$CONFIG.freight.store_moneys}>" class="manageInput w80">元
+                        <code>这里是当用户购买的商品数量大于多少时，每份的配送费加多少，建议0.5-1</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="rgTdBt profit" colspan="2"> 下面是跑腿的配置</td>
+                </tr>
+
+                    <tr>
+                        <td class="lfTdBt">
+                            司机跑腿最低起步价：
+                        </td>
+                        <td class="rgTdBt">
+                            <font style="color:red;">面包车：</font>
+                            <input type="text" name="data[vehicle_price]" value="<{$CONFIG.freight.vehicle_price}>" class="manageInput w80"/>元
+                            <input type="text" name="data[vehicle_distance]" value="<{$CONFIG.freight.vehicle_distance}>" class="manageInput w80"/>公里数
+                            <code>填写最低公里数</code>
+                            <input type="text" name="data[vehicle_jiaja]" value="<{$CONFIG.freight.vehicle_jiaja}>" class="manageInput w80"/>加价钱数
+                            <code>超过最低公里数后，每公里加价多少钱!</code><br/><br/>
+                            <font style="color:red;">小货车：</font>
+                            <input type="text" name="data[xvehicle_price]" value="<{$CONFIG.freight.xvehicle_price}>" class="manageInput w80"/>元
+                            <input type="text" name="data[xvehicle_distance]" value="<{$CONFIG.freight.xvehicle_distance}>" class="manageInput w80"/>公里数
+                            <code>填写最低公里数</code>
+                            <input type="text" name="data[xvehicle_jiaja]" value="<{$CONFIG.freight.xvehicle_jiaja}>" class="manageInput w80"/>加价钱数
+                            <code>超过最低公里数后，每公里加价多少钱!</code><br/><br/>
+                            <font style="color:red;">中货车：</font>
+                            <input type="text" name="data[zvehicle_price]" value="<{$CONFIG.freight.zvehicle_price}>" class="manageInput w80"/>元
+                            <input type="text" name="data[zvehicle_distance]" value="<{$CONFIG.freight.zvehicle_distance}>" class="manageInput w80"/>公里数
+                            <code>填写最低公里数</code>
+                            <input type="text" name="data[zvehicle_jiaja]" value="<{$CONFIG.freight.zvehicle_jiaja}>" class="manageInput w80"/>加价钱数
+                            <code>超过最低公里数后，每公里加价多少钱!</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lfTdBt">
+                            司机跑腿订单扣差价
+                        </td>
+                        <td class="rgTdBt">
+                            <input type="text" name="data[vehiclechajia]"  class="manageInput w80" value="<{$CONFIG.freight.vehiclechajia}>" />
+                            <code>请填写数字，建议填写5-10，以可以不填写</code>
+                        </td>
+                    </tr>
+
+            </table>
+        </div>
+        <div class="smtQr">
+            <input type="submit" value="确认保存" class="smtQrIpt"/>
+        </div>
+    </div>
+</form>
+<include file='public:footer'/>

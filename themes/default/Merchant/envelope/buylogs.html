@@ -1,0 +1,54 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商家红包</a> > <a>红包广告购买记录</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli"><a href="<{:U('envelope/create')}>">添加红包</a></li>
+            <li class="tuanfabu_tabli "><a href="<{:U('envelope/index')}>">红包列表</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('envelope/logs')}>">红包发放记录</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('envelope/buy')}>">购买红包广告</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('envelope/buylogs')}>">购买红包广告记录</a></li>
+        </ul>
+    </div>
+
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>ID</td>
+            <td>使用期限</td>
+            <td>购买金额</td>
+            <td>折扣</td>
+            <td>购买时间</td>
+            <td>到期时间</td>
+            <td>状态</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.eid}></td>
+                <td><{$var.time}></td>
+                <td>￥<{:round($var['money'],2)}></td>
+                <td><{$var.discount}>%</td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$var.end_time|date='Y-m-d H:i:s',###}></td>
+                <td>
+                    <?php  $s=time();
+                    if($s>$var['end_time']){
+                        echo 使用期限已结束;
+                    }else{
+                        echo 正在使用中 ;
+                    } ;?></td>
+                <td>
+                 <a class="radius3 sy_c1an" mini="confirm" href="<{:U('envelope/delbuy',array('eid'=>$var['eid']))}>">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

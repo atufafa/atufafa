@@ -1,0 +1,47 @@
+<include file='public:header'/>
+<div class="mainBt">
+	<ul>
+		<li class="li1">频道</li>
+		<li class="li2">跑腿管理</li>
+		<li class="li2 li3">跑腿订单配置</li>
+	</ul>
+</div>
+<p class="attention">
+	<span>注意：</span>这个设置和跑腿有关系。
+</p>
+
+<form target="x-frame" action="<{:U('running/peizhiedit')}>" method="post">
+ 
+	<div class="mainScAdd">
+		<div class="tableBox">
+			<table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px" style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#fff;">
+			<foreach name="list" item="var">
+			<tr>
+				<td class="lfTdBt">
+					自动收货时间：
+				</td>
+				<td class="rgTdBt">
+                        跑腿订单
+					<input type="text" name="e_time1" value="<{$var['e_time1']}>" style="width: 50px;"  class="scAddTextName " />（小时） <code>跑腿订单自动收货时间</code><br><br>
+					  司机跑腿订单
+					<input type="text" name="e_time2" value="<{$var['e_time2']}>" style="width: 50px;"  class="scAddTextName " />（小时）
+                    <code>跑腿订单自动收货时间</code>
+				</td>
+			</tr>
+			<tr>
+				<td class="lfTdBt">
+					搬货工人费用：
+				</td>
+				<td class="rgTdBt">
+					<input type="text" name="price" value="<{$var['price']}>" style="width: 50px;"  class="scAddTextName " />元 <code>司机跑腿需要工人搬货价格(一个人)</code>
+				</td>
+			</tr>
+			 </foreach>
+			</table>
+		</div>
+		<div class="smtQr">
+			<input type="submit" value="确认保存" class="smtQrIpt"/>
+		</div>
+	</div>
+</form>
+<include file='public:footer'/>

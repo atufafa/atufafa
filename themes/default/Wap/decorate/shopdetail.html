@@ -1,0 +1,175 @@
+<include file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse detail">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.go(-1)"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title search center">
+        <span class="on">商家信息</span>
+    </div>
+</header>
+<style>
+    .box{width: 100%;top: 50px;border-bottom: 1px solid #eee;position: fixed;background-color: #fff}
+    .ul{width: 100%;height: 45px}
+    .ul li{width: 33.3%;line-height: 45px;height: 100%;float: left;text-align: center}
+    .selected{border-bottom: 4px solid #06c1ae}
+
+    /*公司介绍*/
+    .gsjs{width: 96%;margin-left: 2%;margin-top: 95px}
+    .li{list-style: initial;color: #999;font-size: 14px;margin-top: 2px}
+    .top{margin-top: 20px}
+
+    /*企业证书*/
+    .qyzs{width: 96%;margin-left: 2%;margin-top: 95px;}
+    .top2{margin-top: 20px;margin-bottom: 20px}
+    /*注册信息*/
+    .zcxq{width: 96%;margin-left: 2%;margin-top: 95px;}
+    .tables{width: 100%;border: 1px solid #eee}
+    .tables tr{height: 40px}
+    .td{width: 100px;color: #999;text-align: center;line-height: 40px}
+    .td2{padding: 0px 0px 0px 15px}
+</style>
+<div class="box">
+    <ul class="ul">
+        <li value="1" class="selected">公司介绍</li>
+        <li value="2">企业证书</li>
+        <li value="3">注册信息</li>
+    </ul>
+</div>
+
+<div class="gsjs" id="gsjs">
+    <h3>企业简介</h3>
+    <li class="li"><{$detail['brief']}></li>
+    <h3 class="top">营业时间</h3>
+    <li class="li"><{$detail['business']}></li>
+    <h3 class="top">接单范围</h3>
+    <li class="li"><{$detail['range']}></li>
+    <h3 class="top">承接价位</h3>
+    <li class="li"><{$detail['price']}></li>
+    <h3 class="top">公司规模</h3>
+    <li class="li"><{$detail['scale']}></li>
+    <if condition="!empty($detail['service'])">
+        <h3 class="top">装后服务</h3>
+        <li class="li"><{$detail['service']}></li>
+    </if>
+</div>
+
+<div class="qyzs" style="display: none" id="qyzs">
+    <h3>营业执照</h3>
+    <div style="text-align: center">
+        <img style="max-width: 250px;max-height: 250px" src="<{:config_img($yyzz)}>">
+    </div>
+    <if condition="!empty($photos)">
+        <h3 class="top2">资质证书</h3>
+        <div style="text-align: center">
+            <foreach  name="photos" item="item">
+                    <li style="margin-bottom: 10px">
+                        <img width="270px" height="150" src="<{:config_img($item['photos'].'?x-oss-process=style/atufafa')}>">
+                    </li>
+            </foreach>
+        </div>
+    </if>
+    <if condition="!empty($honors)">
+        <h3 class="top2">荣誉证书</h3>
+        <div style="text-align: center">
+            <foreach  name="honors" item="item">
+                    <li style="margin-bottom: 10px">
+                        <img width="270px" height="150" src="<{:config_img($item['honorphoto'].'?x-oss-process=style/atufafa')}>">
+                    </li>
+            </foreach>
+        </div>
+    </if>
+</div>
+
+<div class="zcxq" style="display: none" id="zcxq">
+    <table border="1" class="tables">
+        <tr>
+            <td class="td"><b>公司名称</b></td>
+            <td class="td2"><{$detail['shop_name']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>企业类型</b></td>
+            <td class="td2"><{$detail['type']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>注册地址</b></td>
+            <td class="td2"><{$detail['addr']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>注册资金</b></td>
+            <td class="td2"><{$detail['money']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>营业期限</b></td>
+            <td class="td2"><{$detail['term']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>成立日期</b></td>
+            <td class="td2"><{$detail['establish']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>登记机关</b></td>
+            <td class="td2"><{$detail['office']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>经营范围</b></td>
+            <td class="td2"><{$detail['management']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>年检时间</b></td>
+            <td class="td2"><{$detail['inspection']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>注册号</b></td>
+            <td class="td2"><{$detail['register']}></td>
+        </tr>
+        <tr>
+            <td class="td"><b>法定代表</b></td>
+            <td class="td2"><{$detail['representative']}></td>
+        </tr>
+    </table>
+</div>
+
+<include file="public:footer"/>
+
+<script>
+
+    $(".ul li").click(function () {
+        var xz=$(this).val();
+        $(this).siblings('li').removeClass('selected');// 删除其他兄弟元素的样式
+        $(this).addClass('selected');
+        if(xz==1){
+            $("#gsjs").show();
+            $("#qyzs").hide();
+            $("#zcxq").hide();
+        }else if(xz==2){
+            $("#qyzs").show();
+            $("#gsjs").hide();
+            $("#zcxq").hide();
+        }else if(xz==3){
+            $("#zcxq").show();
+            $("#gsjs").hide();
+            $("#qyzs").hide();
+        }
+    })
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

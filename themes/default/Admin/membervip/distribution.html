@@ -1,0 +1,60 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商家</li>
+        <li class="li2">运费管理</li>
+        <li class="li2 li3">地区运费设置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: 1px solid #e1e6eb;">
+            <div class="left">
+                <{:BA('membervip/listcreate', array('kuaidi_id' => $kuaidi_id),'添加地区运费','',600,550)}>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="yunfei_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>配送名称</td>
+                        <td>首重费用</td>
+                        <td>续重费用</td>
+                        <td class="w360">操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_id" type="checkbox" name="yunfei_id[]" value="<{$var.id}>" /></td>
+                            <td><{$var.yunfei_id}></td>
+                            <td><{$var.name}></td>
+                            <td><{:round($var['shouzhong'],2)}></td>
+                            <td><{:round($var['xuzhong'],2)}></td>
+                            <td>
+                                <{:BA('membervip/listedit',array("yunfei_id"=>$var["yunfei_id"]),'编辑','','remberBtn')}>
+                                <{:BA('membervip/listdelete',array("yunfei_id"=>$var["yunfei_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('membervip/listdelete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

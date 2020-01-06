@@ -1,0 +1,127 @@
+<table class="table">
+    <tr>
+      <th>菜名</th>
+      <th>单价</th>
+      <th>包装费</th>
+      <th>操作</th>
+   </tr>
+   <foreach name="cartgoods" item="item">
+   <tr class="hide-<{$item.product_id}>">
+     <td><{$item.product_name}></td>
+     <td>&yen;<{$item['price']}></td>
+     <td>&yen;<{$item['tableware_price']}></td>
+     <td>
+
+         <li>
+
+                <input autocomplete="off"  type="number" class="change_price2" style="border:1px #999 solid;width: 40px;margin-left: -12px;" placeholder="" price="<{$item['price']}>"  did="<{$item.product_id}>" class="ordernum-<{$item.product_id}>"  value="<{:getMarketCartNum($item['product_id'],$detail['shop_id'])}>" />
+                斤
+                <button class="buy_btn" style="color:#ffffff;background-color: red;border-radius: 5px;border:none;margin-left: 10px;">修改</button>
+
+
+         </li>
+
+         <li><span class="cart-inc margin-left" type="button"  did="<{$item.product_id}>" onclick="del(this);">x</span></li>
+     </td>
+    </tr>
+    </foreach>
+</table>
+
+<script>
+    product_arr=new Array();
+    total_price_arr=new Array();
+    $('.buy_btn').click(function(){
+        $(this).prev().focus();
+    });
+	
+     $(".change_price2").mouseout("input propertychange",function(event){
+         var data = {};
+         var shop_id = "<{$detail['shop_id']}>";
+         var product_id = $(this).attr('did');
+         var price = $(this).attr('price');
+         var youhui=$(this).attr('cost');
+         var num = $(this).val();
+// //*
+         data['product_id'] = product_id;
+         data['price'] =price;
+         data['num'] =num;
+		 $('#detail_num').val( data['num']);
+		 detail_num();
+        
+
+     });
+    $(".change_price2-").mouseout("input propertychange",function(event){
+        var data = {};
+        var shop_id = "<{$detail['shop_id']}>";
+        var product_id = $(this).attr('did');
+        var price = $(this).attr('price');
+        var num = $(this).val();
+        var cart_info=get_cart_info();
+        data['product_id'] = product_id;
+        data['price'] =price;
+        data['num'] =num;
+        var count=get_product_count();
+        var totalprice=get_product_totalPrice();
+        window.market.addcart(shop_id,data,cart_info);
+        $("#num").text(count);
+        $("#total_price").html(totalprice);
+        var since_money = "<{$detail['since_money']}>";
+        if (parseInt(window.market.totalprice("<{$detail['shop_id']}>")) < parseInt(since_money)) {
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+            $('#cart_2').removeClass('btn');
+            $('#cart_2').addClass('disable');
+        } else {
+            $('#cart_2').find('a').attr('href', "<{:U('market/order',array('t'=>$nowtime))}>");
+            $('#cart_2').removeClass('disable');
+            $('#cart_2').addClass('btn');
+        }
+        //relevance();
+    });
+    //获取商品数量
+    function  get_product_count(){
+        var product_count=0;
+        $.each($('.change_price2'),function(index,obj){
+            var num=$(obj).val();
+            if(num>0){
+                product_count +=parseInt(num);
+            }
+        });
+        return product_count;
+    }
+    //获取所有商品价格
+    function  get_product_totalPrice(){
+        var total_price=0;
+        $.each($('.change_price2'),function(index,obj){
+            var price=$(obj).attr('price');
+            var num=$(obj).val();
+            total_price+=price*num;
+        });
+        return total_price.toFixed(2);
+    }
+    //购物车商品信息
+    function get_cart_info(){
+        total_price_arr=[];
+        $.each($('.change_price2'),function(index,obj){
+            var price=$(obj).attr('price');
+            var product_id=$(obj).attr('did');
+            var num=$(obj).val()?$(obj).val():0;
+            var product_info={'product_id':product_id, 'total_price':num*price,'num':num};
+            total_price_arr[product_id]=product_info;
+        });
+        return total_price_arr;
+    }
+    //联动复制
+    function  relevance(){
+        var cart_info=get_cart_info();
+        var i=0;
+        cart_info.forEach(function (obj) {
+            if(obj.num>0){
+                var product_obj=$($('.change_price2')[i]);
+                product_obj.val(obj.num);
+                var data={product_id:product_obj.attr('did'),price:product_obj.attr('price')}
+                window.market.addcart(108,data,cart_info);
+                i++;
+            }
+        });
+    }
+</script>

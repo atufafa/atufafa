@@ -1,0 +1,15 @@
+<foreach name="list" item="var">
+<li class="line">
+	<dd class="zhong">
+		<div class="12">
+			<p class="text-small">
+商家id：<{$var.shop_id}> &nbsp;商家名称：<{$var.shop_name}> &nbsp;</br>
+				红包余额：&yen;<{:round($var['prestore'],2)}>元，单个红包：
+				&yen;<{:round($var['single'],2)}>元,&nbsp;&nbsp;
+				<button style="background-color: red;border: 0;border-radius: 5px;"><a style="color: #ffffff;"  href="<{:U('user/envelope/receive',array('envelope_id'=> $var['envelope_id']))}>">领取红包</a></button></p>
+			
+		</div>
+	</dd>
+</li>
+<div class="blank-10 bg"></div>
+</foreach>      

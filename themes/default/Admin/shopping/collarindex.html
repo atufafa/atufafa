@@ -1,0 +1,68 @@
+
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">免费购物券</li>
+        <li class="li2">发放列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form action="<{:U('shopping/collarindex')}>" method="post" style="float:left;">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>状态</span>
+                        <select name="is_use" class="select">
+                            <option value="2"  >全部</option>
+                            <option value="1" <eq name="is_use" value="1">selected="selected"</eq> >已使用</option>
+                            <option value="0" <eq name="is_use" value="0">selected="selected"</eq>>未使用</option>
+                        </select>
+                        <input type="submit" value="   搜索"  class="inptButton" />
+                    </div>
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="coupon_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>商家ID</td>
+                        <td>购物卷ID</td>
+                        <td>领取用户ID</td>
+                        <td>领取用户名称</td>
+                        <td>领取时间</td>
+                        <td>创建IP</td>
+                        <td>状态</td>
+                        <td>操作</td>
+
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_coupon_id" type="checkbox" name="id[]" value="<{$var.id}>" /> </td>
+                            <td><{$var.id}></td>
+                            <td>(ID:<{$var.shop_id}>)</td>
+                            <td>(ID:<{$var.shopping_id}>)</td>
+                            <td><{$var.user_id}></td>
+                            <td><{$user[$var['user_id']]['nickname']}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.create_ip}></td>
+                            <td><eq name="var.is_use" value="1">已使用<else/>未使用</eq></td>
+                            <td>
+                                <{:BA('shopping/del',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>

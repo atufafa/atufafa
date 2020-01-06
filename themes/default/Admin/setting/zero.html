@@ -1,0 +1,101 @@
+<include  file='public:header'/>
+<style>
+    .lfTdBt { width: 200px;}
+    .profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">常用功能设置</li>
+        <li class="li2 立li3">0元购设置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>以后0元购需要配置的，都尽量在这里写！ </p>
+    <form  target="x-frame" action="<{:U('setting/zero')}>" method="post">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">用户发起点赞有效时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[times]" value="<{$CONFIG.zero.times}>" class="manageInput  w80" />小时
+                        <code>建议填写48，这里是用户发送点赞后，在规定时间内才能购买商品</code>
+                    </td>
+                </tr>
+
+                <tr><td class="rgTdBt  profit" colspan = "2" style="height: 40px;">下面填写是关于点赞数量与砍价总数</td></tr>
+
+                <tr>
+                    <td class="lfTdBt">第一阶段：</td>
+                    <td class="rgTdBt">
+                        金额：<input type="text" name="data[money_one]" value="<{$CONFIG.zero.money_one}>" class="manageInput  w80" />元&nbsp;&nbsp;
+                        点赞数：<input type="text" name="data[num_one]" value="<{$CONFIG.zero.num_one}>" class="manageInput  w80" />个
+                        <code>第一阶段填写的金额在10元以内，点赞数量建议在3-5之间</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">第二阶段：</td>
+                    <td class="rgTdBt">
+                        金额：<input type="text" name="data[money_two]" value="<{$CONFIG.zero.money_two}>" class="manageInput  w80" />元&nbsp;&nbsp;
+                        点赞数：<input type="text" name="data[num_two]" value="<{$CONFIG.zero.num_two}>" class="manageInput  w80" />个
+                        <code>第二阶段填写的金额在100以内，点赞数量建议在100-150之间</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">第三阶段：</td>
+                    <td class="rgTdBt">
+                        金额：<input type="text" name="data[money_three]" value="<{$CONFIG.zero.money_three}>" class="manageInput  w80" />元&nbsp;&nbsp;
+                        点赞数：<input type="text" name="data[num_three]" value="<{$CONFIG.zero.num_three}>" class="manageInput  w80" />个
+                        <code>第三阶段填写的金额在1000以内，点赞数量建议在1000-1500之间</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">第四阶段：</td>
+                    <td class="rgTdBt">
+                        金额：<input type="text" name="data[money_fore]" value="<{$CONFIG.zero.money_fore}>" class="manageInput  w80" />元&nbsp;&nbsp;
+                        点赞数：<input type="text" name="data[num_fore]" value="<{$CONFIG.zero.num_fore}>" class="manageInput  w80" />个
+                        <code>第四阶段填写的金额在10000以内，点赞数量建议在10000-15000之间</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">第五阶段：</td>
+                    <td class="rgTdBt">
+                        金额：<input type="text" name="data[money_five]" value="<{$CONFIG.zero.money_five}>" class="manageInput  w80" />元&nbsp;&nbsp;
+                        点赞数：<input type="text" name="data[num_five]" value="<{$CONFIG.zero.num_five}>" class="manageInput  w80" />个
+                        <code>第五阶段填写的金额在10000以上，点赞数量建议在20000以上</code>
+                    </td>
+                </tr>
+
+                <tr><td class="rgTdBt  profit" colspan = "2" style="height: 40px;">下面填写是关于帮助好友点赞获得积分奖励</td></tr>
+
+                <tr>
+                    <td class="lfTdBt">帮助点赞：</td>
+                    <td class="rgTdBt">
+                       积分：<input type="text" name="data[jifen_one]" value="<{$CONFIG.zero.jifen_one}>" class="manageInput  w80" />-
+                        <input type="text" name="data[jifen_two]" value="<{$CONFIG.zero.jifen_two}>" class="manageInput  w80" />
+                        <code>这里填写帮助好友点赞获得积分奖励，这里是一个随机区间值，建议填写50-100</code>
+                    </td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </form>
+</div>
+<include  file='public:footer'/>
